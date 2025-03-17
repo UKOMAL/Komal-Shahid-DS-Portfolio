@@ -1,7 +1,7 @@
 # Komal Shahid - Data Science & AI Portfolio
 
 ## About Me
-Data Scientist and AI Engineer with expertise in machine learning, deep learning, and advanced analytics. I specialize in developing AI-powered solutions that transform raw data into actionable insights and intelligent systems. My background combines strong statistical foundations with cutting-edge AI techniques to solve complex business problems.
+Data Scientist and Machine Learning Engineer with expertise in machine learning, deep learning, and advanced analytics. I specialize in developing AI-powered solutions that transform raw data into actionable insights and intelligent systems. My background combines strong statistical foundations with cutting-edge AI techniques to solve complex business problems.
 
 Master's in Data Science from Bellevue University with focus on predictive modeling, natural language processing, and computer vision applications.
 
@@ -62,22 +62,13 @@ Brief description of project 3.
 ## Education
 - **Master of Science in Data Science** - Bellevue University (2024)
   - Coursework: Machine Learning, Deep Learning, Natural Language Processing, Big Data Analytics, Statistical Methods, Data Visualization
-  - GPA: [Your GPA]
 
-- **Bachelor's Degree** - [Your Previous University] (Year)
-  - Major: [Your Major]
-  - Minor: [Your Minor, if applicable]
+- **Bachelor's Degree** - DePaul University (2020)
+  - Dual-Major: Mathematics and Compueter Science 
 
-## Certifications
-- [Certification Name] - [Issuing Organization] (Year)
-- [Certification Name] - [Issuing Organization] (Year)
-
-## Publications & Presentations
-- [Publication/Presentation Title] - [Conference/Journal] (Year)
-- [Publication/Presentation Title] - [Conference/Journal] (Year)
 
 ## Contact
-- **LinkedIn**: [linkedin.com/in/komalshahid](https://linkedin.com/in/komalshahid)
+- **LinkedIn**: www.linkedin.com/in/komal-shahid-6b1704175
 - **GitHub**: [github.com/UKOMAL](https://github.com/UKOMAL)
-- **Email**: [your.professional.email@example.com]
-- **Portfolio Website**: [your-portfolio-website.com]
+- **Email**: ...
+- **Portfolio Website**: ...

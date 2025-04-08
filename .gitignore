@@ -148,4 +148,8 @@ Icon
 
 # Keep only code and minimal documentation in Git
 # Project1/
-# project1-depression-detection/ 
+# project1-depression-detection/
+
+# Specific documentation files to ignore
+white_paper.md
+**/white_paper.md 

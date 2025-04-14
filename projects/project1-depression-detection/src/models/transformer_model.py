@@ -9,334 +9,314 @@ Implementation of the BERT-based transformer model used for depression severity 
 import os
 import json
 import numpy as np
-import tensorflow as tf
-from tensorflow.keras.layers import Dense, Input, Dropout
-from tensorflow.keras.models import Model
-from tensorflow.keras.optimizers import Adam
-import tensorflow_hub as hub
-import tensorflow_text as text
-from sklearn.preprocessing import LabelEncoder
+import torch # Use PyTorch for HuggingFace models
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer, TrainingArguments
 import matplotlib.pyplot as plt
 import seaborn as sns
+import pandas as pd # Needed for saving metadata timestamps potentially
+import logging
+from typing import Dict, List, Tuple, Union, Optional, Any
+from torch.utils.data import Dataset, DataLoader # For potential training dataset structure
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix # For evaluation
+from sklearn.preprocessing import LabelEncoder
+
+# Configure logging (can be defined here or imported)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[logging.StreamHandler()]
+)
+logger = logging.getLogger(__name__)
 
 class TransformerDepressionModel:
     """
-    BERT-based transformer model for depression detection
-    
-    This class implements a complete pipeline for depression detection using 
-    a transformer-based approach
+    HuggingFace Transformer-based model for depression detection.
+    Loads model/tokenizer from a directory (HF cache format expected).
     """
     
-    def __init__(self, num_classes=4):
+    def __init__(self, model_dir: str = None, num_labels: int = 4):
         """
-        Initialize the transformer model
+        Initialize the transformer model by loading from a directory.
         
         Args:
-            num_classes: Number of depression severity categories
+            model_dir: Path to the directory containing the HF model files 
+                       (e.g., the copied cache dir like 'models/transformer').
+                       If None, tries a default path.
+            num_labels: Number of classification labels (e.g., 4 for severity).
         """
-        self.num_classes = num_classes
+        # Default model directory within the project structure
+        DEFAULT_MODEL_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "models", "transformer")
+        
+        self.model_dir = model_dir if model_dir else DEFAULT_MODEL_DIR
+        self.num_labels = num_labels
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        logger.info(f"Using device: {self.device}")
+        
+        self.tokenizer = None
         self.model = None
-        self.label_encoder = None
-        self.classes = None
-        self.metadata = {
-            "model_type": "BERT-based Transformer",
-            "accuracy": None,
-            "classes": ["minimum", "mild", "moderate", "severe"],
-            "parameters": {
-                "bert_variant": "small_bert/bert_en_uncased_L-4_H-512_A-8",
-                "learning_rate": 3e-5
-            }
-        }
-    
-    def build(self):
+        self.config = {}
+        self.classes = ["minimum", "mild", "moderate", "severe"] # Default
+
+        self.load(self.model_dir) # Load model during initialization
+
+    def load(self, model_path: str):
         """
-        Build the BERT-based transformer model
-        
-        Returns:
-            Compiled TensorFlow model
-        """
-        # Load BERT preprocessing model from TF Hub
-        preprocessor = hub.KerasLayer(
-            "https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3",
-            name="preprocessing"
-        )
-        
-        # Load BERT encoder from TF Hub
-        encoder = hub.KerasLayer(
-            "https://tfhub.dev/tensorflow/small_bert/bert_en_uncased_L-4_H-512_A-8/2",
-            trainable=True,
-            name="BERT_encoder"
-        )
-        
-        # Input layer
-        text_input = Input(shape=(), dtype=tf.string, name='text_input')
-        
-        # Preprocess data
-        encoder_inputs = preprocessor(text_input)
-        
-        # Apply BERT encoder
-        outputs = encoder(encoder_inputs)
-        
-        # Extract pooled output
-        pooled_output = outputs["pooled_output"]
-        
-        # Add dropout layer
-        x = Dropout(0.1)(pooled_output)
-        
-        # Add dense layers
-        x = Dense(256, activation='relu')(x)
-        x = Dropout(0.2)(x)
-        
-        # Output layer
-        if self.num_classes == 2:
-            output = Dense(1, activation='sigmoid')(x)
-            loss = 'binary_crossentropy'
-        else:
-            output = Dense(self.num_classes, activation='softmax')(x)
-            loss = 'sparse_categorical_crossentropy'
-        
-        # Create model
-        model = Model(inputs=text_input, outputs=output)
-        
-        # Compile model
-        model.compile(
-            optimizer=Adam(learning_rate=3e-5),
-            loss=loss,
-            metrics=['accuracy']
-        )
-        
-        self.model = model
-        return model
-    
-    def fit(self, X_train, y_train, X_val=None, y_val=None, batch_size=16, epochs=5, callbacks=None):
-        """
-        Train the transformer model
+        Load a saved HuggingFace model and tokenizer from a directory.
         
         Args:
-            X_train: Training text data
-            y_train: Training labels
-            X_val: Validation text data
-            y_val: Validation labels
-            batch_size: Batch size for training
-            epochs: Number of epochs
-            callbacks: Optional callbacks for training
-            
-        Returns:
-            Training history
+            model_path: Path to the directory containing model files.
+                      (e.g., config.json, pytorch_model.bin or model.safetensors, tokenizer_config.json etc.)
         """
-        if self.model is None:
-            self.build()
-        
-        # Encode labels if they're not already numeric
-        if not isinstance(y_train[0], (int, np.integer)):
-            self.label_encoder = LabelEncoder()
-            y_train_encoded = self.label_encoder.fit_transform(y_train)
-            self.classes = self.label_encoder.classes_
-            self.metadata["classes"] = self.classes.tolist()
-            
-            if X_val is not None and y_val is not None:
-                y_val_encoded = self.label_encoder.transform(y_val)
-                validation_data = (X_val, y_val_encoded)
-            else:
-                validation_data = None
-        else:
-            y_train_encoded = y_train
-            validation_data = (X_val, y_val) if X_val is not None and y_val is not None else None
-        
-        # Train model
-        history = self.model.fit(
-            X_train, y_train_encoded,
-            validation_data=validation_data,
-            batch_size=batch_size,
-            epochs=epochs,
-            callbacks=callbacks
-        )
-        
-        return history
-    
-    def evaluate(self, X_test, y_test, output_dir=None):
-        """
-        Evaluate the transformer model
-        
-        Args:
-            X_test: Test text data
-            y_test: Test labels
-            output_dir: Directory to save evaluation results
-            
-        Returns:
-            Evaluation metrics
-        """
-        if not isinstance(y_test[0], (int, np.integer)) and self.label_encoder is not None:
-            y_test_encoded = self.label_encoder.transform(y_test)
-        else:
-            y_test_encoded = y_test
-        
-        # Evaluate model
-        loss, accuracy = self.model.evaluate(X_test, y_test_encoded)
-        
-        # Update metadata
-        self.metadata["accuracy"] = float(accuracy)
-        
-        # Get predictions
-        y_pred_prob = self.model.predict(X_test)
-        y_pred = np.argmax(y_pred_prob, axis=1) if y_pred_prob.shape[1] > 1 else (y_pred_prob > 0.5).astype(int)
-        
-        # Create confusion matrix
-        cm = tf.math.confusion_matrix(y_test_encoded, y_pred).numpy()
-        
-        # Plot confusion matrix if output directory is provided
-        if output_dir is not None:
-            os.makedirs(output_dir, exist_ok=True)
-            
-            plt.figure(figsize=(10, 8))
-            sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
-                      xticklabels=self.classes, yticklabels=self.classes)
-            plt.xlabel('Predicted')
-            plt.ylabel('True')
-            plt.title('Transformer Model Confusion Matrix')
-            plt.tight_layout()
-            plt.savefig(os.path.join(output_dir, 'transformer_confusion_matrix.png'), dpi=300, bbox_inches='tight')
-            plt.close()
-        
-        # Calculate metrics
-        metrics = {
-            'loss': float(loss),
-            'accuracy': float(accuracy),
-            'confusion_matrix': cm.tolist()
-        }
-        
-        return metrics
-    
-    def predict(self, text):
-        """
-        Make predictions on new text data
-        
-        Args:
-            text: Text to analyze, can be a single string or list of strings
-            
-        Returns:
-            Tuple of (predicted_severity, confidence_scores)
-        """
-        if self.model is None:
-            raise ValueError("Model not trained. Please train or load a model first.")
-        
-        # Handle single string input
-        is_single = isinstance(text, str)
-        if is_single:
-            text = [text]
-        
-        # Get raw predictions
-        predictions = self.model.predict(text)
-        
-        # Get predicted classes and confidence
-        if predictions.shape[1] > 1:  # Multi-class
-            confidences = predictions
-            predicted_ids = np.argmax(predictions, axis=1)
-        else:  # Binary
-            confidences = np.hstack([1 - predictions, predictions])
-            predicted_ids = (predictions > 0.5).astype(int).flatten()
-        
-        # Convert to class names
-        if self.classes is not None:
-            predicted_labels = self.classes[predicted_ids]
-        else:
-            predicted_labels = predicted_ids
-        
-        # Return results
-        if is_single:
-            return predicted_labels[0], confidences[0]
-        else:
-            return predicted_labels, confidences
-    
-    def save(self, save_dir):
-        """
-        Save the model and its metadata
-        
-        Args:
-            save_dir: Directory to save the model
-        """
-        if self.model is None:
-            raise ValueError("No model to save. Please train a model first.")
-        
-        os.makedirs(save_dir, exist_ok=True)
-        
-        # Save model
-        self.model.save(os.path.join(save_dir, 'model'))
-        
-        # Save metadata
-        with open(os.path.join(save_dir, 'metadata.json'), 'w') as f:
-            json.dump(self.metadata, f, indent=2)
-        
-        # Save label encoder classes if available
-        if self.classes is not None:
-            with open(os.path.join(save_dir, 'classes.json'), 'w') as f:
-                json.dump(self.classes.tolist(), f)
-        
-        print(f"Model saved to {save_dir}")
-    
-    @classmethod
-    def from_saved(cls, load_dir):
-        """
-        Load a saved model
-        
-        Args:
-            load_dir: Directory where the model is saved
-            
-        Returns:
-            Loaded TransformerDepressionModel instance
-        """
-        # Create a new instance
-        instance = cls()
-        
-        # Load model
-        instance.model = tf.keras.models.load_model(
-            os.path.join(load_dir, 'model'),
-            custom_objects={'KerasLayer': hub.KerasLayer}
-        )
-        
-        # Load metadata
-        with open(os.path.join(load_dir, 'metadata.json'), 'r') as f:
-            instance.metadata = json.load(f)
-        
-        # Load classes if available
         try:
-            with open(os.path.join(load_dir, 'classes.json'), 'r') as f:
-                instance.classes = np.array(json.load(f))
-        except FileNotFoundError:
-            instance.classes = np.array(instance.metadata.get("classes", ["minimum", "mild", "moderate", "severe"]))
+            if not os.path.isdir(model_path):
+                 raise FileNotFoundError(f"Model directory not found: {model_path}")
+                 
+            logger.info(f"Loading HuggingFace model and tokenizer from {model_path}")
+            
+            # Load configuration first to get label mappings etc.
+            config_path = os.path.join(model_path, "config.json")
+            if os.path.exists(config_path):
+                with open(config_path, 'r') as f:
+                    self.config = json.load(f)
+                # Try to infer classes from config (id2label is common)
+                if 'id2label' in self.config:
+                     id2label = {int(k): v for k, v in self.config['id2label'].items()} # Ensure keys are ints
+                     self.classes = [id2label[i] for i in sorted(id2label.keys())]
+                     self.num_labels = len(self.classes)
+                     logger.info(f"Inferred classes from config: {self.classes}")
+                elif 'classes' in self.config:
+                     self.classes = self.config['classes']
+                     self.num_labels = len(self.classes)
+                     logger.info(f"Loaded classes from config: {self.classes}")
+                else:
+                     logger.warning("Could not infer class labels from config.json. Using default.")
+            else:
+                 logger.warning(f"config.json not found in {model_path}. Cannot infer class labels.")
+                 # Keep default classes if config is missing
+                 self.num_labels = len(self.classes)
+            
+            # Load tokenizer and model using from_pretrained with the directory path
+            self.tokenizer = AutoTokenizer.from_pretrained(model_path)
+            self.model = AutoModelForSequenceClassification.from_pretrained(
+                 model_path, 
+                 num_labels=self.num_labels # Ensure model output matches labels
+            )
+            self.model.to(self.device)
+            logger.info("HuggingFace model and tokenizer loaded successfully.")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Error loading HuggingFace model from {model_path}: {str(e)}")
+            # Fallback or re-raise
+            self.tokenizer = None
+            self.model = None
+            # Optionally, raise the error to prevent using an uninitialized model
+            raise ValueError(f"Failed to load model from {model_path}") from e
+
+    def save(self, save_dir: str):
+        """
+        Save the HuggingFace model and tokenizer to disk.
         
-        return instance
+        Args:
+            save_dir: Directory to save the model files.
+        """
+        if not self.model or not self.tokenizer:
+            logger.error("Model or tokenizer not loaded. Cannot save.")
+            return False
+        
+        try:
+            os.makedirs(save_dir, exist_ok=True)
+            logger.info(f"Saving HuggingFace model and tokenizer to {save_dir}")
+            
+            # Save model and tokenizer
+            self.model.save_pretrained(save_dir)
+            self.tokenizer.save_pretrained(save_dir)
+            
+            # Optionally save the config/metadata explicitly if needed
+            # config_path = os.path.join(save_dir, "config.json")
+            # with open(config_path, 'w') as f:
+            #     json.dump(self.config, f, indent=2)
+            
+            logger.info("Model saved successfully.")
+            return True
+        except Exception as e:
+            logger.error(f"Error saving model to {save_dir}: {str(e)}")
+            return False
+
+    def predict(self, text: Union[str, List[str]]) -> Union[Tuple[str, np.ndarray], Tuple[List[str], List[np.ndarray]]]:
+        """
+        Make predictions using the loaded HuggingFace model.
+        
+        Args:
+            text: Text to analyze (single string or list of strings).
+            
+        Returns:
+            If single string: (predicted_label, confidence_scores_array)
+            If list of strings: (list_of_predicted_labels, list_of_confidence_scores_arrays)
+        """
+        if not self.model or not self.tokenizer:
+            raise ValueError("Model or tokenizer not loaded. Cannot predict.")
+
+        is_single = isinstance(text, str)
+        texts = [text] if is_single else text
+
+        try:
+            # Prepare inputs
+            inputs = self.tokenizer(
+                texts,
+                padding=True,
+                truncation=True,
+                max_length=self.config.get('max_length', 512), # Use max_length from config or default
+                return_tensors="pt"
+            ).to(self.device)
+
+            # Get predictions
+            self.model.eval() # Set model to evaluation mode
+            with torch.no_grad():
+                outputs = self.model(**inputs)
+                logits = outputs.logits
+                probabilities = torch.softmax(logits, dim=-1)
+            
+            # Move probabilities to CPU and convert to numpy
+            probabilities_np = probabilities.cpu().numpy()
+            
+            # Get predicted class indices
+            predicted_ids = np.argmax(probabilities_np, axis=1)
+            
+            # Map indices to class labels
+            predicted_labels = [self.classes[i] for i in predicted_ids]
+            
+            # Return based on input type
+            if is_single:
+                return predicted_labels[0], probabilities_np[0]
+            else:
+                return predicted_labels, [prob for prob in probabilities_np] # Return list of arrays
+
+        except Exception as e:
+            logger.error(f"Error during prediction: {str(e)}")
+            # Return something indicative of an error or re-raise
+            # Depending on how the caller (DepressionDetectionSystem) handles it
+            if is_single:
+                 # Need to define how errors are returned, maybe raise exception
+                 raise RuntimeError(f"Prediction failed for text: {text}") from e
+            else:
+                 # For batch, maybe return empty lists or raise
+                 raise RuntimeError(f"Batch prediction failed.") from e
+
+    # --- Methods removed or needing adaptation --- 
+    # build() -> Not needed, model loaded via from_pretrained
+    # fit() -> Would need reimplementation using HF Trainer or custom PyTorch loop
+    # evaluate() -> Needs reimplementation using predict() and sklearn metrics
+    # from_saved() -> Replaced by load() method using from_pretrained
+
+    # Add a simple train method placeholder if needed for structure
+    def train(self, *args, **kwargs):
+         logger.warning("Training method not fully implemented in this version.")
+         print("To train, use HuggingFace Trainer API or a custom PyTorch loop.")
+         # Placeholder for potential future implementation
+         pass
+
+    # Add evaluate placeholder
+    def evaluate(self, test_texts: List[str], test_labels: List[int], output_dir=None):
+        logger.warning("Evaluation method using HF model needs implementation.")
+        print("Predicting on test data...")
+        try:
+             predicted_labels, _ = self.predict(test_texts)
+             
+             # Convert string labels back to indices if necessary for metrics
+             # This requires a consistent label encoding
+             le = LabelEncoder()
+             le.fit(self.classes) # Fit on the known classes
+             true_indices = le.transform([self.classes[i] for i in test_labels]) # Assuming test_labels are indices
+             pred_indices = le.transform(predicted_labels)
+
+             accuracy = accuracy_score(true_indices, pred_indices)
+             report = classification_report(true_indices, pred_indices, target_names=self.classes, output_dict=True)
+             cm = confusion_matrix(true_indices, pred_indices)
+
+             metrics = {
+                 'accuracy': accuracy,
+                 'classification_report': report,
+                 'confusion_matrix': cm.tolist()
+             }
+             print(f"Accuracy: {accuracy:.4f}")
+             print("Classification Report:\n", classification_report(true_indices, pred_indices, target_names=self.classes))
+
+             # Optional: Plot confusion matrix
+             if output_dir is not None:
+                 os.makedirs(output_dir, exist_ok=True)
+                 plt.figure(figsize=(10, 8))
+                 sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
+                           xticklabels=self.classes, yticklabels=self.classes)
+                 plt.xlabel('Predicted')
+                 plt.ylabel('True')
+                 plt.title('Confusion Matrix (HuggingFace Model)')
+                 plt.tight_layout()
+                 plt.savefig(os.path.join(output_dir, 'hf_confusion_matrix.png'), dpi=300, bbox_inches='tight')
+                 plt.close()
+                 print(f"Confusion matrix saved to {output_dir}")
+
+             return metrics
+        except Exception as e:
+             logger.error(f"Error during evaluation: {e}")
+             return {"error": str(e)}
+
+# Note: The DepressionDataset class would be needed if implementing training
+class DepressionDataset(Dataset):
+    """
+    Simple PyTorch Dataset for text classification.
+    """
+    def __init__(self, encodings, labels):
+        self.encodings = encodings
+        self.labels = labels
+
+    def __getitem__(self, idx):
+        # Ensure encodings contain tensors
+        item = {key: torch.tensor(val[idx]) for key, val in self.encodings.items()}
+        # Ensure labels are tensors
+        item['labels'] = torch.tensor(self.labels[idx])
+        return item
+
+    def __len__(self):
+        return len(self.labels)
+
 
 def demo():
     """
-    Demonstrate the transformer model on sample data
+    Demonstrate the HuggingFace transformer model loading and prediction.
     """
-    # Create sample data
-    samples = [
-        "I feel great today and am looking forward to the future.",
-        "I've been feeling a bit down lately, but it's not too bad.",
-        "I find it hard to concentrate and sleep these days.",
-        "Nothing matters anymore. I feel completely hopeless."
-    ]
-    labels = ["minimum", "mild", "moderate", "severe"]
+    print("\n=== HuggingFace Transformer Model Demo ===")
+    # Assume model files are in 'models/transformer' relative to project root
+    # Adjust this path if needed
+    project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    model_directory = os.path.join(project_root, "models", "transformer")
     
-    # Create and train model
-    model = TransformerDepressionModel()
-    model.build()
-    
-    # Simulate training (in practice, real training would be performed)
-    print("Model would be trained on real data. For demonstration, we'll simulate predictions.")
-    
-    # Make predictions (this would normally use a trained model)
-    # For demo purposes, we'll just show the API
-    print("\nSample predictions (demonstration only):")
-    for i, sample in enumerate(samples):
-        print(f"\nSample text: \"{sample}\"")
-        print(f"Expected severity: {labels[i]}")
-        print(f"Model would predict severity and confidence scores")
-    
-    print("\nIn a real application, the model would be trained on depression text data")
-    print("and would make actual predictions based on the trained parameters.")
+    try:
+        print(f"Attempting to load model from: {model_directory}")
+        # Initialize by loading the model
+        model = TransformerDepressionModel(model_dir=model_directory)
+        
+        # Create sample data
+        samples = [
+            "I feel great today and am looking forward to the future.",
+            "I've been feeling a bit down lately, but it's not too bad.",
+            "I find it hard to concentrate and sleep these days.",
+            "Nothing matters anymore. I feel completely hopeless."
+        ]
+        expected_labels = ["minimum", "mild", "moderate", "severe"]
+        
+        print("\nMaking sample predictions...")
+        predicted_labels, confidences = model.predict(samples)
+        
+        for i, sample in enumerate(samples):
+            print(f"\nSample text: \"{sample}\"")
+            print(f"  Expected: {expected_labels[i]}")
+            print(f"  Predicted: {predicted_labels[i]}")
+            print(f"  Confidence Scores: {dict(zip(model.classes, confidences[i].round(3)))}")
+            
+    except Exception as e:
+        print(f"Demo failed: {e}")
+        print("Ensure the model files exist in the specified directory and are compatible.")
 
 if __name__ == "__main__":
     demo() 

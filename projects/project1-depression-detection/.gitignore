@@ -24,6 +24,9 @@ ENV/
 *.ps
 *.safetensors
 
+# Explicitly allow white_paper.md
+!docs/white_paper.md
+
 # Cache directories
 models/distilbert/
 models/**/blobs/

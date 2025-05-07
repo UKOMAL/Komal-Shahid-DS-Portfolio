@@ -18,6 +18,15 @@
         <div class="flower-petal petal-5"></div>
     </div>
 
+    <!-- Glass Flower (fixed position) -->
+    <div class="glass-flower">
+        <div class="glass-petal"></div>
+        <div class="glass-petal"></div>
+        <div class="glass-petal"></div>
+        <div class="glass-petal"></div>
+        <div class="glass-petal"></div>
+    </div>
+
     <div class="portfolio-container">
         <!-- Background Elements -->
         <div class="background-elements">
@@ -88,13 +97,36 @@
                 <section id="featured-projects" class="featured-projects-section">
                     <div id="vanta-bg" class="featured-wavy-bg"></div>
                     <div class="featured-projects-content">
-                        <div class="project-bubble" onclick="openProjectModal('federated-healthcare-ai')">
-                            <div id="featured-lottie" class="project-lottie-thumb"></div>
-                            <h2>Federated Healthcare AI</h2>
-                            <p>Privacy-preserving machine learning for healthcare data across multiple institutions.</p>
-                            <div class="project-links">
-                                <a href="https://github.com/UKOMAL/Federated-Healthcare-AI" class="project-link">GitHub</a>
-                                <a href="/projects/project2-federated-healthcare-ai/demo/index.html" class="project-link">Live Demo</a>
+                        <div class="projects-wrapper">
+                            <h2 class="featured-heading">Featured Projects</h2>
+                            <div class="projects-grid">
+                                <div class="project-card webflow-style" onclick="openProjectModal('federated-healthcare-ai')">
+                                    <div class="project-thumb">
+                                        <img src="assets/images/projects/federated-learning.jpg" alt="Federated Healthcare AI">
+                                    </div>
+                                    <div class="project-info">
+                                        <h3>Federated Healthcare AI</h3>
+                                        <p>Privacy-preserving machine learning for healthcare data across multiple institutions.</p>
+                                        <div class="project-links">
+                                            <a href="https://github.com/UKOMAL/Federated-Healthcare-AI" class="project-link">GitHub <i class="fas fa-github"></i></a>
+                                            <a href="/projects/project2-federated-healthcare-ai/demo/index.html" class="project-link">View Details <i class="fas fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="project-card webflow-style" onclick="openProjectModal('network-visualization')">
+                                    <div class="project-thumb">
+                                        <img src="assets/images/projects/network-visualization.jpg" alt="Network Visualization">
+                                    </div>
+                                    <div class="project-info">
+                                        <h3>Network Visualization</h3>
+                                        <p>Interactive visualization tool for complex network relationships and data analytics.</p>
+                                        <div class="project-links">
+                                            <a href="https://github.com/UKOMAL/Network-Visualization" class="project-link">GitHub <i class="fas fa-github"></i></a>
+                                            <a href="assets/files/network_viz_demo.html" class="project-link">View Details <i class="fas fa-arrow-right"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -142,12 +174,14 @@
                 </section>
 
                 <!-- About Section -->
-                <section id="about" class="content-section" style="position:relative;">
+                <section id="about" class="content-section" style="position:relative; display:none;">
+                    <h2 class="section-title">About Me</h2>
                     <div class="about-profile">
                         <img src="assets/images/my_illustrated_photo.jpeg" alt="Komal Shahid Portrait" class="about-portrait" />
                         <div class="about-card">
-                            <h2>About Me</h2>
-                            <p>Hi, I'm Komal Shahid. I'm passionate about building intelligent, ethical AI solutions that make a real impact. My expertise spans machine learning, data science, and creative technology. I love blending technical rigor with design thinking to solve meaningful problems.</p>
+                            <h3>Komal Shahid</h3>
+                            <p>I'm passionate about building intelligent, ethical AI solutions that make a real impact. My expertise spans machine learning, data science, and creative technology. I love blending technical rigor with design thinking to solve meaningful problems.</p>
+                            <p>With a background in data science and AI engineering, I focus on creating applications that are not only technically sound but also socially responsible and user-friendly.</p>
                         </div>
                     </div>
                     <div id="about-flowers-lottie" class="about-flowers-motion"></div>

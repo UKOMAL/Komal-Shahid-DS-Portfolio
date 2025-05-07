@@ -1,5 +1,11 @@
 # Komal Shahid - Data Science Portfolio
 
+<div align="center">
+  <img src="assets/images/my_illustrated_photo.jpeg" alt="Komal Shahid" width="180" style="border-radius: 50%;">
+  <br><br>
+  <p><i>AI & Machine Learning Engineer</i></p>
+</div>
+
 ## 📊 [View Portfolio Website](https://ukomal.github.io/Komal-Shahid-DS-Portfolio/)
 
 This repository contains data science projects completed during my Master's program at Bellevue University's Applied Data Science Capstone (DSC680). Each project demonstrates advanced skills in machine learning, data analysis, and software development with real-world applications.
@@ -102,3 +108,13 @@ cd projects/project2-federated-healthcare-ai
 - GitHub: [UKOMAL](https://github.com/UKOMAL)
 - LinkedIn: [komalshahid](https://linkedin.com/in/komalshahid)
 - Email: [your.email@example.com](mailto:your.email@example.com)
+
+## 🌟 About Me
+
+I'm passionate about building intelligent, ethical AI solutions that make a real impact. My expertise spans machine learning, data science, and creative technology. I love blending technical rigor with design thinking to solve meaningful problems.
+
+With a background in data science and AI engineering, I focus on creating applications that are not only technically sound but also socially responsible and user-friendly.
+
+<div align="center">
+  <img src="assets/images/flower_animation.gif" alt="Decorative flower animation" width="300">
+</div>

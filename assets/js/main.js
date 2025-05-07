@@ -338,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Trigger animations for the newly visible section
         setTimeout(() => {
-          section.classList.add('visible');
+          section.classList.add('active');
           
           // Animate cards
           const cards = section.querySelectorAll('.project-card, .skill-card, .about-card');
@@ -351,7 +351,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 50);
       } else {
         section.style.display = 'none';
-        section.classList.remove('visible');
+        section.classList.remove('active');
       }
     });
   }
@@ -423,8 +423,8 @@ document.addEventListener('DOMContentLoaded', () => {
       { name: 'bottom', transform: 'rotateX(-90deg) translateZ(125px)' }
     ];
     
-    // Use your portrait image for all sides
-    const portraitImage = 'assets/images/my_illustrated_photo.jpeg';
+    // Use GitHub profile image for all sides
+    const profileImage = 'https://github.com/UKOMAL.png';
     
     // Create each face
     faces.forEach(face => {
@@ -437,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
       faceDiv.style.backfaceVisibility = 'hidden';
       
       // Apply the same image to each face
-      faceDiv.style.backgroundImage = `url(${portraitImage})`;
+      faceDiv.style.backgroundImage = `url(${profileImage})`;
       faceDiv.style.backgroundSize = 'cover';
       faceDiv.style.backgroundPosition = 'center';
       faceDiv.style.border = '2px solid rgba(255, 150, 199, 0.5)';
@@ -498,43 +498,86 @@ document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('project-modal');
     if (!modal) return;
     let content = '';
+    
     if (projectId === 'federated-healthcare-ai') {
       content = `
         <div class="project-modal-content">
           <button class="project-modal-close" onclick="closeProjectModal()">&times;</button>
-          <h2>Federated Healthcare AI</h2>
-          <div style="width:100px;height:100px;margin:0 auto 1rem auto;" id="modal-lottie-thumb"></div>
-          <p>Privacy-preserving machine learning for healthcare data across multiple institutions. This project implements a federated learning framework that enables multiple healthcare institutions to collaboratively train AI models without sharing raw patient data. The system ensures privacy and compliance while leveraging distributed data for improved model performance.</p>
-          <ul>
-            <li>Privacy-preserving federated learning protocol</li>
-            <li>Support for multiple healthcare data modalities</li>
-            <li>Differential privacy and secure aggregation</li>
-            <li>Interactive simulation and visualization</li>
-          </ul>
-          <div class="project-links">
-            <a href="https://github.com/UKOMAL/Federated-Healthcare-AI" target="_blank" class="project-link">GitHub</a>
-            <a href="/projects/project2-federated-healthcare-ai/demo/index.html" target="_blank" class="project-link">Live Demo</a>
+          <div class="project-modal-header">
+            <img src="assets/images/projects/federated-learning.jpg" alt="Federated Healthcare AI" class="modal-header-image">
+          </div>
+          <div class="project-modal-body">
+            <h2>Federated Healthcare AI</h2>
+            <div class="project-modal-desc">
+              <p>Privacy-preserving machine learning for healthcare data across multiple institutions. This project implements a federated learning framework that enables multiple healthcare institutions to collaboratively train AI models without sharing raw patient data.</p>
+              <p>The system ensures privacy and compliance while leveraging distributed data for improved model performance.</p>
+            </div>
+            <div class="project-modal-features">
+              <h3>Key Features</h3>
+              <ul>
+                <li>Privacy-preserving federated learning protocol</li>
+                <li>Support for multiple healthcare data modalities</li>
+                <li>Differential privacy and secure aggregation</li>
+                <li>Interactive simulation and visualization</li>
+              </ul>
+            </div>
+            <div class="project-modal-links">
+              <a href="https://github.com/UKOMAL/Federated-Healthcare-AI" target="_blank" class="project-modal-link">GitHub <i class="fas fa-github"></i></a>
+              <a href="/projects/project2-federated-healthcare-ai/demo/index.html" target="_blank" class="project-modal-link">Live Demo <i class="fas fa-play-circle"></i></a>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (projectId === 'network-visualization') {
+      content = `
+        <div class="project-modal-content">
+          <button class="project-modal-close" onclick="closeProjectModal()">&times;</button>
+          <div class="project-modal-header">
+            <img src="assets/images/projects/network-visualization.jpg" alt="Network Visualization" class="modal-header-image">
+          </div>
+          <div class="project-modal-body">
+            <h2>Network Visualization Tool</h2>
+            <div class="project-modal-desc">
+              <p>An interactive network visualization tool that helps analyze complex relationships in large datasets. Built with D3.js and Python, this tool provides powerful insights through intuitive visualizations.</p>
+              <p>Designed to help researchers and data scientists better understand network structures and discover hidden patterns.</p>
+            </div>
+            <div class="project-modal-features">
+              <h3>Key Features</h3>
+              <ul>
+                <li>Interactive force-directed graph visualization</li>
+                <li>Community detection algorithms</li>
+                <li>Node filtering and highlighting</li>
+                <li>Data export and sharing capabilities</li>
+              </ul>
+            </div>
+            <div class="project-modal-links">
+              <a href="https://github.com/UKOMAL/Network-Visualization" target="_blank" class="project-modal-link">GitHub <i class="fas fa-github"></i></a>
+              <a href="assets/files/network_viz_demo.html" target="_blank" class="project-modal-link">Live Demo <i class="fas fa-play-circle"></i></a>
+            </div>
           </div>
         </div>
       `;
     }
+    
     modal.innerHTML = content;
     modal.style.display = 'flex';
-    // Lottie for modal
-    if (window.lottie && document.getElementById('modal-lottie-thumb')) {
-      lottie.loadAnimation({
-        container: document.getElementById('modal-lottie-thumb'),
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        path: 'assets/lottie/ai-graph.json' // Same as featured project
-      });
-    }
+    
+    // Close modal when clicking outside of it
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        closeProjectModal();
+      }
+    });
   }
+  
   function closeProjectModal() {
     const modal = document.getElementById('project-modal');
     if (modal) modal.style.display = 'none';
   }
+  
+  // Expose modal functions to global scope
+  window.openProjectModal = openProjectModal;
+  window.closeProjectModal = closeProjectModal;
 
   document.addEventListener('DOMContentLoaded', function() {
     renderCube();

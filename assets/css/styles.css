@@ -1799,4 +1799,211 @@ footer {
   50% {
     transform: translateY(-10px);
   }
+}
+
+/* Flixor-style Projects Section */
+.flixor-projects-section {
+  padding: 120px 0;
+  background-color: var(--bg-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.flixor-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.flixor-section-header {
+  margin-bottom: 80px;
+  text-align: center;
+}
+
+.flixor-section-title {
+  font-size: 5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  letter-spacing: -2px;
+}
+
+.flixor-filter-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+  gap: 20px;
+}
+
+.flixor-filter-tab {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--secondary-text);
+  background: none;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.flixor-filter-tab::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.flixor-filter-tab:hover::after,
+.flixor-filter-tab.active::after {
+  width: 100%;
+}
+
+.flixor-filter-tab.active {
+  color: var(--text-color);
+}
+
+.flixor-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.flixor-project-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  background-color: white;
+  min-height: 400px;
+  cursor: pointer;
+  transition: transform 0.5s, box-shadow 0.5s;
+}
+
+.flixor-project-card:hover {
+  transform: translateY(-15px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.flixor-project-image {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  transition: transform 0.8s ease;
+}
+
+.flixor-project-card:hover .flixor-project-image {
+  transform: scale(1.05);
+}
+
+.flixor-project-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 30px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+  color: white;
+  transition: all 0.5s;
+}
+
+.flixor-project-card:hover .flixor-project-overlay {
+  padding-bottom: 40px;
+}
+
+.flixor-project-category {
+  display: inline-block;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.flixor-project-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.flixor-project-desc {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 15px;
+  max-width: 90%;
+}
+
+.flixor-project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 5px;
+}
+
+.flixor-project-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s ease;
+}
+
+.flixor-project-link:hover::after {
+  width: 100%;
+}
+
+.flixor-project-number {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 6rem;
+  font-weight: 800;
+  opacity: 0.2;
+  color: white;
+  z-index: 1;
+}
+
+@media (max-width: 992px) {
+  .flixor-projects-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .flixor-section-title {
+    font-size: 3.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .flixor-section-title {
+    font-size: 2.5rem;
+  }
+  
+  .flixor-project-card {
+    min-height: 350px;
+  }
+  
+  .flixor-project-image {
+    height: 250px;
+  }
+}
+
+@media (max-width: 576px) {
+  .flixor-filter-tabs {
+    flex-wrap: wrap;
+  }
 } 

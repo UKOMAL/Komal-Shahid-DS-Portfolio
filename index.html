@@ -94,38 +94,59 @@
                 </section>
 
                 <!-- Featured Projects Section -->
-                <section id="featured-projects" class="featured-projects-section">
-                    <div id="vanta-bg" class="featured-wavy-bg"></div>
-                    <div class="featured-projects-content">
-                        <div class="projects-wrapper">
-                            <h2 class="featured-heading">Featured Projects</h2>
-                            <div class="projects-grid">
-                                <div class="project-card webflow-style" onclick="openProjectModal('federated-healthcare-ai')">
-                                    <div class="project-thumb">
-                                        <img src="assets/images/projects/federated-learning.jpg" alt="Federated Healthcare AI">
-                                    </div>
-                                    <div class="project-info">
-                                        <h3>Federated Healthcare AI</h3>
-                                        <p>Privacy-preserving machine learning for healthcare data across multiple institutions.</p>
-                                        <div class="project-links">
-                                            <a href="https://github.com/UKOMAL/Federated-Healthcare-AI" class="project-link">GitHub <i class="fas fa-github"></i></a>
-                                            <a href="/projects/project2-federated-healthcare-ai/demo/index.html" class="project-link">View Details <i class="fas fa-arrow-right"></i></a>
-                                        </div>
-                                    </div>
+                <section id="featured-projects" class="flixor-projects-section">
+                    <div class="flixor-container">
+                        <div class="flixor-section-header">
+                            <h2 class="flixor-section-title">Projects</h2>
+                            <div class="flixor-filter-tabs">
+                                <button class="flixor-filter-tab active">All Projects</button>
+                                <button class="flixor-filter-tab">AI & Machine Learning</button>
+                                <button class="flixor-filter-tab">Data Analysis</button>
+                                <button class="flixor-filter-tab">Visualization</button>
+                            </div>
+                        </div>
+                        <div class="flixor-projects-grid">
+                            <div class="flixor-project-card" onclick="openProjectModal('federated-healthcare-ai')">
+                                <div class="flixor-project-number">01</div>
+                                <img src="assets/images/projects/federated-learning.jpg" alt="Federated Healthcare AI" class="flixor-project-image">
+                                <div class="flixor-project-overlay">
+                                    <span class="flixor-project-category">AI & Machine Learning</span>
+                                    <h3 class="flixor-project-title">Federated Healthcare AI</h3>
+                                    <p class="flixor-project-desc">Privacy-preserving machine learning for healthcare data across multiple institutions</p>
+                                    <a href="javascript:void(0)" class="flixor-project-link">View Project <i class="fas fa-arrow-right"></i></a>
                                 </div>
-                                
-                                <div class="project-card webflow-style" onclick="openProjectModal('network-visualization')">
-                                    <div class="project-thumb">
-                                        <img src="assets/images/projects/network-visualization.jpg" alt="Network Visualization">
-                                    </div>
-                                    <div class="project-info">
-                                        <h3>Network Visualization</h3>
-                                        <p>Interactive visualization tool for complex network relationships and data analytics.</p>
-                                        <div class="project-links">
-                                            <a href="https://github.com/UKOMAL/Network-Visualization" class="project-link">GitHub <i class="fas fa-github"></i></a>
-                                            <a href="assets/files/network_viz_demo.html" class="project-link">View Details <i class="fas fa-arrow-right"></i></a>
-                                        </div>
-                                    </div>
+                            </div>
+                            
+                            <div class="flixor-project-card" onclick="openProjectModal('depression-detection')">
+                                <div class="flixor-project-number">02</div>
+                                <img src="assets/images/projects/depression-detection.jpg" alt="Depression Detection System" class="flixor-project-image">
+                                <div class="flixor-project-overlay">
+                                    <span class="flixor-project-category">Natural Language Processing</span>
+                                    <h3 class="flixor-project-title">Depression Detection System</h3>
+                                    <p class="flixor-project-desc">AI-powered system for detecting indicators of depression from written text</p>
+                                    <a href="javascript:void(0)" class="flixor-project-link">View Project <i class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+                            
+                            <div class="flixor-project-card" onclick="openProjectModal('network-visualization')">
+                                <div class="flixor-project-number">03</div>
+                                <img src="assets/images/projects/network-visualization.jpg" alt="Network Visualization" class="flixor-project-image">
+                                <div class="flixor-project-overlay">
+                                    <span class="flixor-project-category">Visualization</span>
+                                    <h3 class="flixor-project-title">Network Visualization</h3>
+                                    <p class="flixor-project-desc">Interactive visualization tool for complex network relationships and data analytics</p>
+                                    <a href="javascript:void(0)" class="flixor-project-link">View Project <i class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+                            
+                            <div class="flixor-project-card" onclick="openProjectModal('data-analysis')">
+                                <div class="flixor-project-number">04</div>
+                                <img src="assets/images/projects/data-analysis.jpg" alt="Healthcare Data Analysis" class="flixor-project-image">
+                                <div class="flixor-project-overlay">
+                                    <span class="flixor-project-category">Data Analysis</span>
+                                    <h3 class="flixor-project-title">Healthcare Data Analysis</h3>
+                                    <p class="flixor-project-desc">Comprehensive analysis of healthcare datasets to reveal insights for improved patient care</p>
+                                    <a href="javascript:void(0)" class="flixor-project-link">View Project <i class="fas fa-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>

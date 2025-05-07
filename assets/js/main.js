@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeParallax();
     setupFlowerCursor();
     setupParallaxEffects();
+    initializeFlixorFilters();
 
     // Show the active tab on page load
     setActiveTab("featured");
@@ -557,6 +558,64 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>
       `;
+    } else if (projectId === 'depression-detection') {
+      content = `
+        <div class="project-modal-content">
+          <button class="project-modal-close" onclick="closeProjectModal()">&times;</button>
+          <div class="project-modal-header">
+            <img src="assets/images/projects/depression-detection.jpg" alt="Depression Detection" class="modal-header-image">
+          </div>
+          <div class="project-modal-body">
+            <h2>Depression Detection System</h2>
+            <div class="project-modal-desc">
+              <p>An AI-powered system for detecting indicators of depression from written text using NLP and deep learning techniques.</p>
+              <p>This tool helps mental health professionals identify potential signs of depression in patient communications while maintaining privacy and ethical considerations.</p>
+            </div>
+            <div class="project-modal-features">
+              <h3>Key Features</h3>
+              <ul>
+                <li>Natural language processing of clinical text data</li>
+                <li>Multi-model neural network architecture for sentiment analysis</li>
+                <li>Privacy-preserving data preprocessing for sensitive mental health information</li>
+                <li>Interactive interface for mental health professionals</li>
+              </ul>
+            </div>
+            <div class="project-modal-links">
+              <a href="https://github.com/UKOMAL/Depression-Detection" target="_blank" class="project-modal-link">GitHub <i class="fas fa-github"></i></a>
+              <a href="/projects/project1-depression-detection/demo/index.html" target="_blank" class="project-modal-link">Live Demo <i class="fas fa-play-circle"></i></a>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (projectId === 'data-analysis') {
+      content = `
+        <div class="project-modal-content">
+          <button class="project-modal-close" onclick="closeProjectModal()">&times;</button>
+          <div class="project-modal-header">
+            <img src="assets/images/projects/data-analysis.jpg" alt="Healthcare Data Analysis" class="modal-header-image">
+          </div>
+          <div class="project-modal-body">
+            <h2>Healthcare Data Analysis</h2>
+            <div class="project-modal-desc">
+              <p>Comprehensive analysis of healthcare datasets to reveal insights for improved patient care and operational efficiency.</p>
+              <p>This project uses advanced statistical methods and machine learning to identify trends and patterns in healthcare data that can lead to better decision-making and patient outcomes.</p>
+            </div>
+            <div class="project-modal-features">
+              <h3>Key Features</h3>
+              <ul>
+                <li>Exploratory data analysis of electronic health records</li>
+                <li>Predictive modeling for patient outcomes</li>
+                <li>Resource utilization optimization analysis</li>
+                <li>Interactive dashboards for healthcare administrators</li>
+              </ul>
+            </div>
+            <div class="project-modal-links">
+              <a href="https://github.com/UKOMAL/Healthcare-Data-Analysis" target="_blank" class="project-modal-link">GitHub <i class="fas fa-github"></i></a>
+              <a href="#" target="_blank" class="project-modal-link">View Report <i class="fas fa-file-alt"></i></a>
+            </div>
+          </div>
+        </div>
+      `;
     }
     
     modal.innerHTML = content;
@@ -582,4 +641,45 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('DOMContentLoaded', function() {
     renderCube();
   });
+
+  /**
+   * Initialize Flixor project filter tabs
+   */
+  function initializeFlixorFilters() {
+    const filterTabs = document.querySelectorAll('.flixor-filter-tab');
+    const projectCards = document.querySelectorAll('.flixor-project-card');
+    
+    if (!filterTabs.length || !projectCards.length) return;
+    
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', function() {
+        // Remove active class from all tabs
+        filterTabs.forEach(t => t.classList.remove('active'));
+        
+        // Add active class to clicked tab
+        this.classList.add('active');
+        
+        const category = this.textContent.trim().toLowerCase();
+        
+        // Filter projects based on category
+        projectCards.forEach(card => {
+          const cardCategory = card.querySelector('.flixor-project-category').textContent.trim().toLowerCase();
+          
+          if (category === 'all projects' || cardCategory.includes(category)) {
+            card.style.display = 'block';
+            setTimeout(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            }, 100);
+          } else {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+              card.style.display = 'none';
+            }, 300);
+          }
+        });
+      });
+    });
+  }
 }); 

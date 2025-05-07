@@ -1,0 +1,58 @@
+theme: jekyll-theme-minimal
+title: Komal Shahid - Data Science Portfolio
+description: Showcasing projects in machine learning, deep learning, and AI applications
+baseurl: ""
+url: "https://ukomal.github.io/Komal-Shahid-DS-Portfolio/"
+
+# Build settings
+markdown: kramdown
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .git
+  - .github/workflows
+  - "*.zip"
+  - "LICENSE"
+  - "*.log"
+
+# Site settings
+github_username: UKOMAL
+linkedin_username: komalshahid
+email: your.email@example.com
+
+# Custom settings
+logo: assets/images/profile-image.jpg
+show_downloads: false
+google_analytics: # Your Google Analytics tracking ID
+
+# Navigation
+header_pages:
+  - about.md
+  - projects.md
+  - work.md
+  - visualizations.md
+  - skills.md
+  - contact.md
+
+# Collections
+collections:
+  projects:
+    output: true
+    permalink: /:collection/:path/
+  code_examples:
+    output: true
+    permalink: /:collection/:path/
+
+# GitHub Pages settings
+github:
+  is_project_page: true
+  repository_url: https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio
+  repository_name: Komal-Shahid-DS-Portfolio
+  owner_name: Komal Shahid 

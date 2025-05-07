@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komal Shahid | Data Scientist & AI Specialist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <!-- Flower Cursor Animation -->
+    <div class="flower-cursor">
+        <div class="flower-petal petal-1"></div>
+        <div class="flower-petal petal-2"></div>
+        <div class="flower-petal petal-3"></div>
+        <div class="flower-petal petal-4"></div>
+        <div class="flower-petal petal-5"></div>
+    </div>
+
+    <div class="portfolio-container">
+        <!-- Background Elements -->
+        <div class="background-elements">
+            <div class="color-streak streak-1"></div>
+            <div class="color-streak streak-2"></div>
+            <div class="color-streak streak-3"></div>
+            <div class="color-streak streak-4"></div>
+            <div class="color-streak streak-5"></div>
+            <div class="filter" style="position: absolute; width: 800px; height: 800px; background-color: #e8e4d8; border-radius: 9999px; filter: blur(180px); opacity: 0.4; top: -400px; left: -200px;"></div>
+            <div class="filter" style="position: absolute; width: 600px; height: 600px; background-color: #d8d4c8; border-radius: 9999px; filter: blur(150px); opacity: 0.3; bottom: -300px; right: -200px;"></div>
+            <div style="position: absolute; width: 300px; height: 300px; border-width: 2px; border-color: #2a2a2a; border-radius: 40px; opacity: 0.05; top: 20%; right: 10%; transform: rotate(30deg);"></div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <div class="container">
+                <div class="nav-content">
+                    <h1>Komal Shahid</h1>
+                    <div class="nav-tabs">
+                        <button class="nav-tab active" data-tab="featured">Home</button>
+                        <button class="nav-tab" data-tab="projects">Projects</button>
+                        <button class="nav-tab" data-tab="skills">Skills</button>
+                        <button class="nav-tab" data-tab="about">About</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main>
+            <div class="container">
+                <!-- Hero Section -->
+                <section class="hero-section">
+                    <div class="flower-animation">
+                        <div class="flower-petal"></div>
+                        <div class="flower-petal"></div>
+                        <div class="flower-petal"></div>
+                        <div class="flower-petal"></div>
+                    </div>
+                    <div class="container">
+                        <div class="hero-grid">
+                            <div class="hero-content">
+                                <div class="hero-badge">
+                                    <span class="star">★</span>
+                                    <span class="badge">AI & ML Engineer</span>
+                                </div>
+                                <h1 class="hero-title">Komal Shahid</h1>
+                                <p class="hero-description">Building intelligent solutions that make a difference. Specializing in machine learning, data analysis, and AI-driven applications.</p>
+                                <div class="hero-buttons">
+                                    <a href="#featured-projects" class="button primary">View Projects</a>
+                                    <a href="#contact" class="button secondary">Contact Me</a>
+                                </div>
+                            </div>
+                            <div class="hero-visual">
+                                <div class="cube-container">
+                                    <!-- Cube faces will be added by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll-indicator">
+                        <span class="scroll-text">Scroll to explore</span>
+                        <div class="scroll-arrow"></div>
+                    </div>
+                </section>
+
+                <!-- Featured Projects Section -->
+                <section id="featured-projects" class="featured-projects-section">
+                    <div id="vanta-bg" class="featured-wavy-bg"></div>
+                    <div class="featured-projects-content">
+                        <div class="project-bubble" onclick="openProjectModal('federated-healthcare-ai')">
+                            <div id="featured-lottie" class="project-lottie-thumb"></div>
+                            <h2>Federated Healthcare AI</h2>
+                            <p>Privacy-preserving machine learning for healthcare data across multiple institutions.</p>
+                            <div class="project-links">
+                                <a href="https://github.com/UKOMAL/Federated-Healthcare-AI" class="project-link">GitHub</a>
+                                <a href="/projects/project2-federated-healthcare-ai/demo/index.html" class="project-link">Live Demo</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Project Demo Section -->
+                <section class="project-demo-section">
+                    <div class="flower-animation">
+                        <div class="flower-petal"></div>
+                        <div class="flower-petal"></div>
+                        <div class="flower-petal"></div>
+                        <div class="flower-petal"></div>
+                    </div>
+                    <div class="demo-container">
+                        <div class="demo-content">
+                            <div class="demo-text">
+                                <h2>Network Visualization Tool</h2>
+                                <p>An interactive network visualization tool that helps analyze complex relationships in large datasets. Built with D3.js and Python, this tool provides powerful insights through intuitive visualizations.</p>
+                                <div class="project-links">
+                                    <a href="https://github.com/UKOMAL/Network-Visualization" target="_blank" class="project-link">View on GitHub <i class="fas fa-external-link-alt"></i></a>
+                                    <a href="assets/files/network_viz_demo.html" target="_blank" class="project-link">Live Demo <i class="fas fa-play-circle"></i></a>
+                                </div>
+                            </div>
+                            <div class="demo-visual">
+                                <img src="assets/images/network_visualization_improved.png" alt="Network Visualization Demo">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Projects Section -->
+                <section id="projects" class="content-section" style="display: none;">
+                    <h2 class="section-title">All Projects</h2>
+                    <div id="projects-container" class="projects-grid">
+                        <!-- Project cards will be generated via JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Skills Section -->
+                <section id="skills" class="content-section" style="display: none;">
+                    <h3 class="section-title">Skills & Expertise</h3>
+                    <div id="skills-container" class="skills-grid">
+                        <!-- Skill groups will be generated via JavaScript -->
+                    </div>
+                </section>
+
+                <!-- About Section -->
+                <section id="about" class="content-section" style="position:relative;">
+                    <div class="about-profile">
+                        <img src="assets/images/my_illustrated_photo.jpeg" alt="Komal Shahid Portrait" class="about-portrait" />
+                        <div class="about-card">
+                            <h2>About Me</h2>
+                            <p>Hi, I'm Komal Shahid. I'm passionate about building intelligent, ethical AI solutions that make a real impact. My expertise spans machine learning, data science, and creative technology. I love blending technical rigor with design thinking to solve meaningful problems.</p>
+                        </div>
+                    </div>
+                    <div id="about-flowers-lottie" class="about-flowers-motion"></div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <div class="footer-content">
+                    <div class="copyright">© 2024 Komal Shahid. All rights reserved.</div>
+                    <div class="social-links">
+                        <a href="https://github.com/UKOMAL" target="_blank">GitHub</a>
+                        <a href="https://linkedin.com/in/komal-shahid" target="_blank">LinkedIn</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Project Modal (hidden by default) -->
+    <div id="project-modal" class="project-modal" style="display:none;"></div>
+
+    <!-- 3D Cube (visual accent) -->
+    <div class="cube-container" id="cube-container"></div>
+
+    <script src="assets/js/portfolio-data.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

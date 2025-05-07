@@ -1,0 +1,44 @@
+# Federated Learning Configuration for Healthcare AI
+
+# General settings
+experiment_name: "default_experiment"
+random_seed: 42
+output_dir: "./output"
+save_model: true
+verbose: true
+
+# Federated learning parameters
+num_clients: 5
+num_rounds: 50
+clients_per_round: 5
+batch_size: 32
+local_epochs: 2
+
+# Privacy settings
+privacy_mechanism: "differential"  # Options: none, differential, secure_agg, homomorphic, combined
+privacy_epsilon: 1.0   # Lower values = more privacy, higher values = better utility
+privacy_delta: 1.0e-5  # Probability of privacy failure
+clipping_norm: 1.0     # L2 norm for gradient clipping
+
+# Model settings
+modality: "tabular"     # Options: tabular, image, timeseries, multimodal
+model_architecture: "mlp"
+learning_rate: 0.001
+optimizer: "adam"
+
+# Data settings
+dataset: "mimic"  # Options: mimic, isic, ecg, chexpert, physionet2019
+data_dir: "./data"
+non_iid_factor: 0.7  # Controls data heterogeneity (0.0 = IID, 1.0 = maximally non-IID)
+
+# GPU settings
+use_gpu: true
+gpu_id: 0
+
+# Visualization settings
+generate_visualizations: true
+visualization_formats: ["png", "html"]
+
+# Advanced settings
+client_dropout_rate: 0.0  # Probability of client dropping out per round
+communication_compression: 0.0  # Compression level for model updates (0.0 = no compression) 

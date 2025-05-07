@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depression Detection System Architecture</title>
+    <style>
+        /* Robot-themed cursor styles */
+        body {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4" fill="%230366d6"/></svg>'), auto;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #333;
+            background-color: #fff;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+        
+        a, button, .back-link {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="8" cy="8" r="2" fill="%23333"/><circle cx="16" cy="8" r="2" fill="%23333"/><path d="M8 14h8" stroke="%23333"/><path d="M12 16v2" stroke="%23333"/></svg>'), pointer;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .arch-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .robot-mascot {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 10px;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .robot-message {
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 20px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            font-style: italic;
+            position: relative;
+        }
+        
+        .robot-message:after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -10px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .arch-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .arch-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        
+        .arch-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .arch-container:before {
+            content: "SYSTEM ARCHITECTURE";
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #0366d6;
+            opacity: 0.7;
+        }
+        
+        .arch-description {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            font-size: 1.1rem;
+        }
+        
+        .system-diagram {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            filter: grayscale(100%);
+            transition: filter 0.5s ease;
+        }
+        
+        .system-diagram:hover {
+            filter: grayscale(70%);
+        }
+        
+        .module {
+            stroke: #333;
+            stroke-width: 2;
+            fill: white;
+            transition: fill 0.3s ease, transform 0.3s ease;
+        }
+        
+        .module-primary {
+            fill: #f8f8f8;
+        }
+        
+        .module-primary:hover {
+            fill: #e6f0ff;
+            transform: translateY(-3px);
+        }
+        
+        .module-secondary {
+            fill: #f0f0f0;
+        }
+        
+        .module-secondary:hover {
+            fill: #e6f7ff;
+            transform: translateY(-3px);
+        }
+        
+        .connector {
+            stroke: #333;
+            stroke-width: 2;
+            stroke-dasharray: 5, 5;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+        
+        .connector-text {
+            font-size: 12px;
+            fill: #666;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+        
+        .module-text {
+            font-size: 14px;
+            font-weight: bold;
+            fill: #333;
+            text-anchor: middle;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+        
+        .module-subtext {
+            font-size: 11px;
+            fill: #666;
+            text-anchor: middle;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+        
+        .data-flow {
+            animation: flowDash 20s linear infinite;
+        }
+        
+        @keyframes flowDash {
+            to {
+                stroke-dashoffset: -1000;
+            }
+        }
+        
+        .process-list {
+            counter-reset: process;
+            margin: 40px auto;
+            max-width: 800px;
+        }
+        
+        .process-item {
+            position: relative;
+            padding: 20px 20px 20px 70px;
+            margin-bottom: 20px;
+            background-color: #f8f8f8;
+            border-radius: 5px;
+            counter-increment: process;
+        }
+        
+        .process-item:before {
+            content: counter(process);
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            background-color: #000;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .process-item h3 {
+            margin-top: 0;
+            font-size: 1.2rem;
+        }
+        
+        .process-item p {
+            margin-bottom: 0;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #000;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+        
+        .tech-stack {
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .tech-stack h3 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .tech-item {
+            padding: 8px 15px;
+            background-color: #f0f0f0;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-item:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-3px);
+        }
+        
+        /* Sparkle effect for hover */
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="2" fill="%230366d6"/><path d="M10 0v20M0 10h20" stroke="%230366d6" stroke-width="1" opacity="0.5"/><path d="M3 3l14 14M3 17L17 3" stroke="%230366d6" stroke-width="1" opacity="0.3"/></svg>');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0);
+            animation: sparkle-animation 0.8s forwards;
+        }
+        
+        @keyframes sparkle-animation {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(1.5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="arch-header">
+            <img src="../../assets/images/robot_assistant.svg" alt="AI Assistant" class="robot-mascot">
+            <div class="robot-message">Beep boop! Here's how my circuits work to detect depression.</div>
+            <h1 class="arch-title">System Architecture</h1>
+            <p class="arch-subtitle">Technical overview of the depression detection system</p>
+        </div>
+        
+        <div class="arch-container">
+            <p class="arch-description">
+                The Depression Detection System is built using a modular architecture that combines natural language processing, 
+                transformer-based deep learning, and rule-based enhancements to accurately analyze text for signs of depression.
+                The system categorizes depression severity into four levels: minimum, mild, moderate, and severe.
+            </p>
+            
+            <svg class="system-diagram" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+                <!-- Definitions for markers and patterns -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                    </marker>
+                    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                        <rect width="20" height="20" fill="#fff"/>
+                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#f0f0f0" stroke-width="1"/>
+                    </pattern>
+                </defs>
+                
+                <!-- Background pattern -->
+                <rect width="800" height="500" fill="url(#grid)"/>
+                
+                <!-- Text Input Module -->
+                <g transform="translate(100, 80)">
+                    <rect id="input-module" class="module module-primary" x="0" y="0" width="160" height="80" rx="10"/>
+                    <text class="module-text" x="80" y="35">Text Input</text>
+                    <text class="module-subtext" x="80" y="55">User text, clinical notes, social media</text>
+                    <!-- Animation for input module -->
+                    <animate xlink:href="#input-module" attributeName="opacity" from="0.9" to="1" dur="3s" repeatCount="indefinite"/>
+                </g>
+                
+                <!-- Preprocessing Module -->
+                <g transform="translate(100, 220)">
+                    <rect id="preprocessing-module" class="module module-secondary" x="0" y="0" width="160" height="80" rx="10"/>
+                    <text class="module-text" x="80" y="35">Preprocessing</text>
+                    <text class="module-subtext" x="80" y="55">Tokenization, cleaning, normalization</text>
+                </g>
+                
+                <!-- Feature Extraction Module -->
+                <g transform="translate(320, 160)">
+                    <rect id="feature-module" class="module module-primary" x="0" y="0" width="160" height="80" rx="10"/>
+                    <text class="module-text" x="80" y="35">Feature Extraction</text>
+                    <text class="module-subtext" x="80" y="55">Linguistic patterns & embeddings</text>
+                </g>
+                
+                <!-- Model Module -->
+                <g transform="translate(540, 160)">
+                    <rect id="model-module" class="module module-primary" x="0" y="0" width="160" height="80" rx="10"/>
+                    <text class="module-text" x="80" y="35">Transformer Model</text>
+                    <text class="module-subtext" x="80" y="55">Deep learning classification</text>
+                </g>
+                
+                <!-- Rule-Based Enhancement -->
+                <g transform="translate(540, 280)">
+                    <rect id="rule-module" class="module module-secondary" x="0" y="0" width="160" height="80" rx="10"/>
+                    <text class="module-text" x="80" y="35">Rule-Based</text>
+                    <text class="module-subtext" x="80" y="55">Enhancement & calibration</text>
+                </g>
+                
+                <!-- Results Module -->
+                <g transform="translate(540, 400)">
+                    <rect id="results-module" class="module module-primary" x="0" y="0" width="160" height="80" rx="10"/>
+                    <text class="module-text" x="80" y="35">Results</text>
+                    <text class="module-subtext" x="80" y="55">Severity classification & insights</text>
+                </g>
+                
+                <!-- Connections -->
+                <!-- Input to Preprocessing -->
+                <path class="connector data-flow" d="M 180,160 L 180,220" stroke-dasharray="5,5"/>
+                <text class="connector-text" x="190" y="190">Raw text</text>
+                
+                <!-- Preprocessing to Feature Extraction -->
+                <path class="connector data-flow" d="M 260,260 L 320,200" stroke-dasharray="5,5"/>
+                <text class="connector-text" x="280" y="220">Cleaned text</text>
+                
+                <!-- Feature Extraction to Model -->
+                <path class="connector data-flow" d="M 480,200 L 540,200" stroke-dasharray="5,5"/>
+                <text class="connector-text" x="510" y="190">Features</text>
+                
+                <!-- Model to Rule-Based -->
+                <path class="connector data-flow" d="M 620,240 L 620,280" stroke-dasharray="5,5"/>
+                <text class="connector-text" x="630" y="260">Raw predictions</text>
+                
+                <!-- Rule-Based to Results -->
+                <path class="connector data-flow" d="M 620,360 L 620,400" stroke-dasharray="5,5"/>
+                <text class="connector-text" x="630" y="380">Enhanced predictions</text>
+                
+                <!-- Feedback loop from Results to Model (continual learning) -->
+                <path class="connector" d="M 540,440 C 400,440 400,300 480,240" stroke-dasharray="5,5"/>
+                <text class="connector-text" x="440" y="410">Feedback loop</text>
+            </svg>
+            
+            <div class="process-list">
+                <h2>System Processing Flow</h2>
+                
+                <div class="process-item">
+                    <h3>Text Input Collection</h3>
+                    <p>The system accepts various forms of text input, including direct user entries, clinical notes, social media posts, and journal entries. Text can be entered directly or uploaded as files.</p>
+                </div>
+                
+                <div class="process-item">
+                    <h3>Text Preprocessing</h3>
+                    <p>Raw text undergoes comprehensive preprocessing including tokenization, stopword removal, lemmatization, and special character handling to prepare it for feature extraction.</p>
+                </div>
+                
+                <div class="process-item">
+                    <h3>Feature Extraction</h3>
+                    <p>The system extracts linguistic features relevant to depression detection, including semantic meaning, sentiment polarity, emotional keywords, pronoun usage patterns, and negation contexts.</p>
+                </div>
+                
+                <div class="process-item">
+                    <h3>Transformer Model Analysis</h3>
+                    <p>A fine-tuned transformer model analyzes the extracted features to generate initial depression severity predictions based on patterns learned from large datasets of clinical and non-clinical texts.</p>
+                </div>
+                
+                <div class="process-item">
+                    <h3>Rule-Based Enhancement</h3>
+                    <p>Model predictions are enhanced using rule-based mechanisms that incorporate clinical knowledge of depression indicators, improving accuracy for edge cases and ensuring alignment with established screening tools.</p>
+                </div>
+                
+                <div class="process-item">
+                    <h3>Result Generation and Visualization</h3>
+                    <p>Final predictions are packaged with confidence scores, key insights, and appropriate guidance. The system generates visualization of results for straightforward interpretation.</p>
+                </div>
+            </div>
+            
+            <div class="tech-stack">
+                <h3>Technology Stack</h3>
+                <div class="tech-list">
+                    <div class="tech-item">Python 3.10+</div>
+                    <div class="tech-item">PyTorch</div>
+                    <div class="tech-item">Hugging Face Transformers</div>
+                    <div class="tech-item">NLTK</div>
+                    <div class="tech-item">spaCy</div>
+                    <div class="tech-item">scikit-learn</div>
+                    <div class="tech-item">Flask API</div>
+                    <div class="tech-item">React.js</div>
+                    <div class="tech-item">D3.js</div>
+                </div>
+            </div>
+            
+            <a href="index.html" class="back-link">← Back to Demo</a>
+        </div>
+    </div>
+    
+    <script>
+        // Add robot sparkle effect on hover
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() > 0.98) { // Only create sparkles occasionally
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = e.pageX + 'px';
+                sparkle.style.top = e.pageY + 'px';
+                document.body.appendChild(sparkle);
+                
+                // Remove sparkle after animation completes
+                setTimeout(() => {
+                    if (sparkle.parentElement) {
+                        document.body.removeChild(sparkle);
+                    }
+                }, 800);
+            }
+        });
+        
+        // Add interactivity to modules
+        document.querySelectorAll('.module').forEach(module => {
+            module.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.filter = 'drop-shadow(0 5px 15px rgba(0,0,0,0.1))';
+            });
+            
+            module.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.filter = 'none';
+            });
+        });
+    </script>
+</body>
+</html> 

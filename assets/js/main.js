@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
    * Initialize the page with content and event listeners
    */
   function initializePage() {
-    initializeCube();
+    renderCube();
     renderFeaturedProjects();
     renderProjects();
     renderSkills();
@@ -391,29 +391,74 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('cube-container');
     if (!container) return;
     container.innerHTML = '';
+    
+    // Create cube wrapper for 3D perspective
+    const cubeWrapper = document.createElement('div');
+    cubeWrapper.className = 'cube-wrapper';
+    container.appendChild(cubeWrapper);
+    
+    // Set fixed dimensions that look good
+    container.style.width = '250px';
+    container.style.height = '250px';
+    container.style.perspective = '800px';
+    
+    // Create the cube with all sides showing the same image
+    const cube = document.createElement('div');
+    cube.className = 'cube';
+    cube.style.width = '100%';
+    cube.style.height = '100%';
+    cube.style.position = 'relative';
+    cube.style.transformStyle = 'preserve-3d';
+    cube.style.transform = 'rotateX(0deg) rotateY(0deg)';
+    cube.style.transition = 'transform 0.5s ease';
+    cubeWrapper.appendChild(cube);
+    
+    // Define the 6 faces of the cube
     const faces = [
-      { rotation: 'rotateY(0deg) translateZ(100px)' },
-      { rotation: 'rotateY(90deg) translateZ(100px)' },
-      { rotation: 'rotateY(180deg) translateZ(100px)' },
-      { rotation: 'rotateY(-90deg) translateZ(100px)' },
-      { rotation: 'rotateX(90deg) translateZ(100px)' },
-      { rotation: 'rotateX(-90deg) translateZ(100px)' }
+      { name: 'front', transform: 'rotateY(0deg) translateZ(125px)' },
+      { name: 'right', transform: 'rotateY(90deg) translateZ(125px)' },
+      { name: 'back', transform: 'rotateY(180deg) translateZ(125px)' },
+      { name: 'left', transform: 'rotateY(-90deg) translateZ(125px)' },
+      { name: 'top', transform: 'rotateX(90deg) translateZ(125px)' },
+      { name: 'bottom', transform: 'rotateX(-90deg) translateZ(125px)' }
     ];
+    
+    // Use your portrait image for all sides
+    const portraitImage = 'assets/images/my_illustrated_photo.jpeg';
+    
+    // Create each face
     faces.forEach(face => {
       const faceDiv = document.createElement('div');
-      faceDiv.className = 'cube-face';
-      faceDiv.style.transform = face.rotation;
-      const img = document.createElement('img');
-      img.src = 'assets/images/my_illustrated_photo.jpeg';
-      img.alt = 'Komal Shahid Portrait';
-      faceDiv.appendChild(img);
-      container.appendChild(faceDiv);
+      faceDiv.className = `cube-face cube-face-${face.name}`;
+      faceDiv.style.position = 'absolute';
+      faceDiv.style.width = '100%';
+      faceDiv.style.height = '100%';
+      faceDiv.style.transform = face.transform;
+      faceDiv.style.backfaceVisibility = 'hidden';
+      
+      // Apply the same image to each face
+      faceDiv.style.backgroundImage = `url(${portraitImage})`;
+      faceDiv.style.backgroundSize = 'cover';
+      faceDiv.style.backgroundPosition = 'center';
+      faceDiv.style.border = '2px solid rgba(255, 150, 199, 0.5)';
+      faceDiv.style.borderRadius = '8px';
+      
+      cube.appendChild(faceDiv);
     });
-    let angle = 0;
-    setInterval(() => {
-      angle += 0.5;
-      container.style.transform = `rotateX(${angle}deg) rotateY(${angle}deg)`;
-    }, 40);
+    
+    // Animate the cube with a smoother rotation
+    let xAngle = 0;
+    let yAngle = 0;
+    const rotationSpeed = 0.3; // Slower rotation for better visibility
+    
+    const animateCube = () => {
+      yAngle += rotationSpeed;
+      xAngle = Math.sin(yAngle / 30) * 20; // Add a gentle wobble
+      cube.style.transform = `rotateX(${xAngle}deg) rotateY(${yAngle}deg)`;
+      requestAnimationFrame(animateCube);
+    };
+    
+    animateCube();
   }
 
   // Vanta.js for featured projects wavy background

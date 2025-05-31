@@ -1,0 +1,51 @@
+# Core dependencies
+numpy==1.24.3
+scipy>=1.7.0
+matplotlib==3.7.2
+Pillow==10.0.0
+opencv-python==4.8.0.76
+scikit-image>=0.19.0
+
+# Deep learning
+tensorflow>=2.8.0
+keras>=2.8.0
+
+# Web scraping and data collection
+requests>=2.27.0
+beautifulsoup4>=4.10.0
+
+# Jupyter notebooks
+jupyter>=1.0.0
+ipywidgets>=7.7.0
+
+# Utilities
+tqdm>=4.64.0
+pyyaml>=6.0
+pandas>=1.4.0
+
+# Image processing
+kornia>=0.6.0  # Advanced image transformations
+
+# Optional: GPU support
+# If you're using a GPU, uncomment these lines
+# tensorflow-gpu>=2.8.0
+# cudatoolkit>=11.2
+
+# Model serving and API
+fastapi>=0.95.0
+uvicorn[standard]>=0.20.0
+python-multipart>=0.0.5
+pydantic>=1.10.0
+
+# Visualization and evaluation
+tensorboard>=2.13.0
+clip-interrogator>=0.6.0
+lpips>=0.1.4
+
+# Added from the code block
+seaborn>=0.12.0
+mypy-extensions>=1.0.0
+
+# Added from the code block
+torch==2.0.1
+transformers==4.30.2 

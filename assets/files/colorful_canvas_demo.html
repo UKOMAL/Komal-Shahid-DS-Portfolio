@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorful Canvas: AI Art Studio Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(120deg, #f5f7fa, #e9f1f6);
+            color: #333;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 2.2rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #4a5568;
+            margin-top: 30px;
+            font-size: 1.5rem;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        .effect-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .effect-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .effect-item:hover {
+            transform: scale(1.02);
+        }
+        .effect-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .effect-caption {
+            padding: 15px;
+            background: white;
+        }
+        .effect-caption h3 {
+            margin: 0 0 10px 0;
+            color: #2d3748;
+        }
+        .steps {
+            background-color: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .steps ol {
+            padding-left: 20px;
+        }
+        .steps li {
+            margin-bottom: 10px;
+        }
+        .code {
+            font-family: monospace;
+            background-color: #f1f5f9;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .feature-item {
+            padding: 15px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid #96a8ff;
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(45deg, #96a8ff, #c5feff);
+            color: #2d3748;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Colorful Canvas: AI Art Studio</h1>
+        
+        <p>
+            Colorful Canvas is an AI-powered toolkit for creating stunning 3D visual illusions and effects 
+            from ordinary 2D images. Using advanced depth estimation neural networks and custom image 
+            processing techniques, the system transforms photos into immersive 3D experiences.
+        </p>
+        
+        <div class="effect-gallery">
+            <div class="effect-item">
+                <img src="../images/projects/colorful-canvas.jpg" alt="Shadow Box Effect">
+                <div class="effect-caption">
+                    <h3>Shadow Box Effect</h3>
+                    <p>Creates a realistic glass display case illusion with depth-based 3D enhancement</p>
+                </div>
+            </div>
+            <div class="effect-item">
+                <img src="../images/projects/colorful-canvas.jpg" alt="Screen Pop Effect">
+                <div class="effect-caption">
+                    <h3>Screen Pop Effect</h3>
+                    <p>Makes objects appear to pop out of the screen with chromatic aberration effects</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2>How It Works</h2>
+        
+        <div class="steps">
+            <ol>
+                <li><strong>Depth Estimation:</strong> A state-of-the-art neural network analyzes the input image to create a detailed depth map.</li>
+                <li><strong>3D Enhancement:</strong> The system applies transformations based on the depth map to create a 3D illusion.</li>
+                <li><strong>Effect Application:</strong> Specialized effects like shadow box frames or screen pop distortions are applied.</li>
+                <li><strong>Post-processing:</strong> Final touches like lighting, reflections, and shadows enhance the realism.</li>
+            </ol>
+        </div>
+        
+        <h2>Try It Yourself</h2>
+        
+        <p>To use Colorful Canvas, you'll need Python with the required dependencies. Here's a simple example:</p>
+        
+        <div class="code">
+            # Create a shadow box effect<br>
+            python src/colorful_canvas.py --effect shadow_box --input_image examples/original.jpg<br><br>
+            # Create a screen pop effect<br>
+            python src/colorful_canvas.py --effect screen_pop --input_image examples/original.jpg --depth_factor 2.0
+        </div>
+        
+        <h2>Key Features</h2>
+        
+        <div class="feature-list">
+            <div class="feature-item">
+                <h3>Shadow Box Effect</h3>
+                <p>Creates realistic display case illusions with depth-based 3D enhancement</p>
+            </div>
+            <div class="feature-item">
+                <h3>Screen Pop Effect</h3>
+                <p>Makes objects appear to come out of the screen with chromatic aberration</p>
+            </div>
+            <div class="feature-item">
+                <h3>Neural Depth Mapping</h3>
+                <p>Uses state-of-the-art neural networks for accurate depth estimation</p>
+            </div>
+            <div class="feature-item">
+                <h3>Realistic Lighting</h3>
+                <p>Simulates light sources, reflections, and shadows for enhanced realism</p>
+            </div>
+        </div>
+        
+        <a href="https://github.com/ukomal" class="button">View on GitHub</a>
+    </div>
+</body>
+</html> 

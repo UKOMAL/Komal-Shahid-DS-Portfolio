@@ -1,0 +1,52 @@
+                      FEDERATED HEALTHCARE AI SYSTEM
+                      
+┌────────────────────────────────────────────────────┐
+│                                                    │
+│      ┌────────────┐        ┌────────────┐         │
+│      │ Hospital A │        │ Hospital B │         │
+│      │ ┌────────┐ │        │ ┌────────┐ │         │
+│      │ │Local   │ │        │ │Local   │ │         │
+│      │ │Data    │ │        │ │Data    │ │         │
+│      │ └────┬───┘ │        │ └────┬───┘ │         │
+│      │      │     │        │      │     │         │
+│      │ ┌────▼───┐ │        │ ┌────▼───┐ │         │
+│      │ │Local   │ │        │ │Local   │ │         │
+│      │ │Model   │ │        │ │Model   │ │         │
+│      │ └────────┘ │        │ └────────┘ │         │
+│      └─────┬──────┘        └─────┬──────┘         │
+│            │                     │                │
+│  Encrypted │                     │ Encrypted      │
+│  Model     │                     │ Model          │
+│  Updates   │                     │ Updates        │
+│            │                     │                │
+│            ▼                     ▼                │
+│     ┌─────────────────────────────────┐           │
+│     │     Secure Aggregation Server   │◄───┐      │
+│     └────────────────┬────────────────┘    │      │
+│                      │                      │      │
+│                      ▼                      │      │
+│     ┌─────────────────────────────────┐     │      │
+│     │      Global Federated Model     │     │      │
+│     └────────────────┬────────────────┘     │      │
+│                      │                      │      │
+│     ┌────────────────▼────────────────┐     │      │
+│     │     Privacy Evaluation Tools    │     │      │
+│     └────────────────┬────────────────┘     │      │
+│                      │                      │      │
+│                      ▼                      │      │
+│     ┌─────────────────────────────────┐     │      │
+│     │       Model Distribution        │─────┘      │
+│     └─────────────────────────────────┘            │
+│                                                    │
+└────────────────────────────────────────────────────┘
+
+    PRIVACY TECHNIQUES           SUPPORTED MODALITIES
+┌────────────────────────┐    ┌─────────────────────────┐
+│                        │    │                         │
+│ ◆ Differential Privacy │    │ ◆ Medical Imaging       │
+│ ◆ Secure Aggregation   │    │ ◆ Clinical Tabular Data │
+│ ◆ Homomorphic Encryption│    │ ◆ Physiological Signals │
+│ ◆ Gradient Clipping    │    │ ◆ Genomic Sequences     │
+│ ◆ Synthetic Data       │    │ ◆ Clinical Text         │
+│                        │    │                         │
+└────────────────────────┘    └─────────────────────────┘ 

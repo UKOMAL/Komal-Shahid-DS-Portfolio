@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Federated Healthcare AI | Project Demo</title>
+  <link rel="stylesheet" href="/assets/css/styles.css">
+  <style>
+    body {
+      background: var(--bg-color, #f4f1ea);
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: var(--text-color, #050505);
+    }
+    .project-motion-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .streak {
+      position: absolute;
+      width: 120%;
+      height: 80px;
+      opacity: 0.28;
+      filter: blur(16px);
+      border-radius: 40px;
+      background: linear-gradient(90deg, #ff96c7, #bfc5fe, #a896ff, #ff9696, #96ffd0);
+      background-size: 300% 100%;
+      animation: streakMove 8s linear infinite alternate;
+    }
+    .streak-1 { top: 12%; left: -10%; animation-delay: 0s; }
+    .streak-2 { top: 44%; left: -20%; background: linear-gradient(90deg, #bfc5fe, #a896ff, #ff96c7, #96ffd0); animation-delay: 2s; }
+    .streak-3 { top: 76%; left: -15%; background: linear-gradient(90deg, #a896ff, #ff9696, #ff96c7, #bfc5fe); animation-delay: 4s; }
+    @keyframes streakMove {
+      0% { background-position: 0% 50%; transform: translateX(0) scaleY(1); }
+      50% { background-position: 100% 50%; transform: translateX(10vw) scaleY(1.1);}
+      100% { background-position: 0% 50%; transform: translateX(0) scaleY(1);}
+    }
+    .project-info-container {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.97);
+      border-radius: 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      padding: 2.5rem 2rem;
+      margin-top: 4rem;
+      margin-bottom: 4rem;
+      backdrop-filter: blur(2px);
+    }
+    .project-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-color, #ff96c7);
+      margin-bottom: 1rem;
+    }
+    .project-meta {
+      margin-bottom: 2rem;
+      color: var(--secondary-text, #666);
+    }
+    .project-section {
+      margin-bottom: 2.5rem;
+    }
+    .project-section h2 {
+      font-size: 1.4rem;
+      color: var(--accent-color2, #a896ff);
+      margin-bottom: 0.5rem;
+    }
+    .project-links {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+    }
+    .project-link {
+      background: var(--primary-color, #ff96c7);
+      color: #fff;
+      padding: 0.7rem 1.3rem;
+      border-radius: 2rem;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .project-link:hover {
+      background: var(--accent-color2, #a896ff);
+    }
+    .project-screenshot {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      margin: 1.5rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="project-motion-bg">
+    <div class="streak streak-1"></div>
+    <div class="streak streak-2"></div>
+    <div class="streak streak-3"></div>
+  </div>
+  <div class="project-info-container">
+    <div class="project-title">Federated Healthcare AI</div>
+    <div class="project-meta">Privacy-preserving machine learning for healthcare data across multiple institutions without sharing sensitive information.</div>
+    <div class="project-section">
+      <h2>Overview</h2>
+      <p>This project implements a federated learning framework that enables multiple healthcare institutions to collaboratively train AI models without sharing raw patient data. The system ensures privacy and compliance while leveraging distributed data for improved model performance.</p>
+    </div>
+    <div class="project-section">
+      <h2>Key Features</h2>
+      <ul>
+        <li>Privacy-preserving federated learning protocol</li>
+        <li>Support for multiple healthcare data modalities (tabular, imaging, time series)</li>
+        <li>Differential privacy and secure aggregation</li>
+        <li>Interactive simulation and visualization of model convergence</li>
+        <li>Institution-level performance metrics and reporting</li>
+      </ul>
+    </div>
+    <div class="project-section">
+      <h2>Tech Stack</h2>
+      <p>Python, TensorFlow, Differential Privacy, D3.js, Flask</p>
+    </div>
+    <div class="project-section">
+      <h2>Screenshots</h2>
+      <img src="/assets/images/federated_healthcare_graph.png" alt="Federated Healthcare AI Screenshot" class="project-screenshot">
+    </div>
+    <div class="project-links">
+      <a href="https://github.com/UKOMAL/Federated-Healthcare-AI" target="_blank" class="project-link">GitHub</a>
+      <a href="/assets/files/federated_healthcare_whitepaper.pdf" target="_blank" class="project-link">Whitepaper</a>
+      <a href="/projects/project2-federated-healthcare-ai/demo/index.html" target="_blank" class="project-link">Live Demo</a>
+    </div>
+  </div>
+</body>
+</html> 

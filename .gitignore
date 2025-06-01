@@ -342,4 +342,24 @@ temp_files/
 /scripts/
 /dataset/
 **/datasets/anamorphic/raw/
-**/datasets/anamorphic/processed/ 
+**/datasets/anamorphic/processed/
+
+# Model files - never track these (too large)
+**/models/
+models/
+*.h5
+*.safetensors
+*.onnx
+*.onnx_data
+*.bin
+*.pth
+*.pt
+*.msgpack
+*.xml
+*.dylib
+
+# Large datasets
+**/dataset/
+**/datasets/
+datasets/
+dataset/ 

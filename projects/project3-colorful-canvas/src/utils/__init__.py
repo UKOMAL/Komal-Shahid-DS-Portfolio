@@ -1,1 +1,0 @@
-"""Utility functions for the Colorful Canvas AI Art Studio.""" 

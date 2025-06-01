@@ -149,6 +149,7 @@ Icon
 *.pptx
 *.ppt
 ~$*
+*.md.backup
 
 # Keep only code and minimal documentation in Git
 # Project1/
@@ -322,4 +323,17 @@ temp_files/
 **/__pycache__/
 **/.ipynb_checkpoints/
 **/.pytest_cache/
-**/.mypy_cache/ 
+**/.mypy_cache/
+
+# Explicitly exclude all presentation folders
+**/presentation/
+**/docs/presentation/
+
+# Whitepaper drafts and docs
+**/whitepaper_drafts/
+**/white_paper*.md
+**/docs/white_paper*.md
+**/*_draft.md
+**/*_draft.txt
+**/*_notes.md
+**/*_notes.txt 

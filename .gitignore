@@ -173,6 +173,83 @@ sd_3d_effects/
 # But keep examples
 !examples/
 
+# === PORTFOLIO CLEANUP ===
+# Development artifacts to keep local only
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# Data caches and intermediate files
+data_cache/
+**/data_cache/
+cache/
+**/cache/
+.cache/
+
+# Large datasets (keep sample data only)
+datasets/
+**/datasets/
+data/large/
+**/data/large/
+
+# Generated output files (keep analysis charts)
+**/output/
+!**/output/analysis/
+**/billboard_effects/
+**/shadow_box_effects/
+**/screen_pop_effects/
+
+# Experimental notebooks
+notebooks/experimental/
+**/notebooks/experimental/
+drafts/
+**/drafts/
+
+# Large media files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.avi
+*.mov
+# But keep small analysis charts and logos
+!**/analysis/*.png
+!**/docs/*.png
+!**/README*.png
+!**/logo*.png
+!demo/*.png
+
+# Trained model artifacts
+*.pth
+*.h5
+*.model
+*.weights
+
+# Development logs
+*.log
+logs/
+**/logs/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
 # pipenv
 #   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
 #   However, in case of collaboration, if having platform-specific dependencies or dependencies
@@ -181,8 +258,7 @@ sd_3d_effects/
 #Pipfile.lock
 
 # poetry
-#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
-#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   Similar to Pipfile.lock, it is generally recommended for binary packages to ensure reproducibility, and is more
 #   commonly ignored for libraries.
 #   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
 #poetry.lock
@@ -205,7 +281,6 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-**/venv/
 
 # Spyder project settings
 .spyderproject
@@ -231,76 +306,23 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# PyCharm
-#  JetBrains specific template is maintainted in a separate JetBrains.gitignore that can
-#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
-#  and can be added to the global gitignore or merged into this file.  For a more nuclear
-#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
-#.idea/
+# pyright
+.pyright/
 
-# Project specific 
-**/models/
-**/__pycache__/
-outputs/
-anamorphic_output/
-anamorphic_outputs_new/
-anamorphic_outputs_real/
-anamorphic_demo/
-holographic_output/
-output/
-sd_3d_effects/
-# But keep examples
-!examples/
+# Large model files
+*.safetensors
+*.bin
+*.onnx
 
-# Node.js
-node_modules/
-npm-debug.log
-yarn-error.log
-yarn-debug.log
-.pnpm-debug.log
-.npm
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# Temporary files
+tmp/
+temp/
+**/tmp/
+**/temp/
 
-# Whitepaper drafts (keep local only)
-**/whitepaper_drafts/
-**/*_draft.md
-**/*_draft.docx
-**/*_draft.pdf
-
-# Development files not for GitHub
-builder-code-fetcher.js
-builder-project/
-temp_files/
-**/.mypy_cache/
-**/__pycache__/
-**/.DS_Store
-
-# Large model files (optional)
-# Uncomment if you don't want to push large model files
-# **/models/*.pth
-# **/models/*.h5
-# **/models/*.bin
-
-# Large datasets (optional)
-# Uncomment if you don't want to push large datasets
-# **/datasets/raw/
-# **/data/raw/ 
-
-# Ensure model files are not committed to Git
-**/models/**/*.pth
-**/models/**/*.pt
-**/models/**/*.h5
-**/models/**/*.bin
-**/models/**/*.onnx
-**/models/**/*.pb
-**/models/**/*.tflite
-**/models/**/*.pkl
-**/models/**/*.joblib
-**/models/**/*.weights
-**/models/**/*.safetensors
+# Backup files
+*.backup
+*.bak
 
 # Keep model READMEs but exclude everything else
 !**/models/**/README.md
@@ -313,11 +335,37 @@ temp_files/
 **/*.npz
 **/*.parquet
 
-# Virtual environments
-**/venv/
-**/.venv/
-**/env/
-**/.env/
+# Explicitly exclude all presentation folders
+**/presentation/
+**/docs/presentation/
+
+# Whitepaper drafts and docs
+**/whitepaper_drafts/
+**/white_paper*.md
+**/docs/white_paper*.md
+**/*_draft.md
+**/*_draft.txt
+**/*_notes.md
+**/*_notes.txt
+
+# Project-specific temporary directories
+/scripts/
+/dataset/
+**/datasets/anamorphic/raw/
+**/datasets/anamorphic/processed/
+
+# Model files - never track these (too large)
+**/models/**/*.pth
+**/models/**/*.pt
+**/models/**/*.h5
+**/models/**/*.bin
+**/models/**/*.onnx
+**/models/**/*.pb
+**/models/**/*.tflite
+**/models/**/*.pkl
+**/models/**/*.joblib
+**/models/**/*.weights
+**/models/**/*.safetensors
 
 # Cache directories
 **/__pycache__/

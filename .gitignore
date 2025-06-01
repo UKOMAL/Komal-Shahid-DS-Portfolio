@@ -342,4 +342,15 @@ temp_files/
 /scripts/
 /dataset/
 **/datasets/anamorphic/raw/
-**/datasets/anamorphic/processed/ 
+**/datasets/anamorphic/processed/
+
+# Virtual environments - never track these
+**/venv/
+**/.venv/
+**/ENV/
+venv/
+.venv/
+ENV/
+env/
+env.bak/
+venv.bak/ 

@@ -336,4 +336,10 @@ temp_files/
 **/*_draft.md
 **/*_draft.txt
 **/*_notes.md
-**/*_notes.txt 
+**/*_notes.txt
+
+# Project-specific temporary directories
+/scripts/
+/dataset/
+**/datasets/anamorphic/raw/
+**/datasets/anamorphic/processed/ 

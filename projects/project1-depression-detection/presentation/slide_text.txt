@@ -1,0 +1,104 @@
+DEPRESSION DETECTION SYSTEM - SLIDE TEXT
+
+-----------------------------------------------------
+SLIDE 1: TITLE SLIDE
+
+Depression Detection System
+Using NLP to Identify Signs of Depression
+
+Komal Shahid
+Master's in Data Science, Bellevue University
+
+-----------------------------------------------------
+SLIDE 2: PROBLEM STATEMENT
+
+The Challenge:
+
+• Depression affects 264+ million people globally
+• Average 10-year delay between onset and treatment
+• Subtle symptoms often go unrecognized
+• Stigma prevents many from seeking help
+
+-----------------------------------------------------
+SLIDE 3: PROJECT GOALS
+
+Project Objectives:
+
+1. Develop accurate NLP model for depression detection
+2. Balance sensitivity and specificity
+3. Create accessible, integration-ready interface
+4. Ensure privacy and ethical data handling
+5. Validate against clinical screening tools
+
+-----------------------------------------------------
+SLIDE 4: DATA SOURCES
+
+Data Acquisition & Preparation:
+
+• Reddit dataset: 30,000+ anonymized posts from depression-related subreddits
+• DAIC-WOZ: Transcribed clinical interviews
+• Synthetic data: Augmenting underrepresented linguistic patterns
+
+All data anonymized, cleaned, and balanced
+
+-----------------------------------------------------
+SLIDE 5: METHODOLOGY
+
+Technical Approach:
+
+• Core: DistilBERT transformer architecture
+• Features: Semantic content + linguistic depression markers
+• Training: Transfer learning with fine-tuning
+• Explainability: SHAP values for interpretation
+
+-----------------------------------------------------
+SLIDE 6: MODEL PERFORMANCE
+
+Results:
+
+• 87% accuracy
+• 89% sensitivity (recall)
+• 85% specificity
+• F1 score: 0.88
+
+Consistent performance across demographics and writing styles
+
+-----------------------------------------------------
+SLIDE 7: ETHICAL CONSIDERATIONS
+
+Ethics & Responsible Implementation:
+
+• Screening tool only, not diagnostic replacement
+• Confidence intervals and factor explanations
+• Differential privacy for data protection
+• Human-in-the-loop review process
+• Regular bias audits
+
+-----------------------------------------------------
+SLIDE 8: INTERACTIVE DEMO
+
+System Demonstration
+
+[Live demonstration of web interface]
+
+-----------------------------------------------------
+SLIDE 9: FUTURE DIRECTIONS
+
+Looking Forward:
+
+• Multi-language support
+• Age-specific models
+• Mobile applications
+• EHR integration
+• Multimodal inputs
+• Longitudinal validation studies
+
+-----------------------------------------------------
+SLIDE 10: CONCLUSION
+
+Thank You
+
+Questions?
+
+Contact: komalshahid@example.com
+GitHub: github.com/UKOMAL 

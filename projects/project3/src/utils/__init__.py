@@ -1,3 +1,1 @@
-"""
-Utility functions for the Colorful Canvas project.
-"""
+"""Utility functions for the Colorful Canvas AI Art Studio.""" 

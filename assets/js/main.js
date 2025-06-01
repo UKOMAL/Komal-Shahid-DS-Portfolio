@@ -4,682 +4,595 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize state
-  let state = {
-    activeTab: "featured",
-    hoverCard: null
-  };
-
-  // DOM Elements
-  const navTabs = document.querySelectorAll('.nav-tab');
-  const contentSections = document.querySelectorAll('.content-section');
-  const projectsContainer = document.getElementById('projects-container');
-  const featuredProjectsContainer = document.getElementById('featured-projects-container');
-  const skillsContainer = document.getElementById('skills-container');
-  const cubeContainer = document.querySelector('.cube-container');
-  const flowerCursor = document.querySelector('.flower-cursor');
-  const parallaxTitle = document.querySelector('.parallax-title');
-
-  // Initialize the page
-  initializePage();
-
-  /**
-   * Initialize the page with content and event listeners
-   */
-  function initializePage() {
-    renderCube();
-    renderFeaturedProjects();
-    renderProjects();
-    renderSkills();
-    setupEventListeners();
-    initializeScrollAnimations();
-    initializeParallax();
-    setupFlowerCursor();
-    setupParallaxEffects();
-    initializeFlixorFilters();
-
-    // Show the active tab on page load
-    setActiveTab("featured");
-  }
-
-  /**
-   * Initialize scroll animations
-   */
-  function initializeScrollAnimations() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, {
-      threshold: 0.1
-    });
-
-    // Observe all sections
-    document.querySelectorAll('section').forEach(section => {
-      observer.observe(section);
-    });
-
-    // Smooth scroll for navigation
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-  }
-
-  /**
-   * Initialize parallax effect
-   */
-  function initializeParallax() {
-    window.addEventListener('scroll', () => {
-      const scrolled = window.pageYOffset;
-      const parallaxElements = document.querySelectorAll('.parallax');
-      
-      parallaxElements.forEach(element => {
-        const speed = element.dataset.speed || 0.5;
-        element.style.transform = `translateY(${scrolled * speed}px)`;
-      });
-    });
-  }
-
-  /**
-   * Render featured projects to the featured section
-   */
-  function renderFeaturedProjects() {
-    if (!featuredProjectsContainer) return;
-    
-    featuredProjectsContainer.innerHTML = '';
-    
-    // Render featured projects
-    portfolioData.featuredProjects.forEach((project, index) => {
-      const projectCard = document.createElement('div');
-      projectCard.className = 'featured-project-card';
-      
-      projectCard.innerHTML = `
-        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: ${project.bgColor}; opacity: 0.12; animation: gradient 15s ease infinite;"></div>
-        <div class="project-content">
-          <div class="project-bg" style="background: ${project.bgColor}"></div>
-          <div class="project-info">
-            <h3>${project.title}</h3>
-            <p>${project.desc}</p>
-            <div class="project-tags">
-              ${project.tech.map(tech => `<span class="project-tag">${tech}</span>`).join('')}
-            </div>
-            <div class="project-links">
-              <a href="${project.link}" target="_blank" class="project-link">GitHub <i class="fas fa-external-link-alt"></i></a>
-              ${project.demoLink ? `<a href="${project.demoLink}" target="_blank" class="project-link">Demo <i class="fas fa-play-circle"></i></a>` : ''}
-            </div>
-          </div>
-          <div class="project-image-container">
-            <img src="${project.image}" alt="${project.title}" class="project-image">
-          </div>
-        </div>
-      `;
-
-      // Add event listeners for hover effects
-      projectCard.addEventListener('mouseenter', () => {
-        state.hoverCard = index;
-        projectCard.style.transform = 'translateY(-10px)';
-        const bg = projectCard.querySelector('.project-bg');
-        if (bg) bg.style.opacity = '0.5';
-      });
-      
-      projectCard.addEventListener('mouseleave', () => {
-        state.hoverCard = null;
-        projectCard.style.transform = 'translateY(0)';
-        const bg = projectCard.querySelector('.project-bg');
-        if (bg) bg.style.opacity = '0.2';
-      });
-
-      // Remove click event on the entire card
-      // Add individual click events to the links instead
-      projectCard.removeEventListener('click', () => {});
-
-      featuredProjectsContainer.appendChild(projectCard);
-    });
-  }
-
-  /**
-   * Render regular projects to the projects tab
-   */
-  function renderProjects() {
-    if (!projectsContainer) return;
-    
-    projectsContainer.innerHTML = '';
-    
-    // Only regular projects for the projects tab
-    // Don't duplicate the featured projects
-    portfolioData.projects.forEach((project, index) => {
-      const projectCard = document.createElement('div');
-      projectCard.className = 'project-card';
-      projectCard.style.animation = `fadeInProject 0.5s forwards ${index * 0.1}s`;
-      
-      projectCard.innerHTML = `
-        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: ${project.bgColor}; opacity: 0.12; animation: gradient 15s ease infinite;"></div>
-        <div class="project-content">
-          <div class="project-bg" style="background: ${project.bgColor}"></div>
-          <div class="project-info">
-            <h3>${project.title}</h3>
-            <p>${project.desc}</p>
-            <div class="project-tags">
-              ${project.tech.map(tech => `<span class="project-tag">${tech}</span>`).join('')}
-            </div>
-            <div class="project-links">
-              <a href="${project.link}" target="_blank" class="project-link">GitHub <i class="fas fa-external-link-alt"></i></a>
-              ${project.demoLink ? `<a href="${project.demoLink}" target="_blank" class="project-link">Demo <i class="fas fa-play-circle"></i></a>` : ''}
-            </div>
-          </div>
-          <div class="project-image-container">
-            <img src="${project.image}" alt="${project.title}" class="project-image">
-          </div>
-        </div>
-      `;
-
-      // Add event listeners for hover effects
-      projectCard.addEventListener('mouseenter', () => {
-        state.hoverCard = index;
-        projectCard.style.transform = 'translateY(-10px)';
-        const bg = projectCard.querySelector('.project-bg');
-        if (bg) bg.style.opacity = '0.5';
-      });
-      
-      projectCard.addEventListener('mouseleave', () => {
-        state.hoverCard = null;
-        projectCard.style.transform = 'translateY(0)';
-        const bg = projectCard.querySelector('.project-bg');
-        if (bg) bg.style.opacity = '0.2';
-      });
-
-      // Add click event to open the dedicated info/demo page
-      projectCard.addEventListener('click', () => {
-        // Example: /projects/project2-federated-healthcare-ai/demo/index.html
-        let projectSlug = '';
-        if (project.title.toLowerCase().includes('federated')) {
-          projectSlug = 'project2-federated-healthcare-ai';
-        } else if (project.title.toLowerCase().includes('depression')) {
-          projectSlug = 'project1-depression-detection';
-        } // Add more mappings as needed
-        if (projectSlug) {
-          window.open(`/projects/${projectSlug}/demo/index.html`, '_blank');
-        }
-      });
-
-      projectsContainer.appendChild(projectCard);
-    });
-  }
-
-  /**
-   * Render skills to the DOM
-   */
-  function renderSkills() {
-    if (!skillsContainer) return;
-    
-    skillsContainer.innerHTML = '';
-
-    portfolioData.skills.forEach((skillGroup, index) => {
-      const skillCard = document.createElement('div');
-      skillCard.className = 'skill-card';
-      skillCard.style.animation = `fadeInProject 0.5s forwards ${index * 0.1}s`;
-      
-      skillCard.innerHTML = `
-        <h4>${skillGroup.category}</h4>
-        <div class="skill-items">
-          ${skillGroup.items.map(item => `<span class="skill-item">${item}</span>`).join('')}
-        </div>
-      `;
-
-      skillsContainer.appendChild(skillCard);
-    });
-  }
-
-  /**
-   * Setup flower cursor animation
-   */
-  function setupFlowerCursor() {
-    const cursor = document.querySelector('.flower-cursor');
-    
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.clientX - 30 + 'px';
-      cursor.style.top = e.clientY - 30 + 'px';
-    });
-    
-    document.addEventListener('mousedown', () => {
-      cursor.classList.add('visible');
-      setTimeout(() => {
-        cursor.classList.remove('visible');
-      }, 1000);
-    });
-    
-    // Show cursor on interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, .project-card, .featured-project-card');
-    
-    interactiveElements.forEach(element => {
-      element.addEventListener('mouseenter', () => {
-        cursor.classList.add('visible');
-      });
-      
-      element.addEventListener('mouseleave', () => {
-        cursor.classList.remove('visible');
-      });
-    });
-  }
-
-  /**
-   * Setup parallax effects
-   */
-  function setupParallaxEffects() {
-    window.addEventListener('scroll', () => {
-      // Parallax for the title
-      if (parallaxTitle) {
-        const scrollPosition = window.scrollY;
-        parallaxTitle.style.transform = `translateY(${scrollPosition * 0.2}px)`;
-        parallaxTitle.style.opacity = Math.max(1 - scrollPosition * 0.002, 0);
-      }
-      
-      // Check if featured projects are in view
-      const featuredProjects = document.querySelectorAll('.featured-project-card');
-      featuredProjects.forEach((project, index) => {
-        const rect = project.getBoundingClientRect();
-        const isInView = rect.top < window.innerHeight * 0.8 && rect.bottom > 0;
-        
-        if (isInView && !project.classList.contains('visible')) {
-          setTimeout(() => {
-            project.classList.add('visible');
-          }, index * 200);
-        }
-      });
-    });
-  }
-
-  /**
-   * Set up event listeners
-   */
-  function setupEventListeners() {
-    // Tab navigation
-    navTabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const tabName = tab.getAttribute('data-tab');
-        setActiveTab(tabName);
-        
-        // Scroll to top when changing tabs
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    });
-  }
-
-  /**
-   * Set active tab
-   * @param {string} tabName - The name of the tab to activate
-   */
-  function setActiveTab(tabName) {
-    state.activeTab = tabName;
-
-    // Update active tab UI
-    navTabs.forEach(tab => {
-      if (tab.getAttribute('data-tab') === tabName) {
-        tab.classList.add('active');
-      } else {
-        tab.classList.remove('active');
-      }
-    });
-
-    // Show/hide content sections
-    contentSections.forEach(section => {
-      if (section.id === tabName) {
-        section.style.display = 'block';
-        
-        // Trigger animations for the newly visible section
-        setTimeout(() => {
-          section.classList.add('active');
-          
-          // Animate cards
-          const cards = section.querySelectorAll('.project-card, .skill-card, .about-card');
-          cards.forEach((card, index) => {
-            setTimeout(() => {
-              card.style.opacity = '1';
-              card.style.transform = 'translateY(0)';
-            }, index * 100);
-          });
-        }, 50);
-      } else {
-        section.style.display = 'none';
-        section.classList.remove('active');
-      }
-    });
-  }
-
-  // Initialize 3D cube
-  function initializeCube() {
-    const container = document.querySelector('.cube-container');
-    if (!container) return;
-
-    const faces = [
-      { image: portfolioData.profileImages[0], rotation: 'rotateY(0deg)' },
-      { image: portfolioData.profileImages[1], rotation: 'rotateY(90deg)' },
-      { image: portfolioData.profileImages[2], rotation: 'rotateY(180deg)' },
-      { image: portfolioData.profileImages[3], rotation: 'rotateY(270deg)' },
-      { image: portfolioData.profileImages[4], rotation: 'rotateX(90deg)' },
-      { image: portfolioData.profileImages[5], rotation: 'rotateX(-90deg)' }
-    ];
-
-    faces.forEach(face => {
-      const faceElement = document.createElement('div');
-      faceElement.className = 'cube-face';
-      faceElement.style.transform = face.rotation;
-      faceElement.style.backgroundImage = `url(${face.image})`;
-      container.appendChild(faceElement);
-    });
-
-    // Add continuous rotation
-    let rotation = 0;
-    setInterval(() => {
-      rotation += 0.5;
-      container.style.transform = `rotateY(${rotation}deg)`;
-    }, 50);
-  }
-
-  // 3D Cube rendering
-  function renderCube() {
-    const container = document.getElementById('cube-container');
-    if (!container) return;
-    container.innerHTML = '';
-    
-    // Create cube wrapper for 3D perspective
-    const cubeWrapper = document.createElement('div');
-    cubeWrapper.className = 'cube-wrapper';
-    container.appendChild(cubeWrapper);
-    
-    // Set fixed dimensions that look good
-    container.style.width = '250px';
-    container.style.height = '250px';
-    container.style.perspective = '800px';
-    
-    // Create the cube with all sides showing the same image
-    const cube = document.createElement('div');
-    cube.className = 'cube';
-    cube.style.width = '100%';
-    cube.style.height = '100%';
-    cube.style.position = 'relative';
-    cube.style.transformStyle = 'preserve-3d';
-    cube.style.transform = 'rotateX(0deg) rotateY(0deg)';
-    cube.style.transition = 'transform 0.5s ease';
-    cubeWrapper.appendChild(cube);
-    
-    // Define the 6 faces of the cube
-    const faces = [
-      { name: 'front', transform: 'rotateY(0deg) translateZ(125px)' },
-      { name: 'right', transform: 'rotateY(90deg) translateZ(125px)' },
-      { name: 'back', transform: 'rotateY(180deg) translateZ(125px)' },
-      { name: 'left', transform: 'rotateY(-90deg) translateZ(125px)' },
-      { name: 'top', transform: 'rotateX(90deg) translateZ(125px)' },
-      { name: 'bottom', transform: 'rotateX(-90deg) translateZ(125px)' }
-    ];
-    
-    // Use GitHub profile image for all sides
-    const profileImage = 'https://github.com/UKOMAL.png';
-    
-    // Create each face
-    faces.forEach(face => {
-      const faceDiv = document.createElement('div');
-      faceDiv.className = `cube-face cube-face-${face.name}`;
-      faceDiv.style.position = 'absolute';
-      faceDiv.style.width = '100%';
-      faceDiv.style.height = '100%';
-      faceDiv.style.transform = face.transform;
-      faceDiv.style.backfaceVisibility = 'hidden';
-      
-      // Apply the same image to each face
-      faceDiv.style.backgroundImage = `url(${profileImage})`;
-      faceDiv.style.backgroundSize = 'cover';
-      faceDiv.style.backgroundPosition = 'center';
-      faceDiv.style.border = '2px solid rgba(255, 150, 199, 0.5)';
-      faceDiv.style.borderRadius = '8px';
-      
-      cube.appendChild(faceDiv);
-    });
-    
-    // Animate the cube with a smoother rotation
-    let xAngle = 0;
-    let yAngle = 0;
-    const rotationSpeed = 0.3; // Slower rotation for better visibility
-    
-    const animateCube = () => {
-      yAngle += rotationSpeed;
-      xAngle = Math.sin(yAngle / 30) * 20; // Add a gentle wobble
-      cube.style.transform = `rotateX(${xAngle}deg) rotateY(${yAngle}deg)`;
-      requestAnimationFrame(animateCube);
-    };
-    
-    animateCube();
-  }
-
-  // Vanta.js for featured projects wavy background
-  if (window.VANTA) {
-    VANTA.WAVES({
-      el: '#vanta-bg',
-      color: 0xff96c7,
-      shininess: 60,
-      waveHeight: 28,
-      waveSpeed: 0.8,
-      zoom: 1.1,
-      backgroundColor: 0xffb86c
-    });
-  }
-
-  // Lottie for flower animation in About Me
-  if (window.lottie) {
-    lottie.loadAnimation({
-      container: document.getElementById('about-flowers-lottie'),
-      renderer: 'svg',
-      loop: true,
-      autoplay: true,
-      path: 'assets/lottie/flowers.json' // Replace with your Lottie flower file
-    });
-    // Lottie for featured project thumbnail
-    lottie.loadAnimation({
-      container: document.getElementById('featured-lottie'),
-      renderer: 'svg',
-      loop: true,
-      autoplay: true,
-      path: 'assets/lottie/ai-graph.json' // Replace with your Lottie AI/graph animation
-    });
-  }
-
-  // Modal for project details
-  function openProjectModal(projectId) {
-    const modal = document.getElementById('project-modal');
-    if (!modal) return;
-    let content = '';
-    
-    if (projectId === 'federated-healthcare-ai') {
-      content = `
-        <div class="project-modal-content">
-          <button class="project-modal-close" onclick="closeProjectModal()">&times;</button>
-          <div class="project-modal-header">
-            <img src="assets/images/projects/federated-learning.jpg" alt="Federated Healthcare AI" class="modal-header-image">
-          </div>
-          <div class="project-modal-body">
-            <h2>Federated Healthcare AI</h2>
-            <div class="project-modal-desc">
-              <p>Privacy-preserving machine learning for healthcare data across multiple institutions. This project implements a federated learning framework that enables multiple healthcare institutions to collaboratively train AI models without sharing raw patient data.</p>
-              <p>The system ensures privacy and compliance while leveraging distributed data for improved model performance.</p>
-            </div>
-            <div class="project-modal-features">
-              <h3>Key Features</h3>
-              <ul>
-                <li>Privacy-preserving federated learning protocol</li>
-                <li>Support for multiple healthcare data modalities</li>
-                <li>Differential privacy and secure aggregation</li>
-                <li>Interactive simulation and visualization</li>
-              </ul>
-            </div>
-            <div class="project-modal-links">
-              <a href="https://github.com/UKOMAL/Federated-Healthcare-AI" target="_blank" class="project-modal-link">GitHub <i class="fas fa-github"></i></a>
-              <a href="/projects/project2-federated-healthcare-ai/demo/index.html" target="_blank" class="project-modal-link">Live Demo <i class="fas fa-play-circle"></i></a>
-            </div>
-          </div>
-        </div>
-      `;
-    } else if (projectId === 'network-visualization') {
-      content = `
-        <div class="project-modal-content">
-          <button class="project-modal-close" onclick="closeProjectModal()">&times;</button>
-          <div class="project-modal-header">
-            <img src="assets/images/projects/network-visualization.jpg" alt="Network Visualization" class="modal-header-image">
-          </div>
-          <div class="project-modal-body">
-            <h2>Network Visualization Tool</h2>
-            <div class="project-modal-desc">
-              <p>An interactive network visualization tool that helps analyze complex relationships in large datasets. Built with D3.js and Python, this tool provides powerful insights through intuitive visualizations.</p>
-              <p>Designed to help researchers and data scientists better understand network structures and discover hidden patterns.</p>
-            </div>
-            <div class="project-modal-features">
-              <h3>Key Features</h3>
-              <ul>
-                <li>Interactive force-directed graph visualization</li>
-                <li>Community detection algorithms</li>
-                <li>Node filtering and highlighting</li>
-                <li>Data export and sharing capabilities</li>
-              </ul>
-            </div>
-            <div class="project-modal-links">
-              <a href="https://github.com/UKOMAL/Network-Visualization" target="_blank" class="project-modal-link">GitHub <i class="fas fa-github"></i></a>
-              <a href="assets/files/network_viz_demo.html" target="_blank" class="project-modal-link">Live Demo <i class="fas fa-play-circle"></i></a>
-            </div>
-          </div>
-        </div>
-      `;
-    } else if (projectId === 'depression-detection') {
-      content = `
-        <div class="project-modal-content">
-          <button class="project-modal-close" onclick="closeProjectModal()">&times;</button>
-          <div class="project-modal-header">
-            <img src="assets/images/projects/depression-detection.jpg" alt="Depression Detection" class="modal-header-image">
-          </div>
-          <div class="project-modal-body">
-            <h2>Depression Detection System</h2>
-            <div class="project-modal-desc">
-              <p>An AI-powered system for detecting indicators of depression from written text using NLP and deep learning techniques.</p>
-              <p>This tool helps mental health professionals identify potential signs of depression in patient communications while maintaining privacy and ethical considerations.</p>
-            </div>
-            <div class="project-modal-features">
-              <h3>Key Features</h3>
-              <ul>
-                <li>Natural language processing of clinical text data</li>
-                <li>Multi-model neural network architecture for sentiment analysis</li>
-                <li>Privacy-preserving data preprocessing for sensitive mental health information</li>
-                <li>Interactive interface for mental health professionals</li>
-              </ul>
-            </div>
-            <div class="project-modal-links">
-              <a href="https://github.com/UKOMAL/Depression-Detection" target="_blank" class="project-modal-link">GitHub <i class="fas fa-github"></i></a>
-              <a href="/projects/project1-depression-detection/demo/index.html" target="_blank" class="project-modal-link">Live Demo <i class="fas fa-play-circle"></i></a>
-            </div>
-          </div>
-        </div>
-      `;
-    } else if (projectId === 'data-analysis') {
-      content = `
-        <div class="project-modal-content">
-          <button class="project-modal-close" onclick="closeProjectModal()">&times;</button>
-          <div class="project-modal-header">
-            <img src="assets/images/projects/data-analysis.jpg" alt="Healthcare Data Analysis" class="modal-header-image">
-          </div>
-          <div class="project-modal-body">
-            <h2>Healthcare Data Analysis</h2>
-            <div class="project-modal-desc">
-              <p>Comprehensive analysis of healthcare datasets to reveal insights for improved patient care and operational efficiency.</p>
-              <p>This project uses advanced statistical methods and machine learning to identify trends and patterns in healthcare data that can lead to better decision-making and patient outcomes.</p>
-            </div>
-            <div class="project-modal-features">
-              <h3>Key Features</h3>
-              <ul>
-                <li>Exploratory data analysis of electronic health records</li>
-                <li>Predictive modeling for patient outcomes</li>
-                <li>Resource utilization optimization analysis</li>
-                <li>Interactive dashboards for healthcare administrators</li>
-              </ul>
-            </div>
-            <div class="project-modal-links">
-              <a href="https://github.com/UKOMAL/Healthcare-Data-Analysis" target="_blank" class="project-modal-link">GitHub <i class="fas fa-github"></i></a>
-              <a href="#" target="_blank" class="project-modal-link">View Report <i class="fas fa-file-alt"></i></a>
-            </div>
-          </div>
-        </div>
-      `;
+  // Initialize functionality
+  initNavigation();
+  initPortfolioFilters();
+  initFlowerCursor();
+  initScrollAnimations();
+  initCube();
+  
+  // Handle project modals
+  document.body.addEventListener('click', (e) => {
+    if (e.target.classList.contains('project-modal-close') || 
+        e.target.closest('.project-modal-close')) {
+      closeProjectModal();
     }
-    
-    modal.innerHTML = content;
-    modal.style.display = 'flex';
-    
-    // Close modal when clicking outside of it
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        closeProjectModal();
+  });
+  
+  // Add escape key handler for modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeProjectModal();
+    }
+  });
+  
+  // Initialize 3D cube for hero section
+  init3DCube();
+  
+  // Setup mobile navigation
+  setupMobileNav();
+  
+  // Initialize parallax scrolling
+  initParallax();
+  
+  // Add scroll event for header
+  window.addEventListener('scroll', () => {
+    const header = document.querySelector('.main-header');
+    if (window.scrollY > 50) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+  
+  // Portfolio filters
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const portfolioItems = document.querySelectorAll('.portfolio-item');
+  
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Remove active class from all buttons
+      filterBtns.forEach(b => b.classList.remove('active'));
+      
+      // Add active class to clicked button
+      btn.classList.add('active');
+      
+      // Get filter value
+      const filterValue = btn.getAttribute('data-filter');
+      
+      // Filter items
+      portfolioItems.forEach(item => {
+        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+          item.style.display = 'block';
+          setTimeout(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+          }, 50);
+        } else {
+          item.style.opacity = '0';
+          item.style.transform = 'translateY(20px)';
+          setTimeout(() => {
+            item.style.display = 'none';
+          }, 300);
+        }
+      });
+    });
+  });
+});
+
+/**
+ * Initialize navigation functionality
+ */
+function initNavigation() {
+  // Handle smooth scrolling for navigation links
+  document.querySelectorAll('.nav-tab').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = link.getAttribute('href');
+      
+      if (target && target !== '#') {
+        const targetElement = document.querySelector(target);
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 80, // Offset for header
+            behavior: 'smooth'
+          });
+        }
       }
+      
+      // Set active tab
+      document.querySelectorAll('.nav-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      link.classList.add('active');
+    });
+  });
+  
+  // Mobile menu toggle
+  const mobileMenuButton = document.querySelector('.mobile-menu-toggle');
+  const mobileMenu = document.querySelector('.main-nav ul');
+  
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
     });
   }
   
-  function closeProjectModal() {
-    const modal = document.getElementById('project-modal');
-    if (modal) modal.style.display = 'none';
-  }
-  
-  // Expose modal functions to global scope
-  window.openProjectModal = openProjectModal;
-  window.closeProjectModal = closeProjectModal;
-
-  document.addEventListener('DOMContentLoaded', function() {
-    renderCube();
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (mobileMenu && mobileMenu.classList.contains('active') && 
+        !e.target.closest('.main-nav') && 
+        !e.target.closest('.mobile-menu-toggle')) {
+      mobileMenu.classList.remove('active');
+    }
   });
-
-  /**
-   * Initialize Flixor project filter tabs
-   */
-  function initializeFlixorFilters() {
-    const filterTabs = document.querySelectorAll('.flixor-filter-tab');
-    const projectCards = document.querySelectorAll('.flixor-project-card');
+  
+  // Handle scroll-based navigation active state
+  window.addEventListener('scroll', () => {
+    const scrollPosition = window.scrollY;
     
-    if (!filterTabs.length || !projectCards.length) return;
-    
-    filterTabs.forEach(tab => {
-      tab.addEventListener('click', function() {
-        // Remove active class from all tabs
-        filterTabs.forEach(t => t.classList.remove('active'));
-        
-        // Add active class to clicked tab
-        this.classList.add('active');
-        
-        const category = this.textContent.trim().toLowerCase();
-        
-        // Filter projects based on category
-        projectCards.forEach(card => {
-          const cardCategory = card.querySelector('.flixor-project-category').textContent.trim().toLowerCase();
-          
-          if (category === 'all projects' || cardCategory.includes(category)) {
-            card.style.display = 'block';
-            setTimeout(() => {
-              card.style.opacity = '1';
-              card.style.transform = 'translateY(0)';
-            }, 100);
-          } else {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            setTimeout(() => {
-              card.style.display = 'none';
-            }, 300);
+    // Get all sections and find which one is currently in view
+    const sections = document.querySelectorAll('section[id]');
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 100;
+      const sectionHeight = section.offsetHeight;
+      
+      if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+        // Set active tab based on visible section
+        const id = section.getAttribute('id');
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+          tab.classList.remove('active');
+          if (tab.getAttribute('href') === `#${id}` || 
+              (id === 'featured-project' && tab.getAttribute('data-tab') === 'featured')) {
+            tab.classList.add('active');
           }
         });
+      }
+    });
+  });
+}
+
+/**
+ * Initialize portfolio filters
+ */
+function initPortfolioFilters() {
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const portfolioItems = document.querySelectorAll('.portfolio-item');
+  
+  if (!filterButtons.length || !portfolioItems.length) return;
+  
+  filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Update active button
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      
+      // Filter items
+      const filterValue = button.getAttribute('data-filter');
+      
+      portfolioItems.forEach(item => {
+        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+          item.style.display = 'block';
+          setTimeout(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+          }, 50);
+        } else {
+          item.style.opacity = '0';
+          item.style.transform = 'translateY(20px)';
+          setTimeout(() => {
+            item.style.display = 'none';
+          }, 500);
+        }
       });
     });
+  });
+}
+
+/**
+ * Initialize flower cursor animation
+ */
+function initFlowerCursor() {
+  const cursor = document.querySelector('.flower-cursor');
+  
+  document.addEventListener('mousemove', (e) => {
+    const x = e.clientX;
+    const y = e.clientY;
+    
+    cursor.style.left = `${x}px`;
+    cursor.style.top = `${y}px`;
+    
+    // Add subtle rotation based on mouse movement
+    const rotateX = (y / window.innerHeight - 0.5) * 20;
+    const rotateY = (x / window.innerWidth - 0.5) * 20;
+    
+    cursor.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  });
+  
+  // Scale effect on click
+  document.addEventListener('mousedown', () => {
+    cursor.style.transform = `scale(1.5)`;
+  });
+  
+  document.addEventListener('mouseup', () => {
+    cursor.style.transform = `scale(1)`;
+  });
+}
+
+/**
+ * Initialize scroll animations
+ */
+function initScrollAnimations() {
+  // Create intersection observer for animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        
+        // If it's the portfolio section, animate items sequentially
+        if (entry.target.classList.contains('portfolio-section')) {
+          const items = entry.target.querySelectorAll('.portfolio-item');
+          items.forEach((item, index) => {
+            setTimeout(() => {
+              item.classList.add('in-view');
+            }, 150 * index);
+          });
+        }
+      }
+    });
+  }, {
+    threshold: 0.15,
+    rootMargin: '0px 0px -10% 0px'
+  });
+  
+  // Observe sections for animation
+  document.querySelectorAll('section').forEach(section => {
+    observer.observe(section);
+  });
+  
+  // Scroll indicator opacity based on scroll position
+  const scrollIndicator = document.querySelector('.scroll-indicator');
+  if (scrollIndicator) {
+    window.addEventListener('scroll', () => {
+      const scrollPosition = window.scrollY;
+      const opacity = 1 - Math.min(scrollPosition / 200, 1);
+      scrollIndicator.style.opacity = opacity;
+    });
   }
-}); 
+}
+
+/**
+ * Initialize the 3D cube
+ */
+function initCube() {
+  const cubeContainer = document.getElementById('cube-container');
+  if (!cubeContainer) return;
+  
+  // Create cube wrapper
+  const cubeWrapper = document.createElement('div');
+  cubeWrapper.className = 'cube-wrapper';
+  cubeContainer.appendChild(cubeWrapper);
+  
+  // Create cube
+  const cube = document.createElement('div');
+  cube.className = 'cube';
+  cubeWrapper.appendChild(cube);
+  
+  // Create cube faces with GitHub profile image and other content
+  const faces = [
+    { transform: 'translateZ(175px)', content: '<img src="https://github.com/ukomal.png" alt="Komal Shahid GitHub Profile">' },
+    { transform: 'rotateY(90deg) translateZ(175px)', content: '<div class="cube-text">AI Engineer</div>' },
+    { transform: 'rotateY(180deg) translateZ(175px)', content: '<div class="cube-icon"><i class="fas fa-brain"></i></div>' },
+    { transform: 'rotateY(-90deg) translateZ(175px)', content: '<div class="cube-text">ML Expert</div>' },
+    { transform: 'rotateX(90deg) translateZ(175px)', content: '<div class="cube-icon"><i class="fas fa-code"></i></div>' },
+    { transform: 'rotateX(-90deg) translateZ(175px)', content: '<div class="cube-text">Data Scientist</div>' }
+  ];
+  
+  // Add faces to cube
+  faces.forEach(face => {
+    const cubeFace = document.createElement('div');
+    cubeFace.className = 'cube-face';
+    cubeFace.style.transform = face.transform;
+    cubeFace.innerHTML = face.content;
+    cube.appendChild(cubeFace);
+  });
+}
+
+/**
+ * Open project modal with detailed information
+ */
+function openProjectModal(projectId) {
+  console.log("Opening modal for project:", projectId);
+  
+  // Find project data
+  const project = portfolioProjects.find(p => p.id === projectId);
+  if (!project) {
+    console.error("Project not found:", projectId);
+    return;
+  }
+  
+  // Get modal
+  const modal = document.getElementById('project-modal');
+  if (!modal) {
+    console.error("Modal element not found!");
+    return;
+  }
+  
+  console.log("Modal element found:", modal);
+  console.log("Project data:", project);
+  
+  // Create modal content
+  const modalContent = `
+    <div class="project-modal-content">
+      <div class="project-modal-image">
+        <img src="${project.image || 'assets/images/projects/placeholder.jpg'}" alt="${project.title}">
+      </div>
+      <div class="project-modal-info">
+        <h2 class="project-modal-title">${project.title}</h2>
+        <div class="project-modal-category">${project.category || 'Project'}</div>
+        <p class="project-modal-description">${project.description}</p>
+        
+        <div class="project-modal-features">
+          <h3>Key Features</h3>
+          <ul>
+            ${project.features.map(feature => `<li>${feature}</li>`).join('')}
+          </ul>
+        </div>
+        
+        <div class="project-modal-tech">
+          <h3>Technologies</h3>
+          <div class="tech-tags">
+            ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+          </div>
+        </div>
+        
+        <div class="project-modal-challenges">
+          <h3>Challenges & Solutions</h3>
+          <p>${project.challenges}</p>
+        </div>
+        
+        <div class="project-modal-actions">
+          ${project.github ? `<a href="${project.github}" target="_blank" class="project-modal-btn btn-primary">
+            <i class="fab fa-github"></i> GitHub
+          </a>` : ''}
+          
+          ${project.demo ? `<button class="project-modal-btn btn-primary open-demo-btn" data-project-id="${projectId}">
+            <i class="fas fa-play-circle"></i> Live Demo
+          </button>` : ''}
+          
+          <button class="project-modal-btn btn-secondary project-modal-close">
+            Close
+          </button>
+        </div>
+      </div>
+      <button class="project-modal-close" aria-label="Close">&times;</button>
+    </div>
+  `;
+  
+  // Set modal content and display
+  modal.innerHTML = modalContent;
+  modal.style.display = 'flex';
+  
+  // Force reflow to ensure transition works
+  modal.offsetWidth;
+  
+  // Add active class for CSS transition
+  modal.classList.add('active');
+  
+  // Add event listeners
+  const closeButtons = modal.querySelectorAll('.project-modal-close');
+  closeButtons.forEach(btn => {
+    btn.addEventListener('click', closeProjectModal);
+  });
+  
+  // Add demo button listener
+  const demoBtn = modal.querySelector('.open-demo-btn');
+  if (demoBtn) {
+    demoBtn.addEventListener('click', () => {
+      openProjectDemo(projectId);
+    });
+  }
+  
+  // Close on click outside
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeProjectModal();
+    }
+  });
+  
+  // Add escape key listener
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeProjectModal();
+    }
+  });
+}
+
+/**
+ * Close project modal
+ */
+function closeProjectModal() {
+  const modal = document.getElementById('project-modal');
+  if (!modal) return;
+  
+  modal.classList.remove('active');
+  
+  // Wait for animation to finish before hiding
+  setTimeout(() => {
+    modal.style.display = 'none';
+  }, 300);
+}
+
+/**
+ * Open project demo modal
+ */
+function openProjectDemo(projectId) {
+  // Get demo modal
+  const demoModal = document.getElementById('project-demo-modal');
+  const demoForm = document.getElementById('demo-form');
+  const demoResult = document.getElementById('demo-result');
+  
+  // Clear previous results
+  demoResult.innerHTML = '';
+  
+  // Set project ID for the form
+  demoForm.setAttribute('data-project-id', projectId);
+  
+  // Configure the demo modal based on project type
+  if (projectId === 'depression-detection') {
+    document.querySelector('#demo-form label').textContent = 'Enter text to analyze:';
+    document.querySelector('#demo-input').placeholder = 'e.g., I feel tired and hopeless lately...';
+    document.querySelector('#demo-form button').textContent = 'Analyze Text';
+    document.querySelector('.modal h2').textContent = 'Depression Detection Demo';
+  } else if (projectId === 'federated-healthcare-ai') {
+    document.querySelector('#demo-form label').textContent = 'Number of training rounds:';
+    document.querySelector('#demo-input').placeholder = '10';
+    document.querySelector('#demo-input').type = 'number';
+    document.querySelector('#demo-input').min = '5';
+    document.querySelector('#demo-input').max = '20';
+    document.querySelector('#demo-input').value = '10';
+    document.querySelector('#demo-form button').textContent = 'Run Simulation';
+    document.querySelector('.modal h2').textContent = 'Federated Healthcare AI Demo';
+  } else if (projectId === 'network-visualization') {
+    document.querySelector('#demo-form label').textContent = 'Select dataset:';
+    document.querySelector('#demo-input').outerHTML = `
+      <select id="demo-input" name="demo-input">
+        <option value="social">Social Network</option>
+        <option value="healthcare">Healthcare Network</option>
+        <option value="research">Research Collaboration</option>
+      </select>
+    `;
+    document.querySelector('#demo-form button').textContent = 'Visualize Network';
+    document.querySelector('.modal h2').textContent = 'Network Visualization Demo';
+  }
+  
+  // Show modal
+  demoModal.style.display = 'flex';
+  
+  // Add event listeners
+  document.querySelector('.modal-close').addEventListener('click', () => {
+    demoModal.style.display = 'none';
+  });
+  
+  // Initialize the demo functionality
+  if (window.projectDemos && typeof window.projectDemos.initialize === 'function') {
+    window.projectDemos.initialize();
+  }
+}
+
+/**
+ * Initialize 3D cube
+ */
+function init3DCube() {
+  const container = document.getElementById('cube-container');
+  if (!container) return;
+  
+  // Set up scene
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 1000);
+  
+  const renderer = new THREE.WebGLRenderer({ alpha: true });
+  renderer.setSize(container.offsetWidth, container.offsetHeight);
+  container.appendChild(renderer.domElement);
+  
+  // Create cube
+  const geometry = new THREE.BoxGeometry(3, 3, 3);
+  
+  // Create materials with GitHub profile image
+  const materials = [
+    new THREE.MeshBasicMaterial({ color: 0xff6b6b }),
+    new THREE.MeshBasicMaterial({ color: 0x7971ea }),
+    new THREE.MeshBasicMaterial({ color: 0x4ecdc4 }),
+    new THREE.MeshBasicMaterial({ color: 0xffbe0b }),
+    new THREE.MeshBasicMaterial({ color: 0xff6b6b }),
+    new THREE.MeshBasicMaterial({ color: 0x7971ea })
+  ];
+  
+  // Front face - load GitHub profile image if available
+  const loader = new THREE.TextureLoader();
+  loader.load(
+    'https://github.com/ukomal.png',
+    function(texture) {
+      materials[0] = new THREE.MeshBasicMaterial({ map: texture });
+      cube.material[0] = materials[0];
+    },
+    undefined,
+    function(err) {
+      console.error('Error loading GitHub profile image');
+    }
+  );
+  
+  const cube = new THREE.Mesh(geometry, materials);
+  scene.add(cube);
+  
+  camera.position.z = 5;
+  
+  // Animation function
+  function animate() {
+    requestAnimationFrame(animate);
+    
+    // Rotate the cube
+    cube.rotation.x += 0.005;
+    cube.rotation.y += 0.01;
+    
+    renderer.render(scene, camera);
+  }
+  
+  animate();
+  
+  // Handle window resize
+  window.addEventListener('resize', () => {
+    camera.aspect = container.offsetWidth / container.offsetHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(container.offsetWidth, container.offsetHeight);
+  });
+}
+
+// Setup mobile navigation
+function setupMobileNav() {
+  const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+  const mainNav = document.querySelector('.main-nav');
+  
+  if (mobileMenuToggle && mainNav) {
+    mobileMenuToggle.addEventListener('click', () => {
+      mainNav.classList.toggle('active');
+      
+      // Toggle icon
+      const icon = mobileMenuToggle.querySelector('i');
+      if (icon) {
+        if (icon.classList.contains('fa-bars')) {
+          icon.classList.remove('fa-bars');
+          icon.classList.add('fa-times');
+        } else {
+          icon.classList.remove('fa-times');
+          icon.classList.add('fa-bars');
+        }
+      }
+    });
+  }
+}
+
+// Initialize parallax scrolling
+function initParallax() {
+  // Parallax elements
+  const elements = [
+    { selector: '.hero-wave-bg', speed: 0.1 },
+    { selector: '.color-streak', speed: 0.05 },
+    { selector: '.filter', speed: 0.02 },
+    { selector: '.geometry-shape', speed: 0.08 },
+    { selector: '.featured-wave-background', speed: 0.03 }
+  ];
+  
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    
+    elements.forEach(element => {
+      const items = document.querySelectorAll(element.selector);
+      
+      items.forEach(item => {
+        const yPos = scrollY * element.speed;
+        item.style.transform = `translateY(${yPos}px)`;
+      });
+    });
+  });
+} 

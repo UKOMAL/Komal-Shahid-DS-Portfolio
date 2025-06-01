@@ -38,6 +38,31 @@ A privacy-preserving federated learning framework enabling healthcare institutio
 
 **Technologies:** PyTorch, Federated Learning, Differential Privacy, Python
 
+### [Project 3: Colorful Canvas - AI Art Studio](./projects/project3/)
+
+A comprehensive toolkit for creating stunning 3D visual illusions from 2D images using deep learning techniques.
+
+**Key Features:**
+- Shadow Box Effect for realistic display case illusions
+- Screen Pop Effect to make objects appear to come out of the screen
+- Anamorphic Billboard Effect for urban advertising-style 3D illusions
+- Depth Estimation using state-of-the-art neural networks
+
+**Technologies:** PyTorch, OpenCV, PIL, NumPy, Python
+
+### [Project 4: Notely - Smart Note-Taking Assistant](./projects/notely/)
+
+An intelligent note-taking application that uses NLP to organize, summarize, and extract key insights from notes and documents.
+
+**Key Features:**
+- Smart Organization with automatic categorization and tagging
+- Insight Extraction of key points and action items
+- Knowledge Graph visualizing connections between concepts
+- Semantic Search based on meaning, not just keywords
+- Multi-format Support for text, images, and audio
+
+**Technologies:** BERT, PyTorch, spaCy, Neo4j, React, Flask/FastAPI
+
 ## 🌐 Interactive Demo
 
 Try the [interactive federated learning demo](https://ukomal.github.io/Komal-Shahid-DS-Portfolio/demo/) that simulates how healthcare institutions can collaborate on AI models without sharing sensitive patient data. The demo features:
@@ -67,10 +92,29 @@ The website showcases:
 │   │   ├── docs/                  # Documentation
 │   │   └── output/                # Results and visualizations
 │   │
-│   └── project2-federated-healthcare-ai/ # Project 2 files
+│   ├── project2-federated-healthcare-ai/ # Project 2 files
+│   │   ├── src/                   # Source code
+│   │   ├── docs/                  # Documentation
+│   │   └── output/                # Results and visualizations
+│   │
+│   ├── project3/                  # Project 3: Colorful Canvas - AI Art Studio
+│   │   ├── src/                   # Source code
+│   │   ├── docs/                  # Documentation
+│   │   └── models/                # Trained AI models
+│   │
+│   └── notely/                    # Project 4: Notely - Smart Note-Taking Assistant
 │       ├── src/                   # Source code
 │       ├── docs/                  # Documentation
-│       └── output/                # Results and visualizations
+│       └── models/                # NLP models
+│
+├── website/                       # Portfolio website files
+│   ├── index.html                 # Main website homepage
+│   ├── server.js                  # Web server
+│   └── package.json               # Node.js dependencies
+│
+├── scripts/                       # Utility scripts
+│   ├── collect_and_train.sh       # Data collection and model training
+│   └── download_models.py         # Model downloading utilities
 │
 ├── demo/                          # Interactive demo files
 │   ├── index.html                 # Demo main page
@@ -81,9 +125,14 @@ The website showcases:
 │   ├── css/                       # CSS stylesheets
 │   └── images/                    # Image files for the website
 │
-├── index.html                     # Main website homepage
-├── _config.yml                    # GitHub Pages configuration
-└── docs/                          # Documentation
+├── docs/                          # Documentation
+│   ├── guidelines/                # Project guidelines
+│   ├── instructions/              # Setup instructions
+│   └── portfolio-rubric.pdf       # Portfolio evaluation criteria
+│
+├── models/                        # Trained AI models
+├── data/                          # Datasets
+└── _config.yml                    # GitHub Pages configuration
 ```
 
 ## 🛠️ Installation and Setup

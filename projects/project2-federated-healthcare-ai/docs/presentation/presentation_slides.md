@@ -5,34 +5,83 @@ paginate: true
 backgroundColor: #fff
 style: |
   section {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 40px;
+    background-color: #ffffff;
+    color: #333333;
   }
   h1, h2, h3 {
-    color: #2c3e50;
+    color: #2c75dd; /* Healthcare-appropriate blue accent color */
+    font-weight: 600;
+    margin-bottom: 0.8rem;
   }
+  h1 { font-size: 2.4rem; }
+  h2 { font-size: 1.8rem; }
+  h3 { font-size: 1.4rem; }
+  
   section.title {
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #f5f7f9;
+    background: linear-gradient(135deg, #f5f9ff 0%, #eaf4ff 100%);
     color: #2c3e50;
   }
+  
   .columns {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 2rem;
+    align-items: center;
+  }
+  
+  ul li, ol li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+  
+  strong {
+    color: #2c75dd;
+    font-weight: 600;
+  }
+  
+  img {
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  
+  /* Card styling for results sections */
+  .result-card {
+    background: #ffffff;
+    border-left: 4px solid #2c75dd;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  
+  /* Footer for slides */
+  .footer {
+    position: absolute;
+    bottom: 12px;
+    left: 20px;
+    font-size: 0.7rem;
+    color: #888;
   }
 ---
 
 <!-- _class: title -->
 
 # Privacy-Preserving Federated Learning for Healthcare
+
+<div style="margin: 20px 0; width: 100px; height: 4px; background-color: #2c75dd; margin-left: auto; margin-right: auto;"></div>
+
 ## Enabling secure, collaborative AI across healthcare institutions
 
 **Komal Shahid**  
 DSC680 - Applied Data Science Capstone Project  
 May 8, 2025
+
+<div class="footer">Bellevue University</div>
 
 <!-- 
 Speaker notes:
@@ -169,14 +218,36 @@ This modular design allows for flexibility and adaptation to different healthcar
 
 # Key Results: Model Performance
 
-![bg right:50% 90%](../images/convergence_final.png)
+<div class="columns">
+<div>
 
-- **78.5%** accuracy on medical imaging tasks
-- **81.2%** accuracy on clinical tabular data
-- **83.7%** accuracy on physiological signals
-- **Significant improvement** over local models (avg. 64.2%)
-- **Smaller institutions** saw largest gains (up to 21.3%)
-- **Rare conditions** detection improved by 31.2%
+<div class="result-card">
+<h3>Imaging Results</h3>
+<p><strong>78.5%</strong> accuracy on medical imaging tasks</p>
+</div>
+
+<div class="result-card">
+<h3>Clinical Data</h3>
+<p><strong>81.2%</strong> accuracy on clinical tabular data</p>
+</div>
+
+<div class="result-card">
+<h3>Physiological Signals</h3>
+<p><strong>83.7%</strong> accuracy on physiological signals</p>
+</div>
+
+<div class="result-card">
+<h3>Improvement</h3>
+<p><strong>Significant improvement</strong> over local models (avg. 64.2%)</p>
+</div>
+
+</div>
+<div>
+
+![width:450px](../images/convergence_final.png)
+
+</div>
+</div>
 
 <!--
 Speaker notes:
@@ -196,11 +267,21 @@ The convergence graph shows how different federated learning strategies perform 
 <div class="columns">
 <div>
 
-- **Differential privacy** with ε = 1.0
-- Retained **95%** of model performance
-- **Resistant** to privacy attacks
-- **Compliant** with regulations
-- **Quantifiable** privacy guarantees
+<div class="result-card">
+<h3>Privacy Protection</h3>
+<p><strong>Differential privacy</strong> with ε = 1.0</p>
+</div>
+
+<div class="result-card">
+<h3>Performance Retention</h3>
+<p>Retained <strong>95%</strong> of model performance</p>
+</div>
+
+<div class="result-card">
+<h3>Security</h3>
+<p><strong>Resistant</strong> to privacy attacks</p>
+<p><strong>Compliant</strong> with regulations</p>
+</div>
 
 </div>
 <div>
@@ -247,11 +328,21 @@ This visualization helps healthcare administrators understand the concrete benef
 <div class="columns">
 <div>
 
-- **97% reduction** in bandwidth requirements
-- **Gradient pruning** and compression
-- Asynchronous communication protocols
-- **Fault tolerance** for dropped connections
-- Practical for **resource-constrained** environments
+<div class="result-card">
+<h3>Bandwidth Reduction</h3>
+<p><strong>97% reduction</strong> in bandwidth requirements</p>
+</div>
+
+<div class="result-card">
+<h3>Optimization Methods</h3>
+<p><strong>Gradient pruning</strong> and compression</p>
+<p>Asynchronous communication protocols</p>
+</div>
+
+<div class="result-card">
+<h3>Reliability</h3>
+<p><strong>Fault tolerance</strong> for dropped connections</p>
+</div>
 
 </div>
 <div>
@@ -280,10 +371,25 @@ These optimizations make federated learning accessible to a broader range of hea
 
 ## Key Findings:
 
-- **Medical imaging**: High improvement for rare conditions
-- **Clinical records**: Strongest gains with mixed data quality
-- **Physiological signals**: Best performance on temporal patterns
-- **Multi-modal fusion**: Superior to single-modality approaches
+<div class="result-card">
+<h3>Medical imaging</h3>
+<p>High improvement for rare conditions</p>
+</div>
+
+<div class="result-card">
+<h3>Clinical records</h3>
+<p>Strongest gains with mixed data quality</p>
+</div>
+
+<div class="result-card">
+<h3>Physiological signals</h3>
+<p>Best performance on temporal patterns</p>
+</div>
+
+<div class="result-card">
+<h3>Multi-modal fusion</h3>
+<p>Superior to single-modality approaches</p>
+</div>
 
 <!--
 Speaker notes:
@@ -302,12 +408,40 @@ Perhaps most interestingly, multi-modal fusion approaches that combined differen
 
 # Broader Impacts and Applications
 
-- **Rural and underserved hospitals** can access state-of-the-art AI
-- **Rare disease research** enabled through collaborative learning
-- **Multi-institutional collaboration** without regulatory barriers
-- **International research networks** despite varying privacy laws
-- **Personalized medicine** through locally-adapted global models
-- **Pandemic response** with privacy-preserving data collaboration
+<div class="columns">
+<div>
+
+<div class="result-card">
+<h3>Healthcare Equity</h3>
+<p><strong>Rural and underserved hospitals</strong> can access state-of-the-art AI</p>
+</div>
+
+<div class="result-card">
+<h3>Research Advancement</h3>
+<p><strong>Rare disease research</strong> enabled through collaborative learning</p>
+</div>
+
+<div class="result-card">
+<h3>Collaboration</h3>
+<p><strong>Multi-institutional collaboration</strong> without regulatory barriers</p>
+<p><strong>International research networks</strong> despite varying privacy laws</p>
+</div>
+
+</div>
+<div>
+
+<div class="result-card">
+<h3>Patient Care</h3>
+<p><strong>Personalized medicine</strong> through locally-adapted global models</p>
+</div>
+
+<div class="result-card">
+<h3>Crisis Response</h3>
+<p><strong>Pandemic response</strong> with privacy-preserving data collaboration</p>
+</div>
+
+</div>
+</div>
 
 <!--
 Speaker notes:
@@ -330,16 +464,29 @@ And in crisis situations like pandemic response, this approach enables rapid, pr
 
 # Limitations & Future Directions
 
-**Current Limitations**:
-- Computational demands on participating institutions
-- Limited support for unstructured clinical notes
-- Need for standardized data preprocessing across sites
+<div class="columns">
+<div>
 
-**Future Research**:
-- On-device federated learning for wearable medical devices
-- Integration with synthetic data generation for improved privacy
-- Automated model interpretability for clinical decision support
-- Blockchain integration for immutable audit trails
+<div class="result-card">
+<h3>Current Limitations</h3>
+<p>Computational demands on participating institutions</p>
+<p>Limited support for unstructured clinical notes</p>
+<p>Need for standardized data preprocessing across sites</p>
+</div>
+
+</div>
+<div>
+
+<div class="result-card">
+<h3>Future Research</h3>
+<p>On-device federated learning for wearable medical devices</p>
+<p>Integration with synthetic data generation for improved privacy</p>
+<p>Automated model interpretability for clinical decision support</p>
+<p>Blockchain integration for immutable audit trails</p>
+</div>
+
+</div>
+</div>
 
 <!--
 Speaker notes:
@@ -368,7 +515,11 @@ And blockchain integration could provide immutable audit trails of model updates
 
 # Thank You!
 
+<div style="margin: 20px 0; width: 100px; height: 4px; background-color: #2c75dd; margin-left: auto; margin-right: auto;"></div>
+
 ## Questions?
+
+<div class="footer">Komal Shahid | DSC680 Capstone Project | Bellevue University</div>
 
 <!--
 Speaker notes:

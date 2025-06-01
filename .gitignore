@@ -156,4 +156,170 @@ Icon
 
 # Specific documentation files to ignore
 white_paper.md
-**/white_paper.md 
+**/white_paper.md
+
+# Virtual environment and model directories
+**/models/
+**/__pycache__/
+outputs/
+anamorphic_output/
+anamorphic_outputs_new/
+anamorphic_outputs_real/
+anamorphic_demo/
+holographic_output/
+output/
+sd_3d_effects/
+# But keep examples
+!examples/
+
+# pipenv
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
+
+# poetry
+#   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
+#   This is especially recommended for binary packages to ensure reproducibility, and is more
+#   commonly ignored for libraries.
+#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
+#poetry.lock
+
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+**/venv/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# PyCharm
+#  JetBrains specific template is maintainted in a separate JetBrains.gitignore that can
+#  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore
+#  and can be added to the global gitignore or merged into this file.  For a more nuclear
+#  option (not recommended) you can uncomment the following to ignore the entire idea folder.
+#.idea/
+
+# Project specific 
+**/models/
+**/__pycache__/
+outputs/
+anamorphic_output/
+anamorphic_outputs_new/
+anamorphic_outputs_real/
+anamorphic_demo/
+holographic_output/
+output/
+sd_3d_effects/
+# But keep examples
+!examples/
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+.pnpm-debug.log
+.npm
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Whitepaper drafts (keep local only)
+**/whitepaper_drafts/
+**/*_draft.md
+**/*_draft.docx
+**/*_draft.pdf
+
+# Development files not for GitHub
+builder-code-fetcher.js
+builder-project/
+temp_files/
+**/.mypy_cache/
+**/__pycache__/
+**/.DS_Store
+
+# Large model files (optional)
+# Uncomment if you don't want to push large model files
+# **/models/*.pth
+# **/models/*.h5
+# **/models/*.bin
+
+# Large datasets (optional)
+# Uncomment if you don't want to push large datasets
+# **/datasets/raw/
+# **/data/raw/ 
+
+# Ensure model files are not committed to Git
+**/models/**/*.pth
+**/models/**/*.pt
+**/models/**/*.h5
+**/models/**/*.bin
+**/models/**/*.onnx
+**/models/**/*.pb
+**/models/**/*.tflite
+**/models/**/*.pkl
+**/models/**/*.joblib
+**/models/**/*.weights
+**/models/**/*.safetensors
+
+# Keep model READMEs but exclude everything else
+!**/models/**/README.md
+
+# Large datasets that shouldn't be in Git
+**/datasets/raw/
+**/data/raw/
+**/data/processed/
+**/*.npy
+**/*.npz
+**/*.parquet
+
+# Virtual environments
+**/venv/
+**/.venv/
+**/env/
+**/.env/
+
+# Cache directories
+**/__pycache__/
+**/.ipynb_checkpoints/
+**/.pytest_cache/
+**/.mypy_cache/ 

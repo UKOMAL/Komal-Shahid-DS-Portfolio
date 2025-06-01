@@ -3,231 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Komal Shahid | Data Scientist & AI Specialist</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Komal Shahid - Data Science Portfolio</title>
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    <!-- Flower Cursor Animation -->
-    <div class="flower-cursor">
-        <div class="flower-petal petal-1"></div>
-        <div class="flower-petal petal-2"></div>
-        <div class="flower-petal petal-3"></div>
-        <div class="flower-petal petal-4"></div>
-        <div class="flower-petal petal-5"></div>
-    </div>
-
-    <!-- Glass Flower (fixed position) -->
-    <div class="glass-flower">
-        <div class="glass-petal"></div>
-        <div class="glass-petal"></div>
-        <div class="glass-petal"></div>
-        <div class="glass-petal"></div>
-        <div class="glass-petal"></div>
-    </div>
-
-    <div class="portfolio-container">
-        <!-- Background Elements -->
-        <div class="background-elements">
-            <div class="color-streak streak-1"></div>
-            <div class="color-streak streak-2"></div>
-            <div class="color-streak streak-3"></div>
-            <div class="color-streak streak-4"></div>
-            <div class="color-streak streak-5"></div>
-            <div class="filter" style="position: absolute; width: 800px; height: 800px; background-color: #e8e4d8; border-radius: 9999px; filter: blur(180px); opacity: 0.4; top: -400px; left: -200px;"></div>
-            <div class="filter" style="position: absolute; width: 600px; height: 600px; background-color: #d8d4c8; border-radius: 9999px; filter: blur(150px); opacity: 0.3; bottom: -300px; right: -200px;"></div>
-            <div style="position: absolute; width: 300px; height: 300px; border-width: 2px; border-color: #2a2a2a; border-radius: 40px; opacity: 0.05; top: 20%; right: 10%; transform: rotate(30deg);"></div>
-        </div>
-
-        <!-- Navigation -->
-        <nav class="main-nav">
-            <div class="container">
-                <div class="nav-content">
+    <header>
+        <div class="container">
+            <div class="profile">
+                <img src="assets/images/my_illustrated_photo.jpeg" alt="Komal Shahid" class="profile-image">
+                <div class="profile-text">
                     <h1>Komal Shahid</h1>
-                    <div class="nav-tabs">
-                        <button class="nav-tab active" data-tab="featured">Home</button>
-                        <button class="nav-tab" data-tab="projects">Projects</button>
-                        <button class="nav-tab" data-tab="skills">Skills</button>
-                        <button class="nav-tab" data-tab="about">About</button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Main Content -->
-        <main>
-            <div class="container">
-                <!-- Hero Section -->
-                <section class="hero-section">
-                    <div class="flower-animation">
-                        <div class="flower-petal"></div>
-                        <div class="flower-petal"></div>
-                        <div class="flower-petal"></div>
-                        <div class="flower-petal"></div>
-                    </div>
-                    <div class="container">
-                        <div class="hero-grid">
-                            <div class="hero-content">
-                                <div class="hero-badge">
-                                    <span class="star">★</span>
-                                    <span class="badge">AI & ML Engineer</span>
-                                </div>
-                                <h1 class="hero-title">Komal Shahid</h1>
-                                <p class="hero-description">Building intelligent solutions that make a difference. Specializing in machine learning, data analysis, and AI-driven applications.</p>
-                                <div class="hero-buttons">
-                                    <a href="#featured-projects" class="button primary">View Projects</a>
-                                    <a href="#contact" class="button secondary">Contact Me</a>
-                                </div>
-                            </div>
-                            <div class="hero-visual">
-                                <div id="cube-container" class="cube-container">
-                                    <!-- 3D cube will be rendered by JavaScript -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="scroll-indicator">
-                        <span class="scroll-text">Scroll to explore</span>
-                        <div class="scroll-arrow"></div>
-                    </div>
-                </section>
-
-                <!-- Featured Projects Section -->
-                <section id="featured-projects" class="flixor-projects-section">
-                    <div class="flixor-container">
-                        <div class="flixor-section-header">
-                            <h2 class="flixor-section-title">Projects</h2>
-                            <div class="flixor-filter-tabs">
-                                <button class="flixor-filter-tab active">All Projects</button>
-                                <button class="flixor-filter-tab">AI & Machine Learning</button>
-                                <button class="flixor-filter-tab">Data Analysis</button>
-                                <button class="flixor-filter-tab">Visualization</button>
-                            </div>
-                        </div>
-                        <div class="flixor-projects-grid">
-                            <div class="flixor-project-card" onclick="openProjectModal('federated-healthcare-ai')">
-                                <div class="flixor-project-number">01</div>
-                                <img src="assets/images/projects/federated-learning.jpg" alt="Federated Healthcare AI" class="flixor-project-image">
-                                <div class="flixor-project-overlay">
-                                    <span class="flixor-project-category">AI & Machine Learning</span>
-                                    <h3 class="flixor-project-title">Federated Healthcare AI</h3>
-                                    <p class="flixor-project-desc">Privacy-preserving machine learning for healthcare data across multiple institutions</p>
-                                    <a href="javascript:void(0)" class="flixor-project-link">View Project <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                            
-                            <div class="flixor-project-card" onclick="openProjectModal('depression-detection')">
-                                <div class="flixor-project-number">02</div>
-                                <img src="assets/images/projects/depression-detection.jpg" alt="Depression Detection System" class="flixor-project-image">
-                                <div class="flixor-project-overlay">
-                                    <span class="flixor-project-category">Natural Language Processing</span>
-                                    <h3 class="flixor-project-title">Depression Detection System</h3>
-                                    <p class="flixor-project-desc">AI-powered system for detecting indicators of depression from written text</p>
-                                    <a href="javascript:void(0)" class="flixor-project-link">View Project <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                            
-                            <div class="flixor-project-card" onclick="openProjectModal('network-visualization')">
-                                <div class="flixor-project-number">03</div>
-                                <img src="assets/images/projects/network-visualization.jpg" alt="Network Visualization" class="flixor-project-image">
-                                <div class="flixor-project-overlay">
-                                    <span class="flixor-project-category">Visualization</span>
-                                    <h3 class="flixor-project-title">Network Visualization</h3>
-                                    <p class="flixor-project-desc">Interactive visualization tool for complex network relationships and data analytics</p>
-                                    <a href="javascript:void(0)" class="flixor-project-link">View Project <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                            
-                            <div class="flixor-project-card" onclick="openProjectModal('data-analysis')">
-                                <div class="flixor-project-number">04</div>
-                                <img src="assets/images/projects/data-analysis.jpg" alt="Healthcare Data Analysis" class="flixor-project-image">
-                                <div class="flixor-project-overlay">
-                                    <span class="flixor-project-category">Data Analysis</span>
-                                    <h3 class="flixor-project-title">Healthcare Data Analysis</h3>
-                                    <p class="flixor-project-desc">Comprehensive analysis of healthcare datasets to reveal insights for improved patient care</p>
-                                    <a href="javascript:void(0)" class="flixor-project-link">View Project <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Project Demo Section -->
-                <section class="project-demo-section">
-                    <div class="flower-animation">
-                        <div class="flower-petal"></div>
-                        <div class="flower-petal"></div>
-                        <div class="flower-petal"></div>
-                        <div class="flower-petal"></div>
-                    </div>
-                    <div class="demo-container">
-                        <div class="demo-content">
-                            <div class="demo-text">
-                                <h2>Network Visualization Tool</h2>
-                                <p>An interactive network visualization tool that helps analyze complex relationships in large datasets. Built with D3.js and Python, this tool provides powerful insights through intuitive visualizations.</p>
-                                <div class="project-links">
-                                    <a href="https://github.com/UKOMAL/Network-Visualization" target="_blank" class="project-link">View on GitHub <i class="fas fa-external-link-alt"></i></a>
-                                    <a href="assets/files/network_viz_demo.html" target="_blank" class="project-link">Live Demo <i class="fas fa-play-circle"></i></a>
-                                </div>
-                            </div>
-                            <div class="demo-visual">
-                                <img src="assets/images/network_visualization_improved.png" alt="Network Visualization Demo">
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Projects Section -->
-                <section id="projects" class="content-section" style="display: none;">
-                    <h2 class="section-title">All Projects</h2>
-                    <div id="projects-container" class="projects-grid">
-                        <!-- Project cards will be generated via JavaScript -->
-                    </div>
-                </section>
-
-                <!-- Skills Section -->
-                <section id="skills" class="content-section" style="display: none;">
-                    <h3 class="section-title">Skills & Expertise</h3>
-                    <div id="skills-container" class="skills-grid">
-                        <!-- Skill groups will be generated via JavaScript -->
-                    </div>
-                </section>
-
-                <!-- About Section -->
-                <section id="about" class="content-section" style="position:relative; display:none;">
-                    <h2 class="section-title">About Me</h2>
-                    <div class="about-profile">
-                        <img src="assets/images/my_illustrated_photo.jpeg" alt="Komal Shahid Portrait" class="about-portrait" />
-                        <div class="about-card">
-                            <h3>Komal Shahid</h3>
-                            <p>I'm passionate about building intelligent, ethical AI solutions that make a real impact. My expertise spans machine learning, data science, and creative technology. I love blending technical rigor with design thinking to solve meaningful problems.</p>
-                            <p>With a background in data science and AI engineering, I focus on creating applications that are not only technically sound but also socially responsible and user-friendly.</p>
-                        </div>
-                    </div>
-                    <div id="about-flowers-lottie" class="about-flowers-motion"></div>
-                </section>
-            </div>
-        </main>
-
-        <!-- Footer -->
-        <footer>
-            <div class="container">
-                <div class="footer-content">
-                    <div class="copyright">© 2024 Komal Shahid. All rights reserved.</div>
+                    <p>AI & Machine Learning Engineer</p>
                     <div class="social-links">
-                        <a href="https://github.com/UKOMAL" target="_blank">GitHub</a>
-                        <a href="https://linkedin.com/in/komal-shahid" target="_blank">LinkedIn</a>
+                        <a href="https://github.com/UKOMAL" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://linkedin.com/in/komalshahid" target="_blank"><i class="fab fa-linkedin"></i></a>
                     </div>
                 </div>
             </div>
-        </footer>
-    </div>
+        </div>
+    </header>
 
-    <!-- Project Modal (hidden by default) -->
-    <div id="project-modal" class="project-modal" style="display:none;"></div>
+    <section class="projects">
+        <div class="container">
+            <h2>Featured Projects</h2>
+            
+            <div class="project-card">
+                <h3>Depression Detection System</h3>
+                <p>An AI-powered system for detecting indicators of depression from written text using NLP and deep learning techniques.</p>
+                <div class="project-links">
+                    <a href="./projects/project1-depression-detection/" class="btn">View Project</a>
+                    <a href="./demo/depression-detection-demo/" class="btn">Interactive Demo</a>
+                </div>
+                <div class="tags">
+                    <span>NLP</span>
+                    <span>Deep Learning</span>
+                    <span>Healthcare</span>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <h3>Federated Healthcare AI</h3>
+                <p>A privacy-preserving federated learning framework enabling healthcare institutions to collaboratively train AI models without sharing sensitive patient data.</p>
+                <div class="project-links">
+                    <a href="./projects/project2-federated-healthcare-ai/" class="btn">View Project</a>
+                    <a href="./demo/federated-learning-demo/" class="btn">Interactive Demo</a>
+                </div>
+                <div class="tags">
+                    <span>Federated Learning</span>
+                    <span>Privacy</span>
+                    <span>Healthcare</span>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <h3>Colorful Canvas: AI Art Studio</h3>
+                <p>A comprehensive toolkit for creating stunning 3D visual illusions from 2D images using deep learning techniques.</p>
+                <div class="project-links">
+                    <a href="./projects/project3/" class="btn">View Project</a>
+                    <a href="./demo/colorful-canvas-demo/" class="btn">Interactive Demo</a>
+                </div>
+                <div class="tags">
+                    <span>Computer Vision</span>
+                    <span>3D Graphics</span>
+                    <span>AI Art</span>
+                </div>
+            </div>
+            
+            <div class="project-card">
+                <h3>Notely: Smart Note-Taking Assistant</h3>
+                <p>An intelligent note-taking application that uses NLP to organize, summarize, and extract key insights from notes and documents.</p>
+                <div class="project-links">
+                    <a href="./projects/notely/" class="btn">View Project</a>
+                    <a href="./demo/notely-demo/" class="btn">Interactive Demo</a>
+                </div>
+                <div class="tags">
+                    <span>NLP</span>
+                    <span>Information Retrieval</span>
+                    <span>Text Analytics</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <script src="assets/js/portfolio-data.js"></script>
+    <section class="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <p>I'm passionate about building intelligent, ethical AI solutions that make a real impact. My expertise spans machine learning, data science, and creative technology. I love blending technical rigor with design thinking to solve meaningful problems.</p>
+            <p>With a background in data science and AI engineering, I focus on creating applications that are not only technically sound but also socially responsible and user-friendly.</p>
+        </div>
+    </section>
+
+    <section class="education">
+        <div class="container">
+            <h2>Education</h2>
+            <div class="education-item">
+                <h3>Master's in Data Science</h3>
+                <p>Bellevue University</p>
+                <p class="date">2023-2025</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Komal Shahid. All rights reserved.</p>
+        </div>
+    </footer>
+
     <script src="assets/js/main.js"></script>
 </body>
-</html>
+</html> 

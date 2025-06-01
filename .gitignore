@@ -362,4 +362,19 @@ models/
 **/dataset/
 **/datasets/
 datasets/
-dataset/ 
+dataset/
+
+# Project guidelines and documentation (should remain local)
+**/docs/guidelines/
+**/docs/rubric*.pdf
+**/docs/portfolio*.pdf
+**/INSTALLATION*.md
+**/USAGE*.md
+**/GUIDELINES*.md
+**/RUBRIC*.md
+**/PORTFOLIO*.md
+**/DESIGN*.md
+**/milestones/
+**/milestone*/
+**/docs/milestone*/
+**/docs/milestones/ 

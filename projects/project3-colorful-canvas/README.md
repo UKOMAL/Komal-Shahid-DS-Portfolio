@@ -60,21 +60,40 @@ The project is organized as follows:
 
 #### Interactive Web Demo (Recommended)
 ```bash
-cd demo
+cd demo/web
 python -m http.server 8002
 # Open http://localhost:8002 in your browser
 ```
 
+The web demo provides a user-friendly interface for:
+- Uploading your own images or using sample images
+- Selecting from different anamorphic illusion effects
+- Previewing the results in real-time
+- Viewing detailed instructions for each effect type
+- Downloading the generated illusions
+
+#### Command Line Demo
+```bash
+cd demo
+python demo.py --interactive
+```
+
+The command-line demo walks you through:
+- Selecting sample images from the data/samples directory
+- Choosing an illusion effect to apply
+- Generating the anamorphic illusion with AI-powered depth analysis
+- Saving the result to the output directory
+
 #### Command Line Interface
 ```bash
 # Generate anamorphic illusions
-python colorful_canvas_complete.py --mode generate --image path/to/image.jpg --effect shadow_box --output output_dir
+python src/colorful_canvas.py --mode generate --image path/to/image.jpg --effect shadow_box --output output_dir
 
 # Train models
-python colorful_canvas_complete.py --mode train
+python src/colorful_canvas.py --mode train
 
 # Run demonstration
-python colorful_canvas_complete.py --mode demo
+python src/colorful_canvas.py --mode demo
 ```
 
 ### Available Illusion Types

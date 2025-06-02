@@ -1,5 +1,10 @@
 """
 ColorfulCanvasAI - Main AI module for image processing, depth map generation, and anamorphic effects
+
+Author: Komal Shahid
+Course: DSC680 - Bellevue University
+Date: June 1, 2025
+Project: Colorful Canvas AI Art Studio - Milestone 3
 """
 
 import os

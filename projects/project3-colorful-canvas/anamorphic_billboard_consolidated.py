@@ -464,8 +464,8 @@ def main(image_path=None, output_path=None, effect_type="shadow_box", ai_strengt
             print(f"📊 AI Analysis - Brightness: {seoul_analysis['brightness']['recommendation']}")
             print(f"📊 AI Analysis - Detail Level: {seoul_analysis['detail_level']['recommendation']}")
     
-    # Create billboard frame and screen
-    frame, screen = create_billboard_frame()
+    # Create billboard frame and screen with more prominent frame
+    frame, screen = create_billboard_frame(width=16, height=9, depth=1.0, frame_thickness=1.2)
     
     # Apply AI-processed image to screen
     if processed_image_path and os.path.exists(processed_image_path):
@@ -473,9 +473,9 @@ def main(image_path=None, output_path=None, effect_type="shadow_box", ai_strengt
         screen_material = create_material_with_image("AI_Screen_Material", processed_image_path, 3.0)
         screen.data.materials.append(screen_material)
         
-        # Create AI-enhanced 3D displacement
+        # Create AI-enhanced 3D displacement - increase extrusion for more obvious effect
         create_extruded_geometry_from_ai_depth(processed_image_path, depth_map_path, screen, 
-                                             extrude_distance=2.0 * ai_strength)
+                                             extrude_distance=3.0 * ai_strength)
         
         # Add particle effects based on AI analysis
         if seoul_analysis and seoul_analysis['detail_level']['value'] > 0.08:
@@ -486,12 +486,20 @@ def main(image_path=None, output_path=None, effect_type="shadow_box", ai_strengt
         default_mat.node_tree.nodes['Emission'].inputs['Color'].default_value = (0.2, 0.6, 1.0, 1.0)
         screen.data.materials.append(default_mat)
     
-    # Create frame material
+    # Create more visible frame material with metallic finish
     frame_material = bpy.data.materials.new(name="Frame_Material")
     frame_material.use_nodes = True
-    frame_material.node_tree.nodes["Principled BSDF"].inputs[0].default_value = (0.1, 0.1, 0.1, 1.0)
-    frame_material.node_tree.nodes["Principled BSDF"].inputs[4].default_value = 0.9
-    frame_material.node_tree.nodes["Principled BSDF"].inputs[7].default_value = 0.1
+    
+    # More visible metallic frame for seoul_corner effect
+    if effect_type == "seoul_corner":
+        frame_material.node_tree.nodes["Principled BSDF"].inputs[0].default_value = (0.8, 0.8, 0.9, 1.0)  # Silver color
+        frame_material.node_tree.nodes["Principled BSDF"].inputs[4].default_value = 1.0  # Max metallic
+        frame_material.node_tree.nodes["Principled BSDF"].inputs[7].default_value = 0.1  # Low roughness
+    else:
+        frame_material.node_tree.nodes["Principled BSDF"].inputs[0].default_value = (0.1, 0.1, 0.1, 1.0)
+        frame_material.node_tree.nodes["Principled BSDF"].inputs[4].default_value = 0.9
+        frame_material.node_tree.nodes["Principled BSDF"].inputs[7].default_value = 0.1
+        
     frame.data.materials.append(frame_material)
     
     # Create floating elements with AI-informed parameters
@@ -507,7 +515,11 @@ def main(image_path=None, output_path=None, effect_type="shadow_box", ai_strengt
     
     # Setup camera with AI-optimized positioning
     camera = setup_camera_for_anamorphic_view()
-    if seoul_analysis and seoul_analysis['suggested_viewing_distance'] == "2-4 meters":
+    if effect_type == "seoul_corner":
+        # Seoul effect needs a specific viewing angle
+        camera.location = (18, -15, 5)
+        camera.rotation_euler = (math.radians(75), 0, math.radians(40))
+    elif seoul_analysis and seoul_analysis['suggested_viewing_distance'] == "2-4 meters":
         # Adjust camera for close viewing
         camera.location = (20, -12, 4)
     

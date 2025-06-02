@@ -68,7 +68,11 @@ cache/
 *.jpg
 *.jpeg
 *.gif
-!output/analysis/*.png
+
+# Exceptions - Keep EDA visualizations
+!data/benchmarks/*.png
+!data/output/test_results/depth_map_pytorch.png
+!data/output/test_results/test_image.png
 
 # Shell scripts - not needed for GitHub
 *.sh

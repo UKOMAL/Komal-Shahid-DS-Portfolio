@@ -120,7 +120,7 @@ def create_billboard_frame(width=16, height=9, depth=0.5, frame_thickness=0.8):
     bpy.data.objects.remove(inner_cutout, do_unlink=True)
     
     # Create screen plane
-    bpy.ops.mesh.primitive_plane_add(size=2, location=(0, 0, 0.01))
+    bpy.ops.mesh.primitive_plane_add(size=2, location=(0, 0, -0.05))  # Slightly recessed for better depth effect
     screen = bpy.context.active_object
     screen.name = "Billboard_Screen"
     screen.scale = (width/2, height/2, 1)
@@ -418,7 +418,52 @@ def create_particle_effects(emitter_obj):
     particle_mat.node_tree.nodes['Emission'].inputs['Color'].default_value = (1, 0.8, 0.2, 1)
     emitter_obj.data.materials.append(particle_mat)
 
-def setup_render_settings():
+def setup_seoul_lighting():
+    """Setup special lighting for Seoul LED billboard effect"""
+    
+    # Clear existing lights
+    for obj in bpy.data.objects:
+        if obj.type == 'LIGHT':
+            bpy.data.objects.remove(obj, do_unlink=True)
+    
+    # Key blue light (LED glow)
+    bpy.ops.object.light_add(type='AREA', location=(5, -8, 3))
+    key_light = bpy.context.active_object
+    key_light.name = "LED_Key_Light"
+    key_light.data.energy = 700
+    key_light.data.size = 15
+    key_light.data.color = (0.7, 0.8, 1.0)  # Blue-ish LED color
+    
+    # Fill purple light (accent)
+    bpy.ops.object.light_add(type='AREA', location=(-6, -3, 4))
+    fill_light = bpy.context.active_object
+    fill_light.name = "LED_Fill_Light"
+    fill_light.data.energy = 300
+    fill_light.data.size = 10
+    fill_light.data.color = (0.8, 0.6, 1.0)  # Purple-ish accent
+    
+    # Rim red light (edge highlighting)
+    bpy.ops.object.light_add(type='SPOT', location=(0, 8, 10))
+    rim_light = bpy.context.active_object
+    rim_light.name = "Neon_Rim_Light"
+    rim_light.data.energy = 500
+    rim_light.data.spot_size = math.radians(60)
+    rim_light.data.color = (1.0, 0.5, 0.5)  # Red-ish neon glow
+    
+    # Low fill light (shadow detail)
+    bpy.ops.object.light_add(type='POINT', location=(0, 0, -5))
+    low_light = bpy.context.active_object
+    low_light.name = "Shadow_Fill_Light"
+    low_light.data.energy = 100
+    low_light.data.color = (0.2, 0.3, 0.4)  # Cool shadow fill
+    
+    # Set dark environment for more contrast
+    world = bpy.context.scene.world
+    world.use_nodes = True
+    world.node_tree.nodes["Background"].inputs[0].default_value = (0.01, 0.01, 0.02, 1.0)  # Very dark blue
+    world.node_tree.nodes["Background"].inputs[1].default_value = 0.02  # Very low ambient
+
+def setup_render_settings(effect_type="shadow_box"):
     """Configure render settings for high quality output"""
     
     scene = bpy.context.scene
@@ -435,9 +480,21 @@ def setup_render_settings():
     scene.cycles.samples = 128
     scene.cycles.use_denoising = True
     
-    # Color management
-    scene.view_settings.view_transform = 'Filmic'
-    scene.view_settings.look = 'High Contrast'
+    # Seoul-specific render settings
+    if effect_type == "seoul_corner":
+        # High contrast settings for LED effect
+        scene.view_settings.view_transform = 'Filmic'
+        scene.view_settings.look = 'Very High Contrast'
+        
+        # More samples for better light quality
+        scene.cycles.samples = 160
+        
+        # Increase exposure for LED glow effect
+        scene.view_settings.exposure = 0.5
+    else:
+        # Standard settings for other effects
+        scene.view_settings.view_transform = 'Filmic'
+        scene.view_settings.look = 'High Contrast'
 
 def main(image_path=None, output_path=None, effect_type="shadow_box", ai_strength=1.5):
     """Main function to create the anamorphic billboard display with AI integration"""
@@ -470,7 +527,58 @@ def main(image_path=None, output_path=None, effect_type="shadow_box", ai_strengt
     # Apply AI-processed image to screen
     if processed_image_path and os.path.exists(processed_image_path):
         # Create AI-enhanced material
-        screen_material = create_material_with_image("AI_Screen_Material", processed_image_path, 3.0)
+        screen_material = None
+        
+        # Seoul-specific screen material with LED-like dots
+        if effect_type == "seoul_corner":
+            # Create more realistic LED screen material for Seoul corner
+            screen_material = bpy.data.materials.new(name="Seoul_LED_Screen")
+            screen_material.use_nodes = True
+            nodes = screen_material.node_tree.nodes
+            links = screen_material.node_tree.links
+            
+            # Clear default nodes
+            nodes.clear()
+            
+            # Add nodes
+            output_node = nodes.new(type='ShaderNodeOutputMaterial')
+            emission_node = nodes.new(type='ShaderNodeEmission')
+            image_node = nodes.new(type='ShaderNodeTexImage')
+            mapping_node = nodes.new(type='ShaderNodeMapping')
+            texcoord_node = nodes.new(type='ShaderNodeTexCoord')
+            rgb_node = nodes.new(type='ShaderNodeRGB')
+            mix_node = nodes.new(type='ShaderNodeMixRGB')
+            
+            # Load image
+            if os.path.exists(processed_image_path):
+                image_node.image = bpy.data.images.load(processed_image_path)
+            
+            # Configure nodes
+            emission_node.inputs['Strength'].default_value = 4.0  # Higher emission for LED look
+            rgb_node.outputs[0].default_value = (0.1, 0.1, 0.1, 1.0)  # Dark background
+            mix_node.blend_type = 'ADD'
+            mix_node.inputs[0].default_value = 0.8  # Mix factor
+            
+            # Link nodes
+            links.new(texcoord_node.outputs['UV'], mapping_node.inputs['Vector'])
+            links.new(mapping_node.outputs['Vector'], image_node.inputs['Vector'])
+            links.new(image_node.outputs['Color'], mix_node.inputs[1])
+            links.new(rgb_node.outputs[0], mix_node.inputs[2])
+            links.new(mix_node.outputs[0], emission_node.inputs['Color'])
+            links.new(emission_node.outputs['Emission'], output_node.inputs['Surface'])
+            
+            # Position nodes
+            output_node.location = (600, 0)
+            emission_node.location = (400, 0)
+            mix_node.location = (200, 0)
+            image_node.location = (0, 100)
+            rgb_node.location = (0, -100)
+            mapping_node.location = (-200, 100)
+            texcoord_node.location = (-400, 100)
+        else:
+            # Standard material for other effects
+            screen_material = create_material_with_image("AI_Screen_Material", processed_image_path, 3.0)
+        
         screen.data.materials.append(screen_material)
         
         # Create AI-enhanced 3D displacement - increase extrusion for more obvious effect
@@ -492,9 +600,38 @@ def main(image_path=None, output_path=None, effect_type="shadow_box", ai_strengt
     
     # More visible metallic frame for seoul_corner effect
     if effect_type == "seoul_corner":
-        frame_material.node_tree.nodes["Principled BSDF"].inputs[0].default_value = (0.8, 0.8, 0.9, 1.0)  # Silver color
-        frame_material.node_tree.nodes["Principled BSDF"].inputs[4].default_value = 1.0  # Max metallic
-        frame_material.node_tree.nodes["Principled BSDF"].inputs[7].default_value = 0.1  # Low roughness
+        # Setup nodes for a more complex metallic frame
+        nodes = frame_material.node_tree.nodes
+        links = frame_material.node_tree.links
+        
+        # Clear default
+        nodes.clear()
+        
+        # Add nodes
+        output = nodes.new(type='ShaderNodeOutputMaterial')
+        mix_shader = nodes.new(type='ShaderNodeMixShader')
+        glossy = nodes.new(type='ShaderNodeBsdfGlossy')
+        diffuse = nodes.new(type='ShaderNodeBsdfDiffuse')
+        fresnel = nodes.new(type='ShaderNodeFresnel')
+        
+        # Set properties
+        glossy.inputs['Color'].default_value = (0.9, 0.9, 0.95, 1.0)  # Silver blue color
+        glossy.inputs['Roughness'].default_value = 0.05  # Very glossy
+        diffuse.inputs['Color'].default_value = (0.2, 0.2, 0.25, 1.0)  # Darker base
+        fresnel.inputs['IOR'].default_value = 3.0  # Higher for more metallic look
+        
+        # Link nodes
+        links.new(fresnel.outputs[0], mix_shader.inputs[0])
+        links.new(diffuse.outputs[0], mix_shader.inputs[1])
+        links.new(glossy.outputs[0], mix_shader.inputs[2])
+        links.new(mix_shader.outputs[0], output.inputs['Surface'])
+        
+        # Position nodes
+        output.location = (300, 0)
+        mix_shader.location = (100, 0)
+        fresnel.location = (-100, 100)
+        diffuse.location = (-100, 0)
+        glossy.location = (-100, -100)
     else:
         frame_material.node_tree.nodes["Principled BSDF"].inputs[0].default_value = (0.1, 0.1, 0.1, 1.0)
         frame_material.node_tree.nodes["Principled BSDF"].inputs[4].default_value = 0.9
@@ -517,17 +654,21 @@ def main(image_path=None, output_path=None, effect_type="shadow_box", ai_strengt
     camera = setup_camera_for_anamorphic_view()
     if effect_type == "seoul_corner":
         # Seoul effect needs a specific viewing angle
-        camera.location = (18, -15, 5)
-        camera.rotation_euler = (math.radians(75), 0, math.radians(40))
+        camera.location = (16, -13, 5)
+        camera.rotation_euler = (math.radians(75), 0, math.radians(30))
     elif seoul_analysis and seoul_analysis['suggested_viewing_distance'] == "2-4 meters":
         # Adjust camera for close viewing
         camera.location = (20, -12, 4)
     
     # Setup lighting optimized for AI-processed content
-    setup_professional_lighting()
+    if effect_type == "seoul_corner":
+        # Special lighting for Seoul LED effect - neon style
+        setup_seoul_lighting()
+    else:
+        setup_professional_lighting()
     
     # Configure render settings
-    setup_render_settings()
+    setup_render_settings(effect_type)
     
     print("AI-Enhanced Anamorphic 3D Billboard created successfully!")
     print("AI Integration Features:")

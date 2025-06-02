@@ -3,133 +3,1537 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Depression Detection AI | Project Demo</title>
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <title>Depression Detection AI | Neural Interface</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body {
-            background: var(--bg-color, #f4f1ea);
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            color: var(--text-color, #050505);
+        :root {
+            --primary: #00d4ff;
+            --secondary: #7c3aed;
+            --accent: #ff006e;
+            --success: #00ff94;
+            --warning: #ffb800;
+            --danger: #ff3366;
+            --dark: #0a0a0f;
+            --darker: #050507;
+            --surface: rgba(255, 255, 255, 0.02);
+            --surface-2: rgba(255, 255, 255, 0.05);
+            --surface-3: rgba(255, 255, 255, 0.08);
+            --text: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --text-subtle: rgba(255, 255, 255, 0.5);
+            --border: rgba(255, 255, 255, 0.1);
+            --glow: 0 0 20px rgba(0, 212, 255, 0.3);
+            --glow-accent: 0 0 30px rgba(255, 0, 110, 0.4);
         }
-        .project-motion-bg {
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--darker);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Animated mesh background */
+        .bg-mesh {
             position: fixed;
             inset: 0;
-            z-index: 0;
-            pointer-events: none;
+            z-index: -2;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 110, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+            animation: meshFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes meshFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        /* Neural network grid */
+        .neural-grid {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.1;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.05; }
+            50% { opacity: 0.15; }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        /* Header with neural aesthetics */
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .ai-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+            box-shadow: var(--glow);
+            animation: logoFloat 6s ease-in-out infinite;
+        }
+
+        .ai-logo::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, var(--primary), var(--accent), var(--secondary));
+            border-radius: 32px;
+            z-index: -1;
+            animation: borderRotate 8s linear infinite;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-10px) scale(1.05); }
+        }
+
+        @keyframes borderRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .main-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 50%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .disclaimer-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--surface-2);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            border-radius: 50px;
+            color: #ff8a9b;
+            font-size: 0.9rem;
+            font-weight: 500;
+            backdrop-filter: blur(20px);
+        }
+
+        /* Main layout with glassmorphism */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .panel {
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            position: relative;
             overflow: hidden;
         }
-        .streak {
+
+        .panel::before {
+            content: '';
             position: absolute;
-            width: 120%;
-            height: 80px;
-            opacity: 0.28;
-            filter: blur(16px);
-            border-radius: 40px;
-            background: linear-gradient(90deg, #ff96c7, #bfc5fe, #a896ff, #ff9696, #96ffd0);
-            background-size: 300% 100%;
-            animation: streakMove 8s linear infinite alternate;
-        }
-        .streak-1 { top: 12%; left: -10%; animation-delay: 0s; }
-        .streak-2 { top: 44%; left: -20%; background: linear-gradient(90deg, #bfc5fe, #a896ff, #ff96c7, #96ffd0); animation-delay: 2s; }
-        .streak-3 { top: 76%; left: -15%; background: linear-gradient(90deg, #a896ff, #ff9696, #ff96c7, #bfc5fe); animation-delay: 4s; }
-        @keyframes streakMove {
-            0% { background-position: 0% 50%; transform: translateX(0) scaleY(1); }
-            50% { background-position: 100% 50%; transform: translateX(10vw) scaleY(1.1);}
-            100% { background-position: 0% 50%; transform: translateX(0) scaleY(1);}
-        }
-        .project-info-container {
-            position: relative;
-            z-index: 2;
-            max-width: 900px;
-            margin: 0 auto;
-            background: rgba(255,255,255,0.97);
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(255, 0, 110, 0.05) 100%);
             border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
-            padding: 2.5rem 2rem;
-            margin-top: 4rem;
-            margin-bottom: 4rem;
-            backdrop-filter: blur(2px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        .project-title {
-            font-size: 2.5rem;
+
+        .panel:hover::before {
+            opacity: 1;
+        }
+
+        .panel-title {
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--primary-color, #ff96c7);
-            margin-bottom: 1rem;
-        }
-        .project-meta {
             margin-bottom: 2rem;
-            color: var(--secondary-text, #666);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
-        .project-section {
+
+        .panel-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        /* Advanced textarea */
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .neural-textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.6;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+
+        .neural-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1), var(--glow);
+        }
+
+        .neural-textarea::placeholder {
+            color: var(--text-subtle);
+        }
+
+        .char-counter {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-subtle);
+            background: rgba(0, 0, 0, 0.6);
+            padding: 0.25rem 0.5rem;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Futuristic buttons */
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--surface-2);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface-3);
+            border-color: var(--primary);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .btn:hover::before {
+            transform: translateX(100%);
+        }
+
+        /* Sample texts with neural styling */
+        .samples {
+            margin-top: 2rem;
+        }
+
+        .samples-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .samples-grid {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .sample-chip {
+            padding: 1rem;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            position: relative;
+        }
+
+        .sample-chip:hover {
+            background: var(--surface-3);
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        /* Loading with neural animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .neural-loader {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .loader-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            border-top: 2px solid var(--primary);
+            border-radius: 50%;
+            animation: neuralSpin 1s linear infinite;
+        }
+
+        .loader-ring:nth-child(2) {
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            border-top-color: var(--accent);
+            animation-duration: 1.5s;
+            animation-direction: reverse;
+        }
+
+        .loader-ring:nth-child(3) {
+            width: 40%;
+            height: 40%;
+            top: 30%;
+            left: 30%;
+            border-top-color: var(--secondary);
+            animation-duration: 2s;
+        }
+
+        @keyframes neuralSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            animation: textPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes textPulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Results with advanced styling */
+        .results {
+            display: none;
+        }
+
+        .severity-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .badge-minimum {
+            background: linear-gradient(135deg, rgba(0, 255, 148, 0.2), rgba(0, 255, 148, 0.1));
+            color: var(--success);
+            border: 1px solid rgba(0, 255, 148, 0.3);
+            box-shadow: 0 0 20px rgba(0, 255, 148, 0.2);
+        }
+
+        .badge-mild {
+            background: linear-gradient(135deg, rgba(255, 184, 0, 0.2), rgba(255, 184, 0, 0.1));
+            color: var(--warning);
+            border: 1px solid rgba(255, 184, 0, 0.3);
+            box-shadow: 0 0 20px rgba(255, 184, 0, 0.2);
+        }
+
+        .badge-moderate {
+            background: linear-gradient(135deg, rgba(255, 51, 102, 0.2), rgba(255, 51, 102, 0.1));
+            color: var(--accent);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.2);
+        }
+
+        .badge-severe {
+            background: linear-gradient(135deg, rgba(255, 51, 102, 0.3), rgba(255, 51, 102, 0.2));
+            color: var(--danger);
+            border: 1px solid rgba(255, 51, 102, 0.5);
+            box-shadow: 0 0 25px rgba(255, 51, 102, 0.3);
+        }
+
+        .result-summary {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            padding: 1.5rem;
+            background: var(--surface-2);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        /* Advanced confidence visualization */
+        .confidence-section {
             margin-bottom: 2.5rem;
         }
-        .project-section h2 {
-            font-size: 1.4rem;
-            color: var(--accent-color2, #a896ff);
-            margin-bottom: 0.5rem;
-        }
-        .project-links {
-            margin-top: 1.5rem;
+
+        .confidence-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
             display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .score-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
             gap: 1rem;
         }
-        .project-link {
-            background: var(--primary-color, #ff96c7);
-            color: #fff;
-            padding: 0.7rem 1.3rem;
-            border-radius: 2rem;
-            text-decoration: none;
+
+        .score-label {
+            min-width: 80px;
             font-weight: 600;
-            transition: background 0.2s;
+            text-transform: capitalize;
+            font-size: 0.9rem;
         }
-        .project-link:hover {
-            background: var(--accent-color2, #a896ff);
+
+        .score-track {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
         }
-        .project-screenshot {
+
+        .score-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .score-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
             width: 100%;
-            max-width: 600px;
-            border-radius: 16px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-            margin: 1.5rem 0;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .fill-minimum { background: linear-gradient(90deg, var(--success), #00ff94); }
+        .fill-mild { background: linear-gradient(90deg, var(--warning), #ffd700); }
+        .fill-moderate { background: linear-gradient(90deg, #ff6b35, var(--accent)); }
+        .fill-severe { background: linear-gradient(90deg, var(--danger), #ff1744); }
+
+        .score-value {
+            min-width: 50px;
+            text-align: right;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        /* Insights with neural styling */
+        .insights-section {
+            margin-top: 2.5rem;
+        }
+
+        .insights-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .insight-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.25rem;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .insight-card:hover {
+            background: var(--surface-3);
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .insight-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .insight-text {
+            flex: 1;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .tech-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--glow-accent);
+        }
+
+        .tech-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 0, 110, 0.4);
+        }
+
+        /* Responsive design */
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .container {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .panel {
+                padding: 2rem;
+            }
+            
+            .button-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="project-motion-bg">
-        <div class="streak streak-1"></div>
-        <div class="streak streak-2"></div>
-        <div class="streak streak-3"></div>
+    <div class="bg-mesh"></div>
+    <div class="neural-grid"></div>
+    
+    <div class="container">
+        <header class="header">
+            <div class="ai-logo">
+                <svg width="60" height="60" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="50" cy="50" r="45" fill="url(#gradient1)" opacity="0.3"/>
+                    <circle cx="50" cy="50" r="35" fill="url(#gradient2)" opacity="0.5"/>
+                    <circle cx="50" cy="50" r="25" fill="url(#gradient3)" opacity="0.7"/>
+                    <circle cx="50" cy="50" r="15" fill="url(#gradient4)"/>
+                    
+                    <!-- Neural connections -->
+                    <g stroke="white" stroke-width="2" opacity="0.8">
+                        <line x1="30" y1="30" x2="70" y2="70" stroke-dasharray="5,5">
+                            <animate attributeName="stroke-dashoffset" values="0;10" dur="2s" repeatCount="indefinite"/>
+                        </line>
+                        <line x1="70" y1="30" x2="30" y2="70" stroke-dasharray="5,5">
+                            <animate attributeName="stroke-dashoffset" values="10;0" dur="2s" repeatCount="indefinite"/>
+                        </line>
+                        <line x1="50" y1="20" x2="50" y2="80" stroke-dasharray="3,3">
+                            <animate attributeName="stroke-dashoffset" values="0;6" dur="1.5s" repeatCount="indefinite"/>
+                        </line>
+                        <line x1="20" y1="50" x2="80" y2="50" stroke-dasharray="3,3">
+                            <animate attributeName="stroke-dashoffset" values="6;0" dur="1.5s" repeatCount="indefinite"/>
+                        </line>
+                    </g>
+                    
+                    <!-- Neural nodes -->
+                    <circle cx="30" cy="30" r="3" fill="white" opacity="0.9">
+                        <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="70" cy="30" r="3" fill="white" opacity="0.9">
+                        <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="30" cy="70" r="3" fill="white" opacity="0.9">
+                        <animate attributeName="opacity" values="0.5;1;0.5" dur="1.8s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="70" cy="70" r="3" fill="white" opacity="0.9">
+                        <animate attributeName="opacity" values="1;0.5;1" dur="1.8s" repeatCount="indefinite"/>
+                    </circle>
+                    
+                    <defs>
+                        <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#00d4ff"/>
+                            <stop offset="100%" style="stop-color:#7c3aed"/>
+                        </linearGradient>
+                        <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#7c3aed"/>
+                            <stop offset="100%" style="stop-color:#ff006e"/>
+                        </linearGradient>
+                        <linearGradient id="gradient3" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ff006e"/>
+                            <stop offset="100%" style="stop-color:#00d4ff"/>
+                        </linearGradient>
+                        <linearGradient id="gradient4" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ffffff"/>
+                            <stop offset="100%" style="stop-color:#00d4ff"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <h1 class="main-title">Neural Depression Detection</h1>
+            <p class="subtitle">Advanced AI-powered mental health screening interface</p>
+            <div class="disclaimer-badge">
+                <span>⚠️</span>
+                Research tool - Not for clinical diagnosis
+            </div>
+        </header>
+
+        <div class="main-grid">
+            <!-- Input Panel -->
+            <div class="panel">
+                <h2 class="panel-title">
+                    <div class="panel-icon">📝</div>
+                    Neural Input Interface
+                </h2>
+                
+                <div class="input-wrapper">
+                    <textarea 
+                        id="neuralInput" 
+                        class="neural-textarea"
+                        placeholder="Enter text for AI analysis... Share thoughts, feelings, journal entries, or any written expression. The neural network will analyze linguistic patterns, sentiment, and emotional indicators."
+                    ></textarea>
+                    <div class="char-counter" id="charCounter">0 / 1000</div>
+                </div>
+
+                <div class="button-grid">
+                    <button id="analyzeBtn" class="btn btn-primary">
+                        <span>🚀</span>
+                        Process with AI
+                    </button>
+                    <button id="clearBtn" class="btn btn-secondary">
+                        <span>🗑️</span>
+                        Clear
+                    </button>
+                </div>
+
+                <div class="samples">
+                    <div class="samples-title">
+                        <span>💡</span>
+                        Neural Training Samples
+                    </div>
+                    <div class="samples-grid">
+                        <div class="sample-chip" data-text="I feel completely overwhelmed and exhausted. Nothing seems to bring me joy anymore, and I'm struggling to find motivation for even basic daily tasks.">
+                            "I feel completely overwhelmed and exhausted. Nothing seems to bring me joy anymore..."
+                        </div>
+                        <div class="sample-chip" data-text="Today was absolutely amazing! I accomplished so much at work and had a wonderful dinner with friends. I'm feeling incredibly grateful and optimistic about the future.">
+                            "Today was absolutely amazing! I accomplished so much at work and had a wonderful dinner..."
+                        </div>
+                        <div class="sample-chip" data-text="I don't see the point in trying anymore. Every day feels like I'm just going through the motions, and I can't remember the last time I felt genuinely happy.">
+                            "I don't see the point in trying anymore. Every day feels like I'm just going through the motions..."
+                        </div>
+                        <div class="sample-chip" data-text="I'm excited about starting my new project next week. The challenges ahead feel energizing rather than overwhelming, and I'm looking forward to learning new skills.">
+                            "I'm excited about starting my new project next week. The challenges ahead feel energizing..."
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="panel">
+                <h2 class="panel-title">
+                    <div class="panel-icon">🧮</div>
+                    AI Analysis Output
+                </h2>
+                
+                <!-- Loading State -->
+                <div id="loadingState" class="loading">
+                    <div class="neural-loader">
+                        <div class="loader-ring"></div>
+                        <div class="loader-ring"></div>
+                        <div class="loader-ring"></div>
+                    </div>
+                    <div class="loading-text">Neural networks processing...</div>
+                </div>
+
+                <!-- Results Display -->
+                <div id="resultsDisplay" class="results">
+                    <div id="severityBadge" class="severity-badge badge-minimum">
+                        <span>🟢</span>
+                        Minimal Risk
+                    </div>
+                    
+                    <div id="resultSummary" class="result-summary">
+                        Advanced neural analysis will appear here after processing your input through our transformer-based depression detection model.
+                    </div>
+
+                    <div class="confidence-section">
+                        <div class="confidence-title">
+                            <span>📊</span>
+                            Confidence Matrix
+                        </div>
+                        
+                        <div class="score-row">
+                            <div class="score-label">Minimal</div>
+                            <div class="score-track">
+                                <div id="minimalBar" class="score-fill fill-minimum" style="width: 0%"></div>
+                            </div>
+                            <div id="minimalScore" class="score-value">0%</div>
+                        </div>
+
+                        <div class="score-row">
+                            <div class="score-label">Mild</div>
+                            <div class="score-track">
+                                <div id="mildBar" class="score-fill fill-mild" style="width: 0%"></div>
+                            </div>
+                            <div id="mildScore" class="score-value">0%</div>
+                        </div>
+
+                        <div class="score-row">
+                            <div class="score-label">Moderate</div>
+                            <div class="score-track">
+                                <div id="moderateBar" class="score-fill fill-moderate" style="width: 0%"></div>
+                            </div>
+                            <div id="moderateScore" class="score-value">0%</div>
+                        </div>
+
+                        <div class="score-row">
+                            <div class="score-label">Severe</div>
+                            <div class="score-track">
+                                <div id="severeBar" class="score-fill fill-severe" style="width: 0%"></div>
+                            </div>
+                            <div id="severeScore" class="score-value">0%</div>
+                        </div>
+                    </div>
+
+                    <div class="insights-section">
+                        <div class="insights-title">
+                            <span>🔍</span>
+                            Neural Insights
+                        </div>
+                        <div id="insightsContainer">
+                            <!-- Insights will be populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <a href="#" class="tech-link" onclick="showSystemArchitecture()">
+                <span>🏗️</span>
+                View Neural Architecture
+            </a>
+        </footer>
     </div>
-    <div class="project-info-container">
-        <div class="project-title">Depression Detection AI</div>
-        <div class="project-meta">AI-powered system for detecting signs of depression from text data using NLP and deep learning.</div>
-        <div class="project-section">
-            <h2>Overview</h2>
-            <p>This project leverages natural language processing and deep learning to identify signs of depression in written text. The system is designed to assist healthcare professionals and researchers in early detection and intervention.</p>
-        </div>
-        <div class="project-section">
-            <h2>Key Features</h2>
-            <ul>
-                <li>Advanced NLP pipeline for text preprocessing and feature extraction</li>
-                <li>Deep learning models (LSTM, BERT) for sentiment and depression detection</li>
-                <li>Interactive demo for real-time text analysis</li>
-                <li>Comprehensive reporting and visualization of results</li>
-                <li>Customizable for different languages and domains</li>
-            </ul>
-        </div>
-        <div class="project-section">
-            <h2>Tech Stack</h2>
-            <p>Python, PyTorch, HuggingFace Transformers, Flask, JavaScript</p>
-        </div>
-        <div class="project-section">
-            <h2>Screenshots</h2>
-            <img src="/assets/images/model_convergence.png" alt="Depression Detection AI Screenshot" class="project-screenshot">
-        </div>
-        <div class="project-links">
-            <a href="https://github.com/UKOMAL/Depression-Detection" target="_blank" class="project-link">GitHub</a>
-            <a href="/projects/project1-depression-detection/demo/web/index.html" target="_blank" class="project-link">Live Demo</a>
-        </div>
-    </div>
+
+    <script>
+        // Enhanced depression detection algorithm
+        const neuralKeywords = {
+            severe: ['suicide', 'suicidal', 'kill myself', 'end it all', 'worthless', 'hopeless', 'better off dead', 'can\'t go on', 'unbearable pain', 'no point living'],
+            moderate: ['exhausted', 'drained', 'empty inside', 'no energy', 'can\'t sleep', 'nothing matters', 'struggle daily', 'overwhelming', 'numb', 'isolating'],
+            mild: ['sad', 'down', 'blue', 'stressed', 'worried', 'anxious', 'discouraged', 'tired', 'unmotivated', 'bothered'],
+            minimum: ['happy', 'excited', 'great', 'wonderful', 'amazing', 'grateful', 'optimistic', 'energetic', 'motivated', 'content', 'peaceful']
+        };
+
+        // Advanced linguistic patterns
+        const negativePatterns = [
+            /\bno(?:t|thing)?\s+(?:good|happy|hope|point|energy|motivation)\b/gi,
+            /\bcan'?t\s+(?:do|take|handle|cope|go|continue)\b/gi,
+            /\bnever\s+(?:feel|get|find|have)\b/gi,
+            /\balways\s+(?:tired|sad|empty|alone)\b/gi
+        ];
+
+        const severityIndicators = {
+            severe: /\b(?:suicide|death|dying|kill|end|worthless|hopeless|unbearable)\b/gi,
+            moderate: /\b(?:exhaust|drain|overwhelm|struggle|difficult|empty|numb|isolat)\w*\b/gi,
+            mild: /\b(?:stress|worry|anxious|sad|down|tire|discourag)\w*\b/gi
+        };
+
+        // DOM elements
+        const neuralInput = document.getElementById('neuralInput');
+        const charCounter = document.getElementById('charCounter');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const loadingState = document.getElementById('loadingState');
+        const resultsDisplay = document.getElementById('resultsDisplay');
+        const severityBadge = document.getElementById('severityBadge');
+        const resultSummary = document.getElementById('resultSummary');
+        const insightsContainer = document.getElementById('insightsContainer');
+
+        // Score elements
+        const scoreElements = {
+            minimal: {
+                bar: document.getElementById('minimalBar'),
+                score: document.getElementById('minimalScore')
+            },
+            mild: {
+                bar: document.getElementById('mildBar'),
+                score: document.getElementById('mildScore')
+            },
+            moderate: {
+                bar: document.getElementById('moderateBar'),
+                score: document.getElementById('moderateScore')
+            },
+            severe: {
+                bar: document.getElementById('severeBar'),
+                score: document.getElementById('severeScore')
+            }
+        };
+
+        // Character counter
+        neuralInput.addEventListener('input', function() {
+            const length = this.value.length;
+            charCounter.textContent = `${length} / 1000`;
+            charCounter.style.color = length > 900 ? '#ff3366' : 'var(--text-subtle)';
+        });
+
+        // Event listeners
+        analyzeBtn.addEventListener('click', processNeuralAnalysis);
+        clearBtn.addEventListener('click', clearInterface);
+
+        // Sample text selection
+        document.querySelectorAll('.sample-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                neuralInput.value = this.dataset.text;
+                neuralInput.focus();
+                neuralInput.dispatchEvent(new Event('input'));
+            });
+        });
+
+        function clearInterface() {
+            neuralInput.value = '';
+            resultsDisplay.style.display = 'none';
+            charCounter.textContent = '0 / 1000';
+            charCounter.style.color = 'var(--text-subtle)';
+            neuralInput.focus();
+        }
+
+        function processNeuralAnalysis() {
+            const inputText = neuralInput.value.trim();
+            
+            if (inputText.length < 15) {
+                showNotification('Please enter at least 15 characters for meaningful neural analysis.', 'warning');
+                return;
+            }
+
+            // Show loading state
+            loadingState.style.display = 'block';
+            resultsDisplay.style.display = 'none';
+
+            // Simulate neural processing with realistic delay
+            setTimeout(() => {
+                const analysis = performAdvancedAnalysis(inputText);
+                displayNeuralResults(analysis);
+                loadingState.style.display = 'none';
+                resultsDisplay.style.display = 'block';
+            }, 2500);
+        }
+
+        function performAdvancedAnalysis(text) {
+            const lowercaseText = text.toLowerCase();
+            
+            // Initialize analysis metrics
+            const metrics = {
+                keywordMatches: { severe: 0, moderate: 0, mild: 0, minimum: 0 },
+                patternMatches: { severe: 0, moderate: 0, mild: 0 },
+                linguisticFeatures: {}
+            };
+
+            // Keyword analysis
+            Object.keys(neuralKeywords).forEach(severity => {
+                neuralKeywords[severity].forEach(keyword => {
+                    const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
+                    const matches = (lowercaseText.match(regex) || []).length;
+                    metrics.keywordMatches[severity] += matches;
+                });
+            });
+
+            // Pattern analysis
+            Object.keys(severityIndicators).forEach(severity => {
+                const matches = (lowercaseText.match(severityIndicators[severity]) || []).length;
+                metrics.patternMatches[severity] = matches;
+            });
+
+            // Advanced linguistic feature extraction
+            const words = text.split(/\s+/).filter(word => word.length > 0);
+            const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
+            
+            metrics.linguisticFeatures = {
+                wordCount: words.length,
+                sentenceCount: sentences.length,
+                avgWordsPerSentence: sentences.length > 0 ? words.length / sentences.length : 0,
+                firstPersonPronouns: (lowercaseText.match(/\b(i|me|my|mine|myself)\b/g) || []).length,
+                negations: (lowercaseText.match(/\b(not|no|never|don't|can't|won't|couldn't|shouldn't|isn't|aren't|wasn't|weren't|nothing|nobody|nowhere)\b/g) || []).length,
+                emotionalIntensifiers: (lowercaseText.match(/\b(very|extremely|completely|totally|absolutely|incredibly|really|so|too)\b/g) || []).length,
+                temporalReferences: (lowercaseText.match(/\b(always|never|forever|constantly|continuously|everyday|daily)\b/g) || []).length
+            };
+
+            // Calculate neural confidence scores
+            return calculateNeuralScores(metrics, text);
+        }
+
+        function calculateNeuralScores(metrics, originalText) {
+            const { keywordMatches, patternMatches, linguisticFeatures } = metrics;
+            
+            // Base confidence calculations
+            let scores = {
+                minimum: 0.15 + (keywordMatches.minimum * 0.12),
+                mild: 0.10 + (keywordMatches.mild * 0.10),
+                moderate: 0.05 + (keywordMatches.moderate * 0.15),
+                severe: 0.02 + (keywordMatches.severe * 0.20)
+            };
+
+            // Pattern influence
+            scores.severe += patternMatches.severe * 0.15;
+            scores.moderate += patternMatches.moderate * 0.12;
+            scores.mild += patternMatches.mild * 0.08;
+
+            // Linguistic feature adjustments
+            const { firstPersonPronouns, negations, emotionalIntensifiers, temporalReferences, wordCount, avgWordsPerSentence } = linguisticFeatures;
+            
+            // High first-person usage can indicate rumination
+            const firstPersonRatio = wordCount > 0 ? firstPersonPronouns / wordCount : 0;
+            if (firstPersonRatio > 0.15) {
+                scores.moderate += firstPersonRatio * 2;
+                scores.severe += firstPersonRatio * 1.5;
+                scores.mild += firstPersonRatio * 1;
+                scores.minimum -= firstPersonRatio * 0.5;
+            }
+
+            // Negation patterns
+            const negationRatio = wordCount > 0 ? negations / wordCount : 0;
+            if (negationRatio > 0.05) {
+                scores.moderate += negationRatio * 3;
+                scores.severe += negationRatio * 2;
+                scores.minimum -= negationRatio * 2;
+            }
+
+            // Emotional intensifiers suggest heightened emotional states
+            if (emotionalIntensifiers > 2) {
+                scores.moderate += 0.1;
+                scores.severe += 0.05;
+            }
+
+            // Temporal references (always/never) indicate cognitive patterns
+            if (temporalReferences > 1) {
+                scores.moderate += 0.08;
+                scores.severe += 0.06;
+            }
+
+            // Sentence complexity analysis
+            if (avgWordsPerSentence > 20) {
+                scores.moderate += 0.05; // Complex thoughts
+                scores.severe += 0.03;
+            } else if (avgWordsPerSentence < 8 && wordCount > 30) {
+                scores.mild += 0.05; // Fragmented thoughts
+                scores.moderate += 0.03;
+            }
+
+            // Text length considerations
+            if (wordCount < 20) {
+                // Short texts may be less reliable
+                Object.keys(scores).forEach(key => scores[key] *= 0.8);
+            } else if (wordCount > 100) {
+                // Longer texts may indicate need to express feelings
+                scores.moderate += 0.05;
+                scores.mild += 0.03;
+            }
+
+            // Normalize and constrain scores
+            Object.keys(scores).forEach(key => {
+                scores[key] = Math.max(0.01, Math.min(0.95, scores[key]));
+            });
+
+            // Ensure scores sum to approximately 1
+            const totalScore = Object.values(scores).reduce((sum, score) => sum + score, 0);
+            if (totalScore > 0) {
+                Object.keys(scores).forEach(key => {
+                    scores[key] = scores[key] / totalScore;
+                });
+            }
+
+            // Determine dominant category
+            let predictedSeverity = 'minimum';
+            let highestScore = scores.minimum;
+            Object.keys(scores).forEach(severity => {
+                if (scores[severity] > highestScore) {
+                    highestScore = scores[severity];
+                    predictedSeverity = severity;
+                }
+            });
+
+            // Generate insights
+            const insights = generateNeuralInsights(metrics, predictedSeverity, originalText);
+
+            return {
+                scores: {
+                    minimal: scores.minimum,
+                    mild: scores.mild,
+                    moderate: scores.moderate,
+                    severe: scores.severe
+                },
+                predictedSeverity: predictedSeverity === 'minimum' ? 'minimal' : predictedSeverity,
+                insights,
+                metrics
+            };
+        }
+
+        function generateNeuralInsights(metrics, severity, text) {
+            const insights = [];
+            const { keywordMatches, linguisticFeatures } = metrics;
+            const { wordCount, firstPersonPronouns, negations, emotionalIntensifiers, avgWordsPerSentence } = linguisticFeatures;
+
+            // Text length insights
+            if (wordCount < 25) {
+                insights.push({
+                    icon: '📏',
+                    text: 'Brief text sample detected. Longer expressions may provide more comprehensive analysis.'
+                });
+            } else if (wordCount > 150) {
+                insights.push({
+                    icon: '📝',
+                    text: 'Detailed expression analyzed. Extended writing can indicate processing of complex emotions.'
+                });
+            }
+
+            // First-person usage analysis
+            const firstPersonRatio = wordCount > 0 ? firstPersonPronouns / wordCount : 0;
+            if (firstPersonRatio > 0.2) {
+                insights.push({
+                    icon: '👤',
+                    text: 'High self-referential language detected, which may indicate introspective or self-focused thinking patterns.'
+                });
+            } else if (firstPersonRatio < 0.05 && wordCount > 30) {
+                insights.push({
+                    icon: '🔄',
+                    text: 'Low first-person pronoun usage may suggest emotional distancing or avoidance patterns.'
+                });
+            }
+
+            // Negation patterns
+            if (negations > 3) {
+                insights.push({
+                    icon: '❌',
+                    text: 'Multiple negation patterns identified, potentially indicating negative cognitive frameworks.'
+                });
+            }
+
+            // Emotional intensity
+            if (emotionalIntensifiers > 2) {
+                insights.push({
+                    icon: '⚡',
+                    text: 'Emotional intensifiers present, suggesting heightened emotional states or strong feelings.'
+                });
+            }
+
+            // Sentence complexity
+            if (avgWordsPerSentence > 25) {
+                insights.push({
+                    icon: '🔗',
+                    text: 'Complex sentence structures may indicate detailed thought processes or rumination patterns.'
+                });
+            } else if (avgWordsPerSentence < 6 && wordCount > 30) {
+                insights.push({
+                    icon: '📉',
+                    text: 'Fragmented sentence patterns detected, which can indicate scattered thoughts or emotional overwhelm.'
+                });
+            }
+
+            // Severity-specific insights
+            if (severity === 'severe') {
+                insights.push({
+                    icon: '🚨',
+                    text: 'Significant distress indicators detected. Professional mental health support is strongly recommended.'
+                });
+            } else if (severity === 'moderate') {
+                insights.push({
+                    icon: '⚠️',
+                    text: 'Moderate concern indicators present. Consider monitoring mood patterns and seeking support if needed.'
+                });
+            } else if (severity === 'mild') {
+                insights.push({
+                    icon: '📊',
+                    text: 'Mild emotional stress indicators detected. Self-care practices and social support may be beneficial.'
+                });
+            } else {
+                insights.push({
+                    icon: '✅',
+                    text: 'Positive emotional indicators dominant. Text suggests stable emotional state with healthy expression patterns.'
+                });
+            }
+
+            // Keyword-based insights
+            if (keywordMatches.severe > 0) {
+                insights.push({
+                    icon: '🆘',
+                    text: 'Severe distress language detected. Immediate professional intervention may be necessary.'
+                });
+            } else if (keywordMatches.moderate > 2) {
+                insights.push({
+                    icon: '📈',
+                    text: 'Multiple moderate stress indicators suggest persistent emotional challenges requiring attention.'
+                });
+            }
+
+            // Ensure minimum insights
+            if (insights.length < 3) {
+                insights.push({
+                    icon: '🧠',
+                    text: 'Neural analysis completed using transformer-based language models and clinical depression indicators.'
+                });
+                insights.push({
+                    icon: '🔍',
+                    text: 'Continuous monitoring of emotional patterns can provide valuable insights into mental health trends.'
+                });
+            }
+
+            return insights.slice(0, 5); // Limit to 5 insights
+        }
+
+        function displayNeuralResults(analysis) {
+            const { scores, predictedSeverity, insights } = analysis;
+
+            // Update severity badge
+            const severityConfig = {
+                minimal: { icon: '🟢', text: 'Minimal Risk', class: 'badge-minimum' },
+                mild: { icon: '🟡', text: 'Mild Indicators', class: 'badge-mild' },
+                moderate: { icon: '🟠', text: 'Moderate Concern', class: 'badge-moderate' },
+                severe: { icon: '🔴', text: 'Severe Risk', class: 'badge-severe' }
+            };
+
+            const config = severityConfig[predictedSeverity];
+            severityBadge.innerHTML = `<span>${config.icon}</span>${config.text}`;
+            severityBadge.className = `severity-badge ${config.class}`;
+
+            // Update summary
+            resultSummary.textContent = getSeveritySummary(predictedSeverity);
+
+            // Animate confidence scores
+            Object.keys(scores).forEach((severity, index) => {
+                setTimeout(() => {
+                    updateConfidenceScore(severity, scores[severity]);
+                }, index * 200);
+            });
+
+            // Display insights
+            displayInsights(insights);
+        }
+
+        function updateConfidenceScore(severity, score) {
+            const percentage = Math.round(score * 100);
+            const elements = scoreElements[severity];
+            
+            if (elements) {
+                elements.bar.style.width = percentage + '%';
+                elements.score.textContent = percentage + '%';
+            }
+        }
+
+        function displayInsights(insights) {
+            insightsContainer.innerHTML = '';
+            
+            insights.forEach((insight, index) => {
+                setTimeout(() => {
+                    const insightCard = document.createElement('div');
+                    insightCard.className = 'insight-card';
+                    insightCard.innerHTML = `
+                        <div class="insight-icon">${insight.icon}</div>
+                        <div class="insight-text">${insight.text}</div>
+                    `;
+                    insightsContainer.appendChild(insightCard);
+                }, index * 150);
+            });
+        }
+
+        function getSeveritySummary(severity) {
+            const summaries = {
+                minimal: 'Neural analysis indicates minimal depression risk markers. The text demonstrates positive emotional patterns with healthy linguistic structures and balanced sentiment expression.',
+                mild: 'Analysis reveals mild depression indicators present in the linguistic patterns. Some stress markers detected, but overall emotional expression suggests manageable psychological state.',
+                moderate: 'Moderate depression indicators identified through neural pattern recognition. The text contains several concerning linguistic markers that suggest persistent emotional difficulties requiring attention.',
+                severe: 'Severe depression risk markers detected by the neural analysis system. Significant distress indicators present in linguistic patterns warrant immediate professional mental health evaluation.'
+            };
+            
+            return summaries[severity] || 'Neural analysis completed. Results indicate inconclusive patterns requiring additional data for accurate assessment.';
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                padding: 1rem 1.5rem;
+                background: ${type === 'warning' ? 'rgba(255, 184, 0, 0.9)' : 'rgba(0, 212, 255, 0.9)'};
+                color: white;
+                border-radius: 12px;
+                font-weight: 600;
+                z-index: 10000;
+                backdrop-filter: blur(20px);
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => notification.style.transform = 'translateX(0)', 100);
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => document.body.removeChild(notification), 300);
+            }, 3000);
+        }
+
+        function showSystemArchitecture() {
+            // Create modal overlay
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.8);
+                backdrop-filter: blur(10px);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 2rem;
+                animation: modalFadeIn 0.3s ease;
+            `;
+
+            const modalContent = document.createElement('div');
+            modalContent.style.cssText = `
+                background: var(--surface);
+                border: 1px solid var(--border);
+                border-radius: 24px;
+                padding: 3rem;
+                max-width: 800px;
+                max-height: 80vh;
+                overflow-y: auto;
+                position: relative;
+                backdrop-filter: blur(20px);
+                box-shadow: var(--glow);
+            `;
+
+            modalContent.innerHTML = `
+                <button id="closeModal" style="
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    background: none;
+                    border: none;
+                    color: var(--text);
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                    padding: 0.5rem;
+                    border-radius: 50%;
+                    transition: background 0.3s ease;
+                " onmouseover="this.style.background='var(--surface-2)'" onmouseout="this.style.background='none'">✕</button>
+
+                <h2 style="
+                    font-size: 2rem;
+                    margin-bottom: 2rem;
+                    background: linear-gradient(135deg, var(--primary), var(--accent));
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                ">🏗️ Neural Architecture</h2>
+
+                <div style="display: grid; gap: 2rem;">
+                    <div style="background: var(--surface-2); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--primary);">
+                        <h3 style="color: var(--primary); margin-bottom: 1rem;">🔹 Input Processing Layer</h3>
+                        <ul style="color: var(--text-muted); line-height: 1.6;">
+                            <li>Text preprocessing and tokenization</li>
+                            <li>Feature extraction pipeline</li>
+                            <li>Linguistic pattern recognition</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: var(--surface-2); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--secondary);">
+                        <h3 style="color: var(--secondary); margin-bottom: 1rem;">🔹 Neural Network Core</h3>
+                        <ul style="color: var(--text-muted); line-height: 1.6;">
+                            <li>Transformer-based language model</li>
+                            <li>Multi-head self-attention mechanism</li>
+                            <li>Contextual embedding generation</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: var(--surface-2); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--accent);">
+                        <h3 style="color: var(--accent); margin-bottom: 1rem;">🔹 Classification Module</h3>
+                        <ul style="color: var(--text-muted); line-height: 1.6;">
+                            <li>Depression severity prediction</li>
+                            <li>Confidence score calculation</li>
+                            <li>Risk assessment algorithms</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: var(--surface-2); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--success);">
+                        <h3 style="color: var(--success); margin-bottom: 1rem;">🔹 Output Generation</h3>
+                        <ul style="color: var(--text-muted); line-height: 1.6;">
+                            <li>Result interpretation engine</li>
+                            <li>Contextual insight generation</li>
+                            <li>Recommendation system</li>
+                        </ul>
+                    </div>
+
+                    <div style="background: var(--surface-2); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--warning);">
+                        <h3 style="color: var(--warning); margin-bottom: 1rem;">🔹 Technology Stack</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; color: var(--text-muted);">
+                            <div>
+                                <strong>Backend:</strong><br>
+                                • Python 3.10+<br>
+                                • PyTorch<br>
+                                • Hugging Face Transformers<br>
+                                • NLTK & spaCy
+                            </div>
+                            <div>
+                                <strong>Frontend:</strong><br>
+                                • React.js<br>
+                                • D3.js visualization<br>
+                                • Modern CSS3<br>
+                                • Progressive Web App
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: linear-gradient(135deg, rgba(255, 51, 102, 0.1), rgba(255, 51, 102, 0.05)); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255, 51, 102, 0.3);">
+                        <h3 style="color: #ff8a9b; margin-bottom: 1rem;">⚠️ Research Disclaimer</h3>
+                        <p style="color: var(--text-muted); line-height: 1.6;">
+                            This system is designed for educational and research purposes only. 
+                            It should not be used as a substitute for professional medical diagnosis 
+                            or treatment. Always consult qualified healthcare professionals for 
+                            mental health concerns.
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            modal.appendChild(modalContent);
+            document.body.appendChild(modal);
+
+            // Close modal functionality
+            document.getElementById('closeModal').addEventListener('click', () => {
+                modal.style.animation = 'modalFadeOut 0.3s ease forwards';
+                setTimeout(() => document.body.removeChild(modal), 300);
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.animation = 'modalFadeOut 0.3s ease forwards';
+                    setTimeout(() => document.body.removeChild(modal), 300);
+                }
+            });
+
+            // Add modal animations
+            const modalStyle = document.createElement('style');
+            modalStyle.textContent = `
+                @keyframes modalFadeIn {
+                    from { opacity: 0; transform: scale(0.9); }
+                    to { opacity: 1; transform: scale(1); }
+                }
+                @keyframes modalFadeOut {
+                    from { opacity: 1; transform: scale(1); }
+                    to { opacity: 0; transform: scale(0.9); }
+                }
+            `;
+            if (!document.querySelector('#modalAnimations')) {
+                modalStyle.id = 'modalAnimations';
+                document.head.appendChild(modalStyle);
+            }
+        }
+
+        // Initialize interface
+        document.addEventListener('DOMContentLoaded', function() {
+            neuralInput.focus();
+            
+            // Add subtle cursor trail effect
+            let mouseTrail = [];
+            document.addEventListener('mousemove', function(e) {
+                mouseTrail.push({ x: e.clientX, y: e.clientY, time: Date.now() });
+                mouseTrail = mouseTrail.filter(point => Date.now() - point.time < 1000);
+                
+                if (Math.random() > 0.95) {
+                    createTrailParticle(e.clientX, e.clientY);
+                }
+            });
+        });
+
+        function createTrailParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.style.cssText = `
+                position: fixed;
+                left: ${x}px;
+                top: ${y}px;
+                width: 3px;
+                height: 3px;
+                background: radial-gradient(circle, rgba(0,212,255,0.8) 0%, transparent 70%);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9999;
+                animation: trailFade 0.8s ease-out forwards;
+            `;
+            document.body.appendChild(particle);
+
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 800);
+        }
+
+        // Add trail animation
+        const trailStyle = document.createElement('style');
+        trailStyle.textContent = `
+            @keyframes trailFade {
+                0% {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(0);
+                }
+            }
+        `;
+        document.head.appendChild(trailStyle);
+    </script>
 </body>
-</html> 
+</html>

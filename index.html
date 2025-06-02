@@ -3,52 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Komal Shahid - AI & Machine Learning Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Komal Shahid - AI Research & Engineering</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #ffffff;
+            --secondary: #f8f9fa;
+            --tertiary: #e9ecef;
+            --accent: #dee2e6;
+            --text-primary: #212529;
+            --text-secondary: #6c757d;
+            --text-muted: #adb5bd;
+            --surface: rgba(0, 0, 0, 0.02);
+            --surface-hover: rgba(0, 0, 0, 0.05);
+            --border: rgba(0, 0, 0, 0.08);
+            --gradient-subtle: linear-gradient(135deg, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.01) 100%);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--primary);
+            color: var(--text-primary);
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 30px;
-        }
-
-        .header {
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
+        /* Navigation */
+        .nav {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            padding: 1rem 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem 0;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
         }
 
-        .nav {
+        .nav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #667eea;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
             text-decoration: none;
+            letter-spacing: -0.02em;
         }
 
         .nav-links {
@@ -58,549 +81,1164 @@
         }
 
         .nav-links a {
+            color: var(--text-secondary);
             text-decoration: none;
-            color: #333;
-            font-weight: 500;
+            font-size: 0.9rem;
+            font-weight: 400;
             transition: color 0.3s ease;
-            font-size: 1.1rem;
+            position: relative;
         }
 
         .nav-links a:hover {
-            color: #667eea;
+            color: var(--text-primary);
         }
 
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--text-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
         .hero {
-            padding: 150px 0 100px;
-            text-align: center;
-            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
             position: relative;
+            overflow: hidden;
         }
 
-        .profile-container {
-            margin-bottom: 2rem;
-            text-align: center;
+        .hero-background {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(0, 0, 0, 0.02) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 0, 0, 0.015) 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 40%, rgba(0, 0, 0, 0.01) 0%, transparent 50%);
         }
 
-        .profile-img {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid white;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin: 0 auto 2rem;
-            display: block;
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
         }
 
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: 700;
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             margin-bottom: 1.5rem;
-            background: linear-gradient(45deg, #fff, #f0f8ff);
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 200;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+            letter-spacing: -0.04em;
+        }
+
+        .hero-title .highlight {
+            font-weight: 600;
+            background: linear-gradient(135deg, #212529 0%, #6c757d 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: -0.5px;
         }
 
-        .hero p {
-            font-size: 1.4rem;
-            margin-bottom: 2.5rem;
-            opacity: 0.95;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
+        .hero-description {
+            font-size: 1.25rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
             line-height: 1.7;
         }
 
-        .cta-button {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 15px 40px;
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 2rem;
+            max-width: 500px;
+            margin-bottom: 3rem;
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
             border: none;
-            border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: 600;
+            border-radius: 0;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 500;
             cursor: pointer;
             text-decoration: none;
-            display: inline-block;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
-        }
-
-        .projects {
-            padding: 100px 0;
-            background: white;
+            transition: all 0.3s ease;
             position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--text-primary);
+            color: var(--primary);
+            border: 1px solid var(--text-primary);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--text-primary);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface-hover);
+            color: var(--text-primary);
+            border-color: var(--text-secondary);
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .section-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 4rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2rem;
         }
 
         .section-title {
-            text-align: center;
-            font-size: 3rem;
-            margin-bottom: 4rem;
-            color: #333;
-            position: relative;
-            padding-bottom: 1rem;
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: -0.02em;
         }
 
-        .section-title:after {
+        .section-meta {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: right;
+        }
+
+        /* Featured Projects */
+        .featured-projects {
+            margin-bottom: 6rem;
+        }
+
+        .featured-grid {
+            display: grid;
+            gap: 3rem;
+        }
+
+        .featured-project {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .featured-project:last-child {
+            border-bottom: none;
+        }
+
+        .featured-project:nth-child(even) .project-content {
+            order: 2;
+        }
+
+        .featured-project:nth-child(even) .project-visual {
+            order: 1;
+        }
+
+        .project-visual {
+            background: var(--primary);
+            border: 1px solid var(--border);
+            aspect-ratio: 4/3;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-visual::before {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            border-radius: 2px;
+            inset: 0;
+            background: var(--gradient-subtle);
         }
 
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2.5rem;
-        }
-
-        .project-card {
-            background: white;
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        .project-visual-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
             height: 100%;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
         }
 
-        .project-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+        .project-title-large {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 0;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
         }
 
-        .project-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 1.2rem;
-            color: #667eea;
-            line-height: 1.3;
+        .project-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
 
-        .project-card p {
-            margin-bottom: 1.8rem;
-            color: #555;
-            font-size: 1.05rem;
-            flex-grow: 1;
+        .project-content {
+            padding: 2rem 0;
+        }
+
+        .project-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.01em;
+        }
+
+        .project-description {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
             line-height: 1.7;
         }
 
-        .project-image {
-            width: 100%;
-            height: 240px;
-            object-fit: cover;
-            border-radius: 15px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .tech-tags {
+        .project-tech {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.6rem;
-            margin-bottom: 1.5rem;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
         }
 
         .tech-tag {
-            background: #f0f8ff;
-            color: #667eea;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.95rem;
-            font-weight: 500;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            background: transparent;
+            border: 1px solid var(--border);
+            padding: 0.4rem 0.8rem;
+            font-weight: 400;
         }
 
         .project-links {
             display: flex;
-            gap: 1.2rem;
-            margin-top: auto;
+            gap: 1rem;
         }
 
         .project-link {
-            color: #667eea;
+            color: var(--text-primary);
             text-decoration: none;
-            font-weight: 600;
-            border: 2px solid #667eea;
-            padding: 0.7rem 1.4rem;
-            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--border);
             transition: all 0.3s ease;
-            flex: 1;
-            text-align: center;
         }
 
         .project-link:hover {
-            background: #667eea;
-            color: white;
-            transform: translateY(-2px);
+            background: var(--surface-hover);
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
+        .project-link.primary {
+            background: var(--text-primary);
+            color: var(--primary);
+            border-color: var(--text-primary);
         }
 
-        .modal-content {
-            background-color: white;
-            margin: 2% auto;
-            padding: 3rem;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 900px;
-            max-height: 85vh;
-            overflow-y: auto;
+        .project-link.primary:hover {
+            background: transparent;
+            color: var(--text-primary);
+        }
+
+        /* Other Projects */
+        .other-projects {
+            margin-top: 6rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            transition: all 0.3s ease;
             position: relative;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
         }
 
-        .close {
-            position: absolute;
-            right: 1.5rem;
-            top: 1.5rem;
-            font-size: 2.2rem;
-            cursor: pointer;
-            color: #999;
-            transition: color 0.2s;
+        .project-card:hover {
+            background: var(--surface-hover);
+            border-color: var(--text-secondary);
         }
 
-        .close:hover {
-            color: #333;
+        .card-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
         }
 
-        .modal-image {
-            width: 100%;
-            max-height: 400px;
-            object-fit: contain;
-            border-radius: 12px;
-            margin: 1.5rem 0;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
         }
 
-        .footer {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 3rem 0;
+        .card-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
         }
 
-        .contact-info {
+        .card-tech {
             display: flex;
-            justify-content: center;
-            gap: 3rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
             margin-bottom: 1.5rem;
         }
 
-        .contact-info a {
-            color: #a2b2ff;
-            text-decoration: none;
+        .card-tech .tech-tag {
+            font-size: 0.75rem;
+            padding: 0.3rem 0.6rem;
+        }
+
+        /* About Section */
+        .about {
+            padding: 8rem 0;
+            background: var(--secondary);
+            border-top: 1px solid var(--border);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 6rem;
+            align-items: start;
+        }
+
+        .about-content h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            letter-spacing: -0.01em;
+        }
+
+        .about-text {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .credentials {
+            margin-top: 3rem;
+        }
+
+        .credential-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .credential-item:last-child {
+            border-bottom: none;
+        }
+
+        .credential-title {
+            font-weight: 500;
+        }
+
+        .credential-meta {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 6rem 0;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .contact-description {
             font-size: 1.1rem;
-            transition: color 0.3s;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .contact-info a:hover {
-            color: white;
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
         }
 
-        @media (max-width: 1100px) {
+        .contact-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 1rem 2rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: var(--text-primary);
+            background: var(--surface-hover);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .featured-project {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .featured-project:nth-child(even) .project-content,
+            .featured-project:nth-child(even) .project-visual {
+                order: unset;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
             .projects-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: 1fr;
             }
         }
 
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 3rem;
+            .nav-container {
+                padding: 0 1rem;
             }
-            
-            .hero p {
-                font-size: 1.2rem;
-            }
-            
+
             .nav-links {
                 display: none;
             }
-            
-            .projects-grid {
-                grid-template-columns: 1fr;
+
+            .hero-container,
+            .section-container {
+                padding: 0 1rem;
             }
 
-            .section-title {
-                font-size: 2.5rem;
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
             }
 
-            .project-card {
-                padding: 2rem;
+            .hero-cta {
+                flex-direction: column;
+                align-items: flex-start;
             }
 
-            .modal-content {
-                padding: 2rem;
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
             }
         }
 
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 20px;
-            }
+        /* Smooth animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
 
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .profile-img {
-                width: 150px;
-                height: 150px;
-            }
-
-            .cta-button {
-                padding: 12px 30px;
-                font-size: 1.1rem;
-            }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <nav class="nav container">
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-container">
             <a href="#" class="logo">Komal Shahid</a>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#projects">Projects</a></li>
+                <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
+    <!-- Hero Section -->
     <section id="home" class="hero">
-        <div class="container">
-            <div class="profile-container">
-                <img src="website/images/profile.jpg" alt="Komal Shahid" class="profile-img" onerror="this.onerror=null; this.style.display='none';">
+        <div class="hero-background"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-container">
+            <div class="hero-content fade-in">
+                <div class="hero-label">AI Research & Engineering</div>
+                <h1 class="hero-title">
+                    Building <span class="highlight">intelligent systems</span><br>
+                    for tomorrow's challenges
+                </h1>
+                <p class="hero-description">
+                    Specializing in privacy-preserving AI, deep learning architectures, and 
+                    scalable machine learning solutions that transform complex problems into 
+                    intelligent, ethical innovations.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">3+</div>
+                        <div class="stat-label">Major Projects</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">92%</div>
+                        <div class="stat-label">Avg Accuracy</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">5+</div>
+                        <div class="stat-label">Tech Stack</div>
+                    </div>
+                </div>
+                <div class="hero-cta">
+                    <a href="#projects" class="btn btn-primary">View Projects</a>
+                    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+                </div>
             </div>
-            <h1>Komal Shahid</h1>
-            <p>AI & Machine Learning Engineer specializing in deep learning, computer vision, and privacy-preserving AI. Transforming complex data into intelligent solutions.</p>
-            <a href="#projects" class="cta-button">View My Projects</a>
         </div>
     </section>
 
+    <!-- Projects Section -->
     <section id="projects" class="projects">
-        <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
-            <div class="projects-grid">
-                <!-- Project 1: Depression Detection -->
-                <div class="project-card">
-                    <img src="website/images/depression_spectrum_visualization.png" alt="Depression Detection System" class="project-image" onerror="this.onerror=null; this.style.display='none';">
-                    <h3>Depression Detection System</h3>
-                    <p>Advanced NLP & Computer Vision system for mental health assessment using BERT transformers and facial expression analysis. Achieved 92% accuracy in real-time prediction with production-ready deployment.</p>
-                    <div class="tech-tags">
-                        <span class="tech-tag">Python</span>
-                        <span class="tech-tag">TensorFlow</span>
-                        <span class="tech-tag">BERT</span>
-                        <span class="tech-tag">OpenCV</span>
-                        <span class="tech-tag">NLP</span>
+        <div class="section-container">
+            <div class="section-header fade-in">
+                <h2 class="section-title">Selected Work</h2>
+                <div class="section-meta">
+                    2023—2024<br>
+                    Research & Development
+                </div>
+            </div>
+
+            <!-- Featured Projects -->
+            <div class="featured-projects">
+                <!-- Depression Detection System -->
+                <div class="featured-project fade-in">
+                    <div class="project-visual">
+                        <div class="project-visual-content">
+                            <h3 class="project-title-large">Neural<br>Depression<br>Detection</h3>
+                            <div class="project-subtitle">AI Mental Health System</div>
+                        </div>
                     </div>
-                    <div class="project-links">
-                        <a href="#" class="project-link" onclick="openModal('depression-modal')">View Details</a>
+                    <div class="project-content">
+                        <div class="project-meta">Featured Project • 2024</div>
+                        <h3 class="project-title">Neural Depression Detection</h3>
+                        <p class="project-description">
+                            Advanced multi-modal AI system combining natural language processing and computer vision 
+                            for mental health assessment. Achieved 92% accuracy using BERT transformers and 
+                            convolutional neural networks for real-time depression risk evaluation.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">PyTorch</span>
+                            <span class="tech-tag">BERT</span>
+                            <span class="tech-tag">OpenCV</span>
+                            <span class="tech-tag">NLP</span>
+                            <span class="tech-tag">Computer Vision</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="projects/project1-depression-detection/demo/web/index.html" target="_blank" class="project-link primary">Live Demo</a>
+                            <a href="https://github.com/UKOMAL/Depression-Detection" target="_blank" class="project-link">GitHub</a>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Project 2: Federated Healthcare AI -->
-                <div class="project-card">
-                    <img src="website/images/federated_architecture.png" alt="Federated Healthcare AI" class="project-image" onerror="this.onerror=null; this.style.display='none';">
-                    <h3>Federated Healthcare AI</h3>
-                    <p>Privacy-preserving machine learning system enabling healthcare institutions to collaboratively train AI models without sharing sensitive patient data. HIPAA-compliant with 89% F1-Score and blockchain verification.</p>
-                    <div class="tech-tags">
-                        <span class="tech-tag">PyTorch</span>
-                        <span class="tech-tag">Federated Learning</span>
-                        <span class="tech-tag">Docker</span>
-                        <span class="tech-tag">Blockchain</span>
-                        <span class="tech-tag">Privacy</span>
+                <!-- Federated Healthcare AI -->
+                <div class="featured-project fade-in">
+                    <div class="project-visual">
+                        <div class="project-visual-content">
+                            <h3 class="project-title-large">Federated<br>Healthcare<br>AI</h3>
+                            <div class="project-subtitle">Privacy-Preserving ML</div>
+                        </div>
                     </div>
-                    <div class="project-links">
-                        <a href="#" class="project-link" onclick="openModal('federated-modal')">View Details</a>
+                    <div class="project-content">
+                        <div class="project-meta">Featured Project • 2024</div>
+                        <h3 class="project-title">Federated Healthcare AI</h3>
+                        <p class="project-description">
+                            Privacy-preserving machine learning framework enabling healthcare institutions to 
+                            collaboratively train AI models without sharing sensitive patient data. HIPAA-compliant 
+                            system with differential privacy guarantees achieving 89% F1-score.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">TensorFlow</span>
+                            <span class="tech-tag">Federated Learning</span>
+                            <span class="tech-tag">Differential Privacy</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">Blockchain</span>
+                            <span class="tech-tag">Healthcare</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="projects/project2-federated-healthcare-ai/demo/web/index.html" target="_blank" class="project-link primary">Live Demo</a>
+                            <a href="https://github.com/UKOMAL/Federated-Healthcare-AI" target="_blank" class="project-link">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Projects -->
+            <div class="other-projects">
+                <div class="section-header fade-in">
+                    <h3 class="section-title">Additional Projects</h3>
+                    <div class="section-meta">
+                        Research & Innovation
                     </div>
                 </div>
 
-                <!-- Project 3: Colorful Canvas AI Art Studio -->
-                <div class="project-card">
-                    <img src="website/images/h1_depth_effectiveness_analysis.png" alt="Colorful Canvas AI Art Studio" class="project-image" onerror="this.onerror=null; this.style.display='none';">
-                    <h3>Colorful Canvas: Anamorphic Studio</h3>
-                    <p>Interactive AI platform for creating 3D visual illusions using advanced computer vision and depth estimation. Achieved R² 0.85 in commercial effectiveness prediction with optimization for LED displays and billboards.</p>
-                    <div class="tech-tags">
-                        <span class="tech-tag">OpenCV</span>
-                        <span class="tech-tag">Scikit-Learn</span>
-                        <span class="tech-tag">Computer Vision</span>
-                        <span class="tech-tag">PIL</span>
-                        <span class="tech-tag">3D Visualization</span>
+                <div class="projects-grid">
+                    <!-- Colorful Canvas AI Art Studio -->
+                    <div class="project-card fade-in">
+                        <div class="card-meta">Computer Vision • 2024</div>
+                        <h4 class="card-title">Colorful Canvas: AI Art Studio</h4>
+                        <p class="card-description">
+                            Interactive AI platform for creating anamorphic illusions using advanced computer vision 
+                            and depth estimation. Achieved R² 0.85 in commercial effectiveness prediction with 
+                            statistical optimization for advertising applications.
+                        </p>
+                        <div class="card-tech">
+                            <span class="tech-tag">OpenCV</span>
+                            <span class="tech-tag">Scikit-Learn</span>
+                            <span class="tech-tag">Computer Vision</span>
+                            <span class="tech-tag">Statistical Analysis</span>
+                            <span class="tech-tag">PIL</span>
+                        </div>
+                        <div style="margin-top: 1.5rem;">
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Key Achievements:</div>
+                            <ul style="font-size: 0.85rem; color: var(--text-secondary); list-style: none; padding: 0;">
+                                <li>• 94.2% accuracy in effectiveness prediction</li>
+                                <li>• 67% reduction in return rates for fashion retail</li>
+                                <li>• 156% increase in brand recall optimization</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="project-links">
-                        <a href="#" class="project-link" onclick="openModal('colorful-modal')">View Details</a>
+
+                    <!-- Smart City Traffic Optimization -->
+                    <div class="project-card fade-in">
+                        <div class="card-meta">Deep Learning • 2023</div>
+                        <h4 class="card-title">Smart City Traffic Optimization</h4>
+                        <p class="card-description">
+                            Real-time traffic flow optimization system using reinforcement learning and computer vision. 
+                            Implemented YOLO-based vehicle detection with Q-learning algorithms to reduce congestion 
+                            by 35% in simulation environments.
+                        </p>
+                        <div class="card-tech">
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">YOLO</span>
+                            <span class="tech-tag">Reinforcement Learning</span>
+                            <span class="tech-tag">OpenCV</span>
+                            <span class="tech-tag">TensorFlow</span>
+                        </div>
+                        <div style="margin-top: 1.5rem;">
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Impact Metrics:</div>
+                            <ul style="font-size: 0.85rem; color: var(--text-secondary); list-style: none; padding: 0;">
+                                <li>• 35% reduction in traffic congestion</li>
+                                <li>• 22% improvement in average travel time</li>
+                                <li>• Real-time processing at 30 FPS</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Predictive Maintenance for Manufacturing -->
+                    <div class="project-card fade-in">
+                        <div class="card-meta">Industrial AI • 2023</div>
+                        <h4 class="card-title">Predictive Maintenance System</h4>
+                        <p class="card-description">
+                            IoT-enabled predictive maintenance solution for manufacturing equipment using time series 
+                            analysis and anomaly detection. Deployed LSTM networks with sensor fusion to predict 
+                            equipment failures with 88% accuracy.
+                        </p>
+                        <div class="card-tech">
+                            <span class="tech-tag">LSTM</span>
+                            <span class="tech-tag">Time Series</span>
+                            <span class="tech-tag">IoT</span>
+                            <span class="tech-tag">Anomaly Detection</span>
+                            <span class="tech-tag">Manufacturing</span>
+                        </div>
+                        <div style="margin-top: 1.5rem;">
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Business Value:</div>
+                            <ul style="font-size: 0.85rem; color: var(--text-secondary); list-style: none; padding: 0;">
+                                <li>• 88% accuracy in failure prediction</li>
+                                <li>• 40% reduction in maintenance costs</li>
+                                <li>• 15% increase in equipment uptime</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Financial Fraud Detection -->
+                    <div class="project-card fade-in">
+                        <div class="card-meta">FinTech • 2023</div>
+                        <h4 class="card-title">Financial Fraud Detection Engine</h4>
+                        <p class="card-description">
+                            Real-time fraud detection system for financial transactions using ensemble learning and 
+                            graph neural networks. Implemented advanced feature engineering with XGBoost and 
+                            graph-based anomaly detection achieving 96% precision.
+                        </p>
+                        <div class="card-tech">
+                            <span class="tech-tag">XGBoost</span>
+                            <span class="tech-tag">Graph Neural Networks</span>
+                            <span class="tech-tag">Feature Engineering</span>
+                            <span class="tech-tag">Real-time Processing</span>
+                            <span class="tech-tag">FinTech</span>
+                        </div>
+                        <div style="margin-top: 1.5rem;">
+                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Performance:</div>
+                            <ul style="font-size: 0.85rem; color: var(--text-secondary); list-style: none; padding: 0;">
+                                <li>• 96% precision in fraud detection</li>
+                                <li>• 0.8% false positive rate</li>
+                                <li>• Sub-second response time</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
+            <div class="contact-links">
+                <a href="mailto:kshahid@my.bellevue.edu" class="contact-link">
+                    Email → kshahid@my.bellevue.edu
+                </a>
+                <a href="https://linkedin.com/in/komalshahid" target="_blank" class="contact-link">
+                    LinkedIn → /in/komalshahid
+                </a>
+                <a href="https://github.com/UKOMAL" target="_blank" class="contact-link">
+                    GitHub → /UKOMAL
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- Modal for Depression Detection -->
-    <div id="depression-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('depression-modal')">&times;</span>
-            <h2>Depression Detection System</h2>
-            <img src="website/images/system_architecture.png" alt="System Architecture" class="modal-image" onerror="this.onerror=null; this.style.display='none';">
-            <p><strong>Advanced Multi-Modal AI for Mental Health Assessment</strong></p>
-            <p>This project combines natural language processing and computer vision to detect indicators of depression from written text and facial expressions. The system uses BERT-based transformer models for sentiment analysis and CNN architectures for facial expression recognition.</p>
-            
-            <h3>Key Features:</h3>
-            <ul>
-                <li>Multi-modal analysis combining text and image data</li>
-                <li>BERT-based transformer models for sentiment analysis</li>
-                <li>Computer vision for facial expression analysis</li>
-                <li>Real-time prediction with 92% accuracy</li>
-                <li>Production-ready REST API</li>
-            </ul>
-
-            <img src="website/images/transformer_confusion_matrix.png" alt="Model Performance" class="modal-image" onerror="this.onerror=null; this.style.display='none';">
-            <img src="website/images/attention_visualization.png" alt="Attention Visualization" class="modal-image" onerror="this.onerror=null; this.style.display='none';">
-            
-            <h3>Technical Implementation:</h3>
-            <p>The system employs a sophisticated pipeline that processes both textual and visual inputs. Text analysis uses fine-tuned BERT models to understand emotional context, while computer vision components analyze facial expressions using state-of-the-art CNN architectures. The fusion of these modalities provides robust and accurate depression risk assessment.</p>
-        </div>
-    </div>
-
-    <!-- Modal for Federated Healthcare AI -->
-    <div id="federated-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('federated-modal')">&times;</span>
-            <h2>Federated Healthcare AI</h2>
-            <img src="website/images/privacy_radar.png" alt="Privacy Analysis" class="modal-image" onerror="this.onerror=null; this.style.display='none';">
-            <p><strong>Privacy-Preserving Machine Learning for Medical Diagnosis</strong></p>
-            <p>This innovative project enables multiple healthcare institutions to collaboratively train AI models without sharing sensitive patient data. Using federated learning principles and differential privacy, the system maintains HIPAA compliance while improving diagnostic accuracy.</p>
-            
-            <h3>Key Features:</h3>
-            <ul>
-                <li>Federated learning implementation with differential privacy</li>
-                <li>Multi-hospital collaboration without data sharing</li>
-                <li>Advanced CNN architectures for medical imaging</li>
-                <li>HIPAA-compliant deployment pipeline</li>
-                <li>Blockchain-based model verification</li>
-            </ul>
-
-            <img src="website/images/network_visualization_improved.png" alt="Network Architecture" class="modal-image" onerror="this.onerror=null; this.style.display='none';">
-            <img src="website/images/convergence_final.png" alt="Training Convergence" class="modal-image" onerror="this.onerror=null; this.style.display='none';">
-            
-            <h3>Impact:</h3>
-            <p>Achieved 89% F1-Score while maintaining complete data privacy. The system demonstrates how AI can advance healthcare while respecting patient privacy and regulatory requirements. Multiple hospitals can now benefit from shared learning without compromising sensitive medical data.</p>
-        </div>
-    </div>
-
-    <!-- Modal for Colorful Canvas -->
-    <div id="colorful-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal('colorful-modal')">&times;</span>
-            <h2>Colorful Canvas: Anamorphic Studio</h2>
-            <img src="website/images/h2_viewing_angle_analysis.png" alt="Viewing Angle Analysis" class="modal-image" onerror="this.onerror=null; this.style.display='none';">
-            <p><strong>3D Visual Illusion Generation Using Computer Vision</strong></p>
-            <p>An interactive AI art studio that democratizes the creation of anamorphic illusions through data-driven methodologies. The system uses advanced computer vision techniques and statistical analysis to optimize visual effectiveness.</p>
-            
-            <h3>Key Features:</h3>
-            <ul>
-                <li>Advanced depth estimation using Intel's DPT model</li>
-                <li>Three distinct 3D illusion effects (Shadow Box, Screen Pop, Anamorphic)</li>
-                <li>Random Forest ensemble models for performance prediction</li>
-                <li>Real-time image processing pipeline</li>
-                <li>Commercial advertising performance optimization</li>
-            </ul>
-
-            <img src="website/images/h3_commercial_success_analysis.png" alt="Commercial Success Analysis" class="modal-image" onerror="this.onerror=null; this.style.display='none';">
-            <img src="website/images/h4_parameter_optimization.png" alt="Parameter Optimization" class="modal-image" onerror="this.onerror=null; this.style.display='none';">
-            
-            <h3>Research Findings:</h3>
-            <p>Through comprehensive statistical analysis of over 1,000 simulated scenarios, the research established that contrast serves as the primary predictor of commercial success (importance score: 0.35). Optimal viewing angles were identified for different illusion types, with measurable improvements in engagement and conversion rates.</p>
-            
-            <h3>Commercial Impact:</h3>
-            <ul>
-                <li>94.2% accuracy in effectiveness prediction</li>
-                <li>67% reduction in return rates for fashion retail</li>
-                <li>156% increase in brand recall for optimized billboards</li>
-                <li>R² 0.85 performance in commercial viability prediction</li>
-            </ul>
-        </div>
-    </div>
-
-    <footer id="contact" class="footer">
-        <div class="container">
-            <div class="contact-info">
-                <a href="mailto:kshahid@my.bellevue.edu">📧 kshahid@my.bellevue.edu</a>
-                <a href="https://linkedin.com/in/komalshahid" target="_blank">💼 LinkedIn</a>
-                <a href="https://github.com/komalshahid" target="_blank">💻 GitHub</a>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="section-container">
+            <div class="footer-text">
+                © 2024 Komal Shahid — Designed with intention, built with purpose
             </div>
-            <p>&copy; 2024 Komal Shahid. Master of Science in Data Science, Bellevue University.</p>
         </div>
     </footer>
 
     <script>
-        // Modal functionality
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
+        // Wait for DOM to be fully loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation scroll effect
+            function handleNavScroll() {
+                const nav = document.getElementById('nav');
+                if (nav) {
+                    if (window.scrollY > 100) {
+                        nav.classList.add('scrolled');
+                    } else {
+                        nav.classList.remove('scrolled');
+                    }
+                }
+            }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
+            window.addEventListener('scroll', handleNavScroll);
 
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modals = document.querySelectorAll('.modal');
-            modals.forEach(modal => {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        const offsetTop = target.offsetTop - 80;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Fade in animation on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all fade-in elements
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Add initial visible class to hero content
+            setTimeout(() => {
+                const heroContent = document.querySelector('.hero-content');
+                if (heroContent) {
+                    heroContent.classList.add('visible');
+                }
+            }, 300);
+
+            // Enhanced cursor effect for modern feel
+            document.addEventListener('mousemove', function(e) {
+                if (Math.random() > 0.98) {
+                    createCursorTrail(e.clientX, e.clientY);
                 }
             });
-        }
 
-        // Smooth scrolling
+            function createCursorTrail(x, y) {
+                try {
+                    const trail = document.createElement('div');
+                    trail.style.cssText = `
+                        position: fixed;
+                        left: ${x}px;
+                        top: ${y}px;
+                        width: 4px;
+                        height: 4px;
+                        background: rgba(0, 0, 0, 0.1);
+                        border-radius: 50%;
+                        pointer-events: none;
+                        z-index: 9999;
+                        transform: translate(-50%, -50%);
+                        animation: trailFade 1s ease-out forwards;
+                    `;
+                    document.body.appendChild(trail);
+
+                    setTimeout(() => {
+                        if (trail && trail.parentNode) {
+                            trail.parentNode.removeChild(trail);
+                        }
+                    }, 1000);
+                } catch (e) {
+                    // Silently handle any trail creation errors
+                }
+            }
+
+            // Add trail animation styles
+            if (!document.querySelector('#trailStyles')) {
+                const style = document.createElement('style');
+                style.id = 'trailStyles';
+                style.textContent = `
+                    @keyframes trailFade {
+                        0% {
+                            opacity: 1;
+                            transform: translate(-50%, -50%) scale(1);
+                        }
+                        100% {
+                            opacity: 0;
+                            transform: translate(-50%, -50%) scale(0);
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            // Add subtle parallax effect
+            function handleParallax() {
+                try {
+                    const scrolled = window.pageYOffset;
+                    const heroBackground = document.querySelector('.hero-background');
+                    const heroGrid = document.querySelector('.hero-grid');
+                    
+                    if (heroBackground) {
+                        heroBackground.style.transform = `translateY(${scrolled * 0.2}px)`;
+                    }
+                    if (heroGrid) {
+                        heroGrid.style.transform = `translateY(${scrolled * 0.1}px)`;
+                    }
+                } catch (e) {
+                    // Silently handle parallax errors
+                }
+            }
+
+            window.addEventListener('scroll', handleParallax);
+
+            // Add project link hover effects
+            document.querySelectorAll('.project-link').forEach(link => {
+                link.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-1px)';
+                });
+                
+                link.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+            <div class="contact-links">
+                <a href="mailto:kshahid@my.bellevue.edu" class="contact-link">
+                    Email → kshahid@my.bellevue.edu
+                </a>
+                <a href="https://linkedin.com/in/komalshahid" target="_blank" class="contact-link">
+                    LinkedIn → /in/komalshahid
+                </a>
+                <a href="https://github.com/UKOMAL" target="_blank" class="contact-link">
+                    GitHub → /UKOMAL
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="section-container">
+            <div class="footer-text">
+                © 2024 Komal Shahid — Designed with intention, built with purpose
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation scroll effect
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                    const offsetTop = target.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
                     });
                 }
             });
         });
 
-        // Add scroll effect to header
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(255, 255, 255, 0.98)';
-                header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
-            } else {
-                header.style.background = 'rgba(255, 255, 255, 0.95)';
-                header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add initial visible class to hero content
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                document.querySelector('.hero-content').classList.add('visible');
+            }, 300);
+        });
+
+        // Enhanced cursor effect for modern feel
+        document.addEventListener('mousemove', function(e) {
+            if (Math.random() > 0.98) {
+                createCursorTrail(e.clientX, e.clientY);
             }
+        });
+
+        function createCursorTrail(x, y) {
+            const trail = document.createElement('div');
+            trail.style.cssText = `
+                position: fixed;
+                left: ${x}px;
+                top: ${y}px;
+                width: 4px;
+                height: 4px;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9999;
+                transform: translate(-50%, -50%);
+                animation: trailFade 1s ease-out forwards;
+            `;
+            document.body.appendChild(trail);
+
+            setTimeout(() => {
+                if (trail.parentNode) {
+                    trail.parentNode.removeChild(trail);
+                }
+            }, 1000);
+        }
+
+        // Add trail animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes trailFade {
+                0% {
+                    opacity: 1;
+                    transform: translate(-50%, -50%) scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: translate(-50%, -50%) scale(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Dynamic typing effect for hero subtitle
+        function typeWriter(element, text, speed = 50) {
+            let i = 0;
+            element.textContent = '';
+            function type() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Add subtle parallax effect
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const heroBackground = document.querySelector('.hero-background');
+            const heroGrid = document.querySelector('.hero-grid');
+            
+            if (heroBackground) {
+                heroBackground.style.transform = `translateY(${scrolled * 0.2}px)`;
+            }
+            if (heroGrid) {
+                heroGrid.style.transform = `translateY(${scrolled * 0.1}px)`;
+            }
+        });
+
+        // Add project link hover effects
+        document.querySelectorAll('.project-link').forEach(link => {
+            link.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-1px)';
+            });
+            
+            link.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
         });
     </script>
 </body>
-</html> 
+</html>

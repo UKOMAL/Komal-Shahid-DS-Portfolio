@@ -90,4 +90,8 @@ anamorphic_billboard_runner.sh
 temp_anamorphic_script.py
 temp_test_script.py
 demo_mcp_blender.py
-progress_demo.py 
+progress_demo.py
+
+# Ensure milestone folders are included
+!src/milestone3/
+!src/milestone3/*.py 

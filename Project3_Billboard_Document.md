@@ -107,7 +107,7 @@ A text-based interactive interface that allows users to:
 Blender integration allows for sophisticated 3D transformations and renderings. Use the following command to run the anamorphic pipeline through Blender:
 
 ```bash
-blender -b -P anamorph_pipeline.py -- \
+blender -b -P projects/project3-colorful-canvas/src/blender/anamorphic_billboard_consolidated.py -- \
   --image /path/to/logo.png \
   --effect seoul_corner \
   --width 16 --height 9 \

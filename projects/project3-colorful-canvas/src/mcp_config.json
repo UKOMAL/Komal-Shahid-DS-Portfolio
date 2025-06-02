@@ -1,0 +1,58 @@
+{
+  "name": "Project 3 - Colorful Canvas MCP Configuration",
+  "description": "Latest MCP configuration for AI + Blender anamorphic pipeline",
+  "version": "1.0.0",
+  "location": "src/mcp_config.json",
+  "ai_module": "src.colorful_canvas",
+  "ai_class": "ColorfulCanvasAI",
+  "output_paths": {
+    "depth": "./data/output/mcp_depth.png",
+    "shadow": "./data/output/mcp_shadow.png",
+    "blender": "./data/output/blender_renders/"
+  },
+  "test_image_params": {
+    "width": 400,
+    "height": 300
+  },
+  "effects": {
+    "shadow_box_strength": 1.5,
+    "depth_strength": 1.0,
+    "chromatic_enabled": true
+  },
+  "mcpServers": {
+    "project3-colorful-canvas": {
+      "command": "python3",
+      "args": ["src/mcp.py"],
+      "description": "🥷 Latest MCP integration for Project 3: Blender + Generative AI workflow",
+      "workingDirectory": "projects/project3-colorful-canvas",
+      "tools": [
+        {
+          "name": "depth_analysis",
+          "description": "Generate depth maps using MiDaS AI models",
+          "command": "depth"
+        },
+        {
+          "name": "shadow_anamorphic", 
+          "description": "Create shadow box anamorphic effects with AI",
+          "command": "shadow"
+        },
+        {
+          "name": "blender_render",
+          "description": "Render professional 3D anamorphic scenes",
+          "command": "blender"
+        },
+        {
+          "name": "complete_pipeline",
+          "description": "Run complete AI + Blender pipeline",
+          "command": "pipeline"
+        }
+      ],
+      "environment": {
+        "BLENDER_PATH": "/Applications/Blender.app/Contents/MacOS/Blender",
+        "PROJECT_DIR": "projects/project3-colorful-canvas",
+        "PYTHONPATH": ".",
+        "MCP_VERSION": "latest"
+      }
+    }
+  }
+} 

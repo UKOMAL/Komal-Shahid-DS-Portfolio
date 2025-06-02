@@ -153,4 +153,108 @@ This project uses the following open-source libraries and models:
 - Intel/DPT depth estimation model
 - OpenCV for image processing
 - Scikit-learn for machine learning models
-- PyTorch (optional) for advanced neural networks 
+- PyTorch (optional) for advanced neural networks
+
+# Colorful Canvas AI Art Studio
+
+## New Generic Product Box Template 🎁
+
+**Major Update:** Replaced hardcoded Nike-specific template with adaptive generic product box template!
+
+### Why the Change?
+- **Before:** Hardcoded Nike orange colors, swoosh logo, and "NIKE" text
+- **After:** Intelligently adapts to ANY product image without brand-specific elements
+
+### How It Works
+The new `product_box` template:
+
+1. **Extracts dominant colors** from your input image
+2. **Adapts box design** based on extracted colors and chosen style
+3. **Creates realistic anamorphic illusion** without hardcoded brand elements
+
+### Available Box Styles
+
+#### Classic Style (`--template classic`)
+- Traditional cardboard box colors (tan/brown)
+- Simple box edge lines
+- Perfect for everyday products
+
+#### Modern Style (`--template modern`) 
+- Clean design with colors inspired by your product
+- White lid with product-color base
+- Geometric accent stripes
+
+#### Premium Style (`--template premium`)
+- Luxury dark box with metallic gold accents
+- Perfect for high-end products
+- Subtle corner details
+
+### Usage Examples
+
+```bash
+# Classic cardboard box for any product
+python3 src/milestone3/colorful_canvas_complete.py --mode generate \
+  --image your_product.jpg --effect product_box --template classic
+
+# Modern box that adapts to your product colors  
+python3 src/milestone3/colorful_canvas_complete.py --mode generate \
+  --image your_product.jpg --effect product_box --template modern
+
+# Premium luxury box for high-end products
+python3 src/milestone3/colorful_canvas_complete.py --mode generate \
+  --image your_product.jpg --effect product_box --template premium
+```
+
+### Color Adaptation System
+- **Primary colors:** Extracted from center region (main product)
+- **Secondary colors:** Extracted from edges (background elements)
+- **Smart constraints:** Colors are bounded to prevent extreme values
+- **Style-specific application:** Each style uses colors differently
+
+### Benefits Over Hardcoded Approach
+✅ **Universal:** Works with any product (shoes, watches, bags, electronics, etc.)
+✅ **Brand-neutral:** No hardcoded logos or brand elements  
+✅ **Adaptive:** Box design matches your product aesthetics
+✅ **Professional:** Three distinct styles for different use cases
+✅ **Realistic:** Maintains the dramatic "coming out of box" anamorphic effect
+
+---
+
+## Original Template System
+
+The system also includes other professional templates:
+
+### Corner Display (`--effect corner`)
+- Small/Medium/Large display boxes
+- Products appear to pop out of corner displays
+
+### Product Showcase (`--effect product`) 
+- Floating: Products hover above surface
+- Pedestal: Products on premium display stands
+
+### Art Gallery (`--effect gallery`)
+- Modern/Classic frames  
+- Flat art appears 3D in frames
+
+### Legacy Effects (`--effect shadow_box|screen_pop|anamorphic`)
+- Original extreme distortion effects
+- For specialized anamorphic art
+
+## Complete Feature Set
+
+### Machine Learning Models
+- **IllusionPredictor:** Predicts visual illusion effectiveness (55-70% realistic accuracy)
+- **DepthEstimator:** Generates depth maps from 2D images  
+- **PerformancePredictor:** Predicts advertising campaign success
+
+### Research Analytics
+- H1: Depth complexity correlation analysis
+- H2: Viewing angle optimization  
+- H3: Commercial success prediction
+- H4: Parameter optimization curves
+
+### Professional Output
+- High-quality JPEG export (95% quality)
+- Optimized file sizes
+- Professional template system
+- Billboard-ready formats 

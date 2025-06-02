@@ -68,4 +68,26 @@ cache/
 *.jpg
 *.jpeg
 *.gif
-!output/analysis/*.png 
+!output/analysis/*.png
+
+# Shell scripts - not needed for GitHub
+*.sh
+
+# Temporary files
+temp_*.py
+*_test.py
+test_*.py
+
+# Blender and runner scripts
+run_*.py
+*_runner.py
+
+# Cached data
+data_cache/
+
+# Specific files
+anamorphic_billboard_runner.sh
+temp_anamorphic_script.py
+temp_test_script.py
+demo_mcp_blender.py
+progress_demo.py 

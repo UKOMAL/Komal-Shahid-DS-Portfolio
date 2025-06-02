@@ -1,0 +1,19 @@
+{
+  "H1_correlation": 0.022092519425739768,
+  "H2_optimal_angles": {
+    "shadow_box": 0,
+    "screen_pop": 45,
+    "billboard": 25
+  },
+  "H3_top_predictors": {
+    "Contrast": 0.35,
+    "Brightness": 0.28,
+    "Saturation": 0.22,
+    "Depth Score": 0.12,
+    "Image Type": 0.03
+  },
+  "H4_optimal_params": {
+    "strength": 1.8,
+    "angle": 30
+  }
+}

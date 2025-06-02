@@ -44,6 +44,9 @@ import torch
 from transformers import pipeline
 import requests
 
+# Project-specific imports
+from src.color_depth_midas import ColorDepthMiDaS
+
 # Global constants
 CACHE_DIR = Path("./data/cache")
 MODEL_DIR = Path("./models")
@@ -100,6 +103,9 @@ class ColorfulCanvasAI:
         self.illusion_predictor = None
         self.performance_predictor = None
         
+        # Initialize the ColorDepthMiDaS model
+        self.color_depth_midas = ColorDepthMiDaS(device=self.device)
+        
         # Create output directories
         for directory in [CACHE_DIR, MODEL_DIR, OUTPUT_DIR]:
             directory.mkdir(parents=True, exist_ok=True)
@@ -145,77 +151,38 @@ class ColorfulCanvasAI:
     
     def generate_depth_map(self, image: Union[Image.Image, np.ndarray]) -> Image.Image:
         """
-        Generate high-quality depth map using PyTorch MiDaS
+        Generate high-quality depth map using ColorDepthMiDaS
         Supports CUDA, MPS, and CPU execution
         """
         print("🏔️ Generating depth map...")
+        print(f"   Using ColorDepthMiDaS on {self.device.upper()} (high quality)...")
         
-        print(f"   Using PyTorch MiDaS on {self.device.upper()} (high quality)...")
+        # Convert input to PIL Image if it's a numpy array
+        if isinstance(image, np.ndarray):
+            image = Image.fromarray(image)
         
-        # Load MiDaS Small for optimal balance of quality and performance
-        model = torch.hub.load("intel-isl/MiDaS", "MiDaS_small", force_reload=False)
-        transform = torch.hub.load("intel-isl/MiDaS", "transforms").small_transform
-        
-        # Configure device
-        device = torch.device(self.device)
-        model.to(device)
-        model.eval()
-        
-        # Convert input to proper format
-        if isinstance(image, Image.Image):
-            image_array = np.array(image)
-        else:
-            image_array = image
-        
-        # Ensure RGB format and convert to BGR for MiDaS
-        if len(image_array.shape) == 3 and image_array.shape[2] == 3:
-            image_bgr = cv2.cvtColor(image_array, cv2.COLOR_RGB2BGR)
-        else:
-            image_bgr = image_array
-        
-        # Preprocess and predict
-        input_tensor = transform(image_bgr).to(device)
-        
-        with torch.no_grad():
-            prediction = model(input_tensor)
-            
-            # Get original dimensions
-            if isinstance(image, Image.Image):
-                original_size = image.size[::-1]  # (height, width)
-            else:
-                original_size = image_array.shape[:2]
-            
-            # Resize with MPS compatibility
-            try:
-                prediction = torch.nn.functional.interpolate(
-                    prediction.unsqueeze(1),
-                    size=original_size,
-                    mode="bicubic",
-                    align_corners=False,
-                ).squeeze()
-            except RuntimeError as mps_error:
-                if "mps" in str(mps_error).lower():
-                    print("   ⚠️ MPS bicubic issue, using bilinear...")
-                    prediction = torch.nn.functional.interpolate(
-                        prediction.unsqueeze(1),
-                        size=original_size,
-                        mode="bilinear",
-                        align_corners=False,
-                    ).squeeze()
-                else:
-                    raise mps_error
-        
-        # Convert to numpy and normalize
-        depth_map = prediction.cpu().numpy()
-        depth_min, depth_max = depth_map.min(), depth_map.max()
-        
-        if depth_max > depth_min:
-            depth_map = ((depth_map - depth_min) / (depth_max - depth_min) * 255).astype(np.uint8)
-        else:
-            depth_map = np.zeros_like(depth_map, dtype=np.uint8)
+        # Use our new ColorDepthMiDaS class to generate the depth map
+        depth_map = self.color_depth_midas.generate_depth_map(image)
         
         print(f"✅ High-quality depth map generated using PyTorch {self.device.upper()}")
-        return Image.fromarray(depth_map)
+        return depth_map
+    
+    def generate_color_depth_map(self, image: Union[Image.Image, np.ndarray]) -> Image.Image:
+        """
+        Generate colorized depth map using ColorDepthMiDaS
+        Produces a more visually appealing color representation of depth
+        """
+        print("🎨 Generating colorized depth map...")
+        
+        # Convert input to PIL Image if it's a numpy array
+        if isinstance(image, np.ndarray):
+            image = Image.fromarray(image)
+        
+        # Use our new ColorDepthMiDaS class to generate the colorized depth map
+        color_depth = self.color_depth_midas.generate_colormap_depth(image)
+        
+        print(f"✅ Colorized depth map generated using PyTorch {self.device.upper()}")
+        return color_depth
     
     def create_shadow_box_effect(self, image: Image.Image, depth_map: Image.Image, 
                                 strength: float = 1.5, viewing_angle: float = 15) -> Image.Image:

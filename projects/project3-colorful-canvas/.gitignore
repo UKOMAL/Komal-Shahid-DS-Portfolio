@@ -98,4 +98,7 @@ progress_demo.py
 
 # Ensure milestone folders are included
 !src/milestone3/
-!src/milestone3/*.py 
+!src/milestone3/*.py *.md
+# Exclude presentation and milestone markdown files from git
+*.md
+# Exclude presentation and milestone markdown files from git

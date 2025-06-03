@@ -3,15 +3,26 @@ data/raw/
 *.csv
 *.xlsx
 
-# Models - avoid pickle objects
+# Models - avoid pickle objects and large model files
 *.pkl
 *.pickle
 *.joblib
+models/
+**/models/
+# But keep model README files
+!**/models/README.md
 
 # Large files
 *.zip
 *.tar.gz
 *.mp4
+
+# Exclude only large data directories, keep sample data
+data/large/
+**/data/large/
+# But keep small input data
+!**/data/input/
+!**/data/sample/
 
 # Large model files
 models/distilbert/models--distilbert-base-uncased/blobs/5e3f1108e3cb34ee048634875d8482665b65ac713291a7e32396fb18f6ff0063
@@ -308,11 +319,6 @@ cython_debug/
 
 # pyright
 .pyright/
-
-# Large model files
-*.safetensors
-*.bin
-*.onnx
 
 # Temporary files
 tmp/

@@ -21,7 +21,7 @@
 
 **🛠️ Tech Stack:** Python • TensorFlow • MiDaS • Computer Vision • Blender • Mathematical Modeling
 
-**🔗 Links:** [Demo Page](https://ukomal.github.io/Komal-Shahid-DS-Portfolio/projects/project3-colorful-canvas/) • [Documentation](./projects/project3-colorful-canvas/docs/)
+**🔗 Links:** [Demo Page](https://ukomal.github.io/Komal-Shahid-DS-Portfolio/projects/project3-colorful-canvas/) • [Final Paper (PDF)](https://ukomal.github.io/Komal-Shahid-DS-Portfolio/projects/project3-colorful-canvas/docs/final/kshahid_dsc680_final_project.pdf) • [Documentation](./projects/project3-colorful-canvas/docs/)
 
 ---
 
@@ -55,7 +55,7 @@
 
 **🛠️ Tech Stack:** Python • TensorFlow • BERT • Flask • scikit-learn • spaCy
 
-**🔗 Links:** [White Paper](./projects/project1-depression-detection/docs/) • [Demo](./projects/project1-depression-detection/)
+**🔗 Links:** [Final Paper (DOCX)](./projects/project1-depression-detection/docs/final/shahid_dsc680_final_project1_final.docx) • [Demo](./projects/project1-depression-detection/)
 
 ---
 
@@ -72,7 +72,7 @@
 
 **🛠️ Tech Stack:** Python • PyTorch • OpenFL • Differential Privacy • NetworkX • Healthcare Standards
 
-**🔗 Links:** [White Paper](./projects/project2-federated-healthcare-ai/docs/) • [Architecture](./projects/project2-federated-healthcare-ai/)
+**🔗 Links:** [Final Paper (DOCX)](./projects/project2-federated-healthcare-ai/docs/final/dsc680_project_final_submission.docx) • [Architecture](./projects/project2-federated-healthcare-ai/)
 
 ---
 

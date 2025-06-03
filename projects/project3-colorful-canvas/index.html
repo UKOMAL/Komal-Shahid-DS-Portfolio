@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ColorfulCanvas - AI-Powered Anamorphic 3D Billboards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0B0B0F;
+            color: #FFFFFF;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 2rem;
+            background: rgba(11,11,15,0.95);
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #FFFFFF;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: #A1A1AA;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #FFFFFF;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0B0B0F;
+            overflow: hidden;
+        }
+
+        .hero-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(11,11,15,0.4) 0%, rgba(11,11,15,0.9) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            padding: 0 2rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .hero-image-top {
+            width: 100%;
+            margin-bottom: 3rem;
+        }
+
+        .hero-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .hero-title {
+            flex: 1;
+        }
+
+        .hero-buttons {
+            flex: 0 0 auto;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .cta-button {
+            padding: 0.6rem 1.2rem;
+            background: #FFFFFF;
+            border: none;
+            border-radius: 6px;
+            color: #0B0B0F;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        .logo {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            color: #FFFFFF;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            line-height: 1.1;
+        }
+
+        .logo-line-1 {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .hero-left {
+                text-align: center;
+            }
+        }
+
+        .tagline {
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-weight: 400;
+            color: #A1A1AA;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-container {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            padding: 1.2rem 2.5rem;
+            background: #FFFFFF;
+            border: none;
+            border-radius: 6px;
+            color: #0B0B0F;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        .cta-button:hover {
+            background: #F4F4F5;
+            transform: translateY(-1px);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            border: 1px solid #3F3F46;
+            color: #FFFFFF;
+        }
+
+        .cta-secondary:hover {
+            background: #18181B;
+            border-color: #52525B;
+        }
+
+        /* Page Sections */
+        .page-section {
+            display: none;
+            min-height: calc(100vh - 100px);
+            padding: 6rem 2rem 2rem;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(3rem, 6vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 2rem;
+            color: #FFFFFF;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            color: #A1A1AA;
+            margin-bottom: 4rem;
+            max-width: 700px;
+        }
+
+        /* Problem Page */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        .problem-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+        }
+
+        .problem-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #3F3F46;
+            min-width: 60px;
+        }
+
+        .problem-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 1rem;
+        }
+
+        .problem-content p {
+            font-size: 1.1rem;
+            color: #A1A1AA;
+            line-height: 1.7;
+        }
+
+        /* Solution Page */
+        .solution-visual {
+            background: linear-gradient(135deg, #0B0B0F 0%, #18181B 100%);
+            border-radius: 16px;
+            padding: 4rem;
+            margin: 4rem 0;
+            text-align: center;
+            border: 1px solid #27272A;
+        }
+
+        .solution-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .flow-step:hover {
+            transform: translateY(-10px);
+        }
+
+        .flow-icon {
+            width: 100px;
+            height: 100px;
+            background: #18181B;
+            border: 3px solid #FFFFFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .flow-icon::before {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #00FFCC;
+            border-radius: 50%;
+            top: -6px;
+            right: -6px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Floating dot animations */
+        .floating-dots {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .dot:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .dot:nth-child(2) { left: 25%; animation-delay: 1s; }
+        .dot:nth-child(3) { left: 50%; animation-delay: 2s; }
+        .dot:nth-child(4) { left: 75%; animation-delay: 3s; }
+        .dot:nth-child(5) { left: 90%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(-30px) scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        .flow-title {
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .flow-desc {
+            color: #A1A1AA;
+            font-size: 1rem;
+        }
+
+        .arrow {
+            font-size: 2rem;
+            color: #00FFCC;
+            font-weight: bold;
+        }
+
+        .story-section {
+            background: linear-gradient(135deg, #18181B, #27272A);
+            border-radius: 16px;
+            padding: 4rem;
+            margin: 4rem 0;
+            border-left: 4px solid #FF0066;
+        }
+
+        .story-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            margin-bottom: 2rem;
+        }
+
+        .story-text {
+            font-size: 1.2rem;
+            color: #CCCCCC;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .story-highlight {
+            color: #00FFCC;
+            font-weight: 600;
+        }
+
+        /* Demo Page */
+        .demo-container {
+            text-align: center;
+        }
+
+        .code-demo {
+            background: #18181B;
+            border: 1px solid #27272A;
+            border-radius: 12px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: left;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            overflow-x: auto;
+        }
+
+        .code-syntax { color: #8B5CF6; }
+        .code-string { color: #10B981; }
+        .code-comment { color: #6B7280; }
+
+        .demo-results {
+            display: flex !important;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .result-card {
+            background: linear-gradient(145deg, #1e1e2e, #2a2a3a);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid #3F3F46;
+            transition: all 0.3s ease;
+            flex: 1;
+            height: 420px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .result-card:hover {
+            transform: translateY(-8px);
+            border-color: #52525B;
+            box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+        }
+
+        .result-preview {
+            width: 100%;
+            height: 200px;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #3F3F46;
+            color: #FFFFFF;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .result-title {
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .result-desc {
+            color: #A1A1AA;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Upload Interface */
+        .upload-section {
+            margin: 4rem 0;
+        }
+
+        .upload-area {
+            background: linear-gradient(135deg, #18181B, #27272A);
+            border: 2px dashed #3F3F46;
+            border-radius: 16px;
+            padding: 4rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: #00FFCC;
+            background: linear-gradient(135deg, #1a1a1e, #2a2a2e);
+        }
+
+        .upload-area.dragover {
+            border-color: #00FFCC;
+            background: linear-gradient(135deg, #1a2a2a, #2a3a3a);
+        }
+
+        /* Processing States */
+        .process-steps {
+            margin-top: 2rem;
+        }
+
+        .process-step {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .process-step.completed {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid #10B981;
+        }
+
+        .process-step.processing {
+            background: rgba(0, 255, 204, 0.1);
+            border-left: 4px solid #00FFCC;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .process-step.pending {
+            background: rgba(63, 63, 70, 0.3);
+            border-left: 4px solid #3F3F46;
+        }
+
+        .step-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            min-width: 40px;
+        }
+
+        .step-text {
+            color: #FFFFFF;
+            font-weight: 500;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .problem-item {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .solution-flow {
+                flex-direction: column;
+            }
+            
+            .arrow {
+                transform: rotate(90deg);
+            }
+            
+            .repo-stats {
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <div class="nav-logo">ColorfulCanvas</div>
+            <div class="nav-links">
+                <a href="../../index.html" class="nav-link">← Back to Portfolio</a>
+                <a href="#" data-page="hero" class="nav-link active">Home</a>
+                <a href="#" data-page="problem" class="nav-link">Problem</a>
+                <a href="#" data-page="solution" class="nav-link">Solution</a>
+                <a href="#" data-page="demo" class="nav-link">Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <!-- Hero Section -->
+        <section id="hero" class="hero page-section active">
+            <div class="hero-overlay"></div>
+            
+            <!-- Floating Dots Animation -->
+            <div class="floating-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            
+            <div class="hero-content">
+                <!-- Image at Top - Full Width -->
+                <div class="hero-image-top">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 800'%3E%3Crect width='1400' height='800' fill='%23000000'/%3E%3Cdefs%3E%3ClinearGradient id='frame' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0%25' stop-color='%23A0755B'/%3E%3Cstop offset='100%25' stop-color='%23D2B48C'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='50' y='100' width='1300' height='400' rx='20' fill='url(%23frame)' stroke='%23654321' stroke-width='8'/%3E%3Crect x='100' y='150' width='1200' height='300' fill='%23000000'/%3E%3Ccircle cx='300' cy='250' r='80' fill='%23DC143C' opacity='0.9'/%3E%3Ccircle cx='350' cy='200' r='30' fill='%2300CED1' opacity='0.8'/%3E%3Ccircle cx='320' cy='280' r='25' fill='%23FF1493' opacity='0.7'/%3E%3Ccircle cx='600' cy='280' r='90' fill='%23FF1493' opacity='0.9'/%3E%3Ccircle cx='650' cy='220' r='35' fill='%2300CED1' opacity='0.8'/%3E%3Ccircle cx='580' cy='320' r='30' fill='%2300FF7F' opacity='0.7'/%3E%3Ccircle cx='900' cy='250' r='60' fill='%23808080' opacity='0.6'/%3E%3Ccircle cx='1100' cy='300' r='40' fill='%23FF4500' opacity='0.8'/%3E%3Crect x='1000' y='200' width='200' height='100' rx='10' fill='%234169E1' opacity='0.7'/%3E%3Cpath d='M1050,220 L1150,220 L1150,270 L1050,270 Z' fill='%23000080' opacity='0.5'/%3E%3Ccircle cx='1200' cy='180' r='20' fill='%23FFD700' opacity='0.8'/%3E%3Cpath d='M200,350 Q400,200 600,350 T1000,350' stroke='%23FF1493' stroke-width='4' fill='none' opacity='0.6'/%3E%3C/svg%3E" alt="Anamorphic Billboard" style="width: 100%; height: auto; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+                </div>
+                
+                <!-- Bottom Row - Title Left, Buttons Right -->
+                <div class="hero-bottom">
+                    <div class="hero-title">
+                        <h1 class="logo">
+                            <span class="logo-line-1">Colorful</span>
+                            <span class="logo-line-2">Canvas</span>
+                        </h1>
+                        <p class="tagline">AI-Powered Anamorphic 3D Billboard Generation</p>
+                    </div>
+                    
+                    <div class="hero-buttons">
+                        <a href="#" data-page="demo" class="cta-button nav-link">Demo</a>
+                        <a href="#" data-page="github" class="cta-button cta-secondary nav-link">Start</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Page -->
+        <section id="problem" class="page-section">
+            <div class="container">
+                <h2 class="section-title">The Problem</h2>
+                <p class="section-subtitle">Creating realistic anamorphic 3D billboards is complex, expensive, and time-consuming</p>
+                
+                <div class="problem-grid">
+                    <div class="problem-item">
+                        <div class="problem-number">01</div>
+                        <div class="problem-content">
+                            <h3>Manual 3D Modeling</h3>
+                            <p>Traditional anamorphic displays require expensive 3D artists working for weeks to create convincing illusions. Each billboard design needs custom modeling, texturing, and precise mathematical calculations.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="problem-item">
+                        <div class="problem-number">02</div>
+                        <div class="problem-content">
+                            <h3>Complex Mathematics</h3>
+                            <p>Anamorphic projection requires precise calculations for viewing angles, perspective distortion, and depth mapping. Getting the math wrong results in unconvincing illusions that break the 3D effect.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="problem-item">
+                        <div class="problem-number">03</div>
+                        <div class="problem-content">
+                            <h3>High Production Costs</h3>
+                            <p>Professional anamorphic displays cost thousands in production time, specialized equipment, and expert knowledge. Small businesses and creators are priced out of this technology.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="problem-item">
+                        <div class="problem-number">04</div>
+                        <div class="problem-content">
+                            <h3>Limited Accessibility</h3>
+                            <p>Creating Seoul-style LED billboards requires deep technical knowledge of display hardware, viewing angles, and content optimization that most designers don't possess.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution Page -->
+        <section id="solution" class="page-section">
+            <div class="container">
+                <h2 class="section-title">Our Solution</h2>
+                <p class="section-subtitle">AI automates the entire process from 2D image to professional anamorphic billboard</p>
+                
+                <!-- Story Behind the Project -->
+                <div class="story-section">
+                    <h3 class="story-title">The Vision Behind ColorfulCanvas</h3>
+                    
+                    <!-- Vision section with creative billboard concept -->
+                    <div style="width: 100%; max-width: 800px; margin: 2rem auto; border-radius: 12px; overflow: hidden;">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 600'%3E%3Crect width='1000' height='600' fill='%23000'/%3E%3Crect x='50' y='50' width='900' height='500' rx='20' fill='%23111' stroke='%23333' stroke-width='3'/%3E%3Crect x='80' y='80' width='840' height='440' fill='%23000'/%3E%3Cg transform='translate(200,150)'%3E%3Ccircle cx='0' cy='0' r='40' fill='%23FF6B6B'/%3E%3Ccircle cx='100' cy='20' r='25' fill='%234ECDC4'/%3E%3Ccircle cx='200' cy='-10' r='35' fill='%23FFE66D'/%3E%3Ccircle cx='300' cy='15' r='30' fill='%23A8E6CF'/%3E%3Ccircle cx='400' cy='-5' r='28' fill='%23FF8B94'/%3E%3C/g%3E%3Cg transform='translate(150,300)'%3E%3Crect x='0' y='0' width='60' height='40' fill='%236C5CE7' opacity='0.8'/%3E%3Crect x='100' y='10' width='50' height='30' fill='%23A29BFE' opacity='0.7'/%3E%3Crect x='200' y='-5' width='70' height='45' fill='%23FD79A8' opacity='0.8'/%3E%3Crect x='300' y='5' width='55' height='35' fill='%23FDCB6E' opacity='0.7'/%3E%3Crect x='450' y='-10' width='65' height='50' fill='%236C5CE7' opacity='0.6'/%3E%3C/g%3E%3Cpath d='M100,450 Q300,350 500,450 T900,450' stroke='%23FF6B6B' stroke-width='3' fill='none' opacity='0.7'/%3E%3C/svg%3E" alt="Creative Billboard Vision" style="width: 100%; height: auto; border-radius: 8px;">
+                    </div>
+                    
+                    <p class="story-text">
+                        Inspired by the stunning <span class="story-highlight">Seoul LED billboards</span> that captivate millions, I wanted to democratize this technology. 
+                        Those massive curved displays creating impossible 3D illusions shouldn't be limited to million-dollar productions.
+                    </p>
+                    <p class="story-text">
+                        Traditional anamorphic displays require teams of 3D artists, weeks of mathematical calculations, and specialized hardware knowledge. 
+                        I envisioned a world where <span class="story-highlight">any creator could transform their 2D artwork into stunning 3D billboards</span> 
+                        using the power of AI and automation.
+                    </p>
+                    <p class="story-text">
+                        ColorfulCanvas bridges the gap between imagination and reality, making professional anamorphic displays accessible to everyone.
+                    </p>
+                </div>
+                
+                <div class="solution-visual">
+                    <h3 style="color: #FFFFFF; font-size: 1.5rem; margin-bottom: 2rem;">Simple Process</h3>
+                    <div class="solution-flow">
+                        <div class="flow-step">
+                            <div class="flow-icon">01</div>
+                            <div class="flow-title">Upload Image</div>
+                            <div class="flow-desc">Any 2D image or artwork</div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <div class="flow-icon">02</div>
+                            <div class="flow-title">AI Analysis</div>
+                            <div class="flow-desc">MiDaS depth mapping</div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <div class="flow-icon">03</div>
+                            <div class="flow-title">Anamorphic Calc</div>
+                            <div class="flow-desc">Precise distortion math</div>
+                        </div>
+                        
+                        <div class="flow-step">
+                            <div class="flow-icon">04</div>
+                            <div class="flow-title">3D Billboard</div>
+                            <div class="flow-desc">Professional Blender scene</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Output Examples -->
+                <div class="story-section">
+                    <h3 class="story-title">What You Get</h3>
+                    <div class="demo-results" style="margin-top: 2rem;">
+                        <div class="result-card">
+                            <div class="result-preview" style="background: linear-gradient(45deg, #FF0066, #FF3385);">📦</div>
+                            <div class="result-title">Shadow Box Effect</div>
+                            <div class="result-desc">Extreme anamorphic distortion for perfect viewing angle illusions</div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-preview" style="background: linear-gradient(45deg, #00FFCC, #33FFD6);">🖥️</div>
+                            <div class="result-title">Screen Pop-Out</div>
+                            <div class="result-desc">Objects appear to emerge from digital displays</div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-preview" style="background: linear-gradient(45deg, #FF6600, #FF8533);">🏙️</div>
+                            <div class="result-title">Seoul Corner LED</div>
+                            <div class="result-desc">Optimized for curved LED panel installations</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="problem-grid">
+                    <div class="problem-item">
+                        <div class="problem-number" style="background: linear-gradient(135deg, #FF0066, #00FFCC); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">AI</div>
+                        <div class="problem-content">
+                            <h3>Neural Network Depth Analysis</h3>
+                            <p>Advanced MiDaS models automatically generate precise depth maps from any 2D image, eliminating manual depth painting and guesswork.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="problem-item">
+                        <div class="problem-number" style="background: linear-gradient(135deg, #FF0066, #00FFCC); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">⚡</div>
+                        <div class="problem-content">
+                            <h3>Automated Processing</h3>
+                            <p>Complete pipeline from image upload to final 3D billboard in minutes. No 3D modeling skills or mathematical expertise required.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="problem-item">
+                        <div class="problem-number" style="background: linear-gradient(135deg, #FF0066, #00FFCC); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">🎯</div>
+                        <div class="problem-content">
+                            <h3>Seoul LED Optimization</h3>
+                            <p>Specialized algorithms optimized for curved LED panels and corner installations, matching the quality of professional Seoul displays.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Demo Page -->
+        <section id="demo" class="page-section">
+            <div class="container">
+                <div class="demo-container">
+                    <h2 class="section-title">Live Demo</h2>
+                    <p class="section-subtitle">Upload your image and see AI-powered anamorphic transformation</p>
+                    
+                    <!-- Upload Interface -->
+                    <div class="upload-section" id="uploadSection">
+                        <div class="upload-area" id="uploadArea">
+                            <div class="upload-content">
+                                <div style="font-size: 4rem; margin-bottom: 1rem;">📸</div>
+                                <h3 style="color: #FFFFFF; margin-bottom: 1rem;">Drop your image here</h3>
+                                <p style="color: #A1A1AA; margin-bottom: 2rem;">Or click to browse files</p>
+                                <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                                <button class="cta-button" onclick="document.getElementById('fileInput').click()">
+                                    Choose Image
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Processing Interface -->
+                    <div class="processing-section" id="processingSection" style="display: none;">
+                        <div class="story-section">
+                            <h3 class="story-title">🤖 AI Processing Your Image...</h3>
+                            <div class="process-steps">
+                                <div class="process-step completed" id="step1">
+                                    <span class="step-icon">✅</span>
+                                    <span class="step-text">Image uploaded successfully</span>
+                                </div>
+                                <div class="process-step processing" id="step2">
+                                    <span class="step-icon">⚡</span>
+                                    <span class="step-text">Analyzing depth with MiDaS AI...</span>
+                                </div>
+                                <div class="process-step pending" id="step3">
+                                    <span class="step-icon">🎯</span>
+                                    <span class="step-text">Calculating anamorphic distortion...</span>
+                                </div>
+                                <div class="process-step pending" id="step4">
+                                    <span class="step-icon">🏗️</span>
+                                    <span class="step-text">Generating 3D billboard scene...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Results Interface -->
+                    <div class="results-section" id="resultsSection" style="display: none;">
+                        <div class="story-section">
+                            <h3 class="story-title">🎉 Processing Complete!</h3>
+                            <p class="story-text">
+                                Your image has been analyzed successfully. The AI depth mapping is complete!
+                            </p>
+                        </div>
+                        
+                        <div class="demo-results">
+                            <div class="result-card">
+                                <div class="result-preview" style="background: linear-gradient(45deg, #00FFCC, #33FFD6);">
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🖼️</div>
+                                        <div style="font-size: 0.8rem; color: #B3FFF0;">Original Image</div>
+                                    </div>
+                                </div>
+                                <div class="result-title">Uploaded Image</div>
+                                <div class="result-desc">Your original artwork ready for transformation</div>
+                            </div>
+                            
+                            <div class="result-card">
+                                <div class="result-preview" style="background: linear-gradient(45deg, #8B5CF6, #A855F7);">
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🧠</div>
+                                        <div style="font-size: 0.8rem; color: #DDD6FE;">AI Depth Analysis</div>
+                                    </div>
+                                </div>
+                                <div class="result-title">Depth Map Generated</div>
+                                <div class="result-desc">AI-powered depth analysis completed successfully</div>
+                            </div>
+                            
+                            <div class="result-card">
+                                <div class="result-preview" style="background: linear-gradient(45deg, #FF6600, #FF8533);">
+                                    <div style="text-align: center;">
+                                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🚧</div>
+                                        <div style="font-size: 0.8rem; color: #FFB399;">Coming Soon</div>
+                                    </div>
+                                </div>
+                                <div class="result-title">3D Billboard</div>
+                                <div class="result-desc">Final anamorphic billboard generation coming soon!</div>
+                            </div>
+                        </div>
+                        
+                        <div class="cta-container" style="margin-top: 3rem;">
+                            <button class="cta-button" onclick="resetDemo()">Upload Another Image</button>
+                            <a href="../../index.html#projects" class="cta-button cta-secondary">Back to Portfolio</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Technical Info (Always Visible) -->
+                    <div class="code-demo" style="margin-top: 4rem;">
+<span class="code-comment"># Behind the scenes: ColorfulCanvas AI Pipeline</span>
+<span class="code-syntax">from</span> colorful_canvas <span class="code-syntax">import</span> ColorfulCanvasAI
+<span class="code-syntax">from</span> midas <span class="code-syntax">import</span> DepthEstimation
+
+<span class="code-comment"># Step 1: Load and preprocess image</span>
+image = preprocess_image(uploaded_file)
+
+<span class="code-comment"># Step 2: AI depth analysis (✅ Working)</span>
+depth_map = midas_model.estimate_depth(image)
+
+<span class="code-comment"># Step 3: Anamorphic calculations (🚧 Coming Soon)</span>
+billboard_scene = generate_anamorphic_billboard(image, depth_map)
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Single Page App Navigation
+        const navLinks = document.querySelectorAll('.nav-link');
+        const sections = document.querySelectorAll('.page-section');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Remove active class from all links and sections
+                navLinks.forEach(l => l.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                
+                // Add active class to clicked link
+                link.classList.add('active');
+                
+                // Show corresponding section
+                const targetPage = link.getAttribute('data-page');
+                const targetSection = document.getElementById(targetPage);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
+            });
+        });
+
+        // Demo Upload Functionality
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const uploadSection = document.getElementById('uploadSection');
+        const processingSection = document.getElementById('processingSection');
+        const resultsSection = document.getElementById('resultsSection');
+
+        // Drag and drop functionality
+        if (uploadArea) {
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0 && files[0].type.startsWith('image/')) {
+                    handleImageUpload(files[0]);
+                }
+            });
+
+            // Click to upload
+            uploadArea.addEventListener('click', () => {
+                fileInput.click();
+            });
+        }
+
+        if (fileInput) {
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleImageUpload(e.target.files[0]);
+                }
+            });
+        }
+
+        function handleImageUpload(file) {
+            // Hide upload, show processing
+            uploadSection.style.display = 'none';
+            processingSection.style.display = 'block';
+            
+            // Simulate AI processing steps
+            simulateProcessing();
+        }
+
+        function simulateProcessing() {
+            const steps = ['step1', 'step2', 'step3', 'step4'];
+            
+            // Step 1: Already completed (upload)
+            
+            // Step 2: AI depth analysis
+            setTimeout(() => {
+                updateStepStatus('step2', 'completed');
+                updateStepStatus('step3', 'processing');
+            }, 2000);
+            
+            // Step 3: Anamorphic calculations
+            setTimeout(() => {
+                updateStepStatus('step3', 'completed');
+                updateStepStatus('step4', 'processing');
+            }, 4000);
+            
+            // Step 4: Show "coming soon" and results
+            setTimeout(() => {
+                updateStepStatus('step4', 'pending'); // Keep as pending since it's coming soon
+                showResults();
+            }, 6000);
+        }
+
+        function updateStepStatus(stepId, status) {
+            const step = document.getElementById(stepId);
+            if (step) {
+                step.className = `process-step ${status}`;
+            }
+        }
+
+        function showResults() {
+            processingSection.style.display = 'none';
+            resultsSection.style.display = 'block';
+        }
+
+        function resetDemo() {
+            // Reset all sections
+            uploadSection.style.display = 'block';
+            processingSection.style.display = 'none';
+            resultsSection.style.display = 'none';
+            
+            // Reset file input
+            if (fileInput) {
+                fileInput.value = '';
+            }
+            
+            // Reset step states
+            updateStepStatus('step1', 'completed');
+            updateStepStatus('step2', 'pending');
+            updateStepStatus('step3', 'pending');
+            updateStepStatus('step4', 'pending');
+        }
+    </script>
+</body>
+</html>

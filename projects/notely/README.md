@@ -1,65 +1,47 @@
-# Notely: Smart Note-Taking Assistant
+# Notely - Smart Note Templates
 
-An intelligent note-taking application that uses Natural Language Processing to organize, summarize, and extract key insights from notes and documents.
+**Course:** DSC 670 - Data Science Capstone  
+**Date:** Spring 2025  
+**Author:** Komal Shahid
 
-## Overview
+## Project Overview
 
-Notely transforms traditional note-taking into an intelligent knowledge management system. By leveraging advanced NLP techniques, Notely helps users organize information, extract key insights, connect related concepts, and retrieve information efficiently.
+Notely is a smart note template generation application that transforms plain text notes into professionally formatted templates. The application analyzes content and recommends the most appropriate template based on the text structure and keywords.
 
-## Key Features
+## Features
 
-- **Smart Organization**: Automatic categorization and tagging of notes
-- **Insight Extraction**: Identification of key points and action items
-- **Knowledge Graph**: Visual connections between related concepts across documents
-- **Semantic Search**: Meaning-based search instead of just keyword matching
-- **Multi-format Support**: Handling text, images, and audio transcription
+- **Smart Analysis**: Automatically analyzes content and suggests the best template
+- **Multiple Templates**: Choose from Cornell Notes, Business Reports, Project Plans, and more
+- **File Support**: Upload text, PDF, or Word documents
+- **Download Options**: Save templates in various formats
 
-## Technology Stack
+## Running the Application
 
-- **NLP Core**: BERT-based semantic understanding
-- **Text Processing**: Custom entity recognition and summarization
-- **Knowledge Representation**: Graph database for concept linking
-- **ML Pipeline**: Continuous learning from user interactions
-- **Privacy-First Design**: On-device processing options for sensitive information
+1. Install the required dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
 
-## Impact & Results
+2. Run the Streamlit app:
+   ```
+   streamlit run src/notely_streamlit_app.py
+   ```
 
-Our pilot deployments have demonstrated significant productivity improvements:
+## Project Structure
 
-**Academic Research**
-- 43% reduction in literature review time
-- 27% more cross-citations identified
+- `src/`: Contains the application source code
+  - `notely_streamlit_app.py`: Main Streamlit application
+  - `template_manager.py`: Template management utilities
+  - `showcase_templates.py`: Template showcase examples
 
-**Business Users**
-- 37% less time spent organizing information
-- 52% faster retrieval of specific details
+- `milestones/`: Project development documentation
+  - `milestone1/`: Initial project proposal
+  - `milestone2/`: Design and planning
+  - `milestone3/`: Implementation and testing
+  - `milestone4/`: Final presentation and deployment
 
-## Implementation Process
+## Technologies Used
 
-1. Requirements analysis and user research
-2. Core NLP model development and training
-3. Frontend and mobile app design
-4. Backend infrastructure and API development
-5. User testing and iterative improvement
-6. Production deployment and monitoring
-
-## Future Development
-
-- Collaborative note sharing and team workspaces
-- Advanced document generation from note collections
-- Voice-based natural language interface
-- Domain-specific knowledge models
-- API ecosystem for third-party integration
-
-## Requirements
-
-- Python 3.8+
-- PyTorch
-- spaCy
-- Neo4j (for knowledge graph)
-- React (frontend)
-- Flask/FastAPI (backend)
-
-## License
-
-MIT 
+- Streamlit for the web interface
+- Python for text analysis and template generation
+- PDF and document processing libraries 

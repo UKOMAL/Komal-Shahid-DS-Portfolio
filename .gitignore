@@ -425,4 +425,82 @@ dataset/
 **/milestones/
 **/milestone*/
 **/docs/milestone*/
-**/docs/milestones/ 
+**/docs/milestones/
+
+# Jupyter Notebooks - use .py versions instead
+*.ipynb
+*.ipynb_checkpoints/
+
+# Generated output files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.avi
+*.blend
+*.blend1
+
+# HTML exports
+*.html
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Large model files
+*.h5
+*.pkl
+*.model
+*.weights
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+*.backup
+
+# Presentation files
+*presentation*
+*Presentation*
+*.pptx
+*.ppt
+
+# Documentation exports
+*.pdf
+*.docx
+*.doc
+*.xlsx
+*.xls
+*.pptx
+*.ppt
+~$*
+*.md.backup
+
+# Milestone directories - but keep .py files
+**/docs/milestone*/
+**/docs/milestones/
+!**/milestones/*.py quality_checks/

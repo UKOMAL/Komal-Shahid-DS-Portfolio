@@ -1,99 +1,15 @@
-# Core dependencies
-numpy==1.24.3
-scipy>=1.7.0
-matplotlib==3.7.2
-Pillow==10.0.0
-opencv-python==4.8.0.76
-scikit-image>=0.19.0
-
-# Deep learning
-tensorflow>=2.8.0
-keras>=2.8.0
-
-# Web scraping and data collection
+numpy>=1.22.0
+opencv-python>=4.5.5
+pillow>=9.0.0
+torch>=1.13.0
+transformers>=4.26.0
+tqdm>=4.62.0
 requests>=2.27.0
-beautifulsoup4>=4.10.0
-
-# Jupyter notebooks
-jupyter>=1.0.0
-ipywidgets>=7.7.0
-
-# Utilities
-tqdm>=4.64.0
-pyyaml>=6.0
 pandas>=1.4.0
-
-# Image processing
-kornia>=0.6.0  # Advanced image transformations
-
-# Optional: GPU support
-# If you're using a GPU, uncomment these lines
-# tensorflow-gpu>=2.8.0
-# cudatoolkit>=11.2
-
-# Model serving and API
-fastapi>=0.95.0
-uvicorn[standard]>=0.20.0
-python-multipart>=0.0.5
-pydantic>=1.10.0
-
-# Visualization and evaluation
-tensorboard>=2.13.0
-clip-interrogator>=0.6.0
-lpips>=0.1.4
-
-# Added from the code block
-seaborn>=0.12.0
-mypy-extensions>=1.0.0
-
-# Added from the code block
-torch==2.0.1
-transformers==4.30.2
-
-# Core ML and AI
-torch>=1.9.0
-torchvision>=0.10.0
-transformers>=4.20.0
-diffusers>=0.10.0
-accelerate>=0.16.0
-
-# Image Processing (Photoshop/After Effects equivalent)
-Pillow>=9.0.0
-opencv-python>=4.5.0
-scikit-image>=0.19.0
-imageio>=2.15.0
-moviepy>=1.0.3
-
-# Color Science & Enhancement
-colorspacious>=1.1.2
-colour-science>=0.4.0
-colorsys  # Built-in but enhanced usage
-
-# Vector Graphics (Illustrator equivalent)
-cairo-python>=1.20.0  # For vector graphics
-svglib>=1.4.0
-reportlab>=3.6.0
 matplotlib>=3.5.0
-
-# 3D Graphics Enhancement
-moderngl>=5.6.0  # OpenGL for advanced rendering
-trimesh>=3.15.0  # 3D mesh processing
-
-# Video/Motion Graphics (After Effects equivalent)
-ffmpeg-python>=0.2.0
-av>=9.0.0  # Advanced video processing
-
-# Color Palettes & Design
-webcolors>=1.12
-palettable>=3.3.0
-seaborn>=0.11.0  # For color palettes
-
-# Performance
-numba>=0.56.0
-cupy>=10.0.0  # GPU acceleration (optional)
-
-# Utilities
-numpy>=1.21.0
-scipy>=1.8.0
-tqdm>=4.64.0
-requests>=2.28.0 
+scikit-learn>=1.0.0
+joblib>=1.1.0
+torchvision>=0.17.0
+ultralytics>=8.0.0
+huggingface-hub>=0.20.0
+timm>=0.9.0 

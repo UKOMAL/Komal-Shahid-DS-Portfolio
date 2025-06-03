@@ -105,4 +105,5 @@ docs/_build/
 
 # Temporary files
 tmp/
-.temp/ 
+.temp/ **/final_white_paper.md
+**/white_paper*.md

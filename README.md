@@ -1,51 +1,146 @@
-# DSC680 - Applied Data Science Portfolio
+# 🎯 DSC680 - Applied Data Science Portfolio
 
-**Komal Shahid** | Master of Science in Data Science | Bellevue University | Fall 2024
+**Komal Shahid** | Master of Science in Data Science | Bellevue University | 2024-2025
 
-## 🌐 **[View Live Portfolio →](https://komalshahid.github.io/dsc680-portfolio)**
-
----
-
-## 📁 **Projects Overview**
-
-This repository contains three comprehensive AI and machine learning projects demonstrating expertise in deep learning, computer vision, NLP, and privacy-preserving AI.
-
-### **Featured Projects**
-
-1. **🧠 Neural Depression Detection System** - Multi-modal AI for mental health assessment (92% accuracy)
-2. **🏥 Federated Healthcare AI** - Privacy-preserving ML for medical collaboration (89% F1-score) 
-3. **🎨 Colorful Canvas AI Art Studio** - AI-powered anamorphic billboard generation with computer vision
-
-### **Additional DSC Course Projects**
-
-Complete portfolio includes projects from all DSC courses (DSC640-DSC500) covering data visualization, machine learning, predictive analytics, data mining, database design, statistical analysis, and programming fundamentals.
+## 🌐 **[View Portfolio Website →](https://ukomal.github.io/Komal-Shahid-DS-Portfolio/)**
 
 ---
 
-## 🛠️ **Technical Stack**
+## 🚀 **Featured Projects with Demos**
 
-- **Languages:** Python, JavaScript, SQL, R
-- **ML/AI:** TensorFlow, PyTorch, Scikit-learn, Transformers, OpenCV
-- **Tools:** Docker, AWS, Blender, Streamlit, React.js
-- **Specializations:** Computer Vision, NLP, Federated Learning, Deep Learning
+### 🎨 [ColorfulCanvas AI Art Studio](./projects/project3-colorful-canvas/)
+*AI-powered anamorphic 3D billboard generator*
+
+**🎯 Objective:** Create Seoul-style LED displays using advanced computer vision and mathematical precision
+
+**✨ Key Features:**
+- 🧠 MiDaS neural networks for depth estimation
+- 🎭 Anamorphic mathematical transformations
+- 🖼️ Interactive generative AI demo
+- 📱 Real-time 3D billboard visualization
+
+**🛠️ Tech Stack:** Python • TensorFlow • MiDaS • Computer Vision • Blender • Mathematical Modeling
+
+**🔗 Links:** [Demo Page](https://ukomal.github.io/Komal-Shahid-DS-Portfolio/projects/project3-colorful-canvas/) • [Documentation](./projects/project3-colorful-canvas/docs/)
 
 ---
 
-## 📊 **Key Results**
+### 📝 [Notely AI-Powered Note Taking](./projects/notely/)
+*Intelligent note management with AI summarization*
 
-- **92%** accuracy in depression detection using multi-modal AI
-- **89%** F1-score in federated healthcare collaboration
-- **0.85 R²** performance prediction for anamorphic billboards
-- **HIPAA-compliant** privacy-preserving implementations
-- **Production-ready** deployments with comprehensive documentation
+**🎯 Objective:** Transform traditional note-taking with AI-powered features and semantic search
+
+**✨ Key Features:**
+- 🤖 AI-powered note summarization
+- 🔍 Smart search and organization
+- 📊 Interactive templates and categorization
+- 💻 Cross-platform compatibility
+
+**🛠️ Tech Stack:** Python • Streamlit • NLP • OpenAI API • PDF Processing • Machine Learning
+
+**🔗 Links:** [Live App](https://notely.streamlit.app) • [Source Code](./projects/notely/src/)
 
 ---
 
-## 🔗 **Links**
+### 🧠 [Depression Detection System](./projects/project1-depression-detection/)
+*AI-powered mental health assessment using NLP*
 
-- **📱 Portfolio Website:** [komalshahid.github.io/dsc680-portfolio](https://komalshahid.github.io/dsc680-portfolio)
-- **🗄️ Repository:** [github.com/UKOMAL/DSC680](https://github.com/UKOMAL/DSC680)
-- **📧 Contact:** [kshahid@my.bellevue.edu](mailto:kshahid@my.bellevue.edu)
+**🎯 Objective:** Detect indicators of depression from written text using advanced NLP techniques
+
+**✨ Key Features:**
+- 📝 Natural language processing of clinical text data
+- 🧠 Multi-model neural network architecture (92% accuracy)
+- 🔒 Privacy-preserving data preprocessing
+- ⚖️ Comprehensive ethical considerations
+
+**🛠️ Tech Stack:** Python • TensorFlow • BERT • Flask • scikit-learn • spaCy
+
+**🔗 Links:** [White Paper](./projects/project1-depression-detection/docs/) • [Demo](./projects/project1-depression-detection/)
+
+---
+
+### 🏥 [Federated Healthcare AI Framework](./projects/project2-federated-healthcare-ai/)
+*Privacy-preserving collaborative AI for healthcare*
+
+**🎯 Objective:** Enable healthcare institutions to collaborate on AI without sharing sensitive data
+
+**✨ Key Features:**
+- 🌐 Federated learning architecture (89% F1-score)
+- 📊 Multi-modal support for medical data
+- 🔐 Differential privacy and secure aggregation
+- 📈 HIPAA-compliant implementation
+
+**🛠️ Tech Stack:** Python • PyTorch • OpenFL • Differential Privacy • NetworkX • Healthcare Standards
+
+**🔗 Links:** [White Paper](./projects/project2-federated-healthcare-ai/docs/) • [Architecture](./projects/project2-federated-healthcare-ai/)
+
+---
+
+## 📚 **Complete DSC Course Portfolio**
+
+| Course | Project | Focus Area |
+|--------|---------|------------|
+| **DSC680** | Capstone Portfolio | Comprehensive AI/ML Projects |
+| **DSC670** | [Notely AI App](./projects/notely/) | Applied Machine Learning |
+| **DSC640** | [Healthcare Dashboard](./projects/project4-dsc640/) | Data Visualization |
+| **DSC630** | [Financial Forecasting](./projects/project6-dsc630/) | Predictive Analytics |
+| **DSC550** | [E-commerce Analytics](./projects/project7-dsc550/) | Data Mining |
+| **DSC540** | [Healthcare Data Architecture](./projects/project8-dsc540/) | Database Management |
+| **DSC530** | [COVID-19 Analysis](./projects/project9-dsc530/) | Data Exploration |
+| **DSC520** | [A/B Testing Framework](./projects/project10-dsc520/) | Statistics |
+| **DSC510** | [Library Management](./projects/project11-dsc510/) | Programming |
+| **DSC500** | [Sales Analytics](./projects/project12-dsc500/) | Data Science Tools |
+
+---
+
+## 🛠️ **Technical Expertise**
+
+### 🤖 **AI & Machine Learning**
+```
+Deep Learning (TensorFlow, PyTorch) • NLP (BERT, Transformers) • Computer Vision (OpenCV, MiDaS)
+Federated Learning • Generative AI • Neural Networks • Ensemble Methods
+```
+
+### 🔒 **Privacy & Security**
+```
+Differential Privacy • HIPAA Compliance • Secure Multiparty Computation
+Privacy-Preserving ML • Ethical AI Development
+```
+
+### 💻 **Development & Deployment**
+```
+Python • JavaScript • SQL • R • Docker • AWS • Streamlit • React.js
+MLOps • API Development • Database Design • Web Development
+```
+
+### 📊 **Data Science & Analytics**
+```
+Statistical Analysis • Predictive Modeling • Data Visualization
+Time Series Analysis • A/B Testing • Business Intelligence
+```
+
+---
+
+## 📈 **Key Achievements**
+
+- **🎯 92% Accuracy** - Depression detection using multi-modal AI
+- **🏆 89% F1-Score** - Federated healthcare AI collaboration
+- **🔒 HIPAA Compliant** - Privacy-preserving implementations
+- **🚀 Production Ready** - Deployed applications with comprehensive documentation
+- **📱 Interactive Demos** - Multiple working applications accessible online
+
+---
+
+## 🌐 **Links & Contact**
+
+<div align="center">
+
+[![Portfolio Website](https://img.shields.io/badge/🌐-Portfolio-blue?style=for-the-badge)](https://ukomal.github.io/Komal-Shahid-DS-Portfolio/)
+[![Notely App](https://img.shields.io/badge/📝-Notely_App-green?style=for-the-badge)](https://notely.streamlit.app)
+[![Email](https://img.shields.io/badge/📧-Email-red?style=for-the-badge)](mailto:kshahid@my.bellevue.edu)
+[![LinkedIn](https://img.shields.io/badge/💼-LinkedIn-blue?style=for-the-badge)](https://www.linkedin.com/in/komal-shahid-6b1704175)
+
+</div>
 
 ---
 
@@ -53,15 +148,26 @@ Complete portfolio includes projects from all DSC courses (DSC640-DSC500) coveri
 
 ```
 DSC680/
-├── projects/
-│   ├── notely/                    # AI note management (DSC670)
-│   ├── project1-depression/       # Neural depression detection
-│   ├── project2-federated-ai/     # Privacy-preserving healthcare ML
-│   ├── project3-colorful-canvas/  # AI anamorphic billboard generator
-│   └── project4-dsc640/ ... project12-dsc500/  # Additional DSC projects
-├── docs/                          # Documentation
-├── scripts/                       # Utility scripts
-└── index.html                     # Portfolio website
+├── 🌐 index.html                   # Portfolio website
+├── 📁 projects/
+│   ├── 🎨 project3-colorful-canvas/    # AI Art Studio
+│   ├── 📝 notely/                      # AI Note Taking App
+│   ├── 🧠 project1-depression/         # Mental Health AI
+│   ├── 🏥 project2-federated-ai/       # Privacy-Preserving ML
+│   └── 📊 project4-12/                 # Complete DSC Portfolio
+├── 📋 requirements.txt            # Dependencies
+├── 🔧 scripts/                    # Utility scripts
+└── 📚 docs/                       # Documentation
 ```
 
-**Ready for production | Enterprise-grade | Comprehensive documentation**
+---
+
+<div align="center">
+
+**🎓 Master of Science in Data Science | Bellevue University**
+
+*"Transforming data into actionable insights through advanced AI and machine learning"*
+
+**⭐ Star this repository if you find it helpful!**
+
+</div>

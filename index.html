@@ -3,407 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Komal Shahid - AI Research & Engineering</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Komal Shahid - AI & Machine Learning Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #ffffff;
-            --secondary: #f8f9fa;
-            --tertiary: #e9ecef;
-            --accent: #dee2e6;
-            --text-primary: #212529;
-            --text-secondary: #6c757d;
-            --text-muted: #adb5bd;
-            --surface: rgba(0, 0, 0, 0.02);
-            --surface-hover: rgba(0, 0, 0, 0.05);
-            --border: rgba(0, 0, 0, 0.08);
-            --gradient-subtle: linear-gradient(135deg, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.01) 100%);
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--primary);
-            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
-            overflow-x: hidden;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
         }
 
-        /* Navigation */
-        .nav {
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            padding: 1.5rem 0;
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .nav.scrolled {
-            background: rgba(255, 255, 255, 0.95);
             padding: 1rem 0;
-            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
         }
 
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
+        .nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--text-primary);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #667eea;
             text-decoration: none;
-            letter-spacing: -0.02em;
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2.5rem;
+            gap: 2rem;
         }
 
         .nav-links a {
-            color: var(--text-secondary);
             text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 400;
+            color: #333;
+            font-weight: 500;
             transition: color 0.3s ease;
-            position: relative;
         }
 
         .nav-links a:hover {
-            color: var(--text-primary);
+            color: #667eea;
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--text-primary);
-            transition: width 0.3s ease;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
         }
 
-        .hero-background {
-            position: absolute;
-            inset: 0;
-            background: 
-                radial-gradient(ellipse at 20% 80%, rgba(0, 0, 0, 0.02) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(0, 0, 0, 0.015) 0%, transparent 50%),
-                radial-gradient(ellipse at 40% 40%, rgba(0, 0, 0, 0.01) 0%, transparent 50%);
-        }
-
-        .hero-grid {
-            position: absolute;
-            inset: 0;
-            background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
-            background-size: 50px 50px;
-            opacity: 0.3;
-        }
-
-        .hero-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-content {
-            max-width: 800px;
-        }
-
-        .hero-label {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 1.5rem;
-        }
-
-        .hero-title {
-            font-size: clamp(3rem, 8vw, 6rem);
-            font-weight: 200;
-            line-height: 1.1;
-            margin-bottom: 2rem;
-            letter-spacing: -0.04em;
-        }
-
-        .hero-title .highlight {
-            font-weight: 600;
-            background: linear-gradient(135deg, #212529 0%, #6c757d 100%);
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f0f8ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .hero-description {
-            font-size: 1.25rem;
-            font-weight: 300;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
             max-width: 600px;
-            line-height: 1.7;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 2rem;
-            max-width: 500px;
-            margin-bottom: 3rem;
-        }
-
-        .stat {
-            text-align: left;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 0.25rem;
-        }
-
-        .hero-cta {
-            display: flex;
-            gap: 1.5rem;
-            align-items: center;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
+        .cta-button {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 12px 30px;
             border: none;
-            border-radius: 0;
-            font-family: inherit;
-            font-size: 0.9rem;
-            font-weight: 500;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
             cursor: pointer;
             text-decoration: none;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            display: inline-block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .btn-primary {
-            background: var(--text-primary);
-            color: var(--primary);
-            border: 1px solid var(--text-primary);
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
         }
 
-        .btn-primary:hover {
-            background: transparent;
-            color: var(--text-primary);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--surface-hover);
-            color: var(--text-primary);
-            border-color: var(--text-secondary);
-        }
-
-        /* Projects Section */
         .projects {
-            padding: 8rem 0;
-            position: relative;
-        }
-
-        .section-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 4rem;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 2rem;
+            padding: 80px 0;
+            background: white;
         }
 
         .section-title {
+            text-align: center;
             font-size: 2.5rem;
-            font-weight: 300;
-            letter-spacing: -0.02em;
+            margin-bottom: 3rem;
+            color: #333;
         }
 
-        .section-meta {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            text-align: right;
-        }
-
-        /* Featured Projects */
+        /* Featured Projects Section */
         .featured-projects {
-            margin-bottom: 6rem;
+            margin-bottom: 4rem;
         }
 
         .featured-grid {
             display: grid;
-            gap: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
         }
 
-        .featured-project {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            padding: 3rem 0;
-            border-bottom: 1px solid var(--border);
+        .featured-card {
+            background: linear-gradient(135deg, #f8faff 0%, #e8f0ff 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 3px solid #667eea;
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .featured-project:last-child {
-            border-bottom: none;
+        .featured-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(102, 126, 234, 0.3);
         }
 
-        .featured-project:nth-child(even) .project-content {
-            order: 2;
-        }
-
-        .featured-project:nth-child(even) .project-visual {
-            order: 1;
-        }
-
-        .project-visual {
-            background: var(--primary);
-            border: 1px solid var(--border);
-            aspect-ratio: 4/3;
-            border-radius: 2px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-visual::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--gradient-subtle);
-        }
-
-        .project-visual-content {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .project-title-large {
-            font-size: clamp(2rem, 4vw, 3.5rem);
-            font-weight: 800;
-            color: var(--text-primary);
-            margin: 0;
-            line-height: 1.1;
-            letter-spacing: -0.02em;
-            text-transform: uppercase;
-        }
-
-        .project-subtitle {
+        .featured-badge {
+            background: #667eea;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
             font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: inline-block;
         }
 
-        .project-content {
-            padding: 2rem 0;
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
         }
 
-        .project-meta {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .featured-card h3 {
+            font-size: 1.8rem;
+            color: #333;
             margin-bottom: 1rem;
         }
 
-        .project-title {
-            font-size: 2rem;
-            font-weight: 500;
+        .project-card p {
             margin-bottom: 1.5rem;
-            letter-spacing: -0.01em;
+            color: #666;
         }
 
-        .project-description {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            line-height: 1.7;
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            background: #f5f5f5;
         }
 
-        .project-tech {
+        .tech-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-bottom: 2rem;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
         }
 
         .tech-tag {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            background: transparent;
-            border: 1px solid var(--border);
-            padding: 0.4rem 0.8rem;
-            font-weight: 400;
+            background: #f0f8ff;
+            color: #667eea;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
         .project-links {
@@ -412,856 +228,348 @@
         }
 
         .project-link {
-            color: var(--text-primary);
+            color: #667eea;
             text-decoration: none;
-            font-size: 0.9rem;
             font-weight: 500;
-            padding: 0.75rem 1.5rem;
-            border: 1px solid var(--border);
+            border: 2px solid #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
             transition: all 0.3s ease;
         }
 
         .project-link:hover {
-            background: var(--surface-hover);
+            background: #667eea;
+            color: white;
         }
 
-        .project-link.primary {
-            background: var(--text-primary);
-            color: var(--primary);
-            border-color: var(--text-primary);
+        .demo-link {
+            background: #667eea;
+            color: white;
         }
 
-        .project-link.primary:hover {
-            background: transparent;
-            color: var(--text-primary);
+        .demo-link:hover {
+            background: #5a6fd8;
         }
 
-        /* Other Projects */
-        .other-projects {
-            margin-top: 6rem;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-        }
-
-        .project-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 2.5rem;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .project-card:hover {
-            background: var(--surface-hover);
-            border-color: var(--text-secondary);
-        }
-
-        .card-meta {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
-        }
-
-        .card-title {
-            font-size: 1.4rem;
-            font-weight: 500;
-            margin-bottom: 1rem;
-            letter-spacing: -0.01em;
-        }
-
-        .card-description {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .card-tech {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-tech .tech-tag {
-            font-size: 0.75rem;
-            padding: 0.3rem 0.6rem;
-        }
-
-        /* About Section */
-        .about {
-            padding: 8rem 0;
-            background: var(--secondary);
-            border-top: 1px solid var(--border);
-        }
-
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 6rem;
-            align-items: start;
-        }
-
-        .about-content h2 {
-            font-size: 2rem;
-            font-weight: 400;
-            margin-bottom: 2rem;
-            letter-spacing: -0.01em;
-        }
-
-        .about-text {
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            line-height: 1.7;
-        }
-
-        .credentials {
-            margin-top: 3rem;
-        }
-
-        .credential-item {
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .credential-item:last-child {
-            border-bottom: none;
-        }
-
-        .credential-title {
-            font-weight: 500;
-        }
-
-        .credential-meta {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        /* Contact Section */
-        .contact {
-            padding: 6rem 0;
+        .footer {
+            background: #333;
+            color: white;
             text-align: center;
+            padding: 2rem 0;
         }
 
-        .contact h2 {
-            font-size: 2.5rem;
-            font-weight: 300;
-            margin-bottom: 2rem;
-            letter-spacing: -0.02em;
-        }
-
-        .contact-description {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .contact-links {
+        .contact-info {
             display: flex;
             justify-content: center;
             gap: 2rem;
-            flex-wrap: wrap;
+            margin-bottom: 1rem;
         }
 
-        .contact-link {
-            color: var(--text-secondary);
+        .contact-info a {
+            color: #667eea;
             text-decoration: none;
-            font-size: 0.9rem;
-            padding: 1rem 2rem;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
         }
 
-        .contact-link:hover {
-            color: var(--text-primary);
-            background: var(--surface-hover);
-        }
-
-        /* Footer */
-        .footer {
-            padding: 3rem 0;
-            border-top: 1px solid var(--border);
-            text-align: center;
-        }
-
-        .footer-text {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .featured-project {
-                grid-template-columns: 1fr;
-                gap: 2rem;
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
             }
-
-            .featured-project:nth-child(even) .project-content,
-            .featured-project:nth-child(even) .project-visual {
-                order: unset;
+            
+            .nav-links {
+                display: none;
             }
-
-            .about-grid {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
+            
+            .featured-grid,
             .projects-grid {
                 grid-template-columns: 1fr;
             }
         }
-
-        @media (max-width: 768px) {
-            .nav-container {
-                padding: 0 1rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .hero-container,
-            .section-container {
-                padding: 0 1rem;
-            }
-
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-
-            .hero-cta {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .contact-links {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-
-        /* Smooth animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="nav" id="nav">
-        <div class="nav-container">
+    <header class="header">
+        <nav class="nav container">
             <a href="#" class="logo">Komal Shahid</a>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#projects">Projects</a></li>
-                <li><a href="#about">About</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
-    <!-- Hero Section -->
     <section id="home" class="hero">
-        <div class="hero-background"></div>
-        <div class="hero-grid"></div>
-        <div class="hero-container">
-            <div class="hero-content fade-in">
-                <div class="hero-label">AI Research & Engineering</div>
-                <h1 class="hero-title">
-                    Building <span class="highlight">intelligent systems</span><br>
-                    for tomorrow's challenges
-                </h1>
-                <p class="hero-description">
-                    Specializing in privacy-preserving AI, deep learning architectures, and 
-                    scalable machine learning solutions that transform complex problems into 
-                    intelligent, ethical innovations.
-                </p>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <div class="stat-number">13+</div>
-                        <div class="stat-label">Total Projects</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">92%</div>
-                        <div class="stat-label">Avg Accuracy</div>
-                    </div>
-                    <div class="stat">
-                        <div class="stat-number">10+</div>
-                        <div class="stat-label">DSC Courses</div>
-                    </div>
-                </div>
-                <div class="hero-cta">
-                    <a href="#projects" class="btn btn-primary">View Projects</a>
-                    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
-                </div>
-            </div>
+        <div class="container">
+            <h1>Komal Shahid</h1>
+            <p>AI & Machine Learning Engineer specializing in Generative AI, Computer Vision, and Deep Learning. Transforming complex data into intelligent solutions with live interactive demos.</p>
+            <a href="#projects" class="cta-button">View My Projects</a>
         </div>
     </section>
 
-    <!-- Projects Section -->
     <section id="projects" class="projects">
-        <div class="section-container">
-            <div class="section-header fade-in">
-                <h2 class="section-title">Selected Work</h2>
-                <div class="section-meta">
-                    2023—2024<br>
-                    Research & Development
-                </div>
-            </div>
-
-            <!-- Featured Projects -->
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            
+            <!-- Featured Projects with Live Demos -->
             <div class="featured-projects">
-                <!-- Notely Project -->
-                <div class="featured-project fade-in">
-                    <div class="project-visual">
-                        <div class="project-visual-content">
-                            <h3 class="project-title-large">Notely<br>Smart<br>Notes</h3>
-                            <div class="project-subtitle">AI-Powered Note Management</div>
+                <div class="featured-grid">
+                    <!-- ColorfulCanvas Featured Project -->
+                    <div class="featured-card">
+                        <div class="featured-badge">🚀 LIVE DEMO</div>
+                        <img src="images/colorful_canvas_demo.png" alt="ColorfulCanvas AI Art Studio" class="project-image" onerror="this.style.display='none'">
+                        <h3>ColorfulCanvas: AI Art Studio</h3>
+                        <p>AI-powered anamorphic 3D billboard generator using MiDaS neural networks and mathematical precision. Creates Seoul-style LED displays with interactive generative AI demo.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Generative AI</span>
+                            <span class="tech-tag">MiDaS</span>
+                            <span class="tech-tag">Computer Vision</span>
+                            <span class="tech-tag">Blender Python</span>
+                            <span class="tech-tag">Anamorphic Math</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="projects/project3-colorful-canvas/" class="project-link demo-link">Live Demo</a>
+                            <a href="projects/project3-colorful-canvas/" class="project-link">Details</a>
                         </div>
                     </div>
-                    <div class="project-content">
-                        <div class="project-meta">Featured Project • Personal Project</div>
-                        <h3 class="project-title">Notely: Intelligent Note Management System</h3>
-                        <p class="project-description">
-                            Revolutionary note-taking application that combines artificial intelligence with intuitive design 
-                            to transform how users organize, search, and interact with their notes. Features advanced NLP 
-                            for automatic categorization, semantic search capabilities, and real-time collaboration tools. 
-                            Built with modern web technologies and deployed with scalable cloud infrastructure for seamless 
-                            cross-platform synchronization and AI-powered insights.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">React.js</span>
-                            <span class="tech-tag">Node.js</span>
-                            <span class="tech-tag">MongoDB</span>
-                            <span class="tech-tag">Natural Language Processing</span>
-                            <span class="tech-tag">Elasticsearch</span>
+
+                    <!-- Notely Featured Project -->
+                    <div class="featured-card">
+                        <div class="featured-badge">🚀 LIVE DEMO</div>
+                        <img src="images/notely_demo.png" alt="Notely AI Note Taking" class="project-image" onerror="this.style.display='none'">
+                        <h3>Notely: AI-Powered Note Taking</h3>
+                        <p>Intelligent note-taking application with AI summarization, smart categorization, and semantic search. Features live interactive demos and advanced NLP capabilities.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">NLP</span>
+                            <span class="tech-tag">Text Summarization</span>
+                            <span class="tech-tag">Semantic Search</span>
+                            <span class="tech-tag">AI Categorization</span>
                             <span class="tech-tag">Streamlit</span>
                         </div>
                         <div class="project-links">
-                            <a href="https://notely-demo.streamlit.app" target="_blank" class="project-link primary">Live Demo</a>
-                            <a href="projects/notely/" class="project-link">Project Details</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Colorful Canvas AI Art Studio -->
-                <div class="featured-project fade-in">
-                    <div class="project-visual">
-                        <div class="project-visual-content">
-                            <h3 class="project-title-large">Colorful<br>Canvas<br>AI</h3>
-                            <div class="project-subtitle">Interactive Art Studio</div>
-                        </div>
-                    </div>
-                    <div class="project-content">
-                        <div class="project-meta">Featured Project • DSC680 Final Project</div>
-                        <h3 class="project-title">Colorful Canvas: AI Art Studio</h3>
-                        <p class="project-description">
-                            Cutting-edge AI-powered art creation platform that integrates advanced diffusion models with 
-                            innovative anamorphic illusion technology. Features text-to-image generation, style transfer, 
-                            and a unique anamorphic illusion engine that creates perspective-shifting art visible through 
-                            AR devices. Combines computer vision, deep learning, and creative technology to push the 
-                            boundaries of digital art creation and commercial advertising effectiveness.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-tag">Stable Diffusion XL</span>
-                            <span class="tech-tag">PyTorch</span>
-                            <span class="tech-tag">Computer Vision</span>
-                            <span class="tech-tag">LoRA Fine-tuning</span>
-                            <span class="tech-tag">React.js</span>
-                            <span class="tech-tag">FastAPI</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="projects/project3-colorful-canvas/" target="_blank" class="project-link primary">Live Demo</a>
-                            <a href="projects/project3-colorful-canvas/" class="project-link">Project Details</a>
+                            <a href="https://notely-demo.streamlit.app" target="_blank" class="project-link demo-link">Live Demo</a>
+                            <a href="projects/notely/" class="project-link">Details</a>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Other Projects -->
-            <div class="other-projects">
-                <div class="section-header fade-in">
-                    <h3 class="section-title">Additional Projects</h3>
-                    <div class="section-meta">
-                        Research & Innovation
+            <h3 style="text-align: center; margin: 3rem 0 2rem; color: #666; font-size: 1.8rem;">Additional Projects</h3>
+            <div class="projects-grid">
+                <!-- Project 1: Depression Detection -->
+                <div class="project-card">
+                    <img src="images/depression_spectrum_visualization.png" alt="Depression Detection System" class="project-image" onerror="this.style.display='none'">
+                    <h3>Neural Depression Detection System</h3>
+                    <p>Advanced multi-modal AI system combining natural language processing and computer vision for mental health assessment. Achieved 92% accuracy using BERT transformers and convolutional neural networks for real-time depression risk evaluation.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">PyTorch</span>
+                        <span class="tech-tag">BERT</span>
+                        <span class="tech-tag">OpenCV</span>
+                        <span class="tech-tag">NLP</span>
+                        <span class="tech-tag">Computer Vision</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="projects/project1-depression/" class="project-link">View Details</a>
                     </div>
                 </div>
 
-                <div class="projects-grid">
-                    <!-- Depression Detection System -->
-                    <div class="project-card fade-in">
-                        <div class="card-meta">AI Mental Health • DSC680</div>
-                        <h4 class="card-title">Neural Depression Detection System</h4>
-                        <p class="card-description">
-                            Advanced multi-modal AI system combining natural language processing and computer vision 
-                            for mental health assessment. Achieved 92% accuracy using BERT transformers and 
-                            convolutional neural networks for real-time depression risk evaluation.
-                        </p>
-                        <div class="card-tech">
-                            <span class="tech-tag">PyTorch</span>
-                            <span class="tech-tag">BERT</span>
-                            <span class="tech-tag">OpenCV</span>
-                            <span class="tech-tag">NLP</span>
-                            <span class="tech-tag">Computer Vision</span>
-                        </div>
-                        <div style="margin-top: 1.5rem;">
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Key Features:</div>
-                            <ul style="font-size: 0.85rem; color: var(--text-secondary); list-style: none; padding: 0;">
-                                <li>• 92% accuracy in depression detection</li>
-                                <li>• Multi-modal analysis (text, facial, vocal)</li>
-                                <li>• Real-time processing capabilities</li>
-                            </ul>
-                        </div>
+                <!-- Project 2: Federated Healthcare AI -->
+                <div class="project-card">
+                    <img src="images/federated_architecture.png" alt="Federated Healthcare AI" class="project-image" onerror="this.style.display='none'">
+                    <h3>Federated Healthcare AI Framework</h3>
+                    <p>Privacy-preserving machine learning framework enabling healthcare institutions to collaboratively train AI models without sharing sensitive patient data. HIPAA-compliant system with differential privacy guarantees achieving 89% F1-score.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">TensorFlow Federated</span>
+                        <span class="tech-tag">Differential Privacy</span>
+                        <span class="tech-tag">Blockchain</span>
+                        <span class="tech-tag">HIPAA Compliance</span>
                     </div>
-
-                    <!-- Federated Healthcare AI -->
-                    <div class="project-card fade-in">
-                        <div class="card-meta">Privacy-Preserving ML • DSC680</div>
-                        <h4 class="card-title">Federated Healthcare AI Framework</h4>
-                        <p class="card-description">
-                            Privacy-preserving machine learning framework enabling healthcare institutions to 
-                            collaboratively train AI models without sharing sensitive patient data. HIPAA-compliant 
-                            system with differential privacy guarantees achieving 89% F1-score.
-                        </p>
-                        <div class="card-tech">
-                            <span class="tech-tag">TensorFlow Federated</span>
-                            <span class="tech-tag">Differential Privacy</span>
-                            <span class="tech-tag">Blockchain</span>
-                            <span class="tech-tag">HIPAA Compliance</span>
-                        </div>
-                        <div style="margin-top: 1.5rem;">
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Achievements:</div>
-                            <ul style="font-size: 0.85rem; color: var(--text-secondary); list-style: none; padding: 0;">
-                                <li>• 89% F1-score in collaborative training</li>
-                                <li>• Zero patient data sharing</li>
-                                <li>• HIPAA-compliant architecture</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- DSC640 - Data Visualization -->
-                    <div class="project-card fade-in">
-                        <div class="card-meta">Data Visualization • DSC640</div>
-                        <h4 class="card-title">Interactive Healthcare Dashboard</h4>
-                        <p class="card-description">
-                            Comprehensive data visualization platform for healthcare analytics featuring interactive 
-                            dashboards, real-time monitoring, and predictive analytics visualizations. Implemented 
-                            advanced statistical storytelling techniques for clinical decision support.
-                        </p>
-                        <div class="card-tech">
-                            <span class="tech-tag">D3.js</span>
-                            <span class="tech-tag">Tableau</span>
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Plotly</span>
-                            <span class="tech-tag">Healthcare Analytics</span>
-                        </div>
-                        <div style="margin-top: 1.5rem;">
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Impact:</div>
-                            <ul style="font-size: 0.85rem; color: var(--text-secondary); list-style: none; padding: 0;">
-                                <li>• 40% faster clinical decision making</li>
-                                <li>• Interactive real-time monitoring</li>
-                                <li>• Multi-stakeholder insights platform</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- DSC670 - Applied Machine Learning -->
-                    <div class="project-card fade-in">
-                        <div class="card-meta">Machine Learning • DSC670</div>
-                        <h4 class="card-title">Customer Churn Prediction System</h4>
-                        <p class="card-description">
-                            Advanced machine learning pipeline for predicting customer churn using ensemble methods 
-                            and feature engineering. Deployed production-ready models with MLOps best practices 
-                            achieving 91% accuracy in churn prediction.
-                        </p>
-                        <div class="card-tech">
-                            <span class="tech-tag">Scikit-learn</span>
-                            <span class="tech-tag">XGBoost</span>
-                            <span class="tech-tag">MLOps</span>
-                            <span class="tech-tag">Feature Engineering</span>
-                            <span class="tech-tag">AWS</span>
-                        </div>
-                        <div style="margin-top: 1.5rem;">
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Performance:</div>
-                            <ul style="font-size: 0.85rem; color: var(--text-secondary); list-style: none; padding: 0;">
-                                <li>• 91% accuracy in churn prediction</li>
-                                <li>• 25% improvement in retention strategies</li>
-                                <li>• Production-ready deployment</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- DSC630 - Predictive Analytics -->
-                    <div class="project-card fade-in">
-                        <div class="card-meta">Forecasting • DSC630</div>
-                        <h4 class="card-title">Financial Market Forecasting</h4>
-                        <p class="card-description">
-                            Time series forecasting system for financial markets using ARIMA, Prophet, and LSTM 
-                            models. Developed ensemble forecasting methods with advanced statistical validation 
-                            for investment decision support.
-                        </p>
-                        <div class="card-tech">
-                            <span class="tech-tag">Prophet</span>
-                            <span class="tech-tag">ARIMA</span>
-                            <span class="tech-tag">LSTM</span>
-                            <span class="tech-tag">Time Series</span>
-                            <span class="tech-tag">Financial Analytics</span>
-                        </div>
-                        <div style="margin-top: 1.5rem;">
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Results:</div>
-                            <ul style="font-size: 0.85rem; color: var(--text-secondary); list-style: none; padding: 0;">
-                                <li>• 15% MAPE in price forecasting</li>
-                                <li>• Multi-horizon prediction capability</li>
-                                <li>• Risk-adjusted return optimization</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- DSC550 - Data Mining -->
-                    <div class="project-card fade-in">
-                        <div class="card-meta">Data Mining • DSC550</div>
-                        <h4 class="card-title">E-commerce Pattern Discovery</h4>
-                        <p class="card-description">
-                            Market basket analysis and customer segmentation using association rule mining and 
-                            clustering algorithms. Discovered actionable patterns for product recommendations 
-                            and inventory optimization in retail operations.
-                        </p>
-                        <div class="card-tech">
-                            <span class="tech-tag">Apriori Algorithm</span>
-                            <span class="tech-tag">K-Means</span>
-                            <span class="tech-tag">Association Rules</span>
-                            <span class="tech-tag">Customer Segmentation</span>
-                            <span class="tech-tag">Retail Analytics</span>
-                        </div>
-                        <div style="margin-top: 1.5rem;">
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Business Impact:</div>
-                            <ul style="font-size: 0.85rem; color: var(--text-secondary); list-style: none; padding: 0;">
-                                <li>• 28% increase in cross-selling</li>
-                                <li>• Optimized inventory management</li>
-                                <li>• Customer lifetime value insights</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- DSC540 - Advanced Data Management -->
-                    <div class="project-card fade-in">
-                        <div class="card-meta">Database Design • DSC540</div>
-                        <h4 class="card-title">Scalable Healthcare Data Architecture</h4>
-                        <p class="card-description">
-                            Enterprise-grade database architecture for healthcare data management with NoSQL 
-                            integration, ETL pipelines, and HIPAA-compliant data governance. Optimized query 
-                            performance and ensured data integrity across multiple systems.
-                        </p>
-                        <div class="card-tech">
-                            <span class="tech-tag">PostgreSQL</span>
-                            <span class="tech-tag">MongoDB</span>
-                            <span class="tech-tag">Apache Spark</span>
-                            <span class="tech-tag">ETL Pipelines</span>
-                            <span class="tech-tag">Data Governance</span>
-                        </div>
-                        <div style="margin-top: 1.5rem;">
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Achievements:</div>
-                            <ul style="font-size: 0.85rem; color: var(--text-secondary); list-style: none; padding: 0;">
-                                <li>• 60% improvement in query performance</li>
-                                <li>• HIPAA-compliant data architecture</li>
-                                <li>• Scalable multi-system integration</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- DSC530 - Data Exploration & Analysis -->
-                    <div class="project-card fade-in">
-                        <div class="card-meta">Statistical Analysis • DSC530</div>
-                        <h4 class="card-title">COVID-19 Impact Analysis</h4>
-                        <p class="card-description">
-                            Comprehensive exploratory data analysis of COVID-19's impact on various sectors using 
-                            statistical hypothesis testing and advanced visualization techniques. Identified key 
-                            patterns and correlations in pandemic-related data.
-                        </p>
-                        <div class="card-tech">
-                            <span class="tech-tag">Pandas</span>
-                            <span class="tech-tag">Statistical Testing</span>
-                            <span class="tech-tag">Seaborn</span>
-                            <span class="tech-tag">Hypothesis Testing</span>
-                            <span class="tech-tag">Public Health Data</span>
-                        </div>
-                        <div style="margin-top: 1.5rem;">
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Key Findings:</div>
-                            <ul style="font-size: 0.85rem; color: var(--text-secondary); list-style: none; padding: 0;">
-                                <li>• Significant sector-specific impacts</li>
-                                <li>• Regional variation patterns identified</li>
-                                <li>• Predictive recovery indicators</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- DSC520 - Statistics for Data Science -->
-                    <div class="project-card fade-in">
-                        <div class="card-meta">Statistical Modeling • DSC520</div>
-                        <h4 class="card-title">A/B Testing Framework</h4>
-                        <p class="card-description">
-                            Statistical framework for A/B testing in digital marketing campaigns with advanced 
-                            experimental design and hypothesis testing. Implemented Bayesian methods for 
-                            continuous optimization and decision-making under uncertainty.
-                        </p>
-                        <div class="card-tech">
-                            <span class="tech-tag">Statistical Inference</span>
-                            <span class="tech-tag">A/B Testing</span>
-                            <span class="tech-tag">Bayesian Methods</span>
-                            <span class="tech-tag">R</span>
-                            <span class="tech-tag">Experimental Design</span>
-                        </div>
-                        <div style="margin-top: 1.5rem;">
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Impact:</div>
-                            <ul style="font-size: 0.85rem; color: var(--text-secondary); list-style: none; padding: 0;">
-                                <li>• 23% improvement in conversion rates</li>
-                                <li>• Reduced time to statistical significance</li>
-                                <li>• Bayesian adaptive testing framework</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- DSC510 - Introduction to Programming -->
-                    <div class="project-card fade-in">
-                        <div class="card-meta">Programming Fundamentals • DSC510</div>
-                        <h4 class="card-title">Library Management System</h4>
-                        <p class="card-description">
-                            Object-oriented library management system with database integration, user authentication, 
-                            and inventory tracking. Demonstrated fundamental programming concepts including data 
-                            structures, algorithms, and database operations.
-                        </p>
-                        <div class="card-tech">
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">SQLite</span>
-                            <span class="tech-tag">OOP</span>
-                            <span class="tech-tag">Data Structures</span>
-                            <span class="tech-tag">GUI Development</span>
-                        </div>
-                        <div style="margin-top: 1.5rem;">
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Features:</div>
-                            <ul style="font-size: 0.85rem; color: var(--text-secondary); list-style: none; padding: 0;">
-                                <li>• Complete CRUD operations</li>
-                                <li>• User authentication system</li>
-                                <li>• Inventory tracking and reporting</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- DSC500 - Data Science Tools -->
-                    <div class="project-card fade-in">
-                        <div class="card-meta">Data Tools • DSC500</div>
-                        <h4 class="card-title">Sales Performance Analytics</h4>
-                        <p class="card-description">
-                            Comprehensive sales analytics project using Excel, Tableau, and Python for data 
-                            acquisition, cleaning, and visualization. Created executive dashboards and automated 
-                            reporting systems for business intelligence.
-                        </p>
-                        <div class="card-tech">
-                            <span class="tech-tag">Excel</span>
-                            <span class="tech-tag">Tableau</span>
-                            <span class="tech-tag">Python</span>
-                            <span class="tech-tag">Data Cleaning</span>
-                            <span class="tech-tag">Business Intelligence</span>
-                        </div>
-                        <div style="margin-top: 1.5rem;">
-                            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">Deliverables:</div>
-                            <ul style="font-size: 0.85rem; color: var(--text-secondary); list-style: none; padding: 0;">
-                                <li>• Executive dashboard suite</li>
-                                <li>• Automated reporting pipeline</li>
-                                <li>• Sales trend analysis and forecasting</li>
-                            </ul>
-                        </div>
+                    <div class="project-links">
+                        <a href="projects/project2-federated-ai/" class="project-link">View Details</a>
                     </div>
                 </div>
-            </div>
 
-            <div class="contact-links">
-                <a href="mailto:kshahid@my.bellevue.edu" class="contact-link">
-                    Email → kshahid@my.bellevue.edu
-                </a>
-                <a href="https://linkedin.com/in/komalshahid" target="_blank" class="contact-link">
-                    LinkedIn → /in/komalshahid
-                </a>
-                <a href="https://github.com/UKOMAL" target="_blank" class="contact-link">
-                    GitHub → /UKOMAL
-                </a>
+                <!-- DSC640 - Data Visualization -->
+                <div class="project-card">
+                    <h3>Interactive Healthcare Dashboard</h3>
+                    <p>Comprehensive data visualization platform for healthcare analytics featuring interactive dashboards, real-time monitoring, and predictive analytics visualizations. Implemented advanced statistical storytelling techniques for clinical decision support.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">D3.js</span>
+                        <span class="tech-tag">Tableau</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Plotly</span>
+                        <span class="tech-tag">Healthcare Analytics</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="projects/project4-dsc640/" class="project-link">View Details</a>
+                    </div>
+                </div>
+
+                <!-- DSC670 - Applied Machine Learning -->
+                <div class="project-card">
+                    <h3>Customer Churn Prediction System</h3>
+                    <p>Advanced machine learning pipeline for predicting customer churn using ensemble methods and feature engineering. Deployed production-ready models with MLOps best practices achieving 91% accuracy in churn prediction.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Scikit-learn</span>
+                        <span class="tech-tag">XGBoost</span>
+                        <span class="tech-tag">MLOps</span>
+                        <span class="tech-tag">Feature Engineering</span>
+                        <span class="tech-tag">AWS</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="projects/project5-dsc670/" class="project-link">View Details</a>
+                    </div>
+                </div>
+
+                <!-- DSC630 - Predictive Analytics -->
+                <div class="project-card">
+                    <h3>Financial Market Forecasting</h3>
+                    <p>Time series forecasting system for financial markets using ARIMA, Prophet, and LSTM models. Developed ensemble forecasting methods with advanced statistical validation for investment decision support.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Prophet</span>
+                        <span class="tech-tag">ARIMA</span>
+                        <span class="tech-tag">LSTM</span>
+                        <span class="tech-tag">Time Series</span>
+                        <span class="tech-tag">Financial Analytics</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="projects/project6-dsc630/" class="project-link">View Details</a>
+                    </div>
+                </div>
+
+                <!-- DSC550 - Data Mining -->
+                <div class="project-card">
+                    <h3>E-commerce Pattern Discovery</h3>
+                    <p>Market basket analysis and customer segmentation using association rule mining and clustering algorithms. Discovered actionable patterns for product recommendations and inventory optimization in retail operations.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Apriori Algorithm</span>
+                        <span class="tech-tag">K-Means</span>
+                        <span class="tech-tag">Association Rules</span>
+                        <span class="tech-tag">Customer Segmentation</span>
+                        <span class="tech-tag">Retail Analytics</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="projects/project7-dsc550/" class="project-link">View Details</a>
+                    </div>
+                </div>
+
+                <!-- DSC540 - Advanced Data Management -->
+                <div class="project-card">
+                    <h3>Scalable Healthcare Data Architecture</h3>
+                    <p>Enterprise-grade database architecture for healthcare data management with NoSQL integration, ETL pipelines, and HIPAA-compliant data governance. Optimized query performance and ensured data integrity across multiple systems.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">Apache Spark</span>
+                        <span class="tech-tag">ETL Pipelines</span>
+                        <span class="tech-tag">Data Governance</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="projects/project8-dsc540/" class="project-link">View Details</a>
+                    </div>
+                </div>
+
+                <!-- DSC530 - Data Exploration & Analysis -->
+                <div class="project-card">
+                    <h3>COVID-19 Impact Analysis</h3>
+                    <p>Comprehensive exploratory data analysis of COVID-19's impact on various sectors using statistical hypothesis testing and advanced visualization techniques. Identified key patterns and correlations in pandemic-related data.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Pandas</span>
+                        <span class="tech-tag">Statistical Testing</span>
+                        <span class="tech-tag">Seaborn</span>
+                        <span class="tech-tag">Hypothesis Testing</span>
+                        <span class="tech-tag">Public Health Data</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="projects/project9-dsc530/" class="project-link">View Details</a>
+                    </div>
+                </div>
+
+                <!-- DSC520 - Statistics for Data Science -->
+                <div class="project-card">
+                    <h3>A/B Testing Framework</h3>
+                    <p>Statistical framework for A/B testing in digital marketing campaigns with advanced experimental design and hypothesis testing. Implemented Bayesian methods for continuous optimization and decision-making under uncertainty.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Statistical Inference</span>
+                        <span class="tech-tag">A/B Testing</span>
+                        <span class="tech-tag">Bayesian Methods</span>
+                        <span class="tech-tag">R</span>
+                        <span class="tech-tag">Experimental Design</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="projects/project10-dsc520/" class="project-link">View Details</a>
+                    </div>
+                </div>
+
+                <!-- DSC510 - Introduction to Programming -->
+                <div class="project-card">
+                    <h3>Library Management System</h3>
+                    <p>Object-oriented library management system with database integration, user authentication, and inventory tracking. Demonstrated fundamental programming concepts including data structures, algorithms, and database operations.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">SQLite</span>
+                        <span class="tech-tag">OOP</span>
+                        <span class="tech-tag">Data Structures</span>
+                        <span class="tech-tag">GUI Development</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="projects/project11-dsc510/" class="project-link">View Details</a>
+                    </div>
+                </div>
+
+                <!-- DSC500 - Data Science Tools -->
+                <div class="project-card">
+                    <h3>Sales Performance Analytics</h3>
+                    <p>Comprehensive sales analytics project using Excel, Tableau, and Python for data acquisition, cleaning, and visualization. Created executive dashboards and automated reporting systems for business intelligence.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Excel</span>
+                        <span class="tech-tag">Tableau</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Data Cleaning</span>
+                        <span class="tech-tag">Business Intelligence</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="projects/project12-dsc500/" class="project-link">View Details</a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="section-container">
-            <div class="footer-text">
-                © 2024 Komal Shahid — Designed with intention, built with purpose
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="contact-info">
+                <a href="mailto:kshahid@my.bellevue.edu">📧 kshahid@my.bellevue.edu</a>
+                <a href="https://linkedin.com/in/komalshahid" target="_blank">💼 LinkedIn</a>
+                <a href="https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio" target="_blank">💻 GitHub</a>
             </div>
+            <p>&copy; 2024 Komal Shahid. Master of Science in Data Science, Bellevue University.</p>
         </div>
     </footer>
 
     <script>
-        // Wait for DOM to be fully loaded
-        document.addEventListener('DOMContentLoaded', function() {
-            // Navigation scroll effect
-            function handleNavScroll() {
-                const nav = document.getElementById('nav');
-                if (nav) {
-                    if (window.scrollY > 100) {
-                        nav.classList.add('scrolled');
-                    } else {
-                        nav.classList.remove('scrolled');
-                    }
-                }
-            }
-
-            window.addEventListener('scroll', handleNavScroll);
-
-            // Smooth scrolling for navigation links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const target = document.querySelector(targetId);
-                    if (target) {
-                        const offsetTop = target.offsetTop - 80;
-                        window.scrollTo({
-                            top: offsetTop,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-
-            // Fade in animation on scroll
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, observerOptions);
-
-            // Observe all fade-in elements
-            document.querySelectorAll('.fade-in').forEach(el => {
-                observer.observe(el);
-            });
-
-            // Add initial visible class to hero content
-            setTimeout(() => {
-                const heroContent = document.querySelector('.hero-content');
-                if (heroContent) {
-                    heroContent.classList.add('visible');
-                }
-            }, 300);
-
-            // Enhanced cursor effect for modern feel
-            document.addEventListener('mousemove', function(e) {
-                if (Math.random() > 0.98) {
-                    createCursorTrail(e.clientX, e.clientY);
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
             });
+        });
 
-            function createCursorTrail(x, y) {
-                try {
-                    const trail = document.createElement('div');
-                    trail.style.cssText = `
-                        position: fixed;
-                        left: ${x}px;
-                        top: ${y}px;
-                        width: 4px;
-                        height: 4px;
-                        background: rgba(0, 0, 0, 0.1);
-                        border-radius: 50%;
-                        pointer-events: none;
-                        z-index: 9999;
-                        transform: translate(-50%, -50%);
-                        animation: trailFade 1s ease-out forwards;
-                    `;
-                    document.body.appendChild(trail);
-
-                    setTimeout(() => {
-                        if (trail && trail.parentNode) {
-                            trail.parentNode.removeChild(trail);
-                        }
-                    }, 1000);
-                } catch (e) {
-                    // Silently handle any trail creation errors
-                }
+        // Add scroll effect to header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
             }
-
-            // Add trail animation styles
-            if (!document.querySelector('#trailStyles')) {
-                const style = document.createElement('style');
-                style.id = 'trailStyles';
-                style.textContent = `
-                    @keyframes trailFade {
-                        0% {
-                            opacity: 1;
-                            transform: translate(-50%, -50%) scale(1);
-                        }
-                        100% {
-                            opacity: 0;
-                            transform: translate(-50%, -50%) scale(0);
-                        }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-
-            // Add subtle parallax effect
-            function handleParallax() {
-                try {
-                    const scrolled = window.pageYOffset;
-                    const heroBackground = document.querySelector('.hero-background');
-                    const heroGrid = document.querySelector('.hero-grid');
-                    
-                    if (heroBackground) {
-                        heroBackground.style.transform = `translateY(${scrolled * 0.2}px)`;
-                    }
-                    if (heroGrid) {
-                        heroGrid.style.transform = `translateY(${scrolled * 0.1}px)`;
-                    }
-                } catch (e) {
-                    // Silently handle parallax errors
-                }
-            }
-
-            window.addEventListener('scroll', handleParallax);
-
-            // Add project link hover effects
-            document.querySelectorAll('.project-link').forEach(link => {
-                link.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-1px)';
-                });
-                
-                link.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
         });
     </script>
 </body>

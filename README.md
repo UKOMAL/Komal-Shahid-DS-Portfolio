@@ -11,6 +11,8 @@
 ### 🎨 [ColorfulCanvas AI Art Studio](./projects/project3-colorful-canvas/)
 *AI-powered anamorphic 3D billboard generator*
 
+![ColorfulCanvas Benchmark](./projects/project3-colorful-canvas/images/benchmark.jpg)
+
 **🎯 Objective:** Create Seoul-style LED displays using advanced computer vision and mathematical precision
 
 **✨ Key Features:**

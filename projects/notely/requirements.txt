@@ -3,4 +3,4 @@ PyPDF2>=3.0.0
 python-docx>=0.8.11
 typing-extensions>=4.0.0
 streamlit-extras>=0.2.0
-streamlit-pdf-viewer>=0.0.15 
+streamlit-pdf-viewer>=0.0.23 

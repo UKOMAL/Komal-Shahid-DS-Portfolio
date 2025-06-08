@@ -510,3 +510,6 @@ Thumbs.db
 **/docs/milestone*/
 **/docs/milestones/
 !**/milestones/*.py quality_checks/
+
+# Ignore the GitHub Pages trigger file
+.github_pages_trigger

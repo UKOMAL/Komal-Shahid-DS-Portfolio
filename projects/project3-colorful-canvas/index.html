@@ -894,7 +894,7 @@
                         
                         <div class="cta-container" style="margin-top: 3rem;">
                             <button class="cta-button" onclick="resetDemo()">Upload Another Image</button>
-                            <a href="../../index.html#projects" class="cta-button cta-secondary">Back to Portfolio</a>
+                            <a href="/Komal-Shahid-DS-Portfolio/index.html#projects" class="cta-button cta-secondary">Back to Portfolio</a>
                         </div>
                     </div>
                     
@@ -996,6 +996,51 @@ billboard_scene = generate_anamorphic_billboard(image, depth_map)
 
         function simulateProcessing() {
             const steps = ['step1', 'step2', 'step3', 'step4'];
+            
+            let currentStep = 1;
+            
+            const interval = setInterval(() => {
+                if (currentStep < steps.length) {
+                    document.getElementById(steps[currentStep]).classList.remove('pending');
+                    document.getElementById(steps[currentStep]).classList.add('processing');
+                    
+                    // Previous step is now completed
+                    if (currentStep > 0) {
+                        document.getElementById(steps[currentStep-1]).classList.remove('processing');
+                        document.getElementById(steps[currentStep-1]).classList.add('completed');
+                    }
+                    
+                    currentStep++;
+                } else {
+                    // Last step completes
+                    document.getElementById(steps[currentStep-1]).classList.remove('processing');
+                    document.getElementById(steps[currentStep-1]).classList.add('completed');
+                    
+                    clearInterval(interval);
+                    
+                    // Show results after brief delay
+                    setTimeout(() => {
+                        processingSection.style.display = 'none';
+                        resultsSection.style.display = 'block';
+                    }, 800);
+                }
+            }, 1200);
+        }
+        
+        function resetDemo() {
+            // Reset UI state
+            uploadSection.style.display = 'block';
+            processingSection.style.display = 'none';
+            resultsSection.style.display = 'none';
+            
+            // Reset step classes
+            document.getElementById('step1').className = 'process-step completed';
+            document.getElementById('step2').className = 'process-step pending';
+            document.getElementById('step3').className = 'process-step pending';
+            document.getElementById('step4').className = 'process-step pending';
+            
+            // Clear file input
+            fileInput.value = '';
             
             // Step 1: Already completed (upload)
             

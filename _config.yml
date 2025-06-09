@@ -1,8 +1,8 @@
 theme: jekyll-theme-minimal
 title: Komal Shahid - Data Science Portfolio
 description: Showcasing projects in machine learning, deep learning, and AI applications
-baseurl: ""
-url: "https://ukomal.github.io/Komal-Shahid-DS-Portfolio/"
+baseurl: "/Komal-Shahid-DS-Portfolio"
+url: "https://ukomal.github.io"
 
 # Build settings
 markdown: kramdown

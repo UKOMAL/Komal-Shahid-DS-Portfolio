@@ -1,0 +1,33 @@
+# Ignore Python files in src directory
+src/*.py
+
+# Ignore markdown files in docs directory
+docs/*.md
+
+# Keep only .docx files in docs
+!docs/*.docx
+
+# Ignore cache directories
+__pycache__/
+.ipynb_checkpoints/
+.cache/
+
+# Keep notebooks directory
+!notebooks/
+!notebooks/*.ipynb
+
+# Ignore large model files but keep directory structure
+models/*
+!models/finbert/
+models/finbert/*
+!models/finbert/config.json
+!models/finbert/vocab.txt
+!models/finbert/tokenizer_config.json
+!models/finbert/special_tokens_map.json
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore Cursor IDE files
+.cursor/ 

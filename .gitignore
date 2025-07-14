@@ -200,6 +200,10 @@ env/
 **/src/final_fraud_detection.py
 **/src/fraud_detection_*.py
 
+# Allow utils and data directories for project13
+!projects/project13-dsc680/src/utils/
+!projects/project13-dsc680/data/
+
 # Documentation markdown files (keep local only)
 **/docs/*.md
 **/docs/**/*.md

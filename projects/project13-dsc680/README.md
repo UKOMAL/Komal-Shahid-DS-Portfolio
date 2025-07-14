@@ -1,139 +1,84 @@
-# Advanced Fraud Detection System
+# Real-World Fraud Detection System
 
-## Project Overview
-This project implements a comprehensive fraud detection system using machine learning techniques and advanced data visualizations. The system is designed to identify fraudulent transactions in financial data, with a focus on credit card fraud detection, enhanced with interactive visualizations and sophisticated analytics.
+A comprehensive fraud detection system using authentic, real-world datasets with LightGBM optimization, Neural Networks, and SHAP analysis to identify fraudulent transactions in banking and credit card datasets.
 
-## Object-Oriented Design
-The system follows object-oriented programming principles with the following key classes:
+## 🎯 **Ethical Data Science Approach**
 
-- **FraudDataHandler**: Manages data loading, exploratory analysis, and advanced visualizations
-- **FraudDataPreprocessor**: Handles data preprocessing, resampling, and class imbalance
-- **FraudModelTrainer**: Trains, evaluates, and optimizes machine learning models
-- **FraudDetectionSystem**: Orchestrates the entire workflow and generates interactive dashboards
+This project uses **only real-world, authentic datasets** for fraud detection research:
+- **ULB Credit Card Fraud Dataset** (Université Libre de Bruxelles)
+- **IEEE-CIS Fraud Detection Dataset** (Real competition data)
 
-## Advanced Visualizations
-The system includes sophisticated interactive visualizations inspired by the Python Graph Gallery:
+**No synthetic or artificially generated data** - ensuring realistic, ethical fraud detection research.
 
-### Data Exploration Visualizations
-- **Feature Distribution Violin Matrix**: Visualizes the distribution of key features by class
-- **Feature Correlation Network**: Interactive network graph showing relationships between features
-- **Transaction Amount Ridgeline Plot**: Shows transaction amount distributions by hour
-- **Anomaly Detection Visualization**: PCA projection with isolation forest anomaly scores
-- **PCA Visualization with Density Contours**: 2D projection with density contours by class
-- **Word Co-occurrence Matrix**: Analyzes patterns in transaction descriptions
-- **Merchant Risk Analysis**: Bubble chart showing fraud risk by merchant
-- **Transaction Type Analysis**: Radar chart comparing different transaction types
-- **Geographic Fraud Distribution**: Choropleth map showing fraud rates by country
+## Architecture Diagram
 
-### Model Evaluation Visualizations
-- **Interactive Confusion Matrices**: Detailed heatmaps with performance metrics
-- **ROC Curve Comparison**: Interactive comparison of models with threshold markers
-- **Precision-Recall Curve Comparison**: Detailed PR curves with AUC values
-- **Feature Importance Comparison**: Horizontal bar chart comparing feature importance across models
-- **Performance Radar Chart**: Radar visualization of multiple performance metrics
-- **Learning Curves**: Visualizations to detect and quantify overfitting
-- **Overfitting Comparison**: Bar chart comparing overfitting metrics across models
-- **Fairness Metrics Visualization**: Bar charts showing model fairness across different demographic groups
+```mermaid
+graph TD
+    subgraph "Data Sources"
+        A1["Banking Fraud Dataset"] --> B
+        A2["Credit Card Fraud Dataset"] --> B
+    end
+    
+    B["Data Loading with DASK<br/>Distributed Computing"] --> C["Data Preprocessing"]
+    C --> D["Feature Engineering"]
+    
+    subgraph "Model Training"
+        D --> E1["SMOTE Class<br/>Balancing"]
+        E1 --> F1["LightGBM with<br/>Optuna Optimization"]
+        E1 --> F2["Neural Network<br/>with TensorFlow"]
+    end
+    
+    subgraph "Evaluation & Analysis"
+        F1 --> G1["Performance Metrics<br/>AUC, F1, Precision, Recall"]
+        F2 --> G1
+        F1 --> G2["SHAP Analysis<br/>Feature Importance"]
+    end
+    
+    G1 --> H["Visualization<br/>& Reporting"]
+    G2 --> H
+```
 
-## Features
-- Data loading and exploration with advanced pattern detection
-- Sophisticated preprocessing with standardization and outlier handling
-- Advanced class imbalance handling using multiple techniques:
-  - SMOTE (Synthetic Minority Over-sampling Technique)
-  - ADASYN (Adaptive Synthetic Sampling)
-  - Combined approach (undersampling + controlled SMOTE)
-  - Ensemble-based balancing
-- Multiple model training and comparison with overfitting prevention:
-  - Logistic Regression with L2 regularization
-  - Random Forest with depth and sample constraints
-  - Gradient Boosting with controlled learning rate
-  - XGBoost with comprehensive regularization
-- Benford's Law analysis for fraud detection
-- Advanced text analytics for transaction descriptions
-- Interactive dashboard generation
-- Comprehensive overfitting analysis and prevention
-- **Autoencoder-based anomaly detection** for identifying unusual transactions
-- **BERT-based linguistic analysis** for transaction descriptions
-- **Fairness evaluation** across different transaction groups
+## Key Features
 
-## Datasets
-The system is designed to work with:
-1. Credit Card Fraud Detection dataset from Kaggle
-2. AI-Powered Banking Fraud Detection Dataset (2025) from Kaggle
+- **Real-World Data** - Uses authentic fraud datasets (no synthetic data)
+- **Memory Optimization** - Uses DASK for distributed computing
+- **Advanced Modeling** - LightGBM with Optuna hyperparameter optimization
+- **Class Balancing** - SMOTE implementation to handle extreme imbalance
+- **Comprehensive Visualization** - Multiple visualization techniques for fraud patterns
+- **Model Interpretability** - SHAP analysis for feature importance
+- **Ethical Research** - Realistic fraud rates and patterns
 
-Both datasets contain transactions with features that help identify fraudulent activities.
+## 📊 **Datasets**
 
-## Requirements
-See `requirements.txt` for the necessary dependencies. Key requirements include:
-- Python 3.6+
-- Plotly for interactive visualizations
-- NetworkX for network visualizations
-- Scikit-learn, XGBoost for machine learning
-- Imbalanced-learn for handling class imbalance
-- Pandas, NumPy for data manipulation
-- Matplotlib, Seaborn for static visualizations
-- NLTK, TextBlob for text analysis
-- TensorFlow for autoencoder implementation
-- Transformers for BERT-based text analysis
-- AIF360 and Fairlearn for fairness evaluation
-- Dash for interactive dashboards (optional)
+### ULB Credit Card Fraud Dataset
+- **Source:** Université Libre de Bruxelles
+- **Size:** 284,807 transactions
+- **Fraud Rate:** 0.17% (realistic)
+- **Features:** 31 (including PCA-transformed V1-V28)
+
+### IEEE-CIS Fraud Detection Dataset
+- **Source:** IEEE-CIS Competition
+- **Size:** Large-scale real competition data
+- **Fraud Rate:** 1.50% (realistic)
+- **Features:** 394 transaction + 41 identity features
 
 ## Usage
-1. Download the datasets from Kaggle:
-```
-# The script will attempt to download the dataset automatically
-# If it fails, download manually from Kaggle:
-# https://www.kaggle.com/mlg-ulb/creditcardfraud
-```
 
-2. Run the fraud detection system:
-```
-python run_fraud_analysis.py
-```
+The main Jupyter notebook `notebooks/fraud_detection_final.ipynb` contains the complete analysis pipeline.
 
-3. Run the Jupyter notebook:
-```
-python src/run_fraud_notebook.py
-```
+## 🏗️ **Project Structure**
 
-4. View the interactive dashboard:
 ```
-# Open the generated HTML file in your browser:
-projects/project13-dsc680/output/dashboard/index.html
+project13-dsc680/
+├── data/input/
+│   ├── creditcard-fraud/          # ULB Credit Card Dataset
+│   └── ieee-cis/                  # IEEE-CIS Competition Dataset
+├── src/
+│   ├── final_fraud_detection.py   # Main fraud detection system
+│   ├── core/                      # Core components
+│   └── utils/                     # Optimization utilities
+├── notebooks/
+│   ├── fraud_detection_final.ipynb # Complete analysis
+│   └── enhanced_feature_engineering.py
+└── docs/                          # Documentation
 ```
-
-## Output
-The system generates:
-- Interactive visualizations of data distributions and patterns
-- Advanced model performance metrics and comparisons
-- Interactive confusion matrices with detailed metrics
-- ROC and Precision-Recall curves with threshold markers
-- Feature importance visualizations and comparisons
-- Overfitting analysis with learning curves
-- Comprehensive interactive dashboard integrating all visualizations
-- Fairness metrics and visualizations across different demographic groups
-
-## Advanced Analytics Features
-- **Anomaly Detection**: 
-  - Isolation Forest for detecting outliers beyond simple classification
-  - Autoencoder-based anomaly detection for identifying unusual patterns
-- **Network Analysis**: Graph-based visualizations of feature relationships
-- **Temporal Pattern Analysis**: Sophisticated analysis of time-based fraud patterns
-- **Text Analytics**: 
-  - Advanced NLP techniques for transaction description analysis
-  - BERT-based linguistic modeling for fraud detection
-- **Geographic Analysis**: Spatial distribution of fraud patterns
-- **Merchant Risk Profiling**: Analysis of merchant-specific fraud patterns
-- **Overfitting Prevention**: Multiple techniques to ensure model generalization
-- **Fairness Evaluation**: Assessment of model fairness across different transaction groups
-
-## Next Steps
-- Deploy the model as an API for real-time fraud detection
-- Implement a monitoring system to track model performance
-- Set up alerts for high-confidence fraud predictions
-- Collect feedback from fraud investigators to improve the model
-- Retrain the model periodically with new data
-- Implement anomaly detection for transaction sequences
-- Integrate with streaming data sources for real-time fraud detection
-- Expand fairness evaluations to additional demographic groups
-- Implement active learning techniques to improve model performance with minimal labeling 

@@ -78,6 +78,23 @@
 
 ---
 
+### 🕵️ [Real-World Fraud Detection System](./projects/project13-dsc680/)
+*Ethical fraud detection using authentic datasets*
+
+**🎯 Objective:** Detect fraudulent transactions using only real-world, authentic datasets
+
+**✨ Key Features:**
+- 🎯 Real-world datasets (ULB Credit Card + IEEE-CIS)
+- 🤖 Multi-model ensemble (LightGBM, Neural Networks, Autoencoder)
+- ⚖️ Ethical data science (no synthetic data)
+- 📊 Advanced analytics with SHAP interpretability
+
+**🛠️ Tech Stack:** Python • LightGBM • TensorFlow • SHAP • SMOTE • DASK
+
+**🔗 Links:** [Analysis](./projects/project13-dsc680/notebooks/fraud_detection_final.ipynb) • [Documentation](./projects/project13-dsc680/)
+
+---
+
 ## 📚 **Complete DSC Course Portfolio**
 
 | Course | Project | Focus Area |

@@ -193,6 +193,19 @@ env/
 .venv/
 .env/
 
+# Fraud Detection Python Files (keep local only)
+**/final_fraud_detection.py
+**/fraud_detection_system.py
+**/fraud_detection_*.py
+**/src/final_fraud_detection.py
+**/src/fraud_detection_*.py
+
+# Documentation markdown files (keep local only)
+**/docs/*.md
+**/docs/**/*.md
+!**/docs/README.md
+!**/README.md
+
 # Data caches and intermediate files
 data_cache/
 **/data_cache/

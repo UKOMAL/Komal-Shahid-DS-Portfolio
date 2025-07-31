@@ -530,3 +530,12 @@ Thumbs.db
 
 # Ignore the GitHub Pages trigger file
 .github_pages_trigger
+.github-pages-trigger
+
+# macOS system files
+.DS_Store
+**/.DS_Store
+
+# IDE and cache files
+.cursor/
+.mypy_cache/

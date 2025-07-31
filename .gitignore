@@ -199,6 +199,8 @@ env/
 **/fraud_detection_*.py
 **/src/final_fraud_detection.py
 **/src/fraud_detection_*.py
+**/benchmark.py
+**/test_notebook_logic.py
 
 # Allow utils and data directories for project13
 !projects/project13-dsc680/src/utils/

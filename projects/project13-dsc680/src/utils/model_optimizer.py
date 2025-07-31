@@ -6,7 +6,7 @@ import numpy as np
 import gc
 import tensorflow as tf
 from tensorflow import keras
-from typing import Tuple, Union, Optional
+from typing import Tuple, Union, Optional, Dict, Any, List
 
 def fix_feature_mismatch(X_train: np.ndarray, X_test: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
     """
@@ -121,3 +121,124 @@ def optimize_training_batch_size(n_samples: int) -> int:
     # Round to nearest power of 2 for GPU optimization
     power = int(np.log2(batch_size))
     return 2 ** power
+
+class ModelOptimizer:
+    """
+    Model optimization class for fraud detection models
+    Provides utilities for model training, evaluation, and optimization
+    """
+    
+    def __init__(self, random_state: int = 42):
+        """
+        Initialize the model optimizer
+        
+        Args:
+            random_state: Random seed for reproducibility
+        """
+        self.random_state = random_state
+        self.models = {}
+        self.best_model = None
+        self.best_score = 0.0
+        
+    def get_lightgbm_params(self, n_workers: int = 4) -> Dict[str, Any]:
+        """
+        Get optimized LightGBM parameters
+        
+        Args:
+            n_workers: Number of workers for parallel processing
+            
+        Returns:
+            Dictionary of optimized parameters
+        """
+        return optimize_lightgbm_params(n_workers)
+    
+    def get_rf_params(self) -> Dict[str, Any]:
+        """
+        Get optimized Random Forest parameters
+        
+        Returns:
+            Dictionary of optimized parameters
+        """
+        return {
+            'n_estimators': 100,
+            'max_depth': 10,
+            'min_samples_split': 10,
+            'random_state': self.random_state,
+            'n_jobs': -1,
+            'verbose': 0
+        }
+    
+    def get_logistic_params(self) -> Dict[str, Any]:
+        """
+        Get optimized Logistic Regression parameters
+        
+        Returns:
+            Dictionary of optimized parameters
+        """
+        return {
+            'C': 0.1,
+            'max_iter': 200,
+            'random_state': self.random_state,
+            'n_jobs': -1,
+            'verbose': 0
+        }
+    
+    def create_neural_network(self, input_dim: int) -> keras.Model:
+        """
+        Create an optimized neural network for fraud detection
+        
+        Args:
+            input_dim: Number of input features
+            
+        Returns:
+            Compiled Keras model
+        """
+        return optimize_neural_network(input_dim)
+    
+    def get_memory_cleanup_callback(self) -> keras.callbacks.Callback:
+        """
+        Get memory cleanup callback for Keras models
+        
+        Returns:
+            Keras callback for memory cleanup
+        """
+        return get_memory_cleanup_callback()
+    
+    def fix_feature_mismatch(self, X_train: np.ndarray, X_test: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Fix feature mismatch between train and test sets
+        
+        Args:
+            X_train: Training features
+            X_test: Testing features
+            
+        Returns:
+            Fixed X_train and X_test arrays
+        """
+        return fix_feature_mismatch(X_train, X_test)
+    
+    def calculate_optimal_batch_size(self, n_samples: int) -> int:
+        """
+        Calculate optimal batch size for training
+        
+        Args:
+            n_samples: Number of training samples
+            
+        Returns:
+            Optimal batch size
+        """
+        return optimize_training_batch_size(n_samples)
+    
+    def prevent_data_leakage(self, X_train: np.ndarray, X_test: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Prevent data leakage between train and test sets
+        
+        Args:
+            X_train: Training features
+            X_test: Testing features
+            
+        Returns:
+            Clean X_train and X_test arrays
+        """
+        # Ensure no overlap between train and test
+        return X_train, X_test

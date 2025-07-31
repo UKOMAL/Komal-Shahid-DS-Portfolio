@@ -11,12 +11,12 @@
 
 Financial fraud costs the global economy **$32 billion annually**. Traditional rule-based systems flag too many legitimate transactions, frustrating customers and losing business. This project develops a machine learning solution that:
 
-- **🎯 Achieves 94%+ AUC-ROC performance** (Excellent classification)
-- **⚡ Detects 85%+ of fraudulent transactions**
-- **🛡️ Maintains <0.1% false positive rate** 
+- **🎯 Achieves 68.6% AUC-ROC** (Realistic for real-world fraud detection)
+- **⚡ Balanced detection with class imbalance handling**
+- **🛡️ Conservative approach to minimize false positives** 
 - **🚀 Processes transactions in real-time**
 - **📊 Provides explainable predictions** for compliance
-- **⚖️ Ensures ethical AI practices** to prevent discrimination
+- **⚖️ Ensures ethical AI practices** with label noise handling
 
 ## 📊 **Data Sources & Ethics**
 

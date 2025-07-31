@@ -30,13 +30,13 @@
 ### 🚨 [Real-World Fraud Detection System](./projects/project13-dsc680/)
 *Detecting financial fraud using ethical AI and machine learning*
 
-**🎯 Objective:** Develop ML solution for financial fraud detection with 94%+ AUC-ROC performance
+**🎯 Objective:** Develop ML solution for financial fraud detection with realistic performance metrics
 
 **✨ Key Features:**
-- 🎯 94%+ AUC-ROC classification accuracy
-- ⚡ Real-time fraud detection (85%+ detection rate)
-- 🛡️ Ultra-low false positive rate (<0.1%)
-- ⚖️ Ethical AI with bias detection
+- 🎯 68.6% AUC-ROC (Realistic for real-world fraud detection)
+- ⚡ Balanced fraud detection with class imbalance handling
+- 🛡️ Conservative approach to minimize false positives
+- ⚖️ Ethical AI with bias detection and label noise handling
 - 📊 Explainable predictions for compliance
 
 **🛠️ Tech Stack:** Python • Random Forest • Scikit-learn • Pandas • Ethical AI • Statistical Analysis

@@ -990,8 +990,75 @@ billboard_scene = generate_anamorphic_billboard(image, depth_map)
             uploadSection.style.display = 'none';
             processingSection.style.display = 'block';
             
-            // Simulate AI processing steps
-            simulateProcessing();
+            // Process the actual image with our anamorphic system
+            processRealImage(file);
+        }
+
+        function processRealImage(file) {
+            // Convert file to base64
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageData = e.target.result;
+                
+                // Try to connect to local anamorphic server
+                fetch('http://localhost:5000/process_image', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        image_data: imageData
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        showRealResults(data);
+                    } else {
+                        // Fallback to simulation if server not available
+                        simulateProcessing();
+                    }
+                })
+                .catch(error => {
+                    console.log('Local server not available, using simulation');
+                    simulateProcessing();
+                });
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function showRealResults(data) {
+            // Update processing steps to completed
+            const steps = ['step1', 'step2', 'step3', 'step4'];
+            steps.forEach((stepId, index) => {
+                const stepEl = document.getElementById(stepId);
+                if (stepEl) {
+                    stepEl.textContent = '✅';
+                    stepEl.parentElement.classList.remove('processing');
+                    stepEl.parentElement.classList.add('completed');
+                }
+            });
+            
+            // Show results with actual generated image
+            setTimeout(() => {
+                processingSection.style.display = 'none';
+                resultsSection.style.display = 'block';
+                
+                // Update result with actual anamorphic image
+                if (data.final_result) {
+                    const resultCard = document.querySelector('.result-card:last-child .result-preview');
+                    if (resultCard) {
+                        resultCard.innerHTML = `<img src="${data.final_result}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" alt="Generated Billboard">`;
+                        resultCard.style.background = 'none';
+                    }
+                    
+                    // Update description
+                    const resultDesc = document.querySelector('.result-card:last-child .result-desc');
+                    if (resultDesc) {
+                        resultDesc.textContent = 'Successfully generated anamorphic 3D billboard!';
+                    }
+                }
+            }, 2000);
         }
 
         function simulateProcessing() {

@@ -4,7 +4,10 @@ Provides memory optimization and distributed computing utilities
 """
 import os
 import gc
-import tensorflow as tf
+try:
+    import tensorflow as tf  # Optional; pipeline can run without TF if autoencoder is skipped
+except Exception:
+    tf = None
 import dask.dataframe as dd
 import pandas as pd
 import numpy as np
@@ -29,6 +32,8 @@ class OptimUtils:
     @staticmethod
     def setup_tensorflow():
         """Configure TensorFlow for optimal memory usage"""
+        if tf is None:
+            return
         # Reduce TF logging and set memory growth
         tf.get_logger().setLevel('ERROR')
         os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
@@ -58,12 +63,19 @@ class OptimUtils:
     @staticmethod
     def memory_cleanup_callback(frequency=5):
         """Create TensorFlow callback for memory cleanup"""
-        class MemoryCleanupCallback(tf.keras.callbacks.Callback):
-            def on_epoch_end(self, epoch, logs=None):
-                if (epoch + 1) % frequency == 0:
-                    gc.collect()
-                    tf.keras.backend.clear_session()
-        return MemoryCleanupCallback()
+        if tf is None:
+            class _NoopCallback:
+                def on_epoch_end(self, epoch, logs=None):
+                    if (epoch + 1) % frequency == 0:
+                        gc.collect()
+            return _NoopCallback()
+        else:
+            class MemoryCleanupCallback(tf.keras.callbacks.Callback):
+                def on_epoch_end(self, epoch, logs=None):
+                    if (epoch + 1) % frequency == 0:
+                        gc.collect()
+                        tf.keras.backend.clear_session()
+            return MemoryCleanupCallback()
 
     @staticmethod
     def process_zip_data(
@@ -176,7 +188,8 @@ class OptimUtils:
             OptimUtils.cluster = None
         
         gc.collect()
-        tf.keras.backend.clear_session()
+        if tf is not None:
+            tf.keras.backend.clear_session()
         
     @staticmethod
     def clear_memory():
@@ -185,7 +198,8 @@ class OptimUtils:
         """
         print("Clearing memory...")
         # Clear Keras/TF session
-        tf.keras.backend.clear_session()
+        if tf is not None:
+            tf.keras.backend.clear_session()
         
         # Force garbage collection
         gc.collect()

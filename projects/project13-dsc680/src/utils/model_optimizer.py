@@ -4,8 +4,12 @@ Provides function to fix feature mismatch issues
 """
 import numpy as np
 import gc
-import tensorflow as tf
-from tensorflow import keras
+try:
+    import tensorflow as tf  # Optional; functions degrade gracefully without TF
+    from tensorflow import keras
+except Exception:
+    tf = None
+    keras = None
 from typing import Tuple, Union, Optional, Dict, Any, List
 
 def fix_feature_mismatch(X_train: np.ndarray, X_test: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
@@ -50,7 +54,7 @@ def optimize_lightgbm_params(n_workers: int = 4) -> dict:
         'random_state': 42
     }
 
-def optimize_neural_network(input_dim: int, hidden_layers: Optional[Tuple[int, ...]] = None) -> keras.Model:
+def optimize_neural_network(input_dim: int, hidden_layers: Optional[Tuple[int, ...]] = None):
     """
     Create an optimized neural network for fraud detection
     
@@ -64,6 +68,8 @@ def optimize_neural_network(input_dim: int, hidden_layers: Optional[Tuple[int, .
     if hidden_layers is None:
         hidden_layers = (64, 32)
     
+    if keras is None:
+        raise RuntimeError("TensorFlow/Keras is not available in this environment.")
     model = keras.Sequential()
     
     # Input layer with explicit shape
@@ -87,7 +93,7 @@ def optimize_neural_network(input_dim: int, hidden_layers: Optional[Tuple[int, .
     
     return model
 
-def get_memory_cleanup_callback(frequency: int = 5) -> keras.callbacks.Callback:
+def get_memory_cleanup_callback(frequency: int = 5):
     """
     Create a Keras callback for memory cleanup
     
@@ -97,13 +103,20 @@ def get_memory_cleanup_callback(frequency: int = 5) -> keras.callbacks.Callback:
     Returns:
         Keras callback for memory cleanup
     """
-    class MemoryCleanupCallback(keras.callbacks.Callback):
-        def on_epoch_end(self, epoch, logs=None):
-            if (epoch + 1) % frequency == 0:
-                gc.collect()
-                keras.backend.clear_session()
-    
-    return MemoryCleanupCallback()
+    if keras is None:
+        class _Noop:
+            def on_epoch_end(self, epoch, logs=None):
+                if (epoch + 1) % frequency == 0:
+                    gc.collect()
+        return _Noop()
+    else:
+        class MemoryCleanupCallback(keras.callbacks.Callback):
+            def on_epoch_end(self, epoch, logs=None):
+                if (epoch + 1) % frequency == 0:
+                    gc.collect()
+                    keras.backend.clear_session()
+        
+        return MemoryCleanupCallback()
 
 def optimize_training_batch_size(n_samples: int) -> int:
     """

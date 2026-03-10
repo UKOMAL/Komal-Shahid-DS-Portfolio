@@ -131,8 +131,17 @@ pip install -r requirements.txt
 
 ### Run the Complete Pipeline
 ```bash
-# Execute the main fraud detection system
-python src/consolidated_fraud_detection.py
+# From the project root
+cd projects/project13-dsc680
+
+# Execute the main fraud detection system (all datasets)
+python src/fraud_detection_system.py --dataset all
+
+# Fast smoke test (credit card only, sample 6000 rows, skip autoencoder)
+python src/fraud_detection_system.py --dataset creditcard --sample-size 6000 --skip-autoencoder
+
+# Customize output directory
+python src/fraud_detection_system.py --dataset all --output-dir output
 ```
 
 ### View Results
@@ -144,7 +153,17 @@ python src/consolidated_fraud_detection.py
 ### Explore the Analysis
 - **Main Notebook**: `notebooks/fraud_detection_final.ipynb`
 - **Blog Post**: `docs/fraud_detection_blog_post.md`
-- **Technical Details**: See code comments in `src/consolidated_fraud_detection.py`
+- **Technical Details**: See code comments in `src/fraud_detection_system.py`
+
+### Showcase UI (Streamlit)
+To quickly showcase the generated results without re-running the full pipeline:
+
+```bash
+pip install -r requirements.txt
+streamlit run src/app.py
+```
+
+This UI reads artifacts in `output/` (e.g., `*_roc_curve.png`, `*_cv_results.csv`) and the final notebook at `notebooks/fraud_detection_final.ipynb`.
 
 ## 📁 **Project Structure**
 

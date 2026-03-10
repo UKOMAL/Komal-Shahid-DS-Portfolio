@@ -1,0 +1,188 @@
+{
+  "site_title": "Komal Shahid - AI & ML Engineer Portfolio",
+  "site_description": "AI Engineer specializing in privacy-preserving ML, healthcare AI, and ethical data science solutions. Featuring case studies with measurable impact and reproducible artifacts.",
+  "site_url": "https://komalshahid.dev",
+  "version": "2.0.0",
+  "created_date": "2026-03-10",
+  "
+  "target_roles": [
+    "AI Engineer",
+    "ML Engineer", 
+    "Data Scientist",
+    "Senior AI Researcher"
+  ],
+  
+  "primary_metrics": {
+    "hero_metric": "Model AUC 0.92",
+    "secondary_metrics": [
+      "88.6% Fraud Detection AUC",
+      "89% F1-Score Healthcare AI",
+      "R² 0.85 Commercial Prediction"
+    ]
+  },
+
+  "pages": [
+    {
+      "path": "/",
+      "name": "Home",
+      "template": "pages/index.md",
+      "components": ["Hero", "FeaturedProjects", "Skills", "Resume", "CTAButtons"],
+      "seo_priority": 1.0
+    },
+    {
+      "path": "/projects",
+      "name": "Projects Index", 
+      "template": "pages/projects.md",
+      "components": ["ProjectGrid", "FilterTags", "MetricPills"],
+      "seo_priority": 0.9
+    },
+    {
+      "path": "/projects/depression-detection",
+      "name": "Depression Detection AI",
+      "template": "pages/projects/depression-detection.md", 
+      "components": ["CaseStudyLayout", "DemoEmbed", "CodeSnippets"],
+      "seo_priority": 0.8
+    },
+    {
+      "path": "/projects/federated-healthcare",
+      "name": "Federated Healthcare AI",
+      "template": "pages/projects/federated-healthcare.md",
+      "components": ["CaseStudyLayout", "PrivacyVisuals", "TechStack"], 
+      "seo_priority": 0.8
+    },
+    {
+      "path": "/projects/fraud-detection",
+      "name": "Financial Fraud Detection",
+      "template": "pages/projects/fraud-detection.md",
+      "components": ["CaseStudyLayout", "ROICalculator", "EthicsSection"],
+      "seo_priority": 0.8
+    },
+    {
+      "path": "/about",
+      "name": "About & Resume",
+      "template": "pages/about.md",
+      "components": ["Resume", "SkillsMatrix", "Timeline"],
+      "seo_priority": 0.7
+    },
+    {
+      "path": "/blog",
+      "name": "Technical Blog",
+      "template": "pages/blog.md", 
+      "components": ["BlogGrid", "TagFilter", "SearchBox"],
+      "seo_priority": 0.6
+    },
+    {
+      "path": "/contact",
+      "name": "Contact & Interview",
+      "template": "pages/contact.md",
+      "components": ["ContactForm", "CalendlyEmbed", "SocialLinks"],
+      "seo_priority": 0.5
+    }
+  ],
+
+  "components": {
+    "Hero": {
+      "file": "components/Hero.jsx",
+      "props": ["roleLabel", "topMetric", "primaryCTA", "secondaryCTA", "tagline"]
+    },
+    "ProjectCard": {
+      "file": "components/ProjectCard.jsx", 
+      "props": ["title", "description", "metrics", "tags", "demoLink", "caseStudyLink"]
+    },
+    "CaseStudyLayout": {
+      "file": "components/CaseStudyLayout.jsx",
+      "props": ["title", "problem", "dataset", "approach", "results", "reproducibility"]
+    },
+    "Badge": {
+      "file": "components/Badge.jsx",
+      "props": ["text", "variant", "size"]
+    },
+    "MetricPill": {
+      "file": "components/MetricPill.jsx",
+      "props": ["metric", "value", "delta", "tooltip"]
+    },
+    "CTAButton": {
+      "file": "components/CTAButton.jsx", 
+      "props": ["text", "href", "variant", "size", "analytics"]
+    },
+    "Nav": {
+      "file": "components/Nav.jsx",
+      "props": ["items", "currentPage", "mobileMenuOpen"]
+    }
+  },
+
+  "assets": {
+    "colors": {
+      "primary": "#0B3D91",
+      "accent": "#00A3FF", 
+      "neutral_dark": "#0F1724",
+      "neutral_light": "#F7FAFC"
+    },
+    "typography": {
+      "heading_font": "Inter",
+      "body_font": "Inter",
+      "scale": {
+        "h1": "40px",
+        "h2": "28px", 
+        "h3": "20px",
+        "body": "16px",
+        "small": "14px"
+      }
+    },
+    "icons": [
+      "github.svg",
+      "linkedin.svg", 
+      "email.svg",
+      "demo.svg",
+      "download.svg"
+    ],
+    "images": [
+      "hero-background.jpg",
+      "project-thumbnails/depression-detection.png",
+      "project-thumbnails/federated-ai.png", 
+      "project-thumbnails/fraud-detection.png"
+    ]
+  },
+
+  "seo": {
+    "sitemap": "seo/sitemap.xml",
+    "robots": "seo/robots.txt",
+    "metadata": "seo/metadata.jsonld"
+  },
+
+  "technical_stack": {
+    "recommended": {
+      "framework": "Next.js",
+      "styling": "Tailwind CSS",
+      "deployment": "Vercel",
+      "analytics": "Google Analytics 4"
+    },
+    "alternative": {
+      "framework": "Gatsby", 
+      "styling": "Styled Components",
+      "deployment": "Netlify",
+      "analytics": "Plausible"
+    }
+  },
+
+  "build_config": {
+    "docker": "ci/Dockerfile",
+    "github_actions": "ci/github-actions.yml",
+    "deploy_script": "deploy/deploy.sh"
+  },
+
+  "analytics": {
+    "conversion_events": [
+      "view_case_study",
+      "run_demo", 
+      "download_report",
+      "schedule_interview"
+    ],
+    "performance_targets": {
+      "mobile_lighthouse_performance": 90,
+      "mobile_lighthouse_accessibility": 90,
+      "first_contentful_paint": "< 2s",
+      "hero_load_time": "< 3s"
+    }
+  }
+}

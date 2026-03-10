@@ -1,0 +1,331 @@
+{
+  "homePage": {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://komalshahid.dev/#person",
+        "name": "Komal Shahid",
+        "jobTitle": [
+          "AI Engineer",
+          "ML Engineer", 
+          "Data Scientist"
+        ],
+        "description": "AI Engineer specializing in privacy-preserving machine learning, healthcare AI, and ethical data science solutions. Building AI systems that protect 800K+ transactions while advancing healthcare innovation.",
+        "url": "https://komalshahid.dev",
+        "image": "https://komalshahid.dev/images/komal-shahid-profile.jpg",
+        "sameAs": [
+          "https://linkedin.com/in/komalshahid",
+          "https://github.com/komalshahid"
+        ],
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Bellevue University",
+          "url": "https://www.bellevue.edu"
+        },
+        "knowsAbout": [
+          "Machine Learning",
+          "Artificial Intelligence",
+          "Privacy-Preserving ML",
+          "Federated Learning", 
+          "Healthcare AI",
+          "Natural Language Processing",
+          "Computer Vision",
+          "Data Science",
+          "Python Programming",
+          "Deep Learning",
+          "Ethical AI"
+        ],
+        "hasOccupation": {
+          "@type": "Occupation",
+          "name": "AI & ML Engineer",
+          "occupationLocation": {
+            "@type": "Country",
+            "name": "United States"
+          },
+          "skills": [
+            "Python",
+            "PyTorch", 
+            "TensorFlow",
+            "Scikit-learn",
+            "Docker",
+            "AWS",
+            "Machine Learning",
+            "Deep Learning",
+            "Data Engineering"
+          ]
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://komalshahid.dev/#website",
+        "url": "https://komalshahid.dev",
+        "name": "Komal Shahid - AI & ML Engineer Portfolio",
+        "description": "Professional portfolio showcasing AI and machine learning projects with measurable business impact, focusing on privacy-preserving healthcare solutions and ethical AI practices.",
+        "author": {
+          "@id": "https://komalshahid.dev/#person"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://komalshahid.dev/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
+  },
+
+  "projectPages": {
+    "depressionDetection": {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "AI-Powered Depression Detection System",
+      "description": "Advanced NLP & Computer Vision system for mental health assessment achieving 92% accuracy using BERT transformers and facial expression analysis with ethical AI practices.",
+      "image": "https://komalshahid.dev/images/projects/depression-detection-hero.jpg",
+      "datePublished": "2025-01-15",
+      "dateModified": "2025-02-28",
+      "author": {
+        "@type": "Person",
+        "name": "Komal Shahid",
+        "url": "https://komalshahid.dev"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Komal Shahid Portfolio",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://komalshahid.dev/images/logo.png"
+        }
+      },
+      "mainEntity": {
+        "@type": "SoftwareApplication",
+        "name": "Depression Detection AI System",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Cross-platform",
+        "programmingLanguage": [
+          "Python"
+        ],
+        "runtimePlatform": [
+          "PyTorch",
+          "BERT",
+          "OpenCV"
+        ],
+        "description": "Multi-modal AI system combining NLP and computer vision for depression severity assessment",
+        "featureList": [
+          "Real-time depression severity classification",
+          "Multi-modal analysis (text + facial expressions)", 
+          "BERT-based natural language processing",
+          "Ethical AI with bias detection",
+          "92% accuracy with clinical validation"
+        ],
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      },
+      "about": [
+        {
+          "@type": "Thing",
+          "name": "Machine Learning"
+        },
+        {
+          "@type": "Thing", 
+          "name": "Healthcare AI"
+        },
+        {
+          "@type": "Thing",
+          "name": "Natural Language Processing"
+        },
+        {
+          "@type": "Thing",
+          "name": "Computer Vision"
+        }
+      ],
+      "keywords": [
+        "depression detection",
+        "machine learning",
+        "healthcare AI",
+        "BERT",
+        "NLP",
+        "computer vision",
+        "mental health",
+        "ethical AI",
+        "real-time prediction"
+      ]
+    },
+
+    "federatedHealthcare": {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": "Privacy-Preserving Federated Healthcare AI",
+      "description": "Federated learning system enabling healthcare institutions to collaboratively train AI models without sharing patient data. HIPAA-compliant with 89% F1-Score.",
+      "image": "https://komalshahid.dev/images/projects/federated-healthcare-hero.jpg",
+      "datePublished": "2024-11-20",
+      "dateModified": "2025-02-15",
+      "author": {
+        "@type": "Person",
+        "name": "Komal Shahid",
+        "url": "https://komalshahid.dev"
+      },
+      "mainEntity": {
+        "@type": "SoftwareApplication",
+        "name": "Federated Healthcare AI Platform",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Linux",
+        "programmingLanguage": [
+          "Python"
+        ],
+        "runtimePlatform": [
+          "PyTorch",
+          "Docker",
+          "Kubernetes"
+        ],
+        "description": "Privacy-preserving federated learning platform for healthcare AI model training",
+        "featureList": [
+          "Federated learning across multiple hospitals",
+          "Differential privacy implementation",
+          "HIPAA compliance",
+          "Secure multi-party computation",
+          "89% F1-Score performance"
+        ]
+      },
+      "keywords": [
+        "federated learning",
+        "healthcare AI", 
+        "privacy-preserving ML",
+        "HIPAA compliance",
+        "differential privacy",
+        "medical imaging",
+        "collaborative AI",
+        "secure computation"
+      ]
+    },
+
+    "fraudDetection": {
+      "@context": "https://schema.org", 
+      "@type": "TechArticle",
+      "headline": "Real-World Fraud Detection System",
+      "description": "End-to-end fraud detection system processing 800K+ transactions with ethical AI practices. Ensemble approach achieving 88.6% AUC-ROC.",
+      "image": "https://komalshahid.dev/images/projects/fraud-detection-hero.jpg", 
+      "datePublished": "2024-12-10",
+      "dateModified": "2025-02-20",
+      "author": {
+        "@type": "Person",
+        "name": "Komal Shahid",
+        "url": "https://komalshahid.dev"
+      },
+      "mainEntity": {
+        "@type": "SoftwareApplication",
+        "name": "Fraud Detection System",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Cross-platform",
+        "programmingLanguage": [
+          "Python"
+        ],
+        "runtimePlatform": [
+          "LightGBM",
+          "Scikit-learn",
+          "Docker"
+        ],
+        "description": "Real-time fraud detection system with ethical AI practices and explainable decisions",
+        "featureList": [
+          "Real-time transaction processing",
+          "88.6% AUC-ROC performance",
+          "Ethical AI with bias detection", 
+          "Ensemble learning approach",
+          "800K+ daily transaction capacity"
+        ]
+      },
+      "keywords": [
+        "fraud detection",
+        "financial AI",
+        "machine learning",
+        "ensemble methods",
+        "ethical AI",
+        "real-time processing",
+        "LightGBM",
+        "bias detection"
+      ]
+    }
+  },
+
+  "organizationSchema": {
+    "@context": "https://schema.org",
+    "@type": "Organization", 
+    "name": "Komal Shahid AI Portfolio",
+    "url": "https://komalshahid.dev",
+    "logo": "https://komalshahid.dev/images/logo.png",
+    "description": "Portfolio showcasing AI and machine learning engineering projects with focus on healthcare, privacy-preserving ML, and ethical AI practices.",
+    "founder": {
+      "@type": "Person",
+      "name": "Komal Shahid"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "Professional Inquiries",
+      "email": "contact@komalshahid.dev"
+    },
+    "sameAs": [
+      "https://linkedin.com/in/komalshahid",
+      "https://github.com/komalshahid"
+    ]
+  },
+
+  "breadcrumbSchemas": {
+    "projectPage": {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://komalshahid.dev"
+        },
+        {
+          "@type": "ListItem", 
+          "position": 2,
+          "name": "Projects",
+          "item": "https://komalshahid.dev/projects"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Depression Detection AI",
+          "item": "https://komalshahid.dev/projects/depression-detection"
+        }
+      ]
+    }
+  },
+
+  "faqSchema": {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Komal Shahid's expertise in AI and machine learning?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Komal Shahid specializes in privacy-preserving machine learning, healthcare AI, and ethical data science. With expertise in deep learning, NLP, computer vision, and federated learning, she has built production systems processing 800K+ daily transactions with measurable business impact."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the key projects in this AI portfolio?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The portfolio features three major projects: 1) AI-Powered Depression Detection System (92% AUC), 2) Privacy-Preserving Federated Healthcare AI (89% F1-Score), and 3) Real-World Fraud Detection System (88.6% AUC). All projects emphasize ethical AI practices and reproducible results."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the depression detection AI system work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The system combines natural language processing using BERT transformers with computer vision for facial expression analysis. It achieves 92% accuracy in real-time depression severity classification while maintaining ethical AI practices and providing explainable predictions."
+        }
+      }
+    ]
+  }
+}

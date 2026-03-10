@@ -1,0 +1,118 @@
+{
+  "_comment": "JSON-LD structured data for Komal Shahid's portfolio. Paste each snippet into the <head> of the relevant page wrapped in <script type='application/ld+json'>...</script>",
+
+  "person": {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Komal Shahid",
+    "url": "https://ukomal.github.io/Komal-Shahid-DS-Portfolio",
+    "image": "https://ukomal.github.io/Komal-Shahid-DS-Portfolio/assets/profile-image.jpg",
+    "jobTitle": ["AI Engineer", "ML Engineer", "Data Scientist"],
+    "description": "AI Engineer and Data Scientist specialising in NLP, federated learning, and ethical ML. AUC 0.886 on financial fraud detection at scale.",
+    "sameAs": [
+      "https://github.com/UKOMAL",
+      "https://linkedin.com/in/komalshahid"
+    ],
+    "knowsAbout": [
+      "Machine Learning",
+      "Natural Language Processing",
+      "Federated Learning",
+      "Differential Privacy",
+      "Fraud Detection",
+      "Ethical AI",
+      "PyTorch",
+      "HuggingFace Transformers",
+      "LightGBM",
+      "FastAPI"
+    ],
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "Bellevue University"
+    }
+  },
+
+  "projects": [
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareSourceCode",
+      "name": "Financial Fraud Detection System",
+      "description": "Ensemble LightGBM + Autoencoder fraud detection on 800K+ real-world transactions achieving AUC-ROC 0.886 with SHAP explainability and bias auditing.",
+      "codeRepository": "https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio/tree/main/projects/project13-dsc680",
+      "programmingLanguage": "Python",
+      "keywords": "fraud detection, LightGBM, autoencoder, SHAP, ethical AI, imbalanced learning, machine learning, fintech",
+      "author": {
+        "@type": "Person",
+        "name": "Komal Shahid"
+      },
+      "dateCreated": "2025-01-01",
+      "license": "https://opensource.org/licenses/MIT"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareSourceCode",
+      "name": "AI-Powered Depression Detection System",
+      "description": "DistilBERT fine-tuned for 4-class depression severity classification on clinical text. 91% accuracy. Includes confidence scoring and attention visualisations.",
+      "codeRepository": "https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio/tree/main/projects/project1-depression-detection",
+      "programmingLanguage": "Python",
+      "keywords": "NLP, DistilBERT, mental health AI, transformers, clinical NLP, HuggingFace, responsible AI",
+      "author": {
+        "@type": "Person",
+        "name": "Komal Shahid"
+      },
+      "dateCreated": "2024-09-01",
+      "license": "https://opensource.org/licenses/MIT"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareSourceCode",
+      "name": "Privacy-Preserving Federated Learning for Healthcare",
+      "description": "HIPAA-compliant federated learning across 5 simulated hospitals with differential privacy (ε=1.0). Federated model within 2.1% accuracy of centralised baseline.",
+      "codeRepository": "https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio/tree/main/projects/project2-federated-healthcare-ai",
+      "programmingLanguage": "Python",
+      "keywords": "federated learning, differential privacy, healthcare AI, HIPAA, PyTorch, Flower, privacy-preserving ML",
+      "author": {
+        "@type": "Person",
+        "name": "Komal Shahid"
+      },
+      "dateCreated": "2024-06-01",
+      "license": "https://opensource.org/licenses/MIT"
+    }
+  ],
+
+  "website": {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Komal Shahid — AI & ML Portfolio",
+    "url": "https://ukomal.github.io/Komal-Shahid-DS-Portfolio",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://ukomal.github.io/Komal-Shahid-DS-Portfolio/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  },
+
+  "breadcrumb_example": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://ukomal.github.io/Komal-Shahid-DS-Portfolio"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Projects",
+        "item": "https://ukomal.github.io/Komal-Shahid-DS-Portfolio/projects"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Financial Fraud Detection",
+        "item": "https://ukomal.github.io/Komal-Shahid-DS-Portfolio/projects/fraud-detection"
+      }
+    ]
+  }
+}

@@ -1,10 +1,8 @@
-# 🚀 Komal Shahid | AI & Machine Learning Engineer
+# Komal Shahid | AI & Machine Learning Engineer
 
 <div align="center">
 
-[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Inter&weight=600&size=28&duration=3000&pause=1000&color=2E86AB&center=true&vCenter=true&multiline=true&width=800&height=100&lines=Production-Ready+AI+%26+ML+Solutions;Financial+AI+%7C+Computer+Vision+%7C+Ethical+AI;%24M%2B+Business+Impact+%7C+88.6%25+AUC-ROC)](https://git.io/typing-svg)
-
-**Transforming Complex Business Problems into Intelligent Solutions**
+**M.S. Data Science | Bellevue University | GPA 4.0 | Class of 2025-2026**
 
 [![Portfolio](https://img.shields.io/badge/🌐_Portfolio-Live_Demo-2E86AB?style=for-the-badge&logo=github-pages&logoColor=white)](https://ukomal.github.io/Komal-Shahid-DS-Portfolio/)
 [![LinkedIn](https://img.shields.io/badge/💼_LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/komal-shahid-6b1704175)
@@ -14,126 +12,179 @@
 
 ---
 
-## 🎯 **Professional Summary**
+## About
 
-> **AI & ML Engineer** with proven track record of delivering **production-ready systems** that drive measurable business impact. Specialized in **financial AI**, **ethical machine learning**, and **scalable MLOps** solutions. 
+I'm a data scientist obsessed with building intelligent systems that solve real human problems. Over the past two years at Bellevue University, I've moved systematically from foundational skills in Python and statistics through to production machine learning and ethical AI. My work focuses on three things: **impact** (projects that matter to people), **interpretability** (models you can understand and trust), and **rigor** (honest metrics, no inflated claims).
 
-### 💰 **Business Impact Delivered**
-```
-🏆 $2.3M+ Annual Fraud Losses Prevented    📈 88.6% AUC-ROC Performance
-⚡ <100ms Real-time Processing             🎯 85% Fraud Detection Rate  
-🛡️ 99.9% Legitimate Transaction Approval  📊 60% Reduction in Manual Review
-```
-
-### 🎓 **Education & Credentials**
-- **M.S. Data Science** | Bellevue University | *2024-2025* | **GPA: 4.0**
-- **Specialized Focus**: Applied Machine Learning, Ethical AI, Production Systems
+This portfolio showcases the breadth of the MSDS program—10 courses, each building toward a capstone—plus three major applied projects in fraud detection, mental health, and AI-powered tools.
 
 ---
 
-## 🔥 **Featured Projects**
+## Featured Projects
 
-### 🚨 [**Real-World Fraud Detection System**](https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio/tree/main/projects/project13-dsc680) 
-*Production-ready ML pipeline processing 800K+ financial transactions*
+### 1. Real-World Fraud Detection System
+**DSC680 Capstone | Production ML Pipeline | $2.3M Annual Impact**
 
-<details>
-<summary><b>🎯 Business Impact & Technical Excellence</b></summary>
+Engineered a sophisticated fraud detection system processing 800K+ financial transactions from real-world datasets (IEEE-CIS + Credit Card). The system combines **LightGBM gradient boosting** with a **TensorFlow autoencoder** for anomaly detection, achieving **88.6% AUC-ROC** in production-grade evaluation.
 
-**Business Results:**
-- 💰 **$2.3M annual fraud prevention** (based on 85% detection rate)
-- ⚡ **Sub-100ms prediction latency** for real-time processing
-- 🎯 **88.6% AUC-ROC** - Excellent performance for production fraud detection
-- 📊 **60% reduction in manual reviews** through precision-optimized ML
+**Why this matters:** Fraud costs financial institutions billions annually. Most systems either reject too many legitimate transactions or miss sophisticated fraud. This project balances precision and recall using **business-cost aware thresholds** rather than arbitrary probability cutoffs.
 
-**Technical Innovations:**
-```python
-# Advanced Ensemble Architecture
-ensemble_model = {
-    'lightgbm': LGBMClassifier(reg_alpha=0.1, reg_lambda=0.1),
-    'autoencoder': AutoEncoder(layers=[64, 32, 16, 32, 64]),
-    'feature_engineering': FinancialFeatureEngine(40+ domain_features)
-}
+**Technical highlights:**
+- Advanced ensemble: LightGBM + Autoencoder + domain-engineered features
+- Fairness auditing: SHAP values for explainability across demographic groups
+- Production-ready: Docker containerization, MLflow tracking, model versioning
+- Rigorous evaluation: 5-fold cross-validation on hold-out test sets, conservative metrics
 
-# Ethical AI Framework
-bias_detector = FairnessAuditor(
-    protected_attributes=['age', 'gender', 'geography'],
-    metrics=['demographic_parity', 'equal_opportunity']
-)
-```
+**Key results:**
+- 88.6% AUC-ROC on IEEE-CIS dataset (800K transactions)
+- $2.3M estimated annual fraud prevention at 85% detection rate
+- <100ms prediction latency for real-time scoring
+- 60% reduction in manual review workload
 
-**Key Differentiators:**
-- ✅ **Realistic Performance**: Conservative evaluation preventing "too perfect" results  
-- ✅ **Ethical AI**: Comprehensive bias detection and fairness monitoring
-- ✅ **Production Ready**: Docker deployment with monitoring and drift detection
-- ✅ **Regulatory Compliance**: Explainable AI with SHAP values for audit trails
-
-</details>
-
-**Tech Stack:** `Python` `LightGBM` `TensorFlow` `DASK` `Docker` `SHAP` `MLflow`
-
----
-## 💻 **Technical Skills**
-
-<div align="center">
-
-### **🤖 AI & Machine Learning**
-![Python](https://img.shields.io/badge/Python-Expert-3776AB?style=flat&logo=python&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-Advanced-FF6F00?style=flat&logo=tensorflow&logoColor=white)
-![PyTorch](https://img.shields.io/badge/PyTorch-Advanced-EE4C2C?style=flat&logo=pytorch&logoColor=white)
-![Scikit Learn](https://img.shields.io/badge/Scikit_Learn-Expert-F7931E?style=flat&logo=scikit-learn&logoColor=white)
-
-### **🏗️ Production & MLOps**
-![Docker](https://img.shields.io/badge/Docker-Advanced-2496ED?style=flat&logo=docker&logoColor=white)
-![AWS](https://img.shields.io/badge/AWS-Intermediate-FF9900?style=flat&logo=amazon-aws&logoColor=white)
-![MLflow](https://img.shields.io/badge/MLflow-Advanced-0194E2?style=flat&logo=numpy&logoColor=white)
-![Git](https://img.shields.io/badge/Git-Expert-F05032?style=flat&logo=git&logoColor=white)
-
-### **📊 Data & Analytics**
-![Pandas](https://img.shields.io/badge/Pandas-Expert-150458?style=flat&logo=pandas&logoColor=white)
-![NumPy](https://img.shields.io/badge/NumPy-Expert-013243?style=flat&logo=numpy&logoColor=white)
-![DASK](https://img.shields.io/badge/DASK-Advanced-FDA061?style=flat&logo=dask&logoColor=white)
-![SQL](https://img.shields.io/badge/SQL-Advanced-336791?style=flat&logo=postgresql&logoColor=white)
-
-</div>
+**Tech Stack:** Python, LightGBM, TensorFlow, Pandas, scikit-learn, SHAP, MLflow, Docker
 
 ---
 
-## 🏆 **Professional Recognition**
+### 2. Mental Health Treatment-Seeking Prediction
+**DSC680 Project 1 | Logistic Regression with Fairness Audit | 72.3% AUC**
+
+Analyzed the Open Source Mental Illness (OSMI) 2016 survey (N=1,259 responses) to predict which individuals would seek mental health treatment. The challenge: understanding the human and organizational levers that drive treatment-seeking behavior in tech companies.
+
+**Why this matters:** Mental health stigma and access barriers prevent people from getting help. HR teams want evidence-based guidance on what actually increases treatment rates. This project provides that evidence.
+
+**Methodology:**
+- 4-model comparison: Logistic Regression, Random Forest, XGBoost, Neural Network
+- Winner: **Logistic Regression (AUC=0.723)** for interpretability over marginal performance gains
+- SHAP analysis: Identified top drivers of treatment-seeking (interference with work, caring for family)
+- Fairness audit: Group-level parity checks across age, gender, and company size
+- SMOTE balancing: Addressed severe class imbalance in training data
+- Bootstrapped confidence intervals: Quantified uncertainty in predictions
+
+**Key insights:**
+- Work interference is the strongest signal for treatment-seeking (drives behavior more than diagnosis alone)
+- Younger workers and larger companies show different treatment-seeking patterns
+- Model achieves reasonable AUC (0.723) with interpretable coefficients for HR communication
+
+**Deliverables:**
+- Jupyter notebook with full EDA and model pipeline
+- SHAP explainability report for stakeholder communication
+- Fairness audit documenting group-level performance
+- Technical white paper with limitations and caveats
+
+**Tech Stack:** Python, scikit-learn, XGBoost, SHAP, Pandas, Seaborn, Jupyter
 
 ---
 
-### 📝 [Notely AI-Powered Note Taking](./projects/notely/)
-*Intelligent note management with AI summarization*
+### 3. Notely — AI-Powered Note-Taking Assistant
+**DSC680 Creative Project | LLM Integration + Streamlit | Deployed App**
 
-**🎯 Objective:** Transform traditional note-taking with AI-powered features and semantic search
+Built an intelligent note-taking system that combines **semantic search** with **AI summarization** and **smart templates**. Unlike linear note apps, Notely helps users capture, organize, and retrieve information using language rather than folders.
 
-**✨ Key Features:**
-- 🤖 AI-powered note summarization
-- 🔍 Smart search and organization
-- 📊 Interactive templates and categorization
-- 💻 Cross-platform compatibility
+**Why this matters:** Everyone has note-taking tools. Few help you *find* information later. This project bridges that gap using modern NLP.
 
-**🛠️ Tech Stack:** Python • Streamlit • NLP • OpenAI API • PDF Processing • Machine Learning
+**Features:**
+- Semantic search: Find notes by meaning, not just keywords
+- AI summarization: Distill long notes into key takeaways
+- Smart templates: Domain-specific templates for different note types
+- Full-text search: Traditional search for fast recall
+- Export to markdown: Keep your data portable
 
-**🔗 Links:** [Live App](https://notely.streamlit.app) • [Source Code](./projects/notely/src/)
+**Technical approach:**
+- LLM API integration for summarization (OpenAI)
+- Sentence embeddings for semantic search (Hugging Face)
+- Streamlit UI for real-time interaction
+- SQLite backend for lightweight persistence
 
-### 📊 **Performance Metrics & Achievements**
-- **Master's GPA**: 4.0/4.0 - Bellevue University Data Science Program
-- **Production Systems**: 4 deployed ML applications serving real users
-- **Business Impact**: $2.3M+ quantified value creation through fraud prevention  
-- **Technical Excellence**: 88.6% AUC-ROC on production fraud detection system
-- **Ethical AI Leadership**: Comprehensive bias detection across all projects
+**Live demo:** [notely.streamlit.app](https://notely.streamlit.app)
 
-### 🎯 **Currently Seeking**
-**AI Engineer | ML Engineer | Applied Research Scientist** roles where I can:
-- Build production-ready AI systems that drive business impact
-- Lead ethical AI initiatives and responsible ML development  
-- Scale machine learning solutions to serve millions of users
+**Tech Stack:** Python, Streamlit, LLM APIs, Sentence Transformers, SQLite
+
+---
+
+## Complete MSDS Program Portfolio
+
+Below is the full journey through 10 courses, each representing a distinct skill area in data science:
+
+| # | Course | Project | Key Skills | Link |
+|---|--------|---------|-----------|------|
+| 1 | **DSC500** | Sales Analytics Dashboard | Excel, pivot tables, problem framing | [View →](projects/project12-dsc500/) |
+| 2 | **DSC510** | Library Management System | Python scripting, functions, APIs | [View →](projects/project11-dsc510/) |
+| 3 | **DSC520** | A/B Testing Framework | R, hypothesis testing, statistical inference | [View →](projects/project10-dsc520/) |
+| 4 | **DSC530** | COVID-19 Exploratory Analysis | Python EDA, distributions, Jupyter | [View →](projects/project9-dsc530/) |
+| 5 | **DSC540** | Healthcare Data Architecture | SQL, databases, ETL pipelines | [View →](projects/project8-dsc540/) |
+| 6 | **DSC550** | E-commerce Association Rules | Data mining, clustering, pattern discovery | [View →](projects/project7-dsc550/) |
+| 7 | **DSC630** | Financial Time Series Forecasting | ARIMA, SARIMA, exponential smoothing | [View →](projects/project6-dsc630/) |
+| 8 | **DSC640** | Healthcare Dashboard | Tableau/Plotly, interactive visualization | [View →](projects/project4-dsc640/) |
+| 9 | **DSC670** | Notely AI App | Deep learning, LLMs, Streamlit deployment | [View →](projects/project5-dsc670/) |
+| 10 | **DSC680** | Capstone (Fraud + Mental Health) | Production ML, ethics, real-world impact | [View →](projects/project13-dsc680/) |
+
+---
+
+## Technical Skills
+
+### Core Languages & Frameworks
+**Python (Expert)** | **R (Proficient)** | **SQL (Advanced)** | **JavaScript (Intermediate)**
+
+### Machine Learning & AI
+- Supervised Learning: Logistic Regression, Decision Trees, Random Forest, XGBoost, LightGBM
+- Unsupervised Learning: K-means, DBSCAN, hierarchical clustering, PCA
+- Deep Learning: TensorFlow, Keras, autoencoders, neural networks
+- NLP: BERT, DistilBERT, sentence embeddings, semantic search
+- Explainability: SHAP, attention visualization, feature importance
+- Ethical AI: fairness audits, bias detection, confidence calibration
+
+### Data Engineering & Databases
+- Pandas, NumPy for data manipulation
+- SQL: complex queries, optimization, schema design
+- ETL: data pipelines, feature engineering, data validation
+- Databases: PostgreSQL, SQLite, NoSQL basics
+
+### Visualization & Communication
+- Tableau for interactive dashboards
+- Plotly/Seaborn for exploratory visualization
+- Jupyter notebooks for reproducible analysis
+- Technical writing: white papers, README documentation
+
+### MLOps & Deployment
+- Docker containerization
+- MLflow experiment tracking
+- GitHub version control
+- Streamlit for rapid prototyping
+- AWS basics (EC2, S3)
+
+---
+
+## What Makes This Portfolio Different
+
+### Human Impact First
+Every project addresses a real problem: preventing fraud saves money and prevents crime, predicting mental health treatment-seeking helps HR teams support employees, and better note-taking saves knowledge workers time. These aren't toy datasets—they're authentic problems with measurable impact.
+
+### Ethics-First ML
+Machine learning systems have power, and power demands responsibility. I audit every model for fairness across demographic groups, quantify uncertainty with confidence intervals, and make models interpretable with SHAP. When in doubt, I choose simplicity and explainability over raw performance.
+
+### Production-Grade Code
+Academic projects often end at the notebook. Real ML work requires clean code, documentation, testing, versioning, and monitoring. My projects include Docker files, requirements.txt with pinned versions, code comments, and architectural diagrams. This is how code works in production.
+
+### Honest Evaluation
+The ML field has a problem: inflated metrics. A 99.9% accuracy sounds great until you realize it's a dataset with 99.5% negatives. I use **cross-validation**, report **conservative performance metrics**, compare against **baselines**, and document **limitations** openly. My fraud detection system achieved 88.6% AUC-ROC—excellent for production, but not magical.
+
+---
+
+## GPA & Recognition
+
+- **M.S. Data Science, Bellevue University** | GPA: 4.0/4.0 | Expected graduation 2025-2026
+- **Capstone Distinction**: Top-tier performance on applied projects with real-world datasets
+- **Consistent Excellence**: 4.0 GPA maintained across 10 courses spanning foundational to advanced topics
+
+---
+
+## Let's Connect
+
+I'm actively seeking roles as an **AI Engineer**, **ML Engineer**, or **Applied Research Scientist** where I can:
+- Build production-ready AI systems that drive measurable business impact
+- Lead ethical AI initiatives and champion responsible ML development
+- Scale machine learning solutions to serve real users
 - Contribute to cutting-edge research in applied machine learning
-
----
-
-## 🤝 **Let's Connect**
 
 <div align="center">
 
@@ -144,144 +195,8 @@ bias_detector = FairnessAuditor(
 
 **Response time: Within 24 hours**
 
-</div>
-
 ---
 
-### 🕵️ [Real-World Fraud Detection System](./projects/project13-dsc680/)
-*Ethical fraud detection using authentic datasets*
-
-**🎯 Objective:** Detect fraudulent transactions using only real-world, authentic datasets
-
-**✨ Key Features:**
-- 🎯 Real-world datasets (ULB Credit Card + IEEE-CIS)
-- 🤖 Multi-model ensemble (LightGBM, Neural Networks, Autoencoder)
-- ⚖️ Ethical data science (no synthetic data)
-- 📊 Advanced analytics with SHAP interpretability
-
-**🛠️ Tech Stack:** Python • LightGBM • TensorFlow • SHAP • SMOTE • DASK
-
-**🔗 Links:** [Analysis](./projects/project13-dsc680/notebooks/fraud_detection_final.ipynb) • [Documentation](./projects/project13-dsc680/)
-
----
-
-## 📚 **Complete DSC Course Portfolio**
-
-| Course | Project | Focus Area |
-|--------|---------|------------|
-| **DSC680** | Capstone Portfolio | Comprehensive AI/ML Projects |
-| **DSC670** | [Notely AI App](./projects/notely/) | Applied Machine Learning |
-| **DSC640** | [Healthcare Dashboard](./projects/project4-dsc640/) | Data Visualization |
-| **DSC630** | [Financial Forecasting](./projects/project6-dsc630/) | Predictive Analytics |
-| **DSC550** | [E-commerce Analytics](./projects/project7-dsc550/) | Data Mining |
-| **DSC540** | [Healthcare Data Architecture](./projects/project8-dsc540/) | Database Management |
-| **DSC530** | [COVID-19 Analysis](./projects/project9-dsc530/) | Data Exploration |
-| **DSC520** | [A/B Testing Framework](./projects/project10-dsc520/) | Statistics |
-| **DSC510** | [Library Management](./projects/project11-dsc510/) | Programming |
-| **DSC500** | [Sales Analytics](./projects/project12-dsc500/) | Data Science Tools |
-
----
-
-## 🛠️ **Technical Expertise**
-
-### 🤖 **AI & Machine Learning**
-```
-Deep Learning (TensorFlow, PyTorch) • NLP (BERT, Transformers) • Computer Vision (OpenCV, MiDaS)
-Federated Learning • Generative AI • Neural Networks • Ensemble Methods
-```
-
-### 🔒 **Privacy & Security**
-```
-Differential Privacy • HIPAA Compliance • Secure Multiparty Computation
-Privacy-Preserving ML • Ethical AI Development
-```
-
-### 💻 **Development & Deployment**
-```
-Python • JavaScript • SQL • R • Docker • AWS • Streamlit • React.js
-MLOps • API Development • Database Design • Web Development
-```
-
-### 📊 **Data Science & Analytics**
-```
-Statistical Analysis • Predictive Modeling • Data Visualization
-Time Series Analysis • A/B Testing • Business Intelligence
-```
-
----
-
-## 📈 **Key Achievements**
-
-- **🎯 92% Accuracy** - Depression detection using multi-modal AI
-- **🏆 89% F1-Score** - Federated healthcare AI collaboration
-- **🔒 HIPAA Compliant** - Privacy-preserving implementations
-- **🚀 Production Ready** - Deployed applications with comprehensive documentation
-- **📱 Interactive Demos** - Multiple working applications accessible online
-
----
-
-## 🌐 **Links & Contact**
-
-<div align="center">
-
-[![Portfolio Website](https://img.shields.io/badge/🌐-Portfolio-blue?style=for-the-badge)](https://ukomal.github.io/Komal-Shahid-DS-Portfolio/)
-[![Notely App](https://img.shields.io/badge/📝-Notely_App-green?style=for-the-badge)](https://notely.streamlit.app)
-[![Email](https://img.shields.io/badge/📧-Email-red?style=for-the-badge)](mailto:kshahid@my.bellevue.edu)
-[![LinkedIn](https://img.shields.io/badge/💼-LinkedIn-blue?style=for-the-badge)](https://www.linkedin.com/in/komal-shahid-6b1704175)
-
-</div>
-
----
-
-## 📈 **GitHub Statistics**
-
-<div align="center">
-
-[![GitHub Stats](https://github-readme-stats.vercel.app/api?username=UKOMAL&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=2E86AB&icon_color=2E86AB&text_color=E6EDF3)](https://github.com/UKOMAL)
-
-[![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=UKOMAL&layout=compact&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=2E86AB&text_color=E6EDF3)](https://github.com/UKOMAL)
-
-[![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=UKOMAL&theme=tokyo-night&hide_border=true&bg_color=0D1117&color=2E86AB&line=2E86AB&point=E6EDF3)](https://github.com/UKOMAL)
-
-</div>
-
----
-
-## 🌟 **What Sets My Work Apart**
-
-### 🚀 **Production-First Approach**
-- **Real datasets** with authentic performance metrics (avoiding inflated results)
-- **Scalable architecture** with memory optimization and comprehensive monitoring
-- **Business-focused solutions** with quantified ROI and stakeholder alignment
-
-### 🎯 **Technical Excellence**
-- **Clean, documented code** with comprehensive explanations (1000+ lines per project)
-- **Proper methodology** using cross-validation, bias detection, and ethical considerations  
-- **End-to-end solutions** from data ingestion to deployment and monitoring
-
-### 💡 **Innovation & Leadership**
-- **Novel ensemble approaches** and conservative evaluation methodologies
-- **Measurable business impact** with realistic performance expectations
-- **Continuous learning** and application of cutting-edge AI/ML advances
-
----
-
-<div align="center">
-
-### 🚀 **Ready to Transform Your AI Vision into Reality?**
-
-**Let's discuss how my production-ready AI expertise can drive your next breakthrough**
-
-[![Schedule Call](https://img.shields.io/badge/📞_Schedule_Call-30min_Discussion-28a745?style=for-the-badge&logoColor=white)](mailto:kshahid@my.bellevue.edu?subject=AI%20Engineering%20Opportunity&body=Hi%20Komal%2C%0A%0AI'm%20interested%20in%20discussing%20AI%2FML%20opportunities.%20Let's%20schedule%20a%20call%21)
-[![View Portfolio](https://img.shields.io/badge/🌐_Full_Portfolio-Live_Demos-2E86AB?style=for-the-badge&logo=github-pages&logoColor=white)](https://ukomal.github.io/Komal-Shahid-DS-Portfolio/)
-[![Download Resume](https://img.shields.io/badge/📄_Resume-Download_PDF-dc3545?style=for-the-badge&logoColor=white)](https://ukomal.github.io/Komal-Shahid-DS-Portfolio/resume.pdf)
-
----
-
-**🎓 Master of Science in Data Science | Bellevue University | GPA: 4.0**
-
-*"The best way to predict the future is to invent it through intelligent, ethical AI solutions."*
-
-**⭐ Star my repositories if you find them valuable • 📧 Response within 24 hours**
+**Designed & built with care | Last updated April 2026**
 
 </div>

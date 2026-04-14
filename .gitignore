@@ -541,3 +541,15 @@ Thumbs.db
 # IDE and cache files
 .cursor/
 .mypy_cache/
+
+# Internal planning docs (keep local only)
+PROFESSIONAL_POSITIONING_STRATEGY.md
+PROJECT_NARRATIVES.md
+build_plan.md
+site_manifest.json
+FILES_CREATED.md
+PORTFOLIO_COMPLETION_SUMMARY.md
+PORTFOLIO_ENHANCEMENT_STRATEGY.md
+PROFILE_README.md
+DSC680_COURSE_MANAGEMENT_PLAN.md
+DSC680_ALL_DISCUSSION_POSTS.md

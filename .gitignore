@@ -553,3 +553,73 @@ PORTFOLIO_ENHANCEMENT_STRATEGY.md
 PROFILE_README.md
 DSC680_COURSE_MANAGEMENT_PLAN.md
 DSC680_ALL_DISCUSSION_POSTS.md
+
+# ============================================================
+# REPO CLEANUP BLOCK — never push these to GitHub
+# ============================================================
+
+# Cursor IDE config
+.cursor/
+
+# Internal strategy & planning docs
+PROFESSIONAL_POSITIONING_STRATEGY.md
+PROJECT_NARRATIVES.md
+PROFILE_README.md
+build_plan.md
+site_manifest.json
+FILES_CREATED.md
+PORTFOLIO_COMPLETION_SUMMARY.md
+PORTFOLIO_ENHANCEMENT_STRATEGY.md
+DSC680_COURSE_MANAGEMENT_PLAN.md
+DSC680_ALL_DISCUSSION_POSTS.md
+git_cleanup_and_push.sh
+repo_cleanup.sh
+
+# Private personal content
+content/cover_letters.md
+content/linkedin_summary.md
+content/resume.md
+
+# Interview prep
+interview_prep/
+
+# Course guideline files
+guidelines/
+
+# Internal src docs
+src/EXECUTIVE_SUMMARY_Portfolio_Strategy.md
+src/QUICK_START_CHECKLIST.md
+src/analytics_plan.md
+src/enhanced_project_narratives.md
+src/github_profile_README.md
+src/hero_design.md
+src/professional_positioning_strategy.md
+src/wireframes.md
+src/rag_*.py
+src/portfolio_showcase_generator.py
+
+# Internal tooling
+qa/
+
+# Wireframes
+wireframes/
+
+# Deployment internals
+deploy/
+ci/
+
+# SEO internals
+seo/
+src/seo/
+
+# LibreOffice temp files
+.~lock.*
+lu*.tmp
+
+# Slide preview artifacts (generated, not source)
+slide-*.jpg
+view_slides.html
+
+# macOS
+.DS_Store
+**/.DS_Store

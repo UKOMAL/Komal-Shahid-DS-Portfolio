@@ -8,8 +8,8 @@
 
 This directory contains the formal project proposal submitted for Milestone 1.
 
-### `project_proposal.pdf`
-**Primary deliverable for M1**
+### Course submission files (`shahid_dsc680_milestone1_proposal*.pdf` / `.docx`)
+**Primary deliverables for M1** (PDF and Word versions, plus rubric/originality notes in this folder)
 
 **Section Overview:**
 

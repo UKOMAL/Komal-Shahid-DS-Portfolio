@@ -1,0 +1,10 @@
+# Local / editor
+.DS_Store
+.cursor/
+.vscode/
+.idea/
+.claude/
+
+# Temp files
+*.tmp
+*~

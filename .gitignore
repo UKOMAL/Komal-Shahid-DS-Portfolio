@@ -11,9 +11,47 @@
 .env.*
 !.env.example
 
-# Private course materials (discussion drafts — keep on your machine only)
-project1_mental_health/discussions/
-
 # Temp files
 *.tmp
 *~
+
+# OS / Editor
+Thumbs.db
+*.bak
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.venv
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data (large raw files — keep processed/small samples)
+*.csv.gz
+*.parquet
+*.h5
+*.hdf5
+
+# Model artifacts
+*.pkl
+*.joblib
+*.model
+
+# Logs
+*.log
+
+# LibreOffice lockfiles
+.~lock.*
+
+# Local rsync mirror of DSC680/project1_mental_health (canonical copy: DSC680 → GitHub)
+=project1/project1_mental_health/

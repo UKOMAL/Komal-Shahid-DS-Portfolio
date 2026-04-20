@@ -115,34 +115,16 @@ Four models were trained and compared:
 ### Folder Structure
 ```
 project1_mental_health/
-├── README.md                           # This file
-├── data/                               # Raw and processed datasets
-│   ├── raw/
-│   │   └── OSMI_2016_survey.csv
-│   └── processed/
-│       └── treatment_seeking_clean.csv
-├── notebooks/                          # Jupyter analysis notebooks
-│   ├── 01_eda_exploratory_analysis.ipynb
-│   ├── 02_preprocessing_feature_engineering.ipynb
-│   └── 03_model_training_evaluation.ipynb
-├── src/                                # Python source code
-│   ├── data_preprocessing.py
-│   ├── model_training.py
-│   └── evaluation.py
-├── figures/                            # Generated visualizations
-│   ├── class_distribution.png
-│   ├── feature_correlation_heatmap.png
-│   ├── model_comparison.png
-│   └── shap_feature_importance.png
-├── milestone1_proposal/                # M1 deliverable
-│   └── project_proposal.pdf
-├── milestone2_whitepaper/              # M2 deliverable
-│   └── treatment_seeking_whitepaper.md
-│       └── technical_appendix.md
-└── milestone3_final/                   # M3 deliverable
-    ├── code_submission.py
-    ├── model_report.md
-    └── executive_summary.md
+├── README.md                    # This file
+├── code/                        # Analysis pipeline (Python)
+├── figures/                     # Generated plots and charts
+├── milestone1_proposal/         # M1: proposal PDFs/DOCX, rubric notes
+├── milestone2_whitepaper/       # M2: whitepaper, infographic (HTML/PDF/DOCX)
+├── milestone3_final/            # M3: presentation, Q&A, final whitepaper
+├── discussions/                 # Weekly discussion posts (Markdown + exports)
+│   ├── week1/ … week5/
+│   └── introduction / additional posts (TXT)
+└── references/                  # Source links and reading list
 ```
 
 ---

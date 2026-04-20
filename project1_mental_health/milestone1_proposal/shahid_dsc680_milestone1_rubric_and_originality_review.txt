@@ -1,0 +1,154 @@
+DSC680 — Milestone 1 Proposal: Rubric alignment + Turnitin-style originality risk pass
+Document reviewed: shahid_dsc680_milestone1_proposal (DOCX/PDF) | Komal Shahid | March 2026
+
+================================================================================
+PART A — RUBRIC ALIGNMENT (Milestone 1: Proposal & data selection)
+Canvas bands are typically 0% / 50% / 70% / 100% per criterion. Below maps your sections to each criterion and notes gaps/fixes (applied in revised DOCX where noted).
+
+--------------------------------------------------------------------------------
+A1. DATA SOURCE QUALITY
+--------------------------------------------------------------------------------
+Template expectation: Credible, documented source; clear what rows/columns mean; limitations visible.
+
+Where it shows in your proposal: §3 Datasets (OSMI + BLS).
+
+Strengths:
+• OSMI is a recognized community survey with a stable Kaggle landing page; you name waves (2016–2021) and approximate N (~4,200).
+• You name target variable and major feature groups (demographics, workplace, benefits, attitudes).
+• Supplementary BLS NCS shows you are thinking about external validity / benchmarking.
+
+Rubric risks (before revision):
+• Missing explicit “why this source is appropriate for academic reuse” (public, documented, no PII in release).
+• No mention of license / terms as stated on the dataset page (reduces rubric “quality” if instructor expects it).
+
+Fix applied in proposal revision: One sentence on public secondary data + documentation link path (Kaggle + OSMI) and appropriateness for coursework analysis.
+
+--------------------------------------------------------------------------------
+A2. RESEARCH QUESTION QUALITY
+--------------------------------------------------------------------------------
+Template expectation: Clear problem + RQs testable with the data you listed.
+
+Where it shows: §2 Business Problem + numbered RQs.
+
+Strengths:
+• Four RQs map cleanly to modeling (predictors, discussion openness controlling for benefits, model comparison, disparity checks).
+• Aligns with “more than EDA” (classification + comparison + subgroup angles).
+
+Rubric risks:
+• RQ3 bundles “best model” and “consistent features”—still fine, but Milestone 2 will need operational definitions (metric choice, CV strategy). Proposal already hints at this in Methods.
+
+No change required for rubric; optional later: name primary metric (e.g., F1 or ROC–PR) in M2.
+
+--------------------------------------------------------------------------------
+A3. PROPOSAL GRAMMAR
+--------------------------------------------------------------------------------
+Strengths: Professional tone, parallel bullets, APA parenthetical on WHO.
+
+Rubric risks:
+• Minor wording (“cost a significant amount”) is vague—strengthened in revision.
+
+--------------------------------------------------------------------------------
+A4. PROPOSAL ORGANIZATION
+--------------------------------------------------------------------------------
+Official Milestone 1 template sections: (1) Topic 1–2 sentences, (2) Business problem / RQs, (3) Datasets, (4) Methods, (5) Ethics, (6) Challenges, (7) References.
+
+Your proposal: Same order and numbering—strong match.
+
+Rubric risk:
+• “Topic (1–2 sentences max)” was not labeled explicitly; long intro read as one block. Fix applied: explicit **Topic** line + separate introduction paragraph.
+
+--------------------------------------------------------------------------------
+A5. ETHICAL CONSIDERATIONS
+--------------------------------------------------------------------------------
+Strengths: Privacy, stigma, misuse, sampling bias, consent, fairness—matches program outcomes on ethics.
+
+Rubric risks:
+• Add explicit “no individual decisions / not HR screening” tie to deployment (you have this under misuse).
+• Optional plus: note that findings are associative and survey-based (links to Challenges)—one clause added in ethics intro.
+
+================================================================================
+PART B — TURNITIN-STYLE ORIGINALITY RISK PASS (SECTION BY SECTION)
+Note: Turnitin matches common phrases, dataset descriptions, and cited statistics. Matches are not automatically “plagiarism”; instructors look at sources and copying. Goal here is to reduce UNNECESSARY overlap with generic Kaggle kernels, blogs, and boilerplate, while KEEPING proper citations for facts (WHO, OSMI, BLS, methods papers).
+
+--------------------------------------------------------------------------------
+B1. Title / header block
+--------------------------------------------------------------------------------
+Risk: LOW. Your title is specific.
+
+--------------------------------------------------------------------------------
+B2. §1 Introduction (and Topic line)
+--------------------------------------------------------------------------------
+Risk: MEDIUM–HIGH before edit. Phrases like “This project aims to build a classification model that predicts whether…” and “mental health has become a conversation in tech” overlap thousands of student papers and blogs.
+
+Mitigation applied:
+• Explicit short **Topic** line (template compliance + less generic blob).
+• Rewrote introduction to stress OSMI waves, associative design, and deliverable audience—fewer stock phrases.
+
+Residual risk: Some overlap with other OSMI Kaggle notebooks remains if you reuse variable lists verbatim—keep dataset bullets in your own wording (revised).
+
+--------------------------------------------------------------------------------
+B3. §2 Business Problem
+--------------------------------------------------------------------------------
+Risk: MEDIUM. WHO $1 trillion statistic will match the WHO brief—EXPECTED if paraphrased with (WHO, 2022). Do not paste long quotes from WHO without quotation marks.
+
+Your draft: Short paraphrase + citation = appropriate. Similarity % may still show WHO—normal.
+
+Mitigation: Slightly varied framing around productivity/stigma sentences to avoid matching generic “burnout and anxiety” blog intros.
+
+--------------------------------------------------------------------------------
+B4. §3 Datasets
+--------------------------------------------------------------------------------
+Risk: HIGH if text mirrors Kaggle “About this dataset” wording. Many students copy that block.
+
+Mitigation applied: Restated OSMI content in your own structure (source path, what rows represent, why no PII, waves). Kept factual claims aligned with OSMI (2021) reference.
+
+BLS block: Keep factual; phrasing is standard—risk LOW if not pasted from BLS page wholesale.
+
+--------------------------------------------------------------------------------
+B5. §4 Methods
+--------------------------------------------------------------------------------
+Risk: MEDIUM. “End-to-end data science process” + “leveraging techniques from multiple courses” is high-boilerplate.
+
+Mitigation applied: Open with a concrete pipeline tied to your courses and name explanation method with citation (Lundberg & Lee, 2017) already in References.
+
+Technical terms (SMOTE, SHAP, RFECV): LOW risk—these are standard vocabulary; similarity to tutorials is normal.
+
+--------------------------------------------------------------------------------
+B6. §5 Ethical considerations
+--------------------------------------------------------------------------------
+Risk: MEDIUM. Bullets like “model as policy tool not screening” appear in many ethics checklists.
+
+Mitigation: Tighten lead-in sentence; keep bullets—they are still YOUR application to this dataset. Avoid copying ACME/IBM/“responsible AI” policy text verbatim.
+
+--------------------------------------------------------------------------------
+B7. §6 Challenges
+--------------------------------------------------------------------------------
+Risk: LOW–MEDIUM. Items are standard but appropriate; overlap is acceptable if not copied from one source.
+
+--------------------------------------------------------------------------------
+B8. §7 References
+--------------------------------------------------------------------------------
+Risk: LOW for originality. References match sources—Turnitin often excludes bibliography; confirm Canvas/Turnitin settings.
+
+APA: Ensure in-text citations appear wherever you state facts (WHO, APA report if used in body—you cite WHO in body; APA is in list—only use APA in-text if you cite it in narrative in M2).
+
+================================================================================
+PART C — WHAT YOU SHOULD DO BEFORE SUBMIT
+--------------------------------------------------------------------------------
+1. Regenerate PDF from the updated DOCX so PDF matches the revised text.
+2. Run Turnitin (if enabled); open “similarity report” and check largest sources—if top hit is Kaggle OSMI page, compare your §3 wording to ensure you did not paste.
+3. Keep all statistics and organizational claims tied to a cited source or to your future analysis (no unsourced numbers beyond public cites you already use).
+4. If instructor posted a Milestone 1 rubric PDF with different weights, prioritize that document over this consolidated summary.
+
+================================================================================
+PART D — REVISION LOG (applied to shahid_dsc680_milestone1_proposal.docx)
+--------------------------------------------------------------------------------
+Updated in DOCX (re-export PDF manually from Word on macOS):
+• §1: Added explicit Topic line (template “1–2 sentences”); rewrote introduction for clearer scope and less boilerplate.
+• §2: Tightened business-problem opening; retained WHO statistic with (WHO, 2022).
+• §3: Rewrote OSMI overview and several dataset bullets in original wording; clarified public/anonymous reuse rationale.
+• §4: Replaced generic “end-to-end / leveraging” opener; added in-text (Lundberg & Lee, 2017) matching References.
+• §5: Sharpened ethical lead-in to frame commitments.
+
+================================================================================
+END

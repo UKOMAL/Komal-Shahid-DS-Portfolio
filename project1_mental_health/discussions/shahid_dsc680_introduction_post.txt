@@ -1,0 +1,23 @@
+DSC680 — Introduction discussion post (from portfolio site: DSC680/pages/about.md & pages/index.md)
+Komal Shahid  |  March 2026
+(200+ words; inline citation + reference list entry.)
+
+--------------------------------------------------------------------------------
+Introduction post (paste into Canvas / discussion doc)
+--------------------------------------------------------------------------------
+
+Hi everyone,
+
+My name is Komal Shahid, and I am in DSC680 finishing my M.S. in Data Science at Bellevue University. Professionally I position myself as an AI Engineer, ML Engineer, and Data Scientist, and my portfolio site summarizes how I like to work: I build systems that are accurate, explainable, and responsible—not just strong on a leaderboard but usable in production with clear documentation and interpretability where stakeholders need it.
+
+Through the program I have focused on three kinds of problems that show up on my site’s featured work: clinical NLP (for example depression detection with DistilBERT-style transformer fine-tuning), privacy-preserving and federated learning for healthcare settings where raw data cannot be pooled, and large-scale fraud detection with ensembles, conservative handling of imbalance, and SHAP-style explanations for compliance and trust. I also care about the deployment side—containers, simple APIs, and reproducible pipelines—because that is where models actually meet users.
+
+Going forward I am open to full-time AI/ML/data science roles, especially in healthcare AI, fintech, NLP, responsible AI, and MLOps. For this term I hope to sharpen how I communicate methods and ethics to mixed audiences, swap peer feedback on portfolios and capstone drafts, and keep the same standard I describe on my About page: bias awareness, calibration and fairness checks when relevant, and alignment with regulations like HIPAA and GDPR when the use case demands it. Reporting and transparency practices such as model cards are one useful frame for that mindset (Mitchell et al., 2019).
+
+I am glad to be in class with all of you—if you are working on similar themes (NLP, tabular ML, or privacy-preserving learning), I would love to connect and compare notes.
+
+Reference
+Mitchell, M., Wu, S., Zaldivar, A., Barnes, P., Vasserman, L., Hutchinson, B., Spitzer, E., Raji, I. D., & Gebru, T. (2019). Model cards for model reporting. In Proceedings of the 2019 Conference on Fairness, Accountability, and Transparency (pp. 220–229). Association for Computing Machinery. https://doi.org/10.1145/3287560.3287592
+
+--------------------------------------------------------------------------------
+Source pages mirrored: DSC680/pages/about.md; DSC680/pages/index.md (hero, featured projects, about blurb).

@@ -3,6 +3,8 @@
 
 **Status: Complete | Milestone M1 ✅ | Milestone M2 ✅ | Milestone M3 ✅**
 
+**Local working mirror:** `Extra Course/=project1/project1_mental_health/` — see `README_DSC680_SYNC.md` in that folder for rsync commands to and from this directory.
+
 ---
 
 ## Problem Statement

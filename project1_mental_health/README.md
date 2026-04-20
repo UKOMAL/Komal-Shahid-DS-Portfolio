@@ -121,9 +121,7 @@ project1_mental_health/
 ├── milestone1_proposal/         # M1: proposal PDFs/DOCX, rubric notes
 ├── milestone2_whitepaper/       # M2: whitepaper, infographic (HTML/PDF/DOCX)
 ├── milestone3_final/            # M3: presentation, Q&A, final whitepaper
-├── discussions/                 # Weekly discussion posts (Markdown + exports)
-│   ├── week1/ … week5/
-│   └── introduction / additional posts (TXT)
+├── discussions/                 # (local only — gitignored) Canvas discussion drafts
 └── references/                  # Source links and reading list
 ```
 

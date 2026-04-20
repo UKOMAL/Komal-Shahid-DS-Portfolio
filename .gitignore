@@ -1,9 +1,18 @@
-# Local / editor
+# Local / editor (never commit tooling or IDE state)
 .DS_Store
 .cursor/
 .vscode/
 .idea/
 .claude/
+*.swp
+
+# Secrets / local env
+.env
+.env.*
+!.env.example
+
+# Private course materials (discussion drafts — keep on your machine only)
+project1_mental_health/discussions/
 
 # Temp files
 *.tmp

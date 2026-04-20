@@ -60,7 +60,7 @@ python shahid_dsc680_milestone2_analysis.py \
 
 ### Option 2: Interactive Jupyter Notebook
 ```bash
-cd ..  # Go up to project1_mental_health directory
+cd ..  # Go up to project1-dsc680 directory
 jupyter notebook notebooks/03_model_training_evaluation.ipynb
 ```
 

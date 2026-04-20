@@ -3,7 +3,9 @@
 
 **Status: Complete | Milestone M1 ✅ | Milestone M2 ✅ | Milestone M3 ✅**
 
-**Local working mirror:** `Extra Course/=project1/project1_mental_health/` — see `README_DSC680_SYNC.md` in that folder for rsync commands to and from this directory.
+**Local working mirror:** `Extra Course/=project1/project1-dsc680/` — see `README_DSC680_SYNC.md` in that folder for rsync commands to and from this directory.
+
+**Repo path:** `projects/project1-dsc680/` (DSC680 **Project 1** in the portfolio repo).
 
 ---
 
@@ -116,7 +118,7 @@ Four models were trained and compared:
 
 ### Folder Structure
 ```
-project1_mental_health/
+projects/project1-dsc680/
 ├── README.md                    # This file
 ├── code/                        # Analysis pipeline (Python)
 ├── figures/                     # Generated plots and charts

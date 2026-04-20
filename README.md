@@ -116,7 +116,7 @@ Below is the full journey through 10 courses, each representing a distinct skill
 | 7 | **DSC630** | Financial Time Series Forecasting | ARIMA, SARIMA, exponential smoothing | [View →](projects/project6-dsc630/) |
 | 8 | **DSC640** | Healthcare Dashboard | Tableau/Plotly, interactive visualization | [View →](projects/project4-dsc640/) |
 | 9 | **DSC670** | Notely AI App | Deep learning, LLMs, Streamlit deployment | [View →](projects/project5-dsc670/) |
-| 10 | **DSC680** | Capstone (Fraud + Mental Health) | Production ML, ethics, real-world impact | [View →](projects/project13-dsc680/) |
+| 10 | **DSC680** | Project 1 — Survey ML (OSMI) | Classification, SHAP, fairness, end-to-end pipeline | [View →](projects/project1-dsc680/) |
 
 ---
 

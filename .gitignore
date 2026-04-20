@@ -53,5 +53,5 @@ env/
 # LibreOffice lockfiles
 .~lock.*
 
-# Private discussion drafts (DSC680 Project 1 — not published)
-projects/project1-dsc680/discussions/
+# Local rsync mirror of DSC680/projects/project1-dsc680 (canonical copy: DSC680 → GitHub)
+=project1/project1-dsc680/

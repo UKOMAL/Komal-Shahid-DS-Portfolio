@@ -2,7 +2,7 @@
 
 ## Anamorphic 3D LED Billboard Illusions
 
-**Course:** DSC670 Applied Deep Learning  
+**Course:** DSC680 Applied Data Science · Project 3 (Colorful Canvas)  
 **Institution:** Bellevue University  
 **Author:** Komal Shahid  
 **Date:** 2026
@@ -20,6 +20,12 @@ The core algorithm is elegantly simple:
 4. The result: a 2D image that appears 3D when viewed from the front
 
 This project demonstrates that anamorphic effects are fundamentally a **geometric warping problem**, not requiring generative AI—making them fast, accessible, and production-ready.
+
+---
+
+## Portfolio live demo
+
+**`index.html`** is a self-contained **browser lab** (no backend): upload an image or use the built-in demo pattern, adjust warp strength, toggle LED color boost and depth preview. The displacement math matches `apply_anamorphic_warp` in Python (radial sampling / `cv2.remap` equivalent). GitHub Pages–friendly.
 
 ---
 
@@ -48,7 +54,7 @@ Original concentric circles → Warp creates illusion that circles "pop out" tow
 - ✅ **Fast:** ~0.5 seconds per 512×512 image on CPU
 - ✅ **Extensible:** Drop-in MiDaS integration for production-grade depth
 - ✅ **Flexible:** Adjustable strength, saturation, brightness parameters
-- ✅ **Documented:** Full Jupyter notebook with explanations and industry analysis
+- ✅ **Documented:** README + inline browser lab
 - ✅ **Production-Ready:** Real-world application to LED billboards
 
 ---
@@ -94,23 +100,28 @@ pip install -r requirements.txt
 
 ## Usage
 
-### Quick Start: Run the Jupyter Notebook
+### Quick start: Live web lab
+
+Open **`index.html`** in a browser (or visit it from your GitHub Pages portfolio). Upload an image or use the demo pattern, then click **Apply warp**.
+
+### Python: batch processing
 
 ```bash
-cd notebooks
-jupyter notebook colorful_canvas_demo.ipynb
+cd project3-colorful-canvas
+pip install -r requirements.txt
+python -c "
+from src.anamorphic_pipeline import AnamorphicBillboardPipeline
+from PIL import Image
+p = AnamorphicBillboardPipeline(strength=4.0)
+demo = p.generate_demo_image(512, 512)
+Image.fromarray(demo).save('/tmp/in.png')
+print(p.full_pipeline('/tmp/in.png', '/tmp/out.png'))
+"
 ```
 
-The notebook includes:
-- Introduction + concept explanation
-- Synthetic demo image generation
-- Depth map estimation + visualization
-- Anamorphic warp at 3 different strengths (2x, 4x, 6x)
-- Color enhancement comparison
-- Industry cost analysis (traditional vs. ML)
-- Technical roadmap for production deployment
+Use **`AnamorphicBillboardPipeline.full_pipeline()`** in your own scripts for PNG in/out. A Jupyter walkthrough can be added alongside `src/`; the browser demo covers the core warp interactively.
 
-### Programmatic Usage
+### Programmatic usage (reference)
 
 ```python
 from src.anamorphic_pipeline import AnamorphicBillboardPipeline
@@ -173,14 +184,10 @@ Image.fromarray(final.astype(np.uint8)).save('anamorphic_output.png')
 project3-colorful-canvas/
 ├── src/
 │   ├── anamorphic_pipeline.py       # Core warp + enhancement pipeline
-│   ├── depth_estimator.py           # Depth estimation (synthetic + MiDaS stub)
-│   └── __init__.py
-├── notebooks/
-│   └── colorful_canvas_demo.ipynb   # Full interactive walkthrough
-├── output/                          # Generated visualizations & results
-├── requirements.txt                 # Python dependencies
-├── README.md                        # This file
-└── index.html                       # Web demo (CSS 3D anamorphic animation)
+│   └── depth_estimator.py           # Synthetic depth + MiDaS stub
+├── requirements.txt
+├── README.md
+└── index.html                       # Live browser lab (warp + upload + depth preview)
 ```
 
 ---
@@ -312,15 +319,12 @@ All outputs saved to `output/` directory.
 
 ---
 
-## Web Demo
+## Web demo (`index.html`)
 
-A simple HTML/CSS interactive demo is included in `index.html`:
-- Pure CSS 3D transforms (no JavaScript dependencies)
-- Simulates anamorphic perspective effect
-- Ocean-themed color palette
-- Responsive design
-
-Open in any modern browser to see the anamorphic illusion in action.
+- **JavaScript canvas** implementing the same radial displacement and bilinear sampling as `apply_anamorphic_warp` in Python.
+- **Synthetic depth:** Laplacian magnitude + iterative box blur (analogous to the OpenCV pipeline).
+- **Controls:** image upload, built-in demo pattern, warp strength, optional LED color boost, depth map preview.
+- **No build step** — open the file locally or via GitHub Pages.
 
 ---
 
@@ -361,7 +365,7 @@ Open in any modern browser to see the anamorphic illusion in action.
 
 ## Contributing
 
-This is an educational project for DSC670. Contributions welcome for:
+This is an educational project for **DSC680**. Contributions welcome for:
 - MiDaS integration & testing
 - Performance benchmarks on various hardware
 - LED hardware integration protocols
@@ -378,7 +382,7 @@ Educational use (Bellevue University)
 ## Contact
 
 **Author:** Komal Shahid  
-**Course:** DSC670 Applied Deep Learning  
+**Course:** DSC680 Applied Data Science (Project 3)  
 **Instructor:** [TBD]  
 **University:** Bellevue University  
 

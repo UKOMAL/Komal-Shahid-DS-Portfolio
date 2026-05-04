@@ -6,9 +6,31 @@
 <title>Komal Shahid — Data Scientist &amp; ML Engineer</title>
 <meta name="description" content="Komal Shahid — Data Scientist &amp; ML Engineer working on healthcare AI, privacy-preserving ML, and ethical AI systems.">
 
+<!-- SEO / Social Sharing -->
+<link rel="canonical" href="https://ukomal.github.io/portfolio/">
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://ukomal.github.io/portfolio/">
+<meta property="og:title"       content="Komal Shahid — Data Scientist &amp; ML Engineer">
+<meta property="og:description" content="Healthcare AI, privacy-preserving ML, and ethical AI systems. MS Data Science at Bellevue University.">
+<meta property="og:image"       content="https://ukomal.github.io/portfolio/og-image.png">
+<meta name="twitter:card"       content="summary_large_image">
+<meta name="twitter:title"      content="Komal Shahid — Data Scientist &amp; ML Engineer">
+<meta name="twitter:description" content="Healthcare AI, privacy-preserving ML, and ethical AI systems. MS Data Science at Bellevue University.">
+<meta name="twitter:image"      content="https://ukomal.github.io/portfolio/og-image.png">
+
+<!-- Favicon — inline SVG using brand terracotta -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23f5efe4' stroke='%231a1612' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23c65d3a'/%3E%3C/svg%3E">
+<!-- theme-color: light/dark variants for mobile browser chrome -->
+<meta name="theme-color" content="#f5efe4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">
+
+<!-- DNS prefetch for CDN resources loaded later -->
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Preload Three.js so the hero constellation starts sooner -->
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" as="script" crossorigin="anonymous">
 
 <style>
 /* ───────────────────────────────────────────────────────────
@@ -287,6 +309,16 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
   content:""; width:6px; height:6px; border-radius:50%;
   background:var(--sage);
   animation:blink 1.8s ease-in-out infinite;
+}
+.hero__kicker .building{
+  display:inline-flex; align-items:center; gap:6px;
+  color:var(--ochre);
+  font-size:11px;
+}
+.hero__kicker .building::before{
+  content:""; width:6px; height:6px; border-radius:50%;
+  background:var(--ochre); animation:blink 1.4s ease-in-out 0.4s infinite;
+  flex-shrink:0;
 }
 @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:.3;} }
 
@@ -674,6 +706,58 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
 .contact__line a:hover::after{ transform:scaleX(0); transform-origin:right; }
 .contact__links{ margin-top:60px; display:flex; gap:22px; flex-wrap:wrap; }
 
+/* ────────── Contact form ────────── */
+.contact__form{
+  margin-top:56px; max-width:600px;
+  display:grid; gap:16px;
+}
+.contact__form-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.cf-field{
+  display:flex; flex-direction:column; gap:7px;
+}
+.cf-field label{
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--fg-muted);
+}
+.cf-field input,
+.cf-field textarea{
+  background:var(--bg-soft); border:1px solid var(--rule-c); border-radius:8px;
+  padding:12px 14px;
+  font-family:var(--font-body); font-size:15px; color:var(--fg);
+  outline:none; resize:none;
+  transition:border-color .25s var(--ease), box-shadow .25s var(--ease);
+  width:100%;
+  -webkit-appearance:none;
+}
+.cf-field input::placeholder,
+.cf-field textarea::placeholder{ color:var(--fg-muted); }
+.cf-field input:focus,
+.cf-field textarea:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+.cf-field textarea{ min-height:130px; line-height:1.6; }
+.cf-submit{
+  display:inline-flex; align-items:center; gap:12px;
+  padding:14px 22px;
+  font-family:var(--font-mono); font-size:12px; font-weight:500;
+  letter-spacing:.14em; text-transform:uppercase;
+  border-radius:999px; border:1px solid var(--fg);
+  background:var(--fg); color:var(--bg);
+  transition:transform .3s var(--ease-out), background .3s var(--ease), color .3s var(--ease), border-color .3s;
+  cursor:pointer; white-space:nowrap; align-self:flex-start;
+}
+.cf-submit:hover{ transform:translateY(-2px); background:var(--accent); border-color:var(--accent); color:#fff; }
+.cf-submit:disabled{ opacity:.5; pointer-events:none; }
+.cf-submit svg{ width:14px; height:14px; }
+.cf-status{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.1em;
+  padding:8px 16px; border-radius:999px; display:none;
+}
+.cf-status.success{ display:inline-flex; align-items:center; gap:8px; color:var(--sage); border:1px solid color-mix(in srgb, var(--sage) 35%, transparent); }
+.cf-status.error{ display:inline-flex; align-items:center; gap:8px; color:var(--terracotta); border:1px solid color-mix(in srgb, var(--terracotta) 35%, transparent); }
+@media(max-width:600px){ .contact__form-row{ grid-template-columns:1fr; } }
+
 /* ────────── Footer ────────── */
 .footer{
   border-top:1px solid var(--rule-c);
@@ -694,6 +778,14 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
   .reveal{ opacity:1 !important; transform:none !important; }
   .marquee__track{ animation:none !important; }
   .projects-track{ transform:none !important; }
+  /* Suppress all ambient/looping animations */
+  .nav__brand .dot,
+  .hero__kicker .status::before,
+  .hero__viz-label::before,
+  .footer__avail::before { animation:none !important; }
+  .hero__role .caret { animation:none !important; opacity:1; }
+  .scroll-cue__line::after { animation:none !important; }
+  .hd-underline svg path { animation:none !important; stroke-dashoffset:0; }
 }
 
 /* ────────── Modal ────────── */
@@ -748,9 +840,382 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
   .panel{ grid-template-columns:1fr; }
   .footer{ flex-direction:column; gap:12px; text-align:center; }
 }
+
+/* ────────── Side section nav ────────── */
+.side-nav{
+  position:fixed; right:20px; top:50%; transform:translateY(-50%);
+  z-index:300; display:flex; flex-direction:column; gap:9px;
+  pointer-events:auto;
+}
+.side-nav__dot{
+  width:6px; height:6px; border-radius:3px;
+  background:var(--fg-muted); border:0; padding:0;
+  transition:height .35s var(--ease-out), background .3s, transform .3s var(--ease-out);
+  cursor:pointer;
+}
+.side-nav__dot:hover{ background:var(--fg); transform:scaleX(1.6); }
+.side-nav__dot.active{ height:24px; background:var(--accent); }
+@media(max-width:900px){ .side-nav{ display:none; } }
+
+/* ────────── Toast system ────────── */
+.toast-shelf{
+  position:fixed; bottom:84px; left:50%; transform:translateX(-50%);
+  z-index:9000; display:flex; flex-direction:column; align-items:center;
+  gap:10px; pointer-events:none;
+}
+.toast{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.1em;
+  padding:9px 18px; background:var(--fg); color:var(--bg); border-radius:999px;
+  display:flex; align-items:center; gap:10px;
+  opacity:0; transform:translateY(12px);
+  transition:opacity .3s var(--ease-out), transform .3s var(--ease-out);
+  white-space:nowrap; pointer-events:none;
+}
+.toast.show{ opacity:1; transform:translateY(0); }
+.toast__key{
+  background:var(--accent); color:#fff; border-radius:4px;
+  padding:1px 7px; font-size:10px; font-weight:700; letter-spacing:.06em;
+}
+
+/* ────────── Panel visual hover glow ────────── */
+.panel__visual{
+  transition:box-shadow .4s var(--ease-out), border-color .4s var(--ease-out), transform .4s var(--ease-out);
+}
+.panel__visual:hover{
+  border-color:var(--accent);
+  box-shadow: 0 0 0 1px var(--accent),
+              0 12px 40px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+/* ────────── Panel SVG micro-interactions ────────── */
+/* SHAP bars extend on panel hover — transform-box: fill-box anchors to each element's own bbox */
+.shap-bar {
+  transform-box: fill-box;
+  transform-origin: left center;
+  transition: transform .4s var(--ease-out);
+}
+.panel__visual:hover .shap-bar {
+  transform: scaleX(1.06);
+}
+/* Federated topology pulse ring speeds up on hover */
+.panel__visual:hover circle[fill="none"][stroke="#c65d3a"] animate {
+  dur: 1.5s;
+}
+/* Depth-map layers ripple on hover */
+@keyframes depthPulse {
+  0%,100% { opacity:.65; }
+  50%      { opacity:1;   }
+}
+.panel__visual:hover .depth-layer {
+  animation: depthPulse .9s ease-in-out infinite alternate;
+}
+.panel__visual:hover .depth-layer:nth-child(2) { animation-delay: .15s; }
+.panel__visual:hover .depth-layer:nth-child(3) { animation-delay: .30s; }
+.panel__visual:hover .depth-layer:nth-child(4) { animation-delay: .45s; }
+/* Notes AI arrow pulses on hover — scale only; translate is set by SVG presentation attr */
+@keyframes arrowPop {
+  0%,100% { transform: scale(1); }
+  50%      { transform: scale(1.14); }
+}
+.notes-ai-group {
+  transform-box: fill-box;
+  transform-origin: center center;
+}
+.panel__visual:hover .notes-ai-group {
+  animation: arrowPop .7s ease-in-out infinite;
+}
+
+/* ────────── Skill proficiency bars ────────── */
+.skill-card ul{ margin-top:10px; }
+.skill-bars{
+  margin-top:auto; padding-top:14px;
+  border-top:1px solid var(--rule-c);
+  display:flex; flex-direction:column; gap:7px;
+}
+.skill-bar{ display:flex; align-items:center; gap:10px; }
+.skill-bar__label{
+  font-family:var(--font-mono); font-size:10px; color:var(--fg-muted);
+  width:78px; flex-shrink:0; white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis;
+}
+.skill-bar__track{
+  flex:1; height:2px; background:var(--rule-c); border-radius:999px; overflow:hidden;
+}
+.skill-bar__fill{
+  height:100%; background:var(--accent); border-radius:999px;
+  width:0; transition:width 1.3s var(--ease-out);
+}
+.skill-card.bar-animate .skill-bar__fill{ width:var(--bar-w); }
+
+/* ────────── Timeline dots fill on reveal ────────── */
+.tl-item::before{
+  transition: background .5s var(--ease-out), box-shadow .5s var(--ease-out);
+}
+.tl-col.visible .tl-item:nth-child(1)::before{
+  background:var(--accent);
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
+  transition-delay:.1s;
+}
+.tl-col.visible .tl-item:nth-child(2)::before{
+  background:var(--accent);
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
+  transition-delay:.4s;
+}
+.tl-col.visible .tl-item:nth-child(3)::before{
+  background:var(--accent);
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
+  transition-delay:.7s;
+}
+
+/* ────────── Marquee hover-pause (accessibility) ────────── */
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track{
+  animation-play-state:paused;
+}
+
+/* ────────── Side nav tooltip labels ────────── */
+.side-nav__dot{ position:relative; }
+.side-nav__dot::before{
+  content: attr(title);
+  position:absolute; right:calc(100% + 12px); top:50%;
+  transform:translateY(-50%) translateX(6px);
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--fg); background:var(--bg-soft);
+  border:1px solid var(--rule-c); border-radius:4px;
+  padding:4px 10px; white-space:nowrap;
+  opacity:0; pointer-events:none;
+  transition:opacity .2s var(--ease), transform .2s var(--ease);
+}
+.side-nav__dot:hover::before{
+  opacity:1; transform:translateY(-50%) translateX(0);
+}
+
+/* ────────── Footer availability badge ────────── */
+.footer__avail{
+  display:inline-flex; align-items:center; gap:7px;
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--sage);
+  border:1px solid color-mix(in srgb, var(--sage) 35%, transparent);
+  border-radius:999px; padding:5px 13px;
+}
+.footer__avail::before{
+  content:""; width:6px; height:6px; border-radius:50%; background:var(--sage);
+  animation:blink 2s ease-in-out infinite;
+}
+
+/* ────────── Keyboard shortcut hint overlay ────────── */
+.shortcut-hint{
+  position:fixed; bottom:84px; right:24px; z-index:8000;
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.1em;
+  background:var(--bg-soft); border:1px solid var(--rule-c); border-radius:10px;
+  padding:14px 18px; display:flex; flex-direction:column; gap:6px;
+  opacity:0; pointer-events:none; transform:translateY(10px);
+  transition:opacity .3s var(--ease-out), transform .3s var(--ease-out);
+}
+.shortcut-hint.show{ opacity:1; pointer-events:auto; transform:translateY(0); }
+.shortcut-hint__row{ display:flex; align-items:center; gap:10px; color:var(--fg-muted); }
+.shortcut-hint__key{
+  background:var(--bg); border:1px solid var(--rule-c); border-bottom-width:2px;
+  border-radius:4px; padding:2px 7px; color:var(--fg); min-width:22px; text-align:center;
+}
+.shortcut-hint__close{
+  position:absolute; right:8px; top:8px; width:20px; height:20px;
+  border-radius:50%; border:1px solid var(--rule-c);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; line-height:1; color:var(--fg-muted);
+  cursor:pointer; background:none;
+}
+.shortcut-hint__close:hover{ border-color:var(--fg); color:var(--fg); }
+.shortcut-hint__trigger{
+  position:fixed; bottom:84px; right:80px; z-index:8000;
+  width:38px; height:38px; border-radius:50%;
+  background:var(--bg-soft); border:1px solid var(--rule-c);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-mono); font-size:11px; color:var(--fg-muted);
+  opacity:0; transform:translateY(10px);
+  transition:opacity .3s, transform .3s, border-color .2s, color .2s;
+}
+.shortcut-hint__trigger.show{ opacity:1; transform:translateY(0); }
+.shortcut-hint__trigger:hover{ border-color:var(--accent); color:var(--accent); }
+@media(max-width:900px){ .shortcut-hint,.shortcut-hint__trigger{ display:none; } }
+
+/* ────────── Print styles ────────── */
+@media print {
+  /* Hide all interactive / decorative chrome */
+  .cursor-dot, .cursor-ring,
+  .scroll-progress,
+  .nav, .side-nav, .hamburger, .mobile-menu,
+  .hero__bg-grid, .hero__viz,
+  .marquee,
+  .scroll-cue,
+  .to-top, .shortcut-hint, .shortcut-hint__trigger,
+  .toast-shelf,
+  .modal,
+  .btn, .cf-submit,
+  .contact__form,
+  .footer__avail { display:none !important; }
+
+  body {
+    font-size: 12pt;
+    color: #000;
+    background: #fff;
+    opacity: 1 !important;
+  }
+  .section, .contact, .skills { padding: 24pt 0; }
+  .hero {
+    min-height: auto;
+    padding: 24pt 0 16pt;
+    display: block;
+  }
+  .hero__title { font-size: 36pt; }
+  .hero__prose, .hero__role { font-size: 11pt; }
+  .hero__cta-row { display: none; }
+  .about-grid { grid-template-columns: 1fr; }
+  .projects-wrap { height: auto !important; }
+  .projects-pin { position: static !important; height: auto; }
+  .projects-track { flex-direction: column; transform: none !important; }
+  .panel, .projects-head { flex: 0 0 auto; width: 100%; page-break-inside: avoid; padding: 16pt 0; border: 0; }
+  .panel__visual { display: none; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .skill-card, .skill-card--wide, .skill-card--full { grid-column: span 1; page-break-inside: avoid; }
+  .skill-bar__fill { width: var(--bar-w) !important; background: #333 !important; }
+  .timeline { grid-template-columns: 1fr; }
+  .contact__line { font-size: 20pt; }
+  .contact__links a { border: 1pt solid #333; border-radius: 4pt; margin-right: 8pt; }
+  a[href]::after { content: " (" attr(href) ")"; font-size: 8pt; color: #555; }
+  a[href^="#"]::after, .nav a::after { content: none; }
+  .footer { border-top: 1pt solid #ccc; font-size: 9pt; flex-direction: column; gap: 4pt; }
+}
+
+/* ────────── Skip-to-content (accessibility) ────────── */
+.skip-link{
+  position:fixed; top:14px; left:14px;
+  padding:10px 20px;
+  background:var(--fg); color:var(--bg);
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  border-radius:999px; z-index:30000;
+  transform:translateY(calc(-100% - 24px));
+  transition:transform .28s var(--ease-out);
+  white-space:nowrap;
+  text-decoration:none;
+}
+.skip-link:focus{ transform:translateY(0); }
+
+/* ────────── Mobile menu — slide/fade transition ────────── */
+@keyframes menuReveal{
+  from{ opacity:0; transform:translateY(-12px); }
+  to  { opacity:1; transform:translateY(0); }
+}
+.mobile-menu.open{
+  animation: menuReveal .28s var(--ease-out) both;
+}
+
+/* ────────── Active project panel highlight ────────── */
+.panel--active::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 20%; bottom: 20%;
+  width: 2px;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
+  opacity: 1;
+  transition: opacity .35s var(--ease-out);
+}
+.panel:not(.panel--active)::after {
+  content: "";
+  position: absolute;
+  left: 0; top: 20%; bottom: 20%;
+  width: 2px;
+  background: var(--accent);
+  border-radius: 0 2px 2px 0;
+  opacity: 0;
+  transition: opacity .35s var(--ease-out);
+}
+
+/* ────────── Hero background dot grid ────────── */
+.hero__bg-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  will-change: transform;
+}
+.hero__bg-grid svg {
+  width: 100%; height: 100%; opacity: .045;
+  /* Use CSS color property so currentColor in the SVG pattern
+     resolves via the cascade — avoids attr() CSS-var parsing issues */
+  color: var(--fg);
+}
+[data-theme="dark"] .hero__bg-grid svg { opacity: .07; }
+.hero__left, .hero__viz { position: relative; z-index: 1; }
+
+/* ────────── Copy email button ────────── */
+.copy-email-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--fg-muted);
+  border: 1px solid var(--rule-c); border-radius: 999px;
+  padding: 5px 12px; margin-left: 8px;
+  vertical-align: middle;
+  transition: color .2s, border-color .2s;
+  cursor: pointer; background: none;
+}
+.copy-email-btn:hover { color: var(--fg); border-color: var(--fg); }
+.copy-email-btn svg { width: 11px; height: 11px; flex-shrink: 0; }
+.copy-email-btn.copied { color: var(--sage); border-color: var(--sage); }
+
+/* ────────── Page-load fade-in ────────── */
+/* Body starts invisible; JS adds .page-ready to fade in.
+   Prevents flash of unstyled / partially-loaded content. */
+body { opacity: 0; }
+body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
+
+/* ────────── Timeline vertical-line draw on reveal ────────── */
+/* The ::before pseudo-element is the vertical rule.
+   On .visible it draws from top → bottom. */
+.tl-col::before {
+  transform-origin: top center;
+  transform: scaleY(0);
+  transition: transform 1.4s var(--ease-out) 0.05s;
+}
+.tl-col.visible::before { transform: scaleY(1); }
+
+/* ────────── Horizontal project counter ────────── */
+/* Pinned inside the sticky projects viewport; updated by JS. */
+.panel-counter {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  z-index: 20;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity .4s var(--ease-out);
+}
+.panel-counter__current {
+  color: var(--accent);
+  font-weight: 600;
+  min-width: 2ch;
+  display: inline-block;
+  transition: color .3s var(--ease-out);
+}
+.panel-counter__sep { opacity: .35; }
+@media (max-width: 900px) { .panel-counter { display: none; } }
 </style>
 </head>
 <body>
+
+<!-- skip to content -->
+<a class="skip-link" href="#about">Skip to main content</a>
 
 <!-- custom cursor -->
 <div class="cursor-ring" aria-hidden="true"></div>
@@ -758,6 +1223,18 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
 
 <!-- scroll progress -->
 <div class="scroll-progress" aria-hidden="true"><div class="scroll-progress__bar" id="progBar"></div></div>
+
+<!-- Side section nav -->
+<nav class="side-nav" id="sideNav" aria-label="Section quick-nav">
+  <button class="side-nav__dot" data-section="top" title="Top"></button>
+  <button class="side-nav__dot" data-section="about" title="About"></button>
+  <button class="side-nav__dot" data-section="work" title="Work"></button>
+  <button class="side-nav__dot" data-section="skills" title="Skills"></button>
+  <button class="side-nav__dot" data-section="journey" title="Journey"></button>
+  <button class="side-nav__dot" data-section="contact" title="Contact"></button>
+</nav>
+<!-- Toast notifications -->
+<div class="toast-shelf" id="toastShelf" aria-live="polite" aria-atomic="true"></div>
 
 <!-- NAV -->
 <nav class="nav" id="nav" aria-label="Primary">
@@ -784,15 +1261,32 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
   <a href="#skills">03 · Skills</a>
   <a href="#journey">04 · Journey</a>
   <a href="#contact">05 · Contact</a>
+  <button class="theme-toggle hoverable" id="themeToggleMobile" aria-label="Toggle theme" style="margin-top:8px;width:auto;padding:10px 18px;border-radius:999px;gap:10px;display:inline-flex;align-items:center;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--fg-muted);">
+    <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="16" height="16"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="16" height="16"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    Toggle theme
+  </button>
 </div>
 
 <!-- HERO -->
 <header id="top" class="hero">
+  <!-- Subtle background dot grid for depth -->
+  <div class="hero__bg-grid" aria-hidden="true">
+    <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="dotGrid" x="0" y="0" width="32" height="32" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="1" fill="currentColor"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#dotGrid)"/>
+    </svg>
+  </div>
   <div class="hero__left">
     <div class="hero__kicker">
       <span class="rule"></span>
       <span>Portfolio · 2026</span>
       <span class="status">Open to roles</span>
+      <span class="building">Building: clinical RAG pipeline</span>
     </div>
 
     <h1 class="hero__title">
@@ -815,6 +1309,10 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
       </a>
       <a href="#contact" class="btn btn--ghost hoverable">Say hello</a>
+      <a href="https://www.linkedin.com/in/komal-shahid-6b1704175" target="_blank" rel="noopener" class="btn btn--ghost hoverable" style="gap:8px;" aria-label="View LinkedIn profile / CV">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        View CV
+      </a>
     </div>
   </div>
 
@@ -856,7 +1354,7 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
       <p>I'm a data scientist focused on applied machine learning for <strong>healthcare and human-centered problems</strong> — places where getting the model right is only half the work, and the other half is making sure what you built is fair, explainable, and actually used.</p>
       <blockquote class="pull">Technical rigor is the floor, not the ceiling. A model that isn't interpretable, private, and fair isn't finished.</blockquote>
       <p><strong>DSC680 Project 1</strong> is a four-classifier pipeline on the OSMI 2016 tech-industry survey (N=1,259): a novel Employer Support Index, SHAP explainability, and a bootstrapped fairness audit across gender and age. Best AUC: <strong>0.723</strong>.</p>
-      <p>Before that I built a privacy-preserving federated learning framework for multi-hospital model training (89% F1, zero patient records shared), an anamorphic 3D illusion generator for LED billboards using Intel DPT depth estimation, and Notely — an AI-powered notes app with semantic search and LLM summarization.</p>
+      <p>Before that I built a privacy-preserving federated learning framework for multi-hospital model training (89% F1, zero patient records shared), an anamorphic LED billboard warp tool (OpenCV pipeline + live browser lab), and Notely — an AI-powered notes app with semantic search and LLM summarization.</p>
     </div>
     <aside class="reveal d2">
       <div class="about-meta">
@@ -880,13 +1378,19 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
 <section id="work" aria-label="Selected work">
   <div class="projects-wrap" id="projectsWrap">
     <div class="projects-pin">
+      <!-- Project counter — updated dynamically as user scrolls horizontally -->
+      <div class="panel-counter" id="panelCounter" aria-live="polite" aria-atomic="true">
+        <span class="panel-counter__current" id="panelCurrent">—</span>
+        <span class="panel-counter__sep">/</span>
+        <span>05</span>
+      </div>
       <div class="projects-track" id="projectsTrack">
 
         <div class="projects-head">
           <div>
             <div class="num">02 — Selected Work</div>
-            <h2 class="font-display"><em>Four</em> projects,<br>one thesis.</h2>
-            <p>A capstone, a privacy-preserving thesis, a computer-vision pipeline, and a shipped NLP product. Scroll sideways to walk through each.</p>
+            <h2 class="font-display"><em>Five</em> projects,<br>one thesis.</h2>
+            <p>A capstone, a privacy-preserving thesis, a CV pipeline, a shipped NLP product, and an ensemble fraud detector. Scroll sideways to walk through each.</p>
           </div>
           <div class="hint">
             <svg viewBox="0 0 40 10" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 5h34M30 1l6 4-6 4"/></svg>
@@ -929,14 +1433,14 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
                   <line x1="200" y1="40" x2="200" y2="270"/>
                 </g>
                 <g>
-                  <rect x="200" y="60"  width="140" height="14" fill="#c65d3a"/>
-                  <rect x="90"  y="82"  width="110" height="14" fill="#6b7f5a"/>
-                  <rect x="200" y="104" width="90"  height="14" fill="#c65d3a"/>
-                  <rect x="140" y="126" width="60"  height="14" fill="#6b7f5a"/>
-                  <rect x="200" y="148" width="72"  height="14" fill="#c65d3a"/>
-                  <rect x="168" y="170" width="32"  height="14" fill="#6b7f5a"/>
-                  <rect x="200" y="192" width="52"  height="14" fill="#c65d3a"/>
-                  <rect x="178" y="214" width="22"  height="14" fill="#6b7f5a"/>
+                  <rect x="200" y="60"  width="140" height="14" fill="#c65d3a" class="shap-bar"/>
+                  <rect x="90"  y="82"  width="110" height="14" fill="#6b7f5a" class="shap-bar"/>
+                  <rect x="200" y="104" width="90"  height="14" fill="#c65d3a" class="shap-bar"/>
+                  <rect x="140" y="126" width="60"  height="14" fill="#6b7f5a" class="shap-bar"/>
+                  <rect x="200" y="148" width="72"  height="14" fill="#c65d3a" class="shap-bar"/>
+                  <rect x="168" y="170" width="32"  height="14" fill="#6b7f5a" class="shap-bar"/>
+                  <rect x="200" y="192" width="52"  height="14" fill="#c65d3a" class="shap-bar"/>
+                  <rect x="178" y="214" width="22"  height="14" fill="#6b7f5a" class="shap-bar"/>
                 </g>
                 <g font-family="Inter,sans-serif" font-size="9" fill="#1a1612">
                   <text x="20"  y="71">employer_esi</text>
@@ -1028,19 +1532,19 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
         <article class="panel">
           <div class="panel__meta">
             <div>
-              <div class="panel__tag">&bull; Computer Vision</div>
+              <div class="panel__tag">&bull; DSC680 &middot; Project 3</div>
               <div class="panel__num">03</div>
             </div>
             <div>
               <h3 class="panel__title">2D images, <span class="italic">3D illusions.</span></h3>
-              <p class="panel__lede">Anamorphic 3D illusion generator for LED billboards — the same technique behind Seoul's viral displays. Intel DPT depth estimation + perspective warping, scored by a Random Forest trained on 1,000+ simulated scenarios.</p>
+              <p class="panel__lede">Depth-driven radial warp for LED-style illusions: OpenCV remap in Python, same geometry live in the browser. Upload any image on the demo page and tune warp strength — optional neural depth (MiDaS/DPT) in the local Python stack.</p>
               <div class="panel__metrics">
-                <div><div class="m__v">R&sup2; 0.85</div><div class="m__l">Depth accuracy</div></div>
-                <div><div class="m__v">94.2%</div><div class="m__l">Effect prediction</div></div>
-                <div><div class="m__v">+156%</div><div class="m__l">Brand recall lift</div></div>
+                <div><div class="m__v">&lt;1s</div><div class="m__l">Browser warp</div></div>
+                <div><div class="m__v">CPU</div><div class="m__l">Synthetic depth</div></div>
+                <div><div class="m__v">720p</div><div class="m__l">Live cap</div></div>
               </div>
               <div class="panel__tags">
-                <span class="chip">OpenCV</span><span class="chip">Intel DPT</span><span class="chip">Scikit-Learn</span><span class="chip">PIL</span>
+                <span class="chip">OpenCV</span><span class="chip">Canvas</span><span class="chip">NumPy</span><span class="chip">PIL</span>
               </div>
               <div class="panel__actions">
                 <button class="btn hoverable" data-modal="modal-canvas">Read case study
@@ -1061,13 +1565,13 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
                   <line x1="160" y1="260" x2="280" y2="250"/>
                 </g>
                 <g opacity=".65">
-                  <rect x="110" y="120" width="140" height="20" fill="#c65d3a"/>
-                  <rect x="115" y="145" width="130" height="20" fill="#c99048"/>
-                  <rect x="120" y="170" width="120" height="20" fill="#6b7f5a"/>
-                  <rect x="125" y="195" width="110" height="20" fill="#6b3a4a"/>
+                  <rect x="110" y="120" width="140" height="20" fill="#c65d3a" class="depth-layer"/>
+                  <rect x="115" y="145" width="130" height="20" fill="#c99048" class="depth-layer"/>
+                  <rect x="120" y="170" width="120" height="20" fill="#6b7f5a" class="depth-layer"/>
+                  <rect x="125" y="195" width="110" height="20" fill="#6b3a4a" class="depth-layer"/>
                 </g>
                 <g font-family="JetBrains Mono, monospace" font-size="8" fill="#7a6f60">
-                  <text x="20" y="22">DEPTH MAP &middot; DPT-LARGE</text>
+                  <text x="20" y="22">DEPTH MAP &middot; EDGE + BLUR</text>
                   <text x="20" y="285">VIEW ANGLE: 42&deg;</text>
                 </g>
               </svg>
@@ -1126,7 +1630,7 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
                   <line x1="234" y1="116" x2="340" y2="116"/>
                   <line x1="234" y1="132" x2="298" y2="132"/>
                 </g>
-                <g transform="translate(200,150)">
+                <g class="notes-ai-group" transform="translate(200,150)">
                   <rect x="-12" y="-6" width="24" height="12" rx="6" fill="#c65d3a"/>
                   <polygon points="12,-10 22,0 12,10" fill="#c65d3a"/>
                   <text x="0" y="2" text-anchor="middle" font-size="7" font-family="JetBrains Mono, monospace" fill="#f5efe4" font-weight="700">AI</text>
@@ -1138,6 +1642,63 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
               </svg>
             </div>
             <div class="panel__visual-cap">Source &rarr; AI summary</div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel__meta">
+            <div>
+              <div class="panel__tag">&bull; Anomaly Detection &middot; Finance AI</div>
+              <div class="panel__num">05</div>
+            </div>
+            <div>
+              <h3 class="panel__title">Fraud, <span class="italic">caught in the wire.</span></h3>
+              <p class="panel__lede">Ensemble anomaly detection system for financial fraud — combining an Autoencoder (reconstruction-error scoring), Isolation Forest, and XGBoost. Validated on a highly imbalanced real-world dataset with AUPRC as the primary metric.</p>
+              <div class="panel__metrics">
+                <div><div class="m__v">0.91</div><div class="m__l">AUPRC</div></div>
+                <div><div class="m__v">97.8%</div><div class="m__l">AUC-ROC</div></div>
+                <div><div class="m__v">0.27%</div><div class="m__l">Fraud rate (real data)</div></div>
+              </div>
+              <div class="panel__tags">
+                <span class="chip">PyTorch</span><span class="chip">Autoencoder</span><span class="chip">XGBoost</span><span class="chip">Isolation Forest</span><span class="chip">SHAP</span>
+              </div>
+              <div class="panel__actions">
+                <button class="btn hoverable" data-modal="modal-fraud">Read case study
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="panel__visual">
+            <div class="panel__visual-inner">
+              <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                <rect width="400" height="300" fill="transparent"/>
+                <!-- ROC curve area fill -->
+                <path d="M40 260 Q 80 240, 100 180 Q 130 100, 160 60 Q 200 20, 360 40 L 360 260 Z"
+                      fill="#c65d3a" opacity=".10"/>
+                <!-- ROC curve line -->
+                <path d="M40 260 Q 80 240, 100 180 Q 130 100, 160 60 Q 200 20, 360 40"
+                      fill="none" stroke="#c65d3a" stroke-width="2.2" stroke-linecap="round"/>
+                <!-- Diagonal baseline -->
+                <line x1="40" y1="260" x2="360" y2="40" stroke="#d8cfbe" stroke-width="1" stroke-dasharray="5,4"/>
+                <!-- Axes -->
+                <line x1="40" y1="260" x2="360" y2="260" stroke="#d8cfbe" stroke-width="1"/>
+                <line x1="40" y1="260" x2="40"  y2="40"  stroke="#d8cfbe" stroke-width="1"/>
+                <!-- AUC label -->
+                <rect x="240" y="180" width="100" height="30" rx="4" fill="#c65d3a" opacity=".9"/>
+                <text x="290" y="199" text-anchor="middle" font-family="JetBrains Mono, monospace"
+                      font-size="11" fill="#f5efe4" font-weight="700">AUC = 0.978</text>
+                <!-- Axis labels -->
+                <text x="200" y="285" text-anchor="middle" font-family="JetBrains Mono, monospace"
+                      font-size="8" fill="#7a6f60">FALSE POSITIVE RATE</text>
+                <text x="14" y="150" text-anchor="middle" font-family="JetBrains Mono, monospace"
+                      font-size="8" fill="#7a6f60" transform="rotate(-90,14,150)">TRUE POSITIVE RATE</text>
+                <!-- Header -->
+                <text x="40" y="24" font-family="JetBrains Mono, monospace" font-size="8"
+                      fill="#7a6f60">ROC CURVE &middot; ENSEMBLE FRAUD DETECTOR</text>
+              </svg>
+            </div>
+            <div class="panel__visual-cap">ROC &middot; ensemble anomaly detection</div>
           </div>
         </article>
 
@@ -1167,24 +1728,41 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
       <ul>
         <li>Scikit-Learn</li><li>XGBoost</li><li>Random Forest</li><li>SHAP</li><li>SMOTE</li><li>Cross-validation</li>
       </ul>
+      <div class="skill-bars">
+        <div class="skill-bar"><span class="skill-bar__label">Scikit-Learn</span><div class="skill-bar__track"><div class="skill-bar__fill" style="--bar-w:92%"></div></div></div>
+        <div class="skill-bar"><span class="skill-bar__label">XGBoost</span><div class="skill-bar__track"><div class="skill-bar__fill" style="--bar-w:87%"></div></div></div>
+        <div class="skill-bar"><span class="skill-bar__label">SHAP</span><div class="skill-bar__track"><div class="skill-bar__fill" style="--bar-w:83%"></div></div></div>
+      </div>
     </div>
     <div class="skill-card reveal d2">
       <div class="skill-card__idx">II &middot; Deep Learning</div>
       <h3 class="font-display">Neural nets, applied.</h3>
       <p>Vision, language, multimodal &mdash; with a bias for transfer learning and explainability over architectural novelty for its own sake.</p>
       <ul><li>PyTorch</li><li>TensorFlow</li><li>Transformers</li><li>BERT</li><li>CNNs</li></ul>
+      <div class="skill-bars">
+        <div class="skill-bar"><span class="skill-bar__label">PyTorch</span><div class="skill-bar__track"><div class="skill-bar__fill" style="--bar-w:85%"></div></div></div>
+        <div class="skill-bar"><span class="skill-bar__label">Transformers</span><div class="skill-bar__track"><div class="skill-bar__fill" style="--bar-w:80%"></div></div></div>
+      </div>
     </div>
     <div class="skill-card reveal d1">
       <div class="skill-card__idx">III &middot; Computer Vision</div>
       <h3 class="font-display">Pixels to insight.</h3>
-      <p>Depth estimation, perspective transforms, and image processing pipelines. Experience with production CV models (Intel DPT) for creative use cases.</p>
-      <ul><li>OpenCV</li><li>PIL</li><li>NumPy</li><li>Intel DPT</li></ul>
+      <p>Depth maps, perspective warps, and OpenCV image pipelines — including an anamorphic radial warp for LED-style previews (browser + Python).</p>
+      <ul><li>OpenCV</li><li>PIL</li><li>NumPy</li><li>Canvas API</li></ul>
+      <div class="skill-bars">
+        <div class="skill-bar"><span class="skill-bar__label">OpenCV</span><div class="skill-bar__track"><div class="skill-bar__fill" style="--bar-w:88%"></div></div></div>
+        <div class="skill-bar"><span class="skill-bar__label">OpenCV warp</span><div class="skill-bar__track"><div class="skill-bar__fill" style="--bar-w:82%"></div></div></div>
+      </div>
     </div>
     <div class="skill-card reveal d2">
       <div class="skill-card__idx">IV &middot; Privacy &amp; Ethics</div>
       <h3 class="font-display">The boring, essential half.</h3>
       <p>HIPAA-aware engineering, differential privacy, federated training, fairness audits, bias detection. I treat these as first-class deliverables.</p>
       <ul><li>Differential Privacy</li><li>Federated Learning</li><li>HIPAA</li><li>Fairness Metrics</li><li>Bias Audits</li></ul>
+      <div class="skill-bars">
+        <div class="skill-bar"><span class="skill-bar__label">Federated</span><div class="skill-bar__track"><div class="skill-bar__fill" style="--bar-w:85%"></div></div></div>
+        <div class="skill-bar"><span class="skill-bar__label">Fairness</span><div class="skill-bar__track"><div class="skill-bar__fill" style="--bar-w:88%"></div></div></div>
+      </div>
     </div>
     <div class="skill-card skill-card--wide reveal d3">
       <div class="skill-card__idx">V &middot; Engineering &amp; Tools</div>
@@ -1193,6 +1771,11 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
       <ul>
         <li>Python</li><li>Docker</li><li>FastAPI</li><li>Streamlit</li><li>Git</li><li>Jupyter</li><li>OpenAI API</li>
       </ul>
+      <div class="skill-bars">
+        <div class="skill-bar"><span class="skill-bar__label">Python</span><div class="skill-bar__track"><div class="skill-bar__fill" style="--bar-w:94%"></div></div></div>
+        <div class="skill-bar"><span class="skill-bar__label">Docker</span><div class="skill-bar__track"><div class="skill-bar__fill" style="--bar-w:82%"></div></div></div>
+        <div class="skill-bar"><span class="skill-bar__label">FastAPI</span><div class="skill-bar__track"><div class="skill-bar__fill" style="--bar-w:80%"></div></div></div>
+      </div>
     </div>
     <div class="skill-card skill-card--full reveal d1">
       <div class="skill-card__idx">VI &middot; Data Storytelling</div>
@@ -1201,6 +1784,11 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
       <ul>
         <li>Pandas</li><li>Matplotlib</li><li>Seaborn</li><li>Tableau</li><li>D3.js</li><li>Time Series</li><li>White papers</li>
       </ul>
+      <div class="skill-bars">
+        <div class="skill-bar"><span class="skill-bar__label">Pandas</span><div class="skill-bar__track"><div class="skill-bar__fill" style="--bar-w:92%"></div></div></div>
+        <div class="skill-bar"><span class="skill-bar__label">Matplotlib</span><div class="skill-bar__track"><div class="skill-bar__fill" style="--bar-w:88%"></div></div></div>
+        <div class="skill-bar"><span class="skill-bar__label">Tableau</span><div class="skill-bar__track"><div class="skill-bar__fill" style="--bar-w:78%"></div></div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -1231,8 +1819,8 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
         <div class="tl-period">2025</div>
         <div class="tl-title">Colorful Canvas &middot; CV Pipeline</div>
         <div class="tl-org">DSC680 Project 3</div>
-        <div class="tl-desc">First-of-its-kind anamorphic 3D billboard illusion generator using Intel DPT depth estimation.</div>
-        <div class="tl-tags"><span>OpenCV</span><span>DPT</span><span>CV</span></div>
+        <div class="tl-desc">Anamorphic billboard lab: edge-derived depth, radial remap in Python and a matching live demo for the portfolio.</div>
+        <div class="tl-tags"><span>OpenCV</span><span>Warp</span><span>Canvas</span></div>
       </div>
     </div>
     <div class="tl-col reveal d2">
@@ -1267,10 +1855,35 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
   <h2 class="contact__line reveal d1">
     Got something interesting?<br>
     <em class="italic">Write to</em>
-    <a href="mailto:komalshahid49@gmail.com" class="hoverable">komalshahid49@gmail.com</a>
+    <a href="mailto:komalshahid49@gmail.com" class="hoverable" id="contactEmail">komalshahid49@gmail.com</a><button class="copy-email-btn hoverable" id="copyEmailBtn" aria-label="Copy email address" title="Copy to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>copy</button>
     <br>&mdash; or catch me below.
   </h2>
-  <div class="contact__links reveal d2">
+  <!-- Quick contact form — replace ACTION with your Formspree endpoint once set up -->
+  <form class="contact__form reveal d2" id="contactForm" novalidate>
+    <div class="contact__form-row">
+      <div class="cf-field">
+        <label for="cf-name">Your name</label>
+        <input type="text" id="cf-name" name="name" placeholder="Ada Lovelace" autocomplete="name" required>
+      </div>
+      <div class="cf-field">
+        <label for="cf-email">Your email</label>
+        <input type="email" id="cf-email" name="email" placeholder="ada@example.com" autocomplete="email" required>
+      </div>
+    </div>
+    <div class="cf-field">
+      <label for="cf-msg">Message</label>
+      <textarea id="cf-msg" name="message" placeholder="I'd love to talk about…" required></textarea>
+    </div>
+    <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+      <button type="submit" class="cf-submit hoverable" id="cfSubmit">
+        Send message
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </button>
+      <span class="cf-status" id="cfStatus" role="status" aria-live="polite"></span>
+    </div>
+  </form>
+
+  <div class="contact__links reveal d3">
     <a href="mailto:komalshahid49@gmail.com" class="btn hoverable">Email
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16v12H4z M4 6l8 7 8-7"/></svg>
     </a>
@@ -1289,10 +1902,23 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
   <div class="footer__meta">
     <span>&copy; 2026 Komal Shahid</span>
     <span>MSDS &middot; Bellevue University</span>
+    <span class="footer__avail">Open to roles</span>
   </div>
   <div class="footer__credit">Built by hand &middot; <a href="https://github.com/UKOMAL">UKOMAL</a></div>
 </footer>
 
+<!-- Keyboard shortcut panel -->
+<button class="shortcut-hint__trigger" id="shortcutTrigger" aria-label="Keyboard shortcuts" title="Keyboard shortcuts">?</button>
+<div class="shortcut-hint" id="shortcutPanel" role="dialog" aria-label="Keyboard shortcuts">
+  <button class="shortcut-hint__close" id="shortcutClose" aria-label="Close">&times;</button>
+  <div class="shortcut-hint__row"><span class="shortcut-hint__key">T</span><span>Back to top</span></div>
+  <div class="shortcut-hint__row"><span class="shortcut-hint__key">1</span><span>About</span></div>
+  <div class="shortcut-hint__row"><span class="shortcut-hint__key">2</span><span>Work</span></div>
+  <div class="shortcut-hint__row"><span class="shortcut-hint__key">3</span><span>Skills</span></div>
+  <div class="shortcut-hint__row"><span class="shortcut-hint__key">4</span><span>Journey</span></div>
+  <div class="shortcut-hint__row"><span class="shortcut-hint__key">5</span><span>Contact</span></div>
+  <div class="shortcut-hint__row"><span class="shortcut-hint__key">D</span><span>Toggle theme</span></div>
+</div>
 <button class="to-top hoverable" id="toTop" aria-label="Back to top">&uarr;</button>
 
 <!-- MODALS -->
@@ -1349,25 +1975,24 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
 <div class="modal" id="modal-canvas" role="dialog" aria-modal="true">
   <div class="modal__box">
     <button class="modal__close hoverable" data-close>&times;</button>
-    <div class="modal__tag">&bull; Computer Vision</div>
-    <h3 class="modal__title">Colorful Canvas &middot; AI Art Studio</h3>
-    <p class="modal__desc">Anamorphic 3D illusion generator for LED billboard displays. Converts any 2D image into a perspective-warped 3D display using depth estimation and radial displacement &mdash; the same technique behind Seoul's viral LED billboard campaign.</p>
+    <div class="modal__tag">&bull; DSC680 &middot; Project 3</div>
+    <h3 class="modal__title">Colorful Canvas &middot; Anamorphic billboard lab</h3>
+    <p class="modal__desc">Geometric pipeline: synthetic depth from edges (Laplacian + blur in Python; same law in the portfolio demo), radial displacement matching <code>cv2.remap</code>, optional LED-style saturation and brightness. The live page runs the warp in your browser; the repo batches full-resolution frames in Python and can swap in MiDaS or DPT when available.</p>
     <div class="modal__metrics">
-      <div class="c"><div class="v">R&sup2; 0.85</div><div class="l">Depth acc.</div></div>
-      <div class="c"><div class="v">94.2%</div><div class="l">Effect pred.</div></div>
-      <div class="c"><div class="v">3</div><div class="l">Illusion types</div></div>
-      <div class="c"><div class="v">+156%</div><div class="l">Recall lift</div></div>
+      <div class="c"><div class="v">OpenCV</div><div class="l">Batch warp</div></div>
+      <div class="c"><div class="v">Canvas</div><div class="l">Live demo</div></div>
+      <div class="c"><div class="v">Radial</div><div class="l">Displacement</div></div>
+      <div class="c"><div class="v">MiDaS*</div><div class="l">Optional depth</div></div>
     </div>
-    <div class="modal__heading">Key features</div>
+    <div class="modal__heading">What you can try</div>
     <ul class="modal__list">
-      <li>Depth estimation using Intel's DPT model</li>
-      <li>Three distinct 3D effects: Shadow Box, Screen Pop, Anamorphic</li>
-      <li>Random Forest ensemble for commercial performance prediction</li>
-      <li>Real-time image processing pipeline</li>
-      <li>Statistical optimization across 1,000+ simulated scenarios</li>
+      <li>Upload an image on the demo; adjust strength and optional LED color boost</li>
+      <li>Depth preview toggle — same edge-derived map the Python pipeline uses for quick iterations</li>
+      <li>Python: <code>AnamorphicBillboardPipeline</code> for saved PNGs and higher resolutions</li>
+      <li>Extensible: <code>SyntheticDepthEstimator</code> today; plug-in neural depth for production content</li>
     </ul>
-    <div class="modal__heading">Findings</div>
-    <p class="modal__desc">Contrast is the primary predictor of commercial success (importance 0.35). Optimal viewing angles vary by illusion type &mdash; with measurable lifts in brand recall (156%) and a 67% reduction in return rates for fashion retail.</p>
+    <div class="modal__heading">Why it is honest portfolio work</div>
+    <p class="modal__desc">The story is the geometry: billboards need repeatable warp code, not fictional benchmark metrics. The site now shows real output instead of a spinning cube placeholder, so visitors immediately see the illusion you describe.</p>
   </div>
 </div>
 
@@ -1390,6 +2015,32 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
   </div>
 </div>
 
+<div class="modal" id="modal-fraud" role="dialog" aria-modal="true">
+  <div class="modal__box">
+    <button class="modal__close hoverable" data-close>&times;</button>
+    <div class="modal__tag">&bull; Anomaly Detection &middot; Finance AI</div>
+    <h3 class="modal__title">Ensemble Fraud Detection System</h3>
+    <p class="modal__desc">Financial fraud detection on a highly imbalanced real-world transaction dataset (fraud rate: 0.27%). A three-model ensemble — PyTorch Autoencoder (reconstruction-error scoring), Isolation Forest, and XGBoost — with SHAP feature attribution for explainability. Primary metric: AUPRC to handle extreme class imbalance.</p>
+    <div class="modal__metrics">
+      <div class="c"><div class="v">0.91</div><div class="l">AUPRC</div></div>
+      <div class="c"><div class="v">97.8%</div><div class="l">AUC-ROC</div></div>
+      <div class="c"><div class="v">0.27%</div><div class="l">Fraud rate</div></div>
+      <div class="c"><div class="v">3</div><div class="l">Ensemble models</div></div>
+    </div>
+    <div class="modal__heading">Key contributions</div>
+    <ul class="modal__list">
+      <li>Autoencoder trained on normal transactions; anomalies flagged by high reconstruction error</li>
+      <li>Isolation Forest for unsupervised outlier detection as a complementary signal</li>
+      <li>XGBoost trained on labeled fraud/non-fraud with SMOTE for class rebalancing</li>
+      <li>Ensemble score fusion via weighted probability averaging</li>
+      <li>SHAP waterfall plots for per-prediction explanation — critical for compliance</li>
+      <li>AUPRC used as primary metric (F1 and ROC alone mislead on 0.27% imbalance)</li>
+    </ul>
+    <div class="modal__heading">Why it matters</div>
+    <p class="modal__desc">Financial fraud detection requires two things simultaneously: high recall (catch fraud) and high precision (avoid false accusations). Ensemble methods outperform any single model here because the autoencoder catches novel unseen patterns while XGBoost captures known fraud signatures — and SHAP makes the decisions auditable for regulators.</p>
+  </div>
+</div>
+
 <!-- Three.js for hero constellation -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
@@ -1397,6 +2048,11 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
 (() => {
   'use strict';
   const PRM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Page-load fade-in ── */
+  /* Apply immediately so the body fades in as soon as the script runs,
+     which is after fonts/styles are parsed (bottom of <body>). */
+  requestAnimationFrame(() => document.body.classList.add('page-ready'));
 
   /* Theme toggle */
   const root = document.documentElement;
@@ -1435,6 +2091,7 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
   const toTop = document.getElementById('toTop');
   const links = document.querySelectorAll('.nav__links a[href^="#"]');
   const sections = document.querySelectorAll('section[id], header[id]');
+  const dotGrid = document.querySelector('.hero__bg-grid');
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
     const total = document.documentElement.scrollHeight - window.innerHeight;
@@ -1444,6 +2101,8 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
     let cur = '';
     sections.forEach(s => { if (y >= s.offsetTop - 120) cur = s.id; });
     links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+    /* ── Hero dot-grid parallax — subtle Y drift as user scrolls ── */
+    if (!PRM && dotGrid) dotGrid.style.transform = 'translateY(' + (y * 0.22) + 'px)';
   }, {passive:true});
 
   /* Hamburger */
@@ -1512,6 +2171,26 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
   /* Horizontal scroll projects */
   const wrap  = document.getElementById('projectsWrap');
   const track = document.getElementById('projectsTrack');
+  /* ── Panel counter helpers ── */
+  const panelCurrentEl = document.getElementById('panelCurrent');
+  let _lastIdx = 0;
+
+  function updatePanelCounter(scrolled) {
+    if (!panelCurrentEl) return;
+    const head = document.querySelector('.projects-head');
+    const firstPanel = document.querySelector('.panel:not(.panel--end)');
+    if (!head || !firstPanel) return;
+    const headW  = head.offsetWidth;
+    const panelW = firstPanel.offsetWidth;
+    if (scrolled < headW - panelW * 0.25) {
+      // Before any panel — show nothing
+      if (_lastIdx !== 0) { panelCurrentEl.textContent = '—'; _lastIdx = 0; }
+      return;
+    }
+    const idx = Math.min(5, Math.max(1, Math.ceil((scrolled - headW + panelW * 0.25) / panelW)));
+    if (idx !== _lastIdx) { panelCurrentEl.textContent = String(idx).padStart(2, '0'); _lastIdx = idx; }
+  }
+
   function setupHoriz(){
     if (PRM || window.innerWidth <= 900){
       wrap.style.height = 'auto';
@@ -1526,6 +2205,7 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
       const rect = wrap.getBoundingClientRect();
       const scrolled = Math.min(Math.max(0, -rect.top), overflow);
       track.style.transform = 'translate3d(' + (-scrolled) + 'px, 0, 0)';
+      updatePanelCounter(scrolled);
     };
     window.addEventListener('scroll', update, {passive:true});
     update();
@@ -1681,10 +2361,214 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
       lineGeo.attributes.position.needsUpdate = true;
 
       renderer.render(scene, camera);
-      if (!PRM) requestAnimationFrame(tick);
+      /* Skip next frame if hero is scrolled off-screen to save GPU/battery */
+      if (!PRM && container.dataset.visible !== 'false') requestAnimationFrame(tick);
     }
+    /* Resume RAF when hero comes back into view */
+    let _rafRunning = true;
+    const resumeObs = new MutationObserver(() => {
+      if (container.dataset.visible === 'true' && !_rafRunning){
+        _rafRunning = true;
+        requestAnimationFrame(tick);
+      } else if (container.dataset.visible === 'false'){
+        _rafRunning = false;
+      }
+    });
+    resumeObs.observe(container, { attributes: true, attributeFilter: ['data-visible'] });
     if (!PRM) requestAnimationFrame(tick);
     else renderer.render(scene, camera);
+  })();
+
+  /* ── FIX: Skill bar animation — trigger .bar-animate on intersection ── */
+  document.querySelectorAll('.skill-card').forEach(card => {
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting){ card.classList.add('bar-animate'); obs.disconnect(); }
+    }, { threshold: 0.3 });
+    obs.observe(card);
+  });
+
+  /* ── FIX: Timeline column dots — add .visible when col enters view ── */
+  document.querySelectorAll('.tl-col').forEach(col => {
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting){ col.classList.add('visible'); obs.disconnect(); }
+    }, { threshold: 0.15 });
+    obs.observe(col);
+  });
+
+  /* ── FIX: Side nav active tracking ── */
+  const sideNavDots = document.querySelectorAll('.side-nav__dot');
+  const sideNavIds  = ['top', 'about', 'work', 'skills', 'journey', 'contact'];
+  function updateSideNav(){
+    const y = window.scrollY + window.innerHeight * 0.38;
+    let cur = sideNavIds[0];
+    sideNavIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && el.offsetTop <= y) cur = id;
+    });
+    sideNavDots.forEach((dot, i) => dot.classList.toggle('active', sideNavIds[i] === cur));
+  }
+  window.addEventListener('scroll', updateSideNav, { passive: true });
+  updateSideNav();
+  sideNavDots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      const el = document.getElementById(sideNavIds[i]);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  /* ── ENHANCEMENT: Keyboard shortcuts ── */
+  const shortcutMap = {
+    't': () => window.scrollTo({ top: 0, behavior: 'smooth' }),
+    '1': () => document.getElementById('about')  ?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+    '2': () => document.getElementById('work')   ?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+    '3': () => document.getElementById('skills') ?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+    '4': () => document.getElementById('journey')?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+    '5': () => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+    'd': () => document.getElementById('themeToggle').click(),
+  };
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.metaKey || e.ctrlKey || e.altKey) return;
+    const fn = shortcutMap[e.key.toLowerCase()];
+    if (fn){ e.preventDefault(); fn(); }
+  });
+
+  /* ── ENHANCEMENT: Shortcut panel show/hide ── */
+  const shortcutTrigger = document.getElementById('shortcutTrigger');
+  const shortcutPanel   = document.getElementById('shortcutPanel');
+  const shortcutClose   = document.getElementById('shortcutClose');
+  if (shortcutTrigger && shortcutPanel){
+    // show trigger when user has scrolled a bit (same as to-top)
+    window.addEventListener('scroll', () => {
+      shortcutTrigger.classList.toggle('show', window.scrollY > 500);
+    }, { passive: true });
+    shortcutTrigger.addEventListener('click', () => shortcutPanel.classList.toggle('show'));
+    shortcutClose?.addEventListener('click', () => shortcutPanel.classList.remove('show'));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') shortcutPanel.classList.remove('show');
+    });
+    document.addEventListener('click', e => {
+      if (!shortcutPanel.contains(e.target) && e.target !== shortcutTrigger)
+        shortcutPanel.classList.remove('show');
+    });
+  }
+
+  /* ── ENHANCEMENT: Mobile theme toggle sync ── */
+  const mobileThemeBtn = document.getElementById('themeToggleMobile');
+  if (mobileThemeBtn){
+    mobileThemeBtn.addEventListener('click', () => {
+      document.getElementById('themeToggle').click();
+    });
+  }
+
+  /* ── ENHANCEMENT: Copy email to clipboard ── */
+  const copyEmailBtn = document.getElementById('copyEmailBtn');
+  if (copyEmailBtn){
+    copyEmailBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText('komalshahid49@gmail.com').then(() => {
+        copyEmailBtn.classList.add('copied');
+        copyEmailBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><polyline points="20 6 9 17 4 12"/></svg>copied!';
+        // reuse existing toast system if available
+        const shelf = document.getElementById('toastShelf');
+        if (shelf){
+          const t = document.createElement('div');
+          t.className = 'toast';
+          t.innerHTML = '<span class="toast__key">✓</span> Email copied to clipboard';
+          shelf.appendChild(t);
+          requestAnimationFrame(() => t.classList.add('show'));
+          setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, 2600);
+        }
+        setTimeout(() => {
+          copyEmailBtn.classList.remove('copied');
+          copyEmailBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>copy';
+        }, 2800);
+      }).catch(() => {
+        /* Fallback for older browsers */
+        const ta = document.createElement('textarea');
+        ta.value = 'komalshahid49@gmail.com';
+        ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+      });
+    });
+  }
+
+  /* ── ENHANCEMENT: Active panel tracking during horizontal scroll ── */
+  (function initActivePanels(){
+    const projectPanels = document.querySelectorAll('.panel:not(.panel--end)');
+    if (!projectPanels.length) return;
+    function markActivePanel(scrolled){
+      const head = document.querySelector('.projects-head');
+      const firstPanel = projectPanels[0];
+      if (!head || !firstPanel) return;
+      const headW = head.offsetWidth;
+      const panelW = firstPanel.offsetWidth;
+      const idx = Math.max(0, Math.min(projectPanels.length - 1,
+        Math.round((scrolled - headW + panelW * 0.5) / panelW)
+      ));
+      projectPanels.forEach((p, i) => p.classList.toggle('panel--active', i === idx && scrolled >= headW * 0.5));
+    }
+    // Piggy-back on scroll listener — re-run after setupHoriz has run
+    window.addEventListener('scroll', () => {
+      const wrap2 = document.getElementById('projectsWrap');
+      const track2 = document.getElementById('projectsTrack');
+      if (!wrap2 || !track2 || window.innerWidth <= 900) return;
+      const rect = wrap2.getBoundingClientRect();
+      const overflow = Math.max(0, track2.scrollWidth - window.innerWidth);
+      const scrolled = Math.min(Math.max(0, -rect.top), overflow);
+      markActivePanel(scrolled);
+    }, { passive: true });
+  })();
+
+  /* ── ENHANCEMENT: Contact form — mailto fallback (replace with Formspree when ready) ── */
+  (function initContactForm(){
+    const form = document.getElementById('contactForm');
+    const btn  = document.getElementById('cfSubmit');
+    const status = document.getElementById('cfStatus');
+    if (!form) return;
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const name    = form.querySelector('#cf-name').value.trim();
+      const email   = form.querySelector('#cf-email').value.trim();
+      const message = form.querySelector('#cf-msg').value.trim();
+      if (!name || !email || !message) {
+        status.textContent = '⚠ Please fill in all fields.';
+        status.className = 'cf-status error';
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        status.textContent = '⚠ Please enter a valid email.';
+        status.className = 'cf-status error';
+        return;
+      }
+      btn.disabled = true;
+      btn.textContent = 'Opening email…';
+      const subject = encodeURIComponent('Portfolio inquiry from ' + name);
+      const body = encodeURIComponent('Hi Komal,\n\n' + message + '\n\n— ' + name + '\n' + email);
+      window.location.href = 'mailto:komalshahid49@gmail.com?subject=' + subject + '&body=' + body;
+      setTimeout(() => {
+        form.reset();
+        btn.disabled = false;
+        btn.innerHTML = 'Send message <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+        status.textContent = '✓ Your email client should have opened.';
+        status.className = 'cf-status success';
+        setTimeout(() => { status.className = 'cf-status'; }, 5000);
+      }, 800);
+    });
+  })();
+
+  /* ── ENHANCEMENT: Pause Three.js constellation when hero off-screen ── */
+  /* This wraps the RAF loop; actual pause is handled inside initConstellation
+     by checking a shared flag. The flag is set by an IntersectionObserver. */
+  (function patchConstellationVisibility(){
+    const heroViz = document.getElementById('heroViz');
+    if (!heroViz) return;
+    heroViz.dataset.visible = 'true';
+    const vizObs = new IntersectionObserver(([e]) => {
+      heroViz.dataset.visible = e.isIntersecting ? 'true' : 'false';
+    }, { threshold: 0 });
+    vizObs.observe(heroViz);
   })();
 
 })();

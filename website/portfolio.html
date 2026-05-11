@@ -17,12 +17,31 @@
 <meta name="twitter:title"      content="Komal Shahid — Data Scientist &amp; ML Engineer">
 <meta name="twitter:description" content="Healthcare AI, privacy-preserving ML, and ethical AI systems. MS Data Science at Bellevue University.">
 <meta name="twitter:image"      content="https://ukomal.github.io/portfolio/og-image.png">
+<meta name="robots" content="index, follow">
+<meta name="author" content="Komal Shahid">
+<meta name="color-scheme" content="light dark">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Komal Shahid",
+  "url": "https://ukomal.github.io/portfolio/",
+  "jobTitle": "Data Scientist & ML Engineer",
+  "description": "Healthcare AI, privacy-preserving ML, explainable AI, and ethical AI systems. MS Data Science at Bellevue University.",
+  "alumniOf": { "@type": "EducationalOrganization", "name": "Bellevue University" },
+  "knowsAbout": ["Machine Learning","Healthcare AI","Privacy-Preserving ML","Federated Learning","Computer Vision","NLP","Explainable AI"],
+  "sameAs": [
+    "https://www.linkedin.com/in/komal-shahid-6b1704175",
+    "https://github.com/UKOMAL"
+  ]
+}
+</script>
 
-<!-- Favicon — inline SVG using brand terracotta -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23f5efe4' stroke='%231a1612' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23c65d3a'/%3E%3C/svg%3E">
+<!-- Favicon — inline SVG using brand gold -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%231a1a2e' stroke='%23c9a84c' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%23c9a84c'/%3E%3C/svg%3E">
 <!-- theme-color: light/dark variants for mobile browser chrome -->
-<meta name="theme-color" content="#f5efe4" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#141210" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#faf8f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f0f1a" media="(prefers-color-scheme: dark)">
 
 <!-- DNS prefetch for CDN resources loaded later -->
 <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
@@ -34,24 +53,30 @@
 
 <style>
 /* ───────────────────────────────────────────────────────────
-   Warm-minimal design system — cream · ink · terracotta · sage
-   No gradients anywhere. All accents are solid color or SVG.
+   Elegant design system — navy · gold · cream · charcoal · burgundy
+   Professional palette inspired by warm gold/amber and deep navy.
    ─────────────────────────────────────────────────────────── */
 :root{
-  --cream:         #f5efe4;
-  --cream-deep:    #ece4d3;
-  --paper:         #faf6ef;
-  --ink:           #1a1612;
-  --ink-soft:      #3a332b;
-  --ink-muted:     #7a6f60;
-  --line:          #2b2620;
-  --rule:          #d8cfbe;
+  --cream:         #faf8f4;
+  --cream-deep:    #f0ece4;
+  --paper:         #fdfcf9;
+  --ink:           #1a1a2e;
+  --ink-soft:      #2d2d2d;
+  --ink-muted:     #6b6b7b;
+  --line:          #1a1a2e;
+  --rule:          #d4cfc4;
 
-  --terracotta:    #c65d3a;
-  --terracotta-dk: #a14a2d;
-  --ochre:         #c99048;
-  --sage:          #6b7f5a;
-  --plum:          #6b3a4a;
+  --terracotta:    #c9a84c;
+  --terracotta-dk: #b89530;
+  --ochre:         #d4a843;
+  --sage:          #4a7c59;
+  --plum:          #6b2737;
+
+  --navy:          #1a1a2e;
+  --navy-mid:      #252545;
+  --gold:          #c9a84c;
+  --gold-light:    #dbc06a;
+  --burgundy:      #6b2737;
 
   --font-display:  'Fraunces', 'Georgia', serif;
   --font-body:     'Inter', system-ui, -apple-system, sans-serif;
@@ -61,8 +86,8 @@
   --bg-soft:       var(--paper);
   --fg:            var(--ink);
   --fg-muted:      var(--ink-muted);
-  --accent:        var(--terracotta);
-  --accent-2:      var(--sage);
+  --accent:        var(--gold);
+  --accent-2:      var(--burgundy);
   --rule-c:        var(--rule);
 
   --ease:          cubic-bezier(0.65, 0.05, 0.36, 1);
@@ -75,13 +100,13 @@
 }
 
 [data-theme="dark"]{
-  --bg:            #141210;
-  --bg-soft:       #1d1a16;
-  --fg:            #f2ebde;
-  --fg-muted:      #9a8f7d;
-  --rule-c:        #342d25;
-  --accent:        #e07a54;
-  --accent-2:      #9bb08a;
+  --bg:            #0f0f1a;
+  --bg-soft:       #161625;
+  --fg:            #f2ede4;
+  --fg-muted:      #9a95a8;
+  --rule-c:        #2a2a42;
+  --accent:        #dbc06a;
+  --accent-2:      #8a3a4e;
 }
 
 *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
@@ -150,14 +175,14 @@ h3{ font-size:clamp(1.5rem, 2.4vw, 2rem); }
 }
 .cursor-dot{
   width:6px; height:6px;
-  background:#f5efe4;
+  background:#faf8f4;
   border-radius:50%;
   transform:translate(-50%,-50%);
   transition:width .2s var(--ease-out), height .2s var(--ease-out);
 }
 .cursor-ring{
   width:36px; height:36px;
-  border:1px solid #f5efe4;
+  border:1px solid #faf8f4;
   border-radius:50%;
   transform:translate(-50%,-50%);
   transition:width .25s var(--ease-out), height .25s var(--ease-out), opacity .25s var(--ease-out);
@@ -400,6 +425,33 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
 .btn--ghost{ background:transparent; color:var(--fg); }
 .btn--ghost:hover{ background:transparent; color:var(--accent); border-color:var(--accent); }
 
+/* Profile photo — floats over the WebGL canvas */
+.hero__profile-photo{
+  position:absolute;
+  bottom:32px; left:50%;
+  transform:translateX(-50%);
+  z-index:2;
+  width:clamp(140px, 22vw, 200px);
+  height:clamp(140px, 22vw, 200px);
+  border-radius:50%;
+  overflow:hidden;
+  border:3px solid var(--accent);
+  box-shadow:0 8px 40px color-mix(in srgb, var(--accent) 22%, transparent),
+             0 0 0 6px color-mix(in srgb, var(--bg) 60%, transparent);
+  transition:transform .5s var(--ease-out), box-shadow .5s var(--ease-out);
+}
+.hero__profile-photo:hover{
+  transform:translateX(-50%) scale(1.04);
+  box-shadow:0 12px 48px color-mix(in srgb, var(--accent) 30%, transparent),
+             0 0 0 6px color-mix(in srgb, var(--bg) 60%, transparent);
+}
+.hero__profile-photo img{
+  width:100%; height:100%;
+  object-fit:cover;
+  object-position:center top;
+  filter:saturate(0.92) brightness(0.98);
+}
+
 /* WebGL canvas container (right column of hero) */
 .hero__viz{
   position:relative;
@@ -488,6 +540,9 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
   border-bottom:1px solid var(--rule-c);
   overflow:hidden;
   background:var(--bg-soft);
+  /* Premium edge fade — content dissolves into background at both sides */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%);
 }
 .marquee__track{
   display:flex; gap:80px;
@@ -524,7 +579,21 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
 .about-grid .pull{
   font-family:var(--font-display); font-style:italic; font-weight:300;
   font-size:clamp(1.5rem, 2.4vw, 2rem); line-height:1.3; color:var(--fg);
-  border-left:2px solid var(--accent); padding-left:24px; margin:36px 0;
+  padding-left:24px; margin:36px 0;
+  /* Animated left border — draws down from top when the about section reveals */
+  position:relative;
+}
+.about-grid .pull::before{
+  content:"";
+  position:absolute; left:0; top:0; bottom:0;
+  width:2px; background:var(--accent);
+  border-radius:1px;
+  transform-origin:top center;
+  transform:scaleY(0);
+  transition:transform 0.8s var(--ease-out) 0.2s;
+}
+.about-grid .reveal.visible .pull::before{
+  transform:scaleY(1);
 }
 .about-meta{
   padding:24px; border:1px solid var(--rule-c); border-radius:12px; background:var(--bg-soft);
@@ -655,6 +724,19 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
   position:relative; min-height:260px; display:flex; flex-direction:column;
 }
 .skill-card:hover{ transform:translateY(-4px); border-color:var(--fg); }
+/* Accent top-border draws from left on hover — signature micro-interaction */
+.skill-card::before{
+  content:"";
+  position:absolute;
+  top:-1px; left:-1px; right:-1px;
+  height:2px;
+  background:var(--accent);
+  border-radius:16px 16px 0 0;
+  transform-origin:left center;
+  transform:scaleX(0);
+  transition:transform 0.5s var(--ease-out);
+}
+.skill-card:hover::before{ transform:scaleX(1); }
 .skill-card__idx{ font-family:var(--font-mono); font-size:11px; letter-spacing:.18em; color:var(--accent); margin-bottom:18px; }
 .skill-card h3{ font-family:var(--font-display); font-size:1.5rem; font-weight:400; margin-bottom:10px; }
 .skill-card p{ font-size:15px; color:var(--fg-muted); line-height:1.6; margin-bottom:18px; }
@@ -799,7 +881,7 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
 .modal.open{ display:flex; }
 .modal__box{
   background:var(--bg); border:1px solid var(--rule-c); border-radius:18px;
-  max-width:720px; width:100%;
+  max-width:860px; width:100%;
   max-height:90vh; overflow:auto; padding:44px; position:relative;
 }
 .modal__close{
@@ -817,6 +899,166 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
 .modal__heading{ font-family:var(--font-mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); margin-top:24px; margin-bottom:10px; }
 .modal__list{ padding-left:20px; }
 .modal__list li{ list-style:disc; color:var(--fg-muted); margin-bottom:6px; line-height:1.6; }
+
+/* ────────── Modal extended case study styles ────────── */
+.modal__subtitle{
+  font-family:var(--font-body); font-size:15px; color:var(--fg-muted);
+  font-style:italic; margin-bottom:18px;
+}
+.modal__section-title{
+  font-family:var(--font-display); font-size:1.35rem; font-weight:400;
+  margin:32px 0 14px; padding-top:20px;
+  border-top:1px solid var(--rule-c);
+  color:var(--fg);
+}
+.modal__section-title:first-of-type{ border-top:none; padding-top:0; margin-top:24px; }
+
+.modal__table{
+  width:100%; border-collapse:collapse; margin:16px 0 24px;
+  font-size:14px;
+}
+.modal__table th{
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--fg-muted);
+  text-align:left; padding:10px 12px;
+  border-bottom:2px solid var(--rule-c);
+  background:var(--bg-soft);
+}
+.modal__table td{
+  padding:10px 12px; border-bottom:1px solid var(--rule-c);
+  color:var(--fg-muted);
+}
+.modal__table tr.winner td{
+  color:var(--fg); font-weight:500;
+  background:color-mix(in srgb, var(--accent) 6%, transparent);
+}
+.modal__table .check{ color:var(--accent); font-weight:700; }
+
+.modal__metric-cards{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr));
+  gap:12px; margin:18px 0 24px;
+}
+.modal__metric-card{
+  border:1px solid var(--rule-c); border-radius:12px;
+  padding:18px 14px; text-align:center;
+  background:var(--bg-soft);
+  transition:border-color .3s, transform .3s var(--ease-out);
+}
+.modal__metric-card:hover{ border-color:var(--accent); transform:translateY(-2px); }
+.modal__metric-card .mc-val{
+  font-family:var(--font-display); font-size:1.8rem; font-weight:400;
+  color:var(--accent); line-height:1.1;
+}
+.modal__metric-card .mc-label{
+  font-family:var(--font-mono); font-size:9px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--fg-muted); margin-top:6px;
+}
+.modal__metric-card .mc-sub{
+  font-size:11px; color:var(--fg-muted); margin-top:3px;
+}
+
+.modal__methodology{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(120px, 1fr));
+  gap:10px; margin:16px 0 24px;
+}
+.modal__step{
+  text-align:center; padding:16px 8px;
+  border:1px solid var(--rule-c); border-radius:10px;
+  background:var(--bg-soft); position:relative;
+}
+.modal__step-num{
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.14em;
+  color:var(--accent); margin-bottom:4px;
+}
+.modal__step-label{
+  font-family:var(--font-body); font-size:13px; font-weight:500;
+  color:var(--fg);
+}
+.modal__step-arrow{
+  position:absolute; right:-10px; top:50%; transform:translateY(-50%);
+  color:var(--accent); font-size:14px; z-index:1;
+}
+
+.modal__tech-tags{
+  display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 24px;
+}
+.modal__tech-tag{
+  font-family:var(--font-mono); font-size:11px; padding:5px 12px;
+  border:1px solid var(--rule-c); border-radius:999px; color:var(--fg-muted);
+  background:var(--bg-soft);
+  transition:color .2s, border-color .2s;
+}
+.modal__tech-tag:hover{ color:var(--accent); border-color:var(--accent); }
+
+.modal__callout{
+  border-left:3px solid var(--accent);
+  padding:16px 20px; margin:18px 0 24px;
+  background:color-mix(in srgb, var(--accent) 4%, var(--bg-soft));
+  border-radius:0 10px 10px 0;
+  font-size:15px; line-height:1.65; color:var(--fg-muted);
+}
+.modal__callout strong{ color:var(--fg); font-weight:500; }
+
+.modal__links{
+  display:flex; gap:12px; flex-wrap:wrap; margin-top:24px;
+  padding-top:20px; border-top:1px solid var(--rule-c);
+}
+.modal__link{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:10px 18px;
+  font-family:var(--font-mono); font-size:11px; font-weight:500;
+  letter-spacing:.12em; text-transform:uppercase;
+  border-radius:999px; border:1px solid var(--fg);
+  color:var(--fg); text-decoration:none;
+  transition:transform .3s var(--ease-out), background .3s, color .3s, border-color .3s;
+}
+.modal__link:hover{
+  transform:translateY(-2px); background:var(--accent);
+  border-color:var(--accent); color:#fff;
+}
+
+.modal__feature-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:14px 0 24px;
+}
+@media(max-width:600px){ .modal__feature-grid{ grid-template-columns:1fr; } }
+.modal__feature-item{
+  display:flex; gap:10px; align-items:flex-start;
+  padding:14px; border:1px solid var(--rule-c); border-radius:10px;
+  background:var(--bg-soft);
+}
+.modal__feature-icon{
+  font-size:20px; flex-shrink:0; width:28px; text-align:center;
+}
+.modal__feature-text{ font-size:14px; color:var(--fg-muted); line-height:1.5; }
+.modal__feature-text strong{ color:var(--fg); font-weight:500; display:block; margin-bottom:2px; }
+
+/* ────────── Modal reading time badge ────────── */
+.modal__reading-time{
+  display:inline-flex; align-items:center; gap:7px;
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--fg-muted);
+  border:1px solid var(--rule-c); border-radius:999px;
+  padding:4px 11px; margin-bottom:14px;
+}
+.modal__reading-time::before{
+  content:""; width:8px; height:8px; border-radius:50%;
+  background:var(--accent); flex-shrink:0;
+  animation:blink 1.8s ease-in-out infinite;
+}
+
+/* ────────── Featured project panel — ochre left-edge accent ────────── */
+.panel[data-featured="true"]{
+  background:color-mix(in srgb, var(--ochre) 3%, var(--bg-soft));
+  border-left:2px solid color-mix(in srgb, var(--ochre) 50%, transparent);
+}
+.panel[data-featured="true"] .panel__tag::before{
+  content:"★ ";
+  color:var(--ochre);
+  font-size:10px;
+}
+
+/* ────────── Modal focus outline reset (for programmatic focus) ────────── */
+.modal__box:focus-visible{ outline:none; }
 
 /* ────────── Back to top ────────── */
 .to-top{
@@ -898,7 +1140,7 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
   transform: scaleX(1.06);
 }
 /* Federated topology pulse ring speeds up on hover */
-.panel__visual:hover circle[fill="none"][stroke="#c65d3a"] animate {
+.panel__visual:hover circle[fill="none"][stroke="#c9a84c"] animate {
   dur: 1.5s;
 }
 /* Depth-map layers ripple on hover */
@@ -1181,6 +1423,24 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
 }
 .tl-col.visible::before { transform: scaleY(1); }
 
+/* ────────── Project horizontal scroll progress bar ────────── */
+.projects-scroll-bar{
+  position:absolute;
+  top:0; left:0; right:0;
+  height:2px;
+  background:var(--rule-c);
+  z-index:20;
+  overflow:hidden;
+}
+.projects-scroll-bar__fill{
+  height:100%;
+  background:var(--accent);
+  width:0%;
+  transition:width .08s linear;
+  border-radius:0 999px 999px 0;
+}
+@media(max-width:900px){ .projects-scroll-bar{ display:none; } }
+
 /* ────────── Horizontal project counter ────────── */
 /* Pinned inside the sticky projects viewport; updated by JS. */
 .panel-counter {
@@ -1210,6 +1470,207 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
 }
 .panel-counter__sep { opacity: .35; }
 @media (max-width: 900px) { .panel-counter { display: none; } }
+
+/* ────────── Projects pin drag cursor ────────── */
+@media (pointer:fine){
+  .projects-pin{ cursor:grab; }
+  .projects-pin:active{ cursor:grabbing; }
+  /* Buttons/links inside keep their own cursor behaviour */
+  .projects-pin a,
+  .projects-pin button{ cursor:none; }
+}
+
+/* ────────── Panel SVG visual — subtle tilt on hover ────────── */
+.panel__visual-inner{
+  transition:transform .5s var(--ease-out);
+}
+.panel__visual:hover .panel__visual-inner{
+  transform:scale(1.03) rotate(-0.5deg);
+}
+
+/* ────────── Skill card bar label — highlight on card hover ────────── */
+.skill-card:hover .skill-bar__label{
+  color:var(--fg);
+  transition:color .3s var(--ease);
+}
+
+/* ────────── Hero mouse spotlight ────────── */
+/* A soft radial gradient that follows the cursor — premium depth cue */
+.hero__spotlight{
+  position:absolute; inset:0;
+  pointer-events:none;
+  z-index:0;
+  opacity:0;
+  background: radial-gradient(700px at var(--mx,50%) var(--my,50%),
+    color-mix(in srgb, var(--gold) 7%, transparent),
+    transparent 65%);
+  transition:opacity .7s var(--ease-out);
+}
+.hero:hover .hero__spotlight{ opacity:1; }
+[data-theme="dark"] .hero__spotlight{
+  background: radial-gradient(700px at var(--mx,50%) var(--my,50%),
+    color-mix(in srgb, var(--accent) 11%, transparent),
+    transparent 65%);
+}
+@media (pointer:coarse){ .hero__spotlight{ display:none; } }
+@media (prefers-reduced-motion:reduce){ .hero__spotlight{ display:none; } }
+
+/* ────────── Modal reading progress bar ────────── */
+/* Sticky inside the scrolling .modal__box — sticks to box top while scrolling */
+.modal__progress-wrap{
+  position:sticky;
+  top:-44px; /* offset = modal padding */
+  margin:-44px -44px 38px;
+  height:3px;
+  background:var(--rule-c);
+  z-index:5;
+  overflow:hidden;
+  border-radius:0 999px 999px 0;
+}
+.modal__progress-fill{
+  height:100%;
+  background:var(--accent);
+  width:0%;
+  transition:width .1s linear;
+  border-radius:0 999px 999px 0;
+}
+
+/* ────────── Panel metric flash-in animation ────────── */
+/* Metrics get a quick numerical flash when the panel becomes active */
+@keyframes metricFlash{
+  0%  { opacity:0; transform:translateY(6px); }
+  60% { opacity:1; transform:translateY(-2px); }
+  100%{ opacity:1; transform:translateY(0); }
+}
+.panel--active .m__v{
+  animation: metricFlash .45s var(--ease-out) both;
+}
+.panel--active .panel__metrics > div:nth-child(1) .m__v{ animation-delay:.0s; }
+.panel--active .panel__metrics > div:nth-child(2) .m__v{ animation-delay:.1s; }
+.panel--active .panel__metrics > div:nth-child(3) .m__v{ animation-delay:.2s; }
+
+/* ────────── Tech chip accent hover ────────── */
+/* Each chip brightens border to accent on hover — more tactile than before */
+.chip:hover{
+  color:var(--accent);
+  border-color:var(--accent);
+  background:color-mix(in srgb, var(--accent) 8%, transparent);
+}
+
+/* ────────── Timeline dot glow — extends beyond 3 items ────────── */
+/* Cascade for items 4, 5, 6 if timeline grows */
+.tl-col.visible .tl-item:nth-child(4)::before{
+  background:var(--accent);
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
+  transition-delay:1.0s;
+}
+.tl-col.visible .tl-item:nth-child(5)::before{
+  background:var(--accent);
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
+  transition-delay:1.3s;
+}
+.tl-col.visible .tl-item:nth-child(6)::before{
+  background:var(--accent);
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent);
+  transition-delay:1.6s;
+}
+
+/* ────────── Panel number outline — theme-aware stroke ────────── */
+/* In dark mode the outline numbers were invisible (ink stroke on dark bg) */
+[data-theme="dark"] .panel__num{
+  -webkit-text-stroke: 1px var(--fg);
+}
+
+/* ────────── Nav brand dot — pause on reduced motion ────────── */
+@media (prefers-reduced-motion:reduce){
+  @keyframes pulseDot{ 0%,100%{ box-shadow:none; } }
+}
+
+/* ────────── Mobile swipe hint (projects section) ────────── */
+@media (max-width:900px){
+  .projects-head .hint{
+    display:flex; align-items:center; gap:12px;
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--fg-muted); padding:10px 0;
+    border-top:1px solid var(--rule-c); margin-top:24px;
+  }
+  .swipe-hint{
+    display:inline-flex; align-items:center; gap:6px;
+    font-family:var(--font-mono); font-size:10px; letter-spacing:.14em;
+    color:var(--fg-muted);
+    margin-top:16px;
+  }
+  .swipe-hint::before{
+    content:"";
+    display:inline-block;
+    width:22px; height:2px;
+    background:var(--rule-c);
+    position:relative;
+    animation:swipeArrow 1.8s ease-in-out infinite;
+  }
+  @keyframes swipeArrow{
+    0%  { transform:translateX(-4px); opacity:.4; }
+    60% { transform:translateX(4px);  opacity:1;  }
+    100%{ transform:translateX(-4px); opacity:.4; }
+  }
+}
+
+/* ────────── Featured panel — active glow ring ────────── */
+.panel[data-featured="true"].panel--active{
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ochre) 30%, transparent);
+}
+
+/* ────────── About stats — section border pulse on scroll ────────── */
+.about-stats .stat{
+  transition: border-color .5s var(--ease-out);
+}
+.about-stats .stat.stat--lit{
+  border-top-color: var(--accent);
+}
+
+/* ────────── Skills section header accent line ────────── */
+.section.skills .section__head h2 em{
+  color:var(--accent);
+  font-style:italic;
+}
+
+/* ────────── Real-image project panels ────────── */
+/* When a panel visual shows a real photo instead of an SVG,
+   the ::before dot indicator and caption need elevated z-index */
+.panel__visual--img { overflow:hidden; }
+.panel__visual--img::before { z-index:2; }
+.panel__visual--img .panel__visual-cap {
+  z-index: 2;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  padding: 3px 10px; border-radius: 4px;
+}
+.panel__visual--img img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease-out), filter 0.4s var(--ease-out);
+  filter: saturate(0.88) brightness(0.97);
+  z-index: 0;
+}
+.panel__visual--img:hover img {
+  transform: scale(1.04);
+  filter: saturate(1.05) brightness(1.0);
+}
+/* Override the SVG tilt since image manages its own transform */
+.panel__visual--img:hover .panel__visual-inner { transform: none; }
+
+/* ────────── Skill radar chart card ────────── */
+.skill-card.radar-card { overflow: visible; }
+.skill-card.radar-card svg { overflow: visible; margin-top: auto; }
+.radar-polygon { transition: points 0.05s; }
+
+/* ────────── Hero "Currently Building" ticker ────────── */
+.hero__kicker .building {
+  display: inline-flex; align-items: center; gap: 6px;
+  transition: opacity 0.28s var(--ease), transform 0.28s var(--ease);
+}
 </style>
 </head>
 <body>
@@ -1222,7 +1683,7 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
 <div class="cursor-dot" aria-hidden="true"></div>
 
 <!-- scroll progress -->
-<div class="scroll-progress" aria-hidden="true"><div class="scroll-progress__bar" id="progBar"></div></div>
+<div class="scroll-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Page scroll progress"><div class="scroll-progress__bar" id="progBar"></div></div>
 
 <!-- Side section nav -->
 <nav class="side-nav" id="sideNav" aria-label="Section quick-nav">
@@ -1318,6 +1779,9 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
 
   <div class="hero__viz" id="heroViz">
     <canvas class="hero__viz-canvas" id="heroCanvas" aria-label="Interactive neural constellation"></canvas>
+    <div class="hero__profile-photo" aria-hidden="true">
+      <img src="images/profile_photo.png" alt="Komal Shahid — Data Scientist & ML Engineer" loading="eager">
+    </div>
     <div class="hero__viz-frame" aria-hidden="true">
       <span class="corner tl"></span><span class="corner tr"></span>
       <span class="corner bl"></span><span class="corner br"></span>
@@ -1378,6 +1842,8 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
 <section id="work" aria-label="Selected work">
   <div class="projects-wrap" id="projectsWrap">
     <div class="projects-pin">
+      <!-- Projects scroll progress bar — fills as user scrolls through all 5 panels -->
+      <div class="projects-scroll-bar" aria-hidden="true"><div class="projects-scroll-bar__fill" id="projectsScrollFill"></div></div>
       <!-- Project counter — updated dynamically as user scrolls horizontally -->
       <div class="panel-counter" id="panelCounter" aria-live="polite" aria-atomic="true">
         <span class="panel-counter__current" id="panelCurrent">—</span>
@@ -1394,11 +1860,12 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
           </div>
           <div class="hint">
             <svg viewBox="0 0 40 10" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 5h34M30 1l6 4-6 4"/></svg>
-            <span>drag or scroll</span>
+            <span>drag · scroll · swipe</span>
           </div>
+          <div class="swipe-hint" aria-hidden="true">scroll to explore</div>
         </div>
 
-        <article class="panel">
+        <article class="panel" data-featured="true">
           <div class="panel__meta">
             <div>
               <div class="panel__tag">&bull; DSC680 &middot; Project 1</div>
@@ -1426,23 +1893,23 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
             <div class="panel__visual-inner">
               <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
                 <rect width="400" height="300" fill="transparent"/>
-                <g font-family="JetBrains Mono, monospace" font-size="8" fill="#7a6f60">
+                <g font-family="JetBrains Mono, monospace" font-size="8" fill="#6b6b7b">
                   <text x="20" y="22">SHAP VALUE — FEATURE CONTRIBUTION</text>
                 </g>
-                <g stroke="#d8cfbe" stroke-width="1">
+                <g stroke="#d4cfc4" stroke-width="1">
                   <line x1="200" y1="40" x2="200" y2="270"/>
                 </g>
                 <g>
-                  <rect x="200" y="60"  width="140" height="14" fill="#c65d3a" class="shap-bar"/>
-                  <rect x="90"  y="82"  width="110" height="14" fill="#6b7f5a" class="shap-bar"/>
-                  <rect x="200" y="104" width="90"  height="14" fill="#c65d3a" class="shap-bar"/>
-                  <rect x="140" y="126" width="60"  height="14" fill="#6b7f5a" class="shap-bar"/>
-                  <rect x="200" y="148" width="72"  height="14" fill="#c65d3a" class="shap-bar"/>
-                  <rect x="168" y="170" width="32"  height="14" fill="#6b7f5a" class="shap-bar"/>
-                  <rect x="200" y="192" width="52"  height="14" fill="#c65d3a" class="shap-bar"/>
-                  <rect x="178" y="214" width="22"  height="14" fill="#6b7f5a" class="shap-bar"/>
+                  <rect x="200" y="60"  width="140" height="14" fill="#c9a84c" class="shap-bar"/>
+                  <rect x="90"  y="82"  width="110" height="14" fill="#1a1a2e" class="shap-bar"/>
+                  <rect x="200" y="104" width="90"  height="14" fill="#c9a84c" class="shap-bar"/>
+                  <rect x="140" y="126" width="60"  height="14" fill="#1a1a2e" class="shap-bar"/>
+                  <rect x="200" y="148" width="72"  height="14" fill="#c9a84c" class="shap-bar"/>
+                  <rect x="168" y="170" width="32"  height="14" fill="#1a1a2e" class="shap-bar"/>
+                  <rect x="200" y="192" width="52"  height="14" fill="#c9a84c" class="shap-bar"/>
+                  <rect x="178" y="214" width="22"  height="14" fill="#1a1a2e" class="shap-bar"/>
                 </g>
-                <g font-family="Inter,sans-serif" font-size="9" fill="#1a1612">
+                <g font-family="Inter,sans-serif" font-size="9" fill="#1a1a2e">
                   <text x="20"  y="71">employer_esi</text>
                   <text x="20"  y="93">family_history</text>
                   <text x="20"  y="115">age</text>
@@ -1452,7 +1919,7 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
                   <text x="20"  y="203">gender_M</text>
                   <text x="20"  y="225">tech_role</text>
                 </g>
-                <g font-family="JetBrains Mono, monospace" font-size="7" fill="#7a6f60">
+                <g font-family="JetBrains Mono, monospace" font-size="7" fill="#6b6b7b">
                   <text x="100" y="285">-0.4</text>
                   <text x="200" y="285" text-anchor="middle">0.0</text>
                   <text x="340" y="285" text-anchor="end">+0.4</text>
@@ -1490,37 +1957,37 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
           <div class="panel__visual">
             <div class="panel__visual-inner">
               <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                <g stroke="#d8cfbe" stroke-width="1">
+                <g stroke="#d4cfc4" stroke-width="1">
                   <line x1="200" y1="150" x2="60"  y2="60"/>
                   <line x1="200" y1="150" x2="340" y2="60"/>
                   <line x1="200" y1="150" x2="60"  y2="240"/>
                   <line x1="200" y1="150" x2="340" y2="240"/>
                   <line x1="200" y1="150" x2="200" y2="30"/>
                 </g>
-                <g fill="#f5efe4" stroke="#1a1612" stroke-width="1.4">
+                <g fill="#faf8f4" stroke="#1a1a2e" stroke-width="1.4">
                   <circle cx="60"  cy="60"  r="22"/>
                   <circle cx="340" cy="60"  r="22"/>
                   <circle cx="60"  cy="240" r="22"/>
                   <circle cx="340" cy="240" r="22"/>
                   <circle cx="200" cy="30"  r="22"/>
                 </g>
-                <g font-family="JetBrains Mono, monospace" font-size="9" fill="#1a1612" text-anchor="middle">
+                <g font-family="JetBrains Mono, monospace" font-size="9" fill="#1a1a2e" text-anchor="middle">
                   <text x="60"  y="63">H1</text>
                   <text x="340" y="63">H2</text>
                   <text x="60"  y="243">H3</text>
                   <text x="340" y="243">H4</text>
                   <text x="200" y="33">H5</text>
                 </g>
-                <circle cx="200" cy="150" r="34" fill="#c65d3a"/>
-                <g font-family="JetBrains Mono, monospace" font-size="8" fill="#f5efe4" text-anchor="middle">
+                <circle cx="200" cy="150" r="34" fill="#c9a84c"/>
+                <g font-family="JetBrains Mono, monospace" font-size="8" fill="#1a1a2e" text-anchor="middle">
                   <text x="200" y="147">GLOBAL</text>
                   <text x="200" y="158">MODEL</text>
                 </g>
-                <circle cx="200" cy="150" r="34" fill="none" stroke="#c65d3a" stroke-width="1.5" opacity=".4">
+                <circle cx="200" cy="150" r="34" fill="none" stroke="#c9a84c" stroke-width="1.5" opacity=".4">
                   <animate attributeName="r" values="34;60;34" dur="3s" repeatCount="indefinite"/>
                   <animate attributeName="opacity" values=".6;0;.6" dur="3s" repeatCount="indefinite"/>
                 </circle>
-                <g font-family="JetBrains Mono, monospace" font-size="8" fill="#7a6f60">
+                <g font-family="JetBrains Mono, monospace" font-size="8" fill="#6b6b7b">
                   <text x="20" y="22">FEDERATED TOPOLOGY &middot; DP=ON</text>
                 </g>
               </svg>
@@ -1554,29 +2021,9 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
               </div>
             </div>
           </div>
-          <div class="panel__visual">
-            <div class="panel__visual-inner">
-              <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                <g stroke="#1a1612" stroke-width="1.4" fill="none">
-                  <polygon points="80,80 320,60 340,220 90,240" />
-                  <polygon points="80,80 140,110 160,260 90,240" />
-                  <polygon points="320,60 260,100 280,250 340,220" />
-                  <line x1="140" y1="110" x2="260" y2="100"/>
-                  <line x1="160" y1="260" x2="280" y2="250"/>
-                </g>
-                <g opacity=".65">
-                  <rect x="110" y="120" width="140" height="20" fill="#c65d3a" class="depth-layer"/>
-                  <rect x="115" y="145" width="130" height="20" fill="#c99048" class="depth-layer"/>
-                  <rect x="120" y="170" width="120" height="20" fill="#6b7f5a" class="depth-layer"/>
-                  <rect x="125" y="195" width="110" height="20" fill="#6b3a4a" class="depth-layer"/>
-                </g>
-                <g font-family="JetBrains Mono, monospace" font-size="8" fill="#7a6f60">
-                  <text x="20" y="22">DEPTH MAP &middot; EDGE + BLUR</text>
-                  <text x="20" y="285">VIEW ANGLE: 42&deg;</text>
-                </g>
-              </svg>
-            </div>
-            <div class="panel__visual-cap">Depth map &middot; perspective transform</div>
+          <div class="panel__visual panel__visual--img">
+            <img src="images/colorful_canvas_main.jpg" alt="Anamorphic billboard warp output — Colorful Canvas project" loading="lazy">
+            <div class="panel__visual-cap">Anamorphic warp &middot; live output</div>
           </div>
         </article>
 
@@ -1609,10 +2056,10 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
             <div class="panel__visual-inner">
               <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
                 <g>
-                  <rect x="50"  y="40"  width="140" height="200" rx="6" fill="#faf6ef" stroke="#1a1612" stroke-width="1.4"/>
-                  <rect x="220" y="60"  width="140" height="180" rx="6" fill="#faf6ef" stroke="#1a1612" stroke-width="1.4"/>
+                  <rect x="50"  y="40"  width="140" height="200" rx="6" fill="#fdfcf9" stroke="#1a1a2e" stroke-width="1.4"/>
+                  <rect x="220" y="60"  width="140" height="180" rx="6" fill="#fdfcf9" stroke="#1a1a2e" stroke-width="1.4"/>
                 </g>
-                <g stroke="#7a6f60" stroke-width="1">
+                <g stroke="#6b6b7b" stroke-width="1">
                   <line x1="64" y1="60"  x2="176" y2="60"/>
                   <line x1="64" y1="72"  x2="170" y2="72"/>
                   <line x1="64" y1="84"  x2="150" y2="84"/>
@@ -1624,18 +2071,18 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
                   <line x1="64" y1="156" x2="130" y2="156"/>
                   <line x1="64" y1="168" x2="164" y2="168"/>
                 </g>
-                <g stroke="#c65d3a" stroke-width="1.4">
+                <g stroke="#c9a84c" stroke-width="1.4">
                   <line x1="234" y1="84"  x2="330" y2="84"/>
                   <line x1="234" y1="100" x2="310" y2="100"/>
                   <line x1="234" y1="116" x2="340" y2="116"/>
                   <line x1="234" y1="132" x2="298" y2="132"/>
                 </g>
                 <g class="notes-ai-group" transform="translate(200,150)">
-                  <rect x="-12" y="-6" width="24" height="12" rx="6" fill="#c65d3a"/>
-                  <polygon points="12,-10 22,0 12,10" fill="#c65d3a"/>
-                  <text x="0" y="2" text-anchor="middle" font-size="7" font-family="JetBrains Mono, monospace" fill="#f5efe4" font-weight="700">AI</text>
+                  <rect x="-12" y="-6" width="24" height="12" rx="6" fill="#c9a84c"/>
+                  <polygon points="12,-10 22,0 12,10" fill="#c9a84c"/>
+                  <text x="0" y="2" text-anchor="middle" font-size="7" font-family="JetBrains Mono, monospace" fill="#1a1a2e" font-weight="700">AI</text>
                 </g>
-                <g font-family="JetBrains Mono, monospace" font-size="8" fill="#7a6f60">
+                <g font-family="JetBrains Mono, monospace" font-size="8" fill="#6b6b7b">
                   <text x="50"  y="30">SOURCE</text>
                   <text x="220" y="50">SUMMARY</text>
                 </g>
@@ -1669,36 +2116,9 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
               </div>
             </div>
           </div>
-          <div class="panel__visual">
-            <div class="panel__visual-inner">
-              <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
-                <rect width="400" height="300" fill="transparent"/>
-                <!-- ROC curve area fill -->
-                <path d="M40 260 Q 80 240, 100 180 Q 130 100, 160 60 Q 200 20, 360 40 L 360 260 Z"
-                      fill="#c65d3a" opacity=".10"/>
-                <!-- ROC curve line -->
-                <path d="M40 260 Q 80 240, 100 180 Q 130 100, 160 60 Q 200 20, 360 40"
-                      fill="none" stroke="#c65d3a" stroke-width="2.2" stroke-linecap="round"/>
-                <!-- Diagonal baseline -->
-                <line x1="40" y1="260" x2="360" y2="40" stroke="#d8cfbe" stroke-width="1" stroke-dasharray="5,4"/>
-                <!-- Axes -->
-                <line x1="40" y1="260" x2="360" y2="260" stroke="#d8cfbe" stroke-width="1"/>
-                <line x1="40" y1="260" x2="40"  y2="40"  stroke="#d8cfbe" stroke-width="1"/>
-                <!-- AUC label -->
-                <rect x="240" y="180" width="100" height="30" rx="4" fill="#c65d3a" opacity=".9"/>
-                <text x="290" y="199" text-anchor="middle" font-family="JetBrains Mono, monospace"
-                      font-size="11" fill="#f5efe4" font-weight="700">AUC = 0.978</text>
-                <!-- Axis labels -->
-                <text x="200" y="285" text-anchor="middle" font-family="JetBrains Mono, monospace"
-                      font-size="8" fill="#7a6f60">FALSE POSITIVE RATE</text>
-                <text x="14" y="150" text-anchor="middle" font-family="JetBrains Mono, monospace"
-                      font-size="8" fill="#7a6f60" transform="rotate(-90,14,150)">TRUE POSITIVE RATE</text>
-                <!-- Header -->
-                <text x="40" y="24" font-family="JetBrains Mono, monospace" font-size="8"
-                      fill="#7a6f60">ROC CURVE &middot; ENSEMBLE FRAUD DETECTOR</text>
-              </svg>
-            </div>
-            <div class="panel__visual-cap">ROC &middot; ensemble anomaly detection</div>
+          <div class="panel__visual panel__visual--img">
+            <img src="images/fraud_roc.png" alt="ROC curve for Ensemble Fraud Detection system — AUC 0.978" loading="lazy">
+            <div class="panel__visual-cap">ROC curve &middot; AUC-ROC 0.978</div>
           </div>
         </article>
 
@@ -1721,6 +2141,53 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
     <h2 class="font-display">A toolkit shaped by <em>real projects</em>, not tutorials.</h2>
   </div>
   <div class="skills-grid">
+
+    <!-- Skill radar chart — overview card -->
+    <div class="skill-card radar-card reveal" style="grid-column:span 4;min-height:340px;">
+      <div class="skill-card__idx">00 &middot; At a glance</div>
+      <h3 class="font-display">Skill radar.</h3>
+      <p style="font-size:14px;">Five core competency domains, normalized to 100.</p>
+      <!-- Radar chart SVG — 5 axes, center (200,165), max radius 90 -->
+      <svg id="skillRadarSvg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg"
+           aria-label="Skill radar chart showing ML 92%, Deep Learning 82%, Computer Vision 85%, NLP 78%, Privacy AI 88%"
+           style="width:100%;max-height:210px;margin-top:auto;">
+        <!-- Grid rings: 30%, 60%, 90% of max radius 90 -->
+        <polygon points="200,138 226,157 216,187 184,187 174,157" fill="none" stroke="var(--rule-c)" stroke-width="1" opacity=".7"/>
+        <polygon points="200,111 251,148 232,209 168,209 149,148" fill="none" stroke="var(--rule-c)" stroke-width="1" opacity=".5"/>
+        <polygon points="200,75 286,137 253,238 147,238 114,137" fill="none" stroke="var(--rule-c)" stroke-width="1" opacity=".3"/>
+        <!-- Axis lines center→vertex -->
+        <line x1="200" y1="165" x2="200" y2="75"  stroke="var(--rule-c)" stroke-width="1"/>
+        <line x1="200" y1="165" x2="286" y2="137" stroke="var(--rule-c)" stroke-width="1"/>
+        <line x1="200" y1="165" x2="253" y2="238" stroke="var(--rule-c)" stroke-width="1"/>
+        <line x1="200" y1="165" x2="147" y2="238" stroke="var(--rule-c)" stroke-width="1"/>
+        <line x1="200" y1="165" x2="114" y2="137" stroke="var(--rule-c)" stroke-width="1"/>
+        <!-- Data polygon — animated by JS from center to data positions -->
+        <polygon id="radarPolygon"
+                 points="200,165 200,165 200,165 200,165 200,165"
+                 fill="color-mix(in srgb, var(--accent) 16%, transparent)"
+                 stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"
+                 data-pts="200,82 270,142 245,227 159,222 125,141"/>
+        <!-- Data vertex dots -->
+        <circle class="radar-dot" cx="200" cy="165" r="3.5" fill="var(--accent)" data-tx="200" data-ty="82"/>
+        <circle class="radar-dot" cx="200" cy="165" r="3.5" fill="var(--accent)" data-tx="270" data-ty="142"/>
+        <circle class="radar-dot" cx="200" cy="165" r="3.5" fill="var(--accent)" data-tx="245" data-ty="227"/>
+        <circle class="radar-dot" cx="200" cy="165" r="3.5" fill="var(--accent)" data-tx="159" data-ty="222"/>
+        <circle class="radar-dot" cx="200" cy="165" r="3.5" fill="var(--accent)" data-tx="125" data-ty="141"/>
+        <!-- Axis labels -->
+        <text x="200" y="60" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="var(--fg-muted)" letter-spacing=".1em">ML / CLASSICAL</text>
+        <text x="304" y="133" text-anchor="start"  font-family="JetBrains Mono,monospace" font-size="8.5" fill="var(--fg-muted)" letter-spacing=".1em">DEEP LEARNING</text>
+        <text x="253" y="252" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="var(--fg-muted)" letter-spacing=".1em">COMPUTER VISION</text>
+        <text x="147" y="252" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="var(--fg-muted)" letter-spacing=".1em">NLP / LLM</text>
+        <text x="96"  y="133" text-anchor="end"    font-family="JetBrains Mono,monospace" font-size="8.5" fill="var(--fg-muted)" letter-spacing=".1em">PRIVACY AI</text>
+        <!-- Percentage labels — fade in after animation completes -->
+        <text class="radar-pct" x="207" y="79"  font-family="JetBrains Mono,monospace" font-size="8" fill="var(--accent)" opacity="0">92%</text>
+        <text class="radar-pct" x="274" y="140" font-family="JetBrains Mono,monospace" font-size="8" fill="var(--accent)" opacity="0">82%</text>
+        <text class="radar-pct" x="247" y="240" font-family="JetBrains Mono,monospace" font-size="8" fill="var(--accent)" opacity="0">85%</text>
+        <text class="radar-pct" x="115" y="224" font-family="JetBrains Mono,monospace" font-size="8" fill="var(--accent)" opacity="0">78%</text>
+        <text class="radar-pct" x="72"  y="140" font-family="JetBrains Mono,monospace" font-size="8" fill="var(--accent)" opacity="0">88%</text>
+      </svg>
+    </div>
+
     <div class="skill-card skill-card--wide reveal d1">
       <div class="skill-card__idx">I &middot; Machine Learning</div>
       <h3 class="font-display">Models that actually generalize.</h3>
@@ -1903,6 +2370,7 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
     <span>&copy; 2026 Komal Shahid</span>
     <span>MSDS &middot; Bellevue University</span>
     <span class="footer__avail">Open to roles</span>
+    <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--fg-muted);opacity:.6;">Updated May 2026</span>
   </div>
   <div class="footer__credit">Built by hand &middot; <a href="https://github.com/UKOMAL">UKOMAL</a></div>
 </footer>
@@ -1923,27 +2391,124 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
 
 <!-- MODALS -->
 <div class="modal" id="modal-mh" role="dialog" aria-modal="true">
-  <div class="modal__box">
+  <div class="modal__box" tabindex="-1">
     <button class="modal__close hoverable" data-close>&times;</button>
-    <div class="modal__tag">&bull; DSC680 &middot; Project 1</div>
-    <h3 class="modal__title">Applied survey ML (OSMI 2016)</h3>
-    <p class="modal__desc">Binary outcome prediction on the OSMI 2016 tech-industry survey (N=1,259). Four-classifier comparison, SHAP explainability, bootstrapped fairness audit by gender and age, and a novel Employer Support Index (ESI). Best model: Logistic Regression at AUC 0.723. Write-up, figures, and code are in the portfolio repo as <strong>DSC680 Project 1</strong>.</p>
-    <div class="modal__metrics">
-      <div class="c"><div class="v">0.723</div><div class="l">Best AUC</div></div>
-      <div class="c"><div class="v">1,259</div><div class="l">Respondents</div></div>
-      <div class="c"><div class="v">4</div><div class="l">Classifiers</div></div>
-      <div class="c"><div class="v">ESI</div><div class="l">Novel feature</div></div>
+    <div class="modal__progress-wrap"><div class="modal__progress-fill"></div></div>
+
+    <div class="modal__tag">&bull; DSC680 &middot; Project 1 &middot; Capstone</div>
+    <h3 class="modal__title">Predicting Treatment-Seeking Behavior in Tech Workers</h3>
+    <p class="modal__subtitle">Applied ML on the OSMI 2016 Mental Health in Tech Survey &mdash; from raw survey data to an interpretable, fair, and actionable classifier.</p>
+
+    <!-- Key Metrics -->
+    <div class="modal__metric-cards">
+      <div class="modal__metric-card"><div class="mc-val">0.723</div><div class="mc-label">AUC-ROC</div><div class="mc-sub">95% CI: 0.698&ndash;0.748</div></div>
+      <div class="modal__metric-card"><div class="mc-val">68.2%</div><div class="mc-label">Accuracy</div></div>
+      <div class="modal__metric-card"><div class="mc-val">1,259</div><div class="mc-label">Respondents</div></div>
+      <div class="modal__metric-card"><div class="mc-val">4</div><div class="mc-label">Models Compared</div></div>
+      <div class="modal__metric-card"><div class="mc-val">ESI</div><div class="mc-label">Novel Feature</div><div class="mc-sub">Employer Support Index</div></div>
     </div>
-    <div class="modal__heading">Key contributions</div>
+
+    <!-- Problem Statement -->
+    <h4 class="modal__section-title">The Problem</h4>
+    <p class="modal__desc">Mental health conditions affect approximately 1 in 4 people, yet treatment remains significantly under-utilized in the tech industry due to stigma, access barriers, and organizational gaps. Understanding what drives individuals to seek treatment is critical for HR teams and mental health advocates.</p>
+    <p class="modal__desc" style="margin-top:12px;"><strong>Key research question:</strong> What organizational and personal factors most strongly predict whether a tech worker will seek mental health treatment?</p>
+
+    <!-- Top 5 Predictive Factors -->
+    <h4 class="modal__section-title">Top 5 Predictive Factors</h4>
+    <div class="modal__feature-grid">
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">1</span>
+        <div class="modal__feature-text"><strong>Work Interference</strong>Strongest signal &mdash; employees whose conditions interfere with work are far more likely to seek treatment.</div>
+      </div>
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">2</span>
+        <div class="modal__feature-text"><strong>Family History</strong>Genetic predisposition and family norms around mental health correlate with treatment-seeking.</div>
+      </div>
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">3</span>
+        <div class="modal__feature-text"><strong>Mental Health Benefits</strong>When employers provide benefits, treatment rates increase measurably.</div>
+      </div>
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">4</span>
+        <div class="modal__feature-text"><strong>Previous Diagnosis</strong>Prior mental health diagnosis strongly predicts current treatment-seeking.</div>
+      </div>
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">5</span>
+        <div class="modal__feature-text"><strong>Supervisor Support</strong>Perception of a supportive direct supervisor increases help-seeking behavior.</div>
+      </div>
+    </div>
+
+    <!-- Model Comparison -->
+    <h4 class="modal__section-title">Model Comparison</h4>
+    <table class="modal__table">
+      <thead>
+        <tr><th>Model</th><th>AUC-ROC</th><th>Accuracy</th><th>Macro F1</th><th>Interpretability</th><th></th></tr>
+      </thead>
+      <tbody>
+        <tr class="winner"><td>Logistic Regression</td><td><strong>0.723</strong></td><td>68.2%</td><td>0.68</td><td>Excellent</td><td class="check">&#10003;</td></tr>
+        <tr><td>Random Forest</td><td>0.716</td><td>70.1%</td><td>0.67</td><td>Good</td><td></td></tr>
+        <tr><td>XGBoost</td><td>0.714</td><td>69.8%</td><td>0.66</td><td>Fair</td><td></td></tr>
+        <tr><td>Neural Network</td><td>0.709</td><td>68.9%</td><td>0.65</td><td>Poor</td><td></td></tr>
+      </tbody>
+    </table>
+
+    <!-- Why Logistic Regression Won -->
+    <div class="modal__callout">
+      <strong>Why Logistic Regression won:</strong> Marginal performance differences across all four models don't justify the loss of explainability. For HR stakeholders who need to understand <em>why</em> the model flags certain factors, direct coefficient interpretation and SHAP waterfall plots are essential &mdash; not optional. A model that isn't interpretable, private, and fair isn't finished.
+    </div>
+
+    <!-- Ethical Decision -->
+    <h4 class="modal__section-title">The Ethical Decision: Feature Exclusion</h4>
+    <p class="modal__desc">The novel <strong>Employer Support Index (ESI)</strong> &mdash; a composite feature engineering combining benefits availability, supervisor support, and organizational wellness signals &mdash; emerged as the single most predictive feature (highest SHAP impact). However, including employer-specific scores in a deployed model creates a perverse incentive: employers could game their ESI rather than improving actual support.</p>
+    <div class="modal__callout">
+      <strong>Decision:</strong> The ESI was retained for research insight but flagged for careful consideration before any deployment. The project documents this as a deliberate ethical choice &mdash; surfacing the tension between predictive power and responsible use.
+    </div>
+
+    <!-- Methodology -->
+    <h4 class="modal__section-title">Methodology</h4>
+    <div class="modal__methodology">
+      <div class="modal__step"><div class="modal__step-num">01</div><div class="modal__step-label">EDA</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">02</div><div class="modal__step-label">Preprocessing</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">03</div><div class="modal__step-label">SMOTE</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">04</div><div class="modal__step-label">Modeling</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">05</div><div class="modal__step-label">SHAP</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">06</div><div class="modal__step-label">Fairness Audit</div></div>
+    </div>
     <ul class="modal__list">
-      <li>Custom Employer Support Index &mdash; novel composite feature engineering</li>
-      <li>SHAP waterfall plots for per-prediction explainability</li>
-      <li>SMOTE oversampling for class imbalance correction</li>
-      <li>Bootstrapped fairness audit across gender and age subgroups</li>
-      <li>4-model comparison: Logistic Regression, Random Forest, SVM, XGBoost</li>
+      <li><strong>Missing values:</strong> Imputation using mode (categorical) and median (numerical)</li>
+      <li><strong>Encoding:</strong> One-hot encoding for all categorical variables</li>
+      <li><strong>Scaling:</strong> StandardScaler for logistic regression compatibility</li>
+      <li><strong>Imbalance:</strong> SMOTE applied to training data only (no test leakage)</li>
+      <li><strong>Validation:</strong> 80/20 stratified split with 5-fold cross-validation</li>
+      <li><strong>Fairness:</strong> No statistically significant performance gaps across demographic groups</li>
     </ul>
-    <div class="modal__heading">Why it matters</div>
-    <p class="modal__desc">Workplace wellness and benefits uptake are hard to measure at scale. This model surfaces which employer-side factors align with self-reported care-seeking on the survey, giving HR and policy teams an actionable, explainable view &mdash; not a black box.</p>
+
+    <!-- Technologies -->
+    <h4 class="modal__section-title">Technologies Used</h4>
+    <div class="modal__tech-tags">
+      <span class="modal__tech-tag">Python</span>
+      <span class="modal__tech-tag">scikit-learn</span>
+      <span class="modal__tech-tag">XGBoost</span>
+      <span class="modal__tech-tag">SHAP</span>
+      <span class="modal__tech-tag">pandas</span>
+      <span class="modal__tech-tag">NumPy</span>
+      <span class="modal__tech-tag">Matplotlib</span>
+      <span class="modal__tech-tag">Seaborn</span>
+      <span class="modal__tech-tag">SMOTE</span>
+      <span class="modal__tech-tag">Jupyter</span>
+    </div>
+
+    <!-- Links -->
+    <div class="modal__links">
+      <a href="https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio/tree/main/projects/project1-dsc680" target="_blank" rel="noopener" class="modal__link hoverable">
+        View on GitHub
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/komal-shahid-6b1704175" target="_blank" rel="noopener" class="modal__link hoverable">
+        Connect on LinkedIn
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+    </div>
   </div>
 </div>
 
@@ -1973,26 +2538,106 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
 </div>
 
 <div class="modal" id="modal-canvas" role="dialog" aria-modal="true">
-  <div class="modal__box">
+  <div class="modal__box" tabindex="-1">
     <button class="modal__close hoverable" data-close>&times;</button>
-    <div class="modal__tag">&bull; DSC680 &middot; Project 3</div>
-    <h3 class="modal__title">Colorful Canvas &middot; Anamorphic billboard lab</h3>
-    <p class="modal__desc">Geometric pipeline: synthetic depth from edges (Laplacian + blur in Python; same law in the portfolio demo), radial displacement matching <code>cv2.remap</code>, optional LED-style saturation and brightness. The live page runs the warp in your browser; the repo batches full-resolution frames in Python and can swap in MiDaS or DPT when available.</p>
-    <div class="modal__metrics">
-      <div class="c"><div class="v">OpenCV</div><div class="l">Batch warp</div></div>
-      <div class="c"><div class="v">Canvas</div><div class="l">Live demo</div></div>
-      <div class="c"><div class="v">Radial</div><div class="l">Displacement</div></div>
-      <div class="c"><div class="v">MiDaS*</div><div class="l">Optional depth</div></div>
+    <div class="modal__progress-wrap"><div class="modal__progress-fill"></div></div>
+
+    <div class="modal__tag">&bull; DSC680 &middot; Project 3 &middot; Computer Vision</div>
+    <h3 class="modal__title">Colorful Canvas &mdash; Anamorphic 3D Billboard Ads</h3>
+    <p class="modal__subtitle">Turn flat product images into anamorphic 3D billboard advertisements &mdash; the same illusion used in Seoul and Tokyo's viral LED screens, automated with code.</p>
+
+    <!-- Key Metrics -->
+    <div class="modal__metric-cards">
+      <div class="modal__metric-card"><div class="mc-val">&lt;1s</div><div class="mc-label">Browser Warp</div><div class="mc-sub">Real-time in Canvas API</div></div>
+      <div class="modal__metric-card"><div class="mc-val">720p</div><div class="mc-label">Live Output</div><div class="mc-sub">CPU-only, no GPU required</div></div>
+      <div class="modal__metric-card"><div class="mc-val">30+</div><div class="mc-label">Decorative Elements</div><div class="mc-sub">Drag-and-drop emoji library</div></div>
+      <div class="modal__metric-card"><div class="mc-val">MiDaS</div><div class="mc-label">Neural Depth</div><div class="mc-sub">Optional plug-in for production</div></div>
     </div>
-    <div class="modal__heading">What you can try</div>
+
+    <!-- Problem / Concept -->
+    <h4 class="modal__section-title">The Concept</h4>
+    <p class="modal__desc">Corner LED billboards in Tokyo and Seoul create stunning 3D illusions where products appear to pop out of the screen. These anamorphic effects rely on precise geometric warping calibrated to the viewer's angle. Manual production costs $5,000&ndash;$15,000 per asset. This project automates the geometric warp &mdash; both in Python for batch production and in-browser for live previews.</p>
+
+    <!-- How It Works -->
+    <h4 class="modal__section-title">How It Works</h4>
+    <div class="modal__feature-grid">
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">1</span>
+        <div class="modal__feature-text"><strong>Depth Estimation</strong>Synthetic depth from Laplacian edge detection + Gaussian blur. Optional MiDaS/DPT neural depth for production quality.</div>
+      </div>
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">2</span>
+        <div class="modal__feature-text"><strong>Radial Displacement</strong>Depth-driven radial warp from center outward &mdash; foreground objects push toward the viewer, creating the 3D pop effect.</div>
+      </div>
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">3</span>
+        <div class="modal__feature-text"><strong>Decorative Elements</strong>30+ emoji decoratives placed with computed depth layers &mdash; flowers, gems, fire, stars orbit the product at varying z-depths.</div>
+      </div>
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">4</span>
+        <div class="modal__feature-text"><strong>Corner Billboard Render</strong>Output split into front and side canvases, simulating the perpendicular LED panels of a real corner billboard.</div>
+      </div>
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">5</span>
+        <div class="modal__feature-text"><strong>LED Color Boost</strong>Optional saturation and brightness enhancement mimicking the vivid output of real LED billboard panels.</div>
+      </div>
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">6</span>
+        <div class="modal__feature-text"><strong>Angle Simulator</strong>Interactive viewing-angle slider shows how the illusion distorts off-axis &mdash; same physics as real installations.</div>
+      </div>
+    </div>
+
+    <!-- Built-in Scenes -->
+    <h4 class="modal__section-title">Interactive Features</h4>
     <ul class="modal__list">
-      <li>Upload an image on the demo; adjust strength and optional LED color boost</li>
-      <li>Depth preview toggle — same edge-derived map the Python pipeline uses for quick iterations</li>
-      <li>Python: <code>AnamorphicBillboardPipeline</code> for saved PNGs and higher resolutions</li>
-      <li>Extensible: <code>SyntheticDepthEstimator</code> today; plug-in neural depth for production content</li>
+      <li><strong>4 built-in product scenes:</strong> Juice bottle, sneaker, smartphone, perfume &mdash; each hand-drawn with 3D shading and depth layers</li>
+      <li><strong>Custom image upload:</strong> Drag any image into the generator and the pipeline auto-estimates depth from edges</li>
+      <li><strong>Warp strength control:</strong> Real-time slider adjusting displacement intensity from subtle to extreme</li>
+      <li><strong>Depth map preview:</strong> Toggle to visualize the computed depth field (brighter = closer to viewer)</li>
+      <li><strong>Decorative element picker:</strong> Click to toggle 30+ decorative emojis on/off, adjust count and scale</li>
+      <li><strong>Corner billboard visualization:</strong> See the output rendered on a perspective-correct 3D billboard model</li>
     </ul>
-    <div class="modal__heading">Why it is honest portfolio work</div>
-    <p class="modal__desc">The story is the geometry: billboards need repeatable warp code, not fictional benchmark metrics. The site now shows real output instead of a spinning cube placeholder, so visitors immediately see the illusion you describe.</p>
+
+    <!-- Pipeline Architecture -->
+    <h4 class="modal__section-title">Pipeline Architecture</h4>
+    <div class="modal__methodology">
+      <div class="modal__step"><div class="modal__step-num">01</div><div class="modal__step-label">Input Image</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">02</div><div class="modal__step-label">Depth Map</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">03</div><div class="modal__step-label">Decoratives</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">04</div><div class="modal__step-label">Radial Warp</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">05</div><div class="modal__step-label">LED Boost</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">06</div><div class="modal__step-label">Billboard Split</div></div>
+    </div>
+
+    <div class="modal__callout">
+      <strong>Dual implementation:</strong> The Python pipeline (<code>AnamorphicBillboardPipeline</code>) handles batch processing at any resolution using OpenCV <code>cv2.remap</code>. The browser demo implements the identical geometric math in vanilla JavaScript + Canvas API for instant, no-install previews. Both share the same depth estimation algorithm; the Python version optionally swaps in MiDaS or DPT for neural depth.
+    </div>
+
+    <!-- Technologies -->
+    <h4 class="modal__section-title">Technologies Used</h4>
+    <div class="modal__tech-tags">
+      <span class="modal__tech-tag">Python</span>
+      <span class="modal__tech-tag">OpenCV</span>
+      <span class="modal__tech-tag">NumPy</span>
+      <span class="modal__tech-tag">PIL / Pillow</span>
+      <span class="modal__tech-tag">Canvas API</span>
+      <span class="modal__tech-tag">JavaScript</span>
+      <span class="modal__tech-tag">MiDaS (optional)</span>
+      <span class="modal__tech-tag">DPT (optional)</span>
+      <span class="modal__tech-tag">CSS 3D Transforms</span>
+    </div>
+
+    <!-- Links -->
+    <div class="modal__links">
+      <a href="../projects/project3-colorful-canvas/index.html" class="modal__link hoverable">
+        View Live Demo
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+      <a href="https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio/tree/main/projects/project3-colorful-canvas" target="_blank" rel="noopener" class="modal__link hoverable">
+        View on GitHub
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+    </div>
   </div>
 </div>
 
@@ -2088,6 +2733,7 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
   /* Nav scroll state + progress + active link */
   const nav = document.getElementById('nav');
   const bar = document.getElementById('progBar');
+  const progressWrap = bar.parentElement;
   const toTop = document.getElementById('toTop');
   const links = document.querySelectorAll('.nav__links a[href^="#"]');
   const sections = document.querySelectorAll('section[id], header[id]');
@@ -2095,7 +2741,9 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
     const total = document.documentElement.scrollHeight - window.innerHeight;
-    bar.style.width = (y / total * 100) + '%';
+    const pct = Math.round(y / total * 100);
+    bar.style.width = pct + '%';
+    progressWrap.setAttribute('aria-valuenow', pct);
     nav.classList.toggle('scrolled', y > 30);
     toTop.classList.toggle('visible', y > 500);
     let cur = '';
@@ -2150,7 +2798,8 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
     'privacy-preserving ML.',
     'explainable survey-driven ML.',
     'federated learning systems.',
-    'creative computer vision.'
+    'creative computer vision.',
+    'clinical RAG pipelines.'
   ];
   const tw = document.getElementById('typing');
   let pi=0, ci=0, del=false;
@@ -2217,25 +2866,75 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
     rAFtimer = setTimeout(setupHoriz, 120);
   }, {passive:true});
 
-  /* Modals */
+  /* Modals — with focus trap and reading time */
+  /* ── Inject reading time badge into each modal (one-time, on first open) ── */
+  function injectReadingTime(modal){
+    const box = modal.querySelector('.modal__box');
+    if (!box || box.querySelector('.modal__reading-time')) return;
+    const words = box.innerText.trim().split(/\s+/).filter(Boolean).length;
+    const mins  = Math.max(1, Math.round(words / 200));
+    const rt = document.createElement('span');
+    rt.className = 'modal__reading-time';
+    rt.setAttribute('aria-label', mins + ' minute read');
+    rt.textContent = mins + ' min read';
+    const tag = box.querySelector('.modal__tag');
+    if (tag) tag.insertAdjacentElement('afterend', rt);
+  }
+
+  /* ── Focus trap: keep Tab/Shift+Tab inside the open modal ── */
+  const _trapHandlers = new WeakMap();
+  function attachFocusTrap(modal){
+    if (_trapHandlers.has(modal)) return;
+    const handler = (e) => {
+      if (e.key !== 'Tab') return;
+      const box = modal.querySelector('.modal__box');
+      if (!box) return;
+      const focusable = Array.from(box.querySelectorAll(
+        'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])'
+      )).filter(el => !el.closest('[aria-hidden="true"]'));
+      if (!focusable.length) return;
+      const first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first){ e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last){ e.preventDefault(); first.focus(); }
+      }
+    };
+    _trapHandlers.set(modal, handler);
+    modal.addEventListener('keydown', handler);
+  }
+
+  let _openerBtn = null;
   document.querySelectorAll('[data-modal]').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = btn.getAttribute('data-modal');
       const m = document.getElementById(id);
+      if (!m) return;
+      _openerBtn = btn;
+      injectReadingTime(m);
+      attachFocusTrap(m);
       m.classList.add('open');
       document.body.style.overflow = 'hidden';
+      /* Move focus into modal for accessibility */
+      const closeBtn = m.querySelector('[data-close]');
+      if (closeBtn) requestAnimationFrame(() => closeBtn.focus());
     });
   });
+
+  function closeModal(m){
+    m.classList.remove('open');
+    document.body.style.overflow = '';
+    /* Return focus to the button that opened this modal */
+    if (_openerBtn) { _openerBtn.focus(); _openerBtn = null; }
+  }
+
   document.querySelectorAll('.modal').forEach(m => {
     m.addEventListener('click', e => {
-      if (e.target === m || e.target.matches('[data-close]')){
-        m.classList.remove('open');
-        document.body.style.overflow = '';
-      }
+      if (e.target === m || e.target.matches('[data-close]')) closeModal(m);
     });
   });
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') document.querySelectorAll('.modal.open').forEach(m => { m.classList.remove('open'); document.body.style.overflow=''; });
+    if (e.key === 'Escape') document.querySelectorAll('.modal.open').forEach(closeModal);
   });
 
   /* Smooth in-page anchors */
@@ -2257,8 +2956,8 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
     if (!cvs || !container) return;
 
     const isDark = () => document.documentElement.getAttribute('data-theme') === 'dark';
-    const colorInk = () => isDark() ? 0xf2ebde : 0x1a1612;
-    const colorAccent = 0xc65d3a;
+    const colorInk = () => isDark() ? 0xf2ede4 : 0x1a1a2e;
+    const colorAccent = 0xc9a84c;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
@@ -2322,6 +3021,10 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
     });
     mo.observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
 
+    /* ── Click ripple: briefly pulse all nodes outward for ~0.8s ── */
+    let _clickAt = -999;
+    cvs.addEventListener('click', () => { _clickAt = performance.now(); });
+
     let mouseX = 0, mouseY = 0, tmx = 0, tmy = 0;
     container.addEventListener('mousemove', e => {
       const rect = container.getBoundingClientRect();
@@ -2342,10 +3045,16 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
       scene.rotation.y = t * 0.12 + mouseX * 0.6;
       scene.rotation.x = Math.sin(t * 0.3) * 0.1 - mouseY * 0.4;
 
+      /* Click-ripple pulse — nodes expand outward for ~0.8s then settle */
+      const msElapsed = now - _clickAt;
+      const pulseAmt = (msElapsed < 800 && _clickAt > 0)
+        ? Math.sin((msElapsed / 800) * Math.PI) * 0.18
+        : 0;
+
       for (let i = 0; i < nodes.length; i++){
         const n = nodes[i];
         const b = n.userData.base;
-        const s = 1 + Math.sin(t * 1.4 + n.userData.phase) * 0.025;
+        const s = 1 + Math.sin(t * 1.4 + n.userData.phase) * 0.025 + pulseAmt;
         n.position.set(b.x * s, b.y * s, b.z * s);
       }
       for (let i = 0; i < edgeSegments.length; i+=2){
@@ -2378,6 +3087,17 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
     if (!PRM) requestAnimationFrame(tick);
     else renderer.render(scene, camera);
   })();
+
+  /* ── ENHANCEMENT: About stats border-light on scroll ── */
+  document.querySelectorAll('.about-stats .stat').forEach((stat, i) => {
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting){
+        setTimeout(() => stat.classList.add('stat--lit'), i * 140);
+        obs.disconnect();
+      }
+    }, { threshold: 0.5 });
+    obs.observe(stat);
+  });
 
   /* ── FIX: Skill bar animation — trigger .bar-animate on intersection ── */
   document.querySelectorAll('.skill-card').forEach(card => {
@@ -2494,6 +3214,51 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
     });
   }
 
+  /* ── ENHANCEMENT: Drag-to-scroll for horizontal projects ── */
+  /* The horizontal track moves via vertical window scroll, so horizontal drag → vertical scroll */
+  (function initProjectsDrag(){
+    const pin = document.querySelector('.projects-pin');
+    if (!pin || PRM) return;
+    let isDown = false, startX = 0, startScrollY = 0;
+    pin.addEventListener('pointerdown', e => {
+      if (window.innerWidth <= 900) return;
+      // Only start drag on non-button, non-link elements
+      if (e.target.closest('a, button')) return;
+      isDown = true;
+      startX = e.clientX;
+      startScrollY = window.scrollY;
+      pin.style.cursor = 'grabbing';
+      pin.setPointerCapture(e.pointerId);
+    });
+    pin.addEventListener('pointermove', e => {
+      if (!isDown) return;
+      const deltaX = startX - e.clientX; // dragging left = positive → scroll down
+      window.scrollTo({ top: startScrollY + deltaX * 1.6, behavior: 'instant' });
+    });
+    const endDrag = () => { isDown = false; pin.style.cursor = ''; };
+    pin.addEventListener('pointerup', endDrag);
+    pin.addEventListener('pointercancel', endDrag);
+    // Override hint text now that drag actually works
+    const hint = document.querySelector('.projects-head .hint span');
+    if (hint) hint.textContent = 'drag · scroll · swipe';
+  })();
+
+  /* ── ENHANCEMENT: Projects scroll progress bar ── */
+  (function initProjectsScrollBar(){
+    const fill = document.getElementById('projectsScrollFill');
+    if (!fill) return;
+    window.addEventListener('scroll', () => {
+      const wrap2 = document.getElementById('projectsWrap');
+      const track2 = document.getElementById('projectsTrack');
+      if (!wrap2 || !track2 || window.innerWidth <= 900) return;
+      const overflow = Math.max(0, track2.scrollWidth - window.innerWidth);
+      if (overflow <= 0) return;
+      const rect = wrap2.getBoundingClientRect();
+      const scrolled = Math.min(Math.max(0, -rect.top), overflow);
+      fill.style.width = (scrolled / overflow * 100) + '%';
+    }, { passive: true });
+  })();
+
   /* ── ENHANCEMENT: Active panel tracking during horizontal scroll ── */
   (function initActivePanels(){
     const projectPanels = document.querySelectorAll('.panel:not(.panel--end)');
@@ -2569,6 +3334,179 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
       heroViz.dataset.visible = e.isIntersecting ? 'true' : 'false';
     }, { threshold: 0 });
     vizObs.observe(heroViz);
+  })();
+
+  /* ── ENHANCEMENT: Hero mouse spotlight ── */
+  /* Soft radial glow that follows the cursor on the hero — premium depth cue */
+  (function initHeroSpotlight(){
+    if (PRM || !matchMedia('(pointer:fine)').matches) return;
+    const heroEl = document.getElementById('top');
+    if (!heroEl) return;
+    const spotlight = document.createElement('div');
+    spotlight.className = 'hero__spotlight';
+    spotlight.setAttribute('aria-hidden', 'true');
+    heroEl.prepend(spotlight); /* before other children so z-index layering works */
+    heroEl.addEventListener('mousemove', e => {
+      const rect = heroEl.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width  * 100).toFixed(1);
+      const y = ((e.clientY - rect.top)  / rect.height * 100).toFixed(1);
+      spotlight.style.setProperty('--mx', x + '%');
+      spotlight.style.setProperty('--my', y + '%');
+    }, { passive: true });
+  })();
+
+  /* ── ENHANCEMENT: Modal reading progress bar ── */
+  /* Thin accent bar at top of each modal that fills as you scroll the case study */
+  (function initModalProgress(){
+    document.querySelectorAll('.modal__box').forEach(box => {
+      const wrap = document.createElement('div');
+      wrap.className = 'modal__progress-wrap';
+      wrap.setAttribute('aria-hidden', 'true');
+      const fill = document.createElement('div');
+      fill.className = 'modal__progress-fill';
+      wrap.appendChild(fill);
+      box.prepend(wrap); /* first child so sticky top works correctly */
+
+      box.addEventListener('scroll', () => {
+        const scrollable = box.scrollHeight - box.clientHeight;
+        if (scrollable <= 0) { fill.style.width = '100%'; return; }
+        const pct = (box.scrollTop / scrollable * 100).toFixed(1);
+        fill.style.width = pct + '%';
+      }, { passive: true });
+    });
+    /* Reset progress to 0 each time a modal opens */
+    document.querySelectorAll('[data-modal]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-modal');
+        const box = document.querySelector('#' + id + ' .modal__box');
+        if (box) {
+          box.scrollTop = 0;
+          const fill = box.querySelector('.modal__progress-fill');
+          if (fill) fill.style.width = '0%';
+        }
+      });
+    });
+  })();
+
+  /* ── ENHANCEMENT: Panel metric count-up on first activation ── */
+  /* When a project panel first becomes active during horizontal scroll,
+     animate numeric metric values from 0 to their target */
+  (function initPanelMetrics(){
+    const _animatedPanels = new Set();
+    function animateMetric(el){
+      const raw = el.textContent.trim();
+      /* Extract leading number — handles "0.723", "89%", "97.8%", "0.91" etc. */
+      const match = raw.match(/^([<∞]?)(\d+\.?\d*)(.*)/);
+      if (!match || match[1]) return; /* skip non-numeric (ESI, HIPAA, <1s, ∞) */
+      const target = parseFloat(match[2]);
+      const suffix = match[3] || '';
+      const dur    = 800;
+      const start  = performance.now();
+      const decimals = (match[2].includes('.') ? match[2].split('.')[1].length : 0);
+      (function tick(now){
+        const p = Math.min(1, (now - start) / dur);
+        const eased = 1 - Math.pow(1 - p, 3); /* cubic ease-out */
+        el.textContent = (target * eased).toFixed(decimals) + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = match[2] + suffix; /* snap to exact value */
+      })(start);
+    }
+    /* Observe active-class changes via MutationObserver on each panel */
+    document.querySelectorAll('.panel:not(.panel--end)').forEach(panel => {
+      const obs = new MutationObserver(() => {
+        if (panel.classList.contains('panel--active') && !_animatedPanels.has(panel)){
+          _animatedPanels.add(panel);
+          panel.querySelectorAll('.m__v').forEach(animateMetric);
+        }
+      });
+      obs.observe(panel, { attributes: true, attributeFilter: ['class'] });
+    });
+  })();
+
+
+  /* ── ENHANCEMENT: Animated skill radar chart ── */
+  /* Polygon expands from center to target points when the radar card enters view */
+  (function initSkillRadar(){
+    const polygon = document.getElementById('radarPolygon');
+    const dots    = document.querySelectorAll('.radar-dot');
+    const pcts    = document.querySelectorAll('.radar-pct');
+    if (!polygon || PRM) return;
+
+    const cx = 200, cy = 165;
+    const rawPts = polygon.getAttribute('data-pts').split(' ').map(p => {
+      const [x, y] = p.split(',').map(Number);
+      return [x, y];
+    });
+
+    function setShape(t) {
+      const pts = rawPts.map(([x, y]) => {
+        const nx = cx + (x - cx) * t;
+        const ny = cy + (y - cy) * t;
+        return nx.toFixed(1) + ',' + ny.toFixed(1);
+      }).join(' ');
+      polygon.setAttribute('points', pts);
+      dots.forEach((dot, i) => {
+        const [x, y] = rawPts[i];
+        dot.setAttribute('cx', (cx + (x - cx) * t).toFixed(1));
+        dot.setAttribute('cy', (cy + (y - cy) * t).toFixed(1));
+      });
+    }
+
+    const radarCard = polygon.closest('.skill-card');
+    if (!radarCard) return;
+    const obs = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      obs.disconnect();
+      const dur = 950;
+      const start = performance.now();
+      (function tick(now) {
+        const p = Math.min(1, (now - start) / dur);
+        const eased = 1 - Math.pow(1 - p, 3); /* cubic ease-out */
+        setShape(eased);
+        if (p < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          /* Staggered fade-in of percentage labels once polygon is fully drawn */
+          pcts.forEach((el, i) => {
+            setTimeout(() => {
+              el.style.transition = 'opacity 0.4s';
+              el.setAttribute('opacity', '1');
+            }, i * 90);
+          });
+        }
+      })(start);
+    }, { threshold: 0.3 });
+    obs.observe(radarCard);
+  })();
+
+  /* ── ENHANCEMENT: Hero "Currently Building / Exploring" ticker ── */
+  /* Rotates through current focus areas every 4.5s with a smooth fade-slide */
+  (function initBuildingTicker(){
+    const el = document.querySelector('.hero__kicker .building');
+    if (!el || PRM) return;
+    const items = [
+      'Building: clinical RAG pipeline',
+      'Exploring: federated NLP',
+      'Reading: mechanistic interpretability',
+      'Building: HIPAA-ready AI infra',
+      'Exploring: vision-language models'
+    ];
+    let idx = 0;
+    setInterval(() => {
+      idx = (idx + 1) % items.length;
+      /* Fade out + slide up */
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(-5px)';
+      setTimeout(() => {
+        el.textContent = items[idx];
+        /* Slide in from below */
+        el.style.transform = 'translateY(5px)';
+        requestAnimationFrame(() => {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        });
+      }, 290);
+    }, 4500);
   })();
 
 })();

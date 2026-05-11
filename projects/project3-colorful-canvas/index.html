@@ -3,651 +3,749 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Colorful Canvas — Anamorphic Billboard Lab (DSC680)</title>
-  <meta name="description" content="Live browser lab: depth-driven radial warp matching the Python OpenCV pipeline — upload an image or use the demo pattern.">
+  <title>Colorful Canvas — Anamorphic 3D Billboard Ads (DSC680)</title>
+  <meta name="description" content="Turn product images into anamorphic 3D billboard advertisements with decorative elements that pop out of corner LED screens.">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      background: linear-gradient(145deg, #065A82 0%, #1C7293 45%, #2A8FB8 100%);
-      min-height: 100vh;
-      padding: 20px;
-      color: #333;
-    }
-    a { color: #065A82; }
-    .nav-top {
-      max-width: 1100px;
-      margin: 0 auto 16px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-      justify-content: space-between;
-      color: #fff;
-      font-size: 0.95rem;
-    }
-    .nav-top a {
-      color: #fff;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
-      overflow: hidden;
-    }
-    header {
-      background: linear-gradient(135deg, #065A82 0%, #1C7293 100%);
-      color: white;
-      padding: 36px 28px;
-      text-align: center;
-    }
-    h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); margin-bottom: 8px; letter-spacing: -0.5px; }
-    .subtitle { font-size: 1.05em; opacity: 0.95; font-weight: 300; }
-    .course-tag { margin-top: 12px; font-size: 0.85rem; opacity: 0.9; }
-    main { padding: 40px 32px 48px; }
-    .section { margin-bottom: 44px; }
-    .section h2 {
-      color: #1C7293;
-      margin-bottom: 16px;
-      font-size: 1.55em;
-      border-bottom: 3px solid #065A82;
-      padding-bottom: 8px;
-    }
-    .concept {
-      background: #f0f7ff;
-      padding: 22px;
-      border-left: 5px solid #1C7293;
-      border-radius: 8px;
-      line-height: 1.75;
-      font-size: 1.02em;
-    }
-    .concept strong { color: #065A82; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#080b14;min-height:100vh;color:#e0e6ed}
+    a{color:#7dd3fc}
+    .nav{max-width:1200px;margin:0 auto;padding:14px 20px;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;font-size:.92rem;color:#64748b}
+    .nav a{text-decoration:underline;text-underline-offset:3px}
+    .hero{position:relative;padding:48px 24px 32px;text-align:center;overflow:hidden}
+    .hero h1{font-size:clamp(1.8rem,5vw,3rem);font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,#38bdf8,#a78bfa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero .sub{margin:14px auto 0;max-width:700px;font-size:1.05rem;color:#94a3b8;line-height:1.6}
+    .hero .tag{margin-top:12px;font-size:.82rem;color:#475569}
+    .wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+    section{margin:44px 0}
+    section h2{font-size:1.4rem;font-weight:700;margin-bottom:12px;color:#e2e8f0}
 
-    /* Interactive lab */
-    .lab {
-      background: #0d1f2d;
-      color: #e8f0f8;
-      border-radius: 12px;
-      padding: 24px;
-      margin-top: 20px;
-    }
-    .lab h3 { color: #7dd3fc; margin-bottom: 6px; font-size: 1.15rem; }
-    .lab p.note { font-size: 0.9rem; opacity: 0.85; margin-bottom: 16px; line-height: 1.5; }
-    .lab-controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      align-items: center;
-      margin-bottom: 18px;
-    }
-    .lab-controls label { font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
-    .lab-controls input[type="range"] { width: 140px; }
-    .btn-lab {
-      background: #1C7293;
-      color: #fff;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      font-size: 0.95rem;
-    }
-    .btn-lab:hover { background: #065A82; }
-    .btn-lab.secondary { background: #37474f; }
-    .btn-lab.secondary:hover { background: #455a64; }
-    .canvas-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 8px;
-    }
-    @media (max-width: 780px) { .canvas-row { grid-template-columns: 1fr; } }
-    .canvas-card {
-      background: #152535;
-      border-radius: 8px;
-      padding: 12px;
-      text-align: center;
-    }
-    .canvas-card span {
-      display: block;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #94a3b8;
-      margin-bottom: 8px;
-    }
-    .canvas-card canvas {
-      max-width: 100%;
-      height: auto;
-      border-radius: 4px;
-      background: #000;
-    }
-    .depth-mini {
-      margin-top: 16px;
-      max-width: 220px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .depth-mini span { font-size: 0.75rem; color: #94a3b8; }
-    .depth-mini canvas { width: 100%; height: auto; border-radius: 4px; }
+    /* billboard */
+    .bb-scene{perspective:900px;display:flex;justify-content:center;padding:20px 0}
+    .bb-rig{transform-style:preserve-3d;transform:rotateX(2deg) rotateY(-22deg);transition:transform .5s ease;position:relative}
+    .bb-rig:hover{transform:rotateX(0) rotateY(0)}
+    .bb-side,.bb-front{position:absolute;overflow:hidden;border:4px solid #1e293b;box-shadow:0 0 60px rgba(56,189,248,.10)}
+    .bb-front{width:480px;height:270px;background:#111;border-radius:0 10px 10px 0;left:0;top:0;transform-origin:left center}
+    .bb-side{width:160px;height:270px;background:#0a0a0a;border-radius:10px 0 0 10px;transform:rotateY(-90deg);transform-origin:right center;left:-160px;top:0}
+    .bb-side canvas,.bb-front canvas{width:100%;height:100%;display:block}
+    .bb-caption{text-align:center;margin-top:16px;color:#64748b;font-size:.86rem;font-style:italic}
+    @media(max-width:700px){.bb-front{width:320px;height:180px}.bb-side{width:106px;height:180px;left:-106px}}
 
-    .demo-3d {
-      perspective: 1200px;
-      margin: 28px 0;
-      height: 260px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .box {
-      width: 160px;
-      height: 160px;
-      position: relative;
-      transform-style: preserve-3d;
-      animation: rotate 10s infinite linear;
-    }
-    .box-face {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4em;
-      font-weight: bold;
-      color: white;
-      opacity: 0.92;
-      border: 2px solid rgba(255, 255, 255, 0.45);
-    }
-    .front { background: linear-gradient(135deg, #FF6B6B, #FF8E8E); transform: rotateY(0deg) translateZ(80px); }
-    .back { background: linear-gradient(135deg, #4ECDC4, #6EE7DE); transform: rotateY(180deg) translateZ(80px); }
-    .right { background: linear-gradient(135deg, #FFE66D, #FFF0A3); transform: rotateY(90deg) translateZ(80px); }
-    .left { background: linear-gradient(135deg, #95E1D3, #B8F3EA); transform: rotateY(-90deg) translateZ(80px); }
-    .top { background: linear-gradient(135deg, #A8E6CF, #C9F0DD); transform: rotateX(90deg) translateZ(80px); }
-    .bottom { background: linear-gradient(135deg, #FF90B3, #FFB3D9); transform: rotateX(-90deg) translateZ(80px); }
-    @keyframes rotate {
-      from { transform: rotateX(0deg) rotateY(0deg); }
-      to { transform: rotateX(360deg) rotateY(360deg); }
-    }
+    /* ref */
+    .ref-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;margin-top:16px}
+    @media(max-width:780px){.ref-row{grid-template-columns:1fr}}
+    .ref-img{border-radius:12px;width:100%;box-shadow:0 8px 40px rgba(0,0,0,.5);border:2px solid #1e293b}
+    .ref-text h3{color:#38bdf8;font-size:1.1rem;margin-bottom:8px}
+    .ref-text p{color:#94a3b8;line-height:1.55;font-size:.92rem}
 
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-top: 20px;
-    }
-    .feature {
-      background: linear-gradient(135deg, #F5F9FF, #EBF3FF);
-      padding: 18px;
-      border-radius: 8px;
-      border-left: 4px solid #1C7293;
-    }
-    .feature h3 { color: #065A82; margin-bottom: 8px; font-size: 1.05em; }
-    .feature p { font-size: 0.92em; line-height: 1.55; color: #555; }
+    /* lab */
+    .lab{background:#111827;border:1px solid #1e293b;border-radius:14px;padding:24px;margin-top:16px}
+    .lab h3{color:#38bdf8;margin-bottom:8px;font-size:1.05rem}
+    .lab .note{font-size:.87rem;color:#94a3b8;margin-bottom:12px;line-height:1.5}
+    .lab-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+    .lab-row label{font-size:.84rem;display:flex;align-items:center;gap:5px;color:#cbd5e1}
+    .lab-row input[type="range"]{width:110px;accent-color:#38bdf8}
+    .lab-row input[type="checkbox"]{accent-color:#38bdf8}
+    .btn{background:linear-gradient(135deg,#0ea5e9,#7c3aed);color:#fff;border:none;padding:9px 18px;border-radius:8px;font-weight:600;cursor:pointer;font-size:.88rem;transition:opacity .2s}
+    .btn:hover{opacity:.85}
+    .scene-bar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+    .sb{background:#1e293b;color:#94a3b8;border:1px solid #334155;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:.82rem;transition:all .2s}
+    .sb:hover,.sb.on{background:#334155;color:#e2e8f0;border-color:#38bdf8}
 
-    .cta-section {
-      background: linear-gradient(135deg, #065A82, #1C7293);
-      color: white;
-      padding: 32px;
-      border-radius: 12px;
-      text-align: center;
-      margin-top: 28px;
-    }
-    .cta-button {
-      display: inline-block;
-      background: white;
-      color: #065A82;
-      padding: 14px 28px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: bold;
-      margin: 8px;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-    }
-    footer {
-      background: #f0f7ff;
-      padding: 24px;
-      text-align: center;
-      color: #666;
-      font-size: 0.88em;
-      border-top: 1px solid #ddd;
-    }
-    footer strong { color: #065A82; }
-    .equation {
-      background: #f9f9f9;
-      padding: 16px;
-      border-radius: 6px;
-      font-family: ui-monospace, 'Courier New', monospace;
-      margin: 16px 0;
-      border-left: 3px solid #FFE66D;
-      font-size: 0.9rem;
-    }
-    input[type="file"] { font-size: 0.85rem; color: #e8f0f8; }
+    .deco-panel{background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:14px;margin-bottom:14px}
+    .deco-panel h4{color:#a78bfa;font-size:.9rem;margin-bottom:8px}
+    .deco-grid{display:flex;flex-wrap:wrap;gap:5px}
+    .deco-btn{width:40px;height:40px;background:#1e293b;border:2px solid #334155;border-radius:8px;cursor:pointer;font-size:1.25rem;display:flex;align-items:center;justify-content:center;transition:all .15s;user-select:none}
+    .deco-btn:hover{background:#334155;border-color:#7dd3fc}
+    .deco-btn.on{background:#312e81;border-color:#a78bfa;box-shadow:0 0 10px rgba(167,139,250,.3)}
+    .deco-ctrls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px}
+    .deco-ctrls label{font-size:.8rem;color:#94a3b8;display:flex;align-items:center;gap:5px}
+    .deco-ctrls input[type="range"]{width:80px;accent-color:#a78bfa}
+
+    .cv-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+    @media(max-width:780px){.cv-grid{grid-template-columns:1fr}}
+    .cv-c{background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:10px;text-align:center}
+    .cv-c span{display:block;font-size:.73rem;text-transform:uppercase;letter-spacing:.06em;color:#64748b;margin-bottom:5px}
+    .cv-c canvas{max-width:100%;height:auto;border-radius:6px;background:#000}
+    .dep-area{margin-top:12px;text-align:center}
+    .dep-area span{font-size:.72rem;color:#64748b;display:block;margin-bottom:5px}
+    .dep-area canvas{max-width:220px;height:auto;border-radius:6px}
+
+    /* angle */
+    .ang-box{background:#111827;border:1px solid #1e293b;border-radius:14px;padding:24px;text-align:center}
+    .ang-box>p{color:#94a3b8;font-size:.88rem;margin-bottom:10px;line-height:1.5}
+    .ang-ctrl{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px}
+    .ang-ctrl label{color:#cbd5e1;font-size:.84rem}
+    .ang-ctrl input[type="range"]{width:200px;accent-color:#a78bfa}
+    .ang-vp{perspective:1000px;display:flex;justify-content:center;padding:8px 0}
+    .ang-rig{transform-style:preserve-3d;transition:transform .12s ease-out;position:relative}
+    .ang-s,.ang-f{position:absolute;overflow:hidden;border:3px solid #1e293b}
+    .ang-f{width:380px;height:214px;background:#000;border-radius:0 8px 8px 0;left:0;top:0;transform-origin:left center}
+    .ang-s{width:120px;height:214px;background:#000;border-radius:8px 0 0 8px;transform:rotateY(-90deg);transform-origin:right center;left:-120px;top:0}
+    .ang-s canvas,.ang-f canvas{width:100%;height:100%;display:block}
+    .ang-tag{margin-top:12px;font-size:.76rem;color:#64748b}
+    @media(max-width:600px){.ang-f{width:260px;height:146px}.ang-s{width:82px;height:146px;left:-82px}}
+
+    .cta{background:linear-gradient(135deg,#0f172a,#1e1b4b);border:1px solid #312e81;border-radius:14px;padding:30px;text-align:center;margin:40px 0}
+    .cta h2{color:#e2e8f0}.cta p{color:#94a3b8;margin:8px 0 16px}
+    .cta-btn{display:inline-block;background:linear-gradient(135deg,#0ea5e9,#7c3aed);color:#fff;padding:12px 24px;border-radius:10px;text-decoration:none;font-weight:700;margin:5px;transition:transform .2s,box-shadow .2s}
+    .cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(56,189,248,.25);color:#fff}
+    footer{border-top:1px solid #1e293b;padding:18px;text-align:center;color:#475569;font-size:.82rem}
+    footer a{color:#64748b}
+    input[type="file"]{font-size:.82rem;color:#94a3b8}
+    input[type="file"]::file-selector-button{background:#334155;color:#e2e8f0;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;margin-right:6px}
   </style>
 </head>
 <body>
-  <div class="nav-top">
-    <span><strong>Colorful Canvas</strong> · DSC680 Applied Data Science · Project 3</span>
-    <span>
-      <a href="../../website/portfolio.html">← Portfolio</a>
-      ·
-      <a href="https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio/tree/main/projects/project3-colorful-canvas" target="_blank" rel="noopener">Source on GitHub</a>
-    </span>
+  <div class="nav">
+    <span><strong style="color:#e2e8f0">Colorful Canvas</strong> &middot; DSC680 &middot; Project&nbsp;3</span>
+    <span><a href="../../website/portfolio.html">&larr; Portfolio</a> &middot; <a href="https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio/tree/main/projects/project3-colorful-canvas" target="_blank" rel="noopener">GitHub</a></span>
   </div>
 
-  <div class="container">
-    <header>
-      <h1>Colorful Canvas</h1>
-      <p class="subtitle">Anamorphic LED billboard lab — depth map → radial warp → LED-ready color</p>
-      <p class="course-tag">Browser demo mirrors <code style="background:rgba(0,0,0,0.2);padding:2px 8px;border-radius:4px;">src/anamorphic_pipeline.py</code> (Laplacian depth + <code>remap</code>-style sampling).</p>
-    </header>
-
-    <main>
-      <section class="section">
-        <h2>What is anamorphic 3D?</h2>
-        <div class="concept">
-          <strong>Anamorphic illusions</strong> flatten 3D intent into a 2D image so that, from one vantage point, content seems to leap out of the screen — like Seoul-style LED waves. Here the math is explicit:
-          estimate per-pixel <strong>depth</strong>, then <strong>push pixels outward</strong> along rays from the frame center, proportional to depth × viewing geometry.
-        </div>
-      </section>
-
-      <section class="section">
-        <h2>Live warp lab</h2>
-        <div class="lab">
-          <h3>Try the same pipeline in your browser</h3>
-          <p class="note">
-            Load your own image or use the built-in demo pattern. The warp matches the Python pipeline:
-            grayscale → Laplacian magnitude → blur → normalize depth → radial displacement → optional saturation/brightness boost for LED playback.
-            For heavier depth (MiDaS / DPT), run the Python repo locally — this page stays lightweight for GitHub Pages.
-          </p>
-          <div class="lab-controls">
-            <label>Strength <input type="range" id="strength" min="1" max="10" value="4" step="0.5"><span id="strengthVal">4</span></label>
-            <label><input type="checkbox" id="enhance" checked> LED color boost</label>
-            <label><input type="checkbox" id="showDepth"> Show depth map</label>
-            <input type="file" id="file" accept="image/*">
-            <button type="button" class="btn-lab" id="btnDemo">Load demo pattern</button>
-            <button type="button" class="btn-lab secondary" id="btnWarp">Apply warp</button>
-          </div>
-          <div class="canvas-row">
-            <div class="canvas-card">
-              <span>Source</span>
-              <canvas id="cvSrc" width="480" height="360"></canvas>
-            </div>
-            <div class="canvas-card">
-              <span>Warped (billboard-ready)</span>
-              <canvas id="cvOut" width="480" height="360"></canvas>
-            </div>
-          </div>
-          <div class="depth-mini" id="depthWrap" style="display:none;">
-            <span>Depth (magnitude → blur)</span>
-            <canvas id="cvDepth" width="240" height="180"></canvas>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2>Geometry (same as Python)</h2>
-        <div class="equation">
-          displacement(x,y) = depth(x,y) × strength × radial_norm(x,y)<br>
-          map<sub>x</sub> = x + dir<sub>x</sub> × displacement × (W / max(H,W))<br>
-          map<sub>y</sub> = y + dir<sub>y</sub> × displacement × (H / max(H,W))<br>
-          output(x,y) ← bilinear_sample(source, map<sub>x</sub>, map<sub>y</sub>)
-        </div>
-      </section>
-
-      <section class="section demo-section">
-        <h2>Perspective intuition</h2>
-        <p style="margin-bottom: 20px; color: #666;">Rotating cube: unrelated to the warp math, but helps audiences feel why a single viewpoint matters for LED illusions.</p>
-        <div class="demo-3d">
-          <div class="box">
-            <div class="box-face front">F</div>
-            <div class="box-face back">B</div>
-            <div class="box-face right">R</div>
-            <div class="box-face left">L</div>
-            <div class="box-face top">T</div>
-            <div class="box-face bottom">Bo</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2>Why it matters</h2>
-        <div class="concept">
-          Manual anamorphic frames for large LED façades are slow and expensive. Automating the geometric stage (depth + warp + graded color)
-          makes iteration cheap enough for creative and ad-tech workflows — this lab shows the core effect; Python adds batching and optional neural depth.
-        </div>
-        <div class="features">
-          <div class="feature">
-            <h3>Fast feedback</h3>
-            <p>Runs client-side after decode — no server.</p>
-          </div>
-          <div class="feature">
-            <h3>Honest stack</h3>
-            <p>OpenCV + NumPy in Python; canvas + typed arrays here — same displacement law.</p>
-          </div>
-          <div class="feature">
-            <h3>Extensible</h3>
-            <p>Swap in MiDaS/DPT in Python via <code>depth_estimator.py</code> when you need production depth.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="cta-section">
-        <h2>Run the full pipeline locally</h2>
-        <p style="margin: 12px 0 20px; opacity: 0.95;">Batch images, save PNGs, tune strength — see README in the repo.</p>
-        <a class="cta-button" href="https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio/tree/main/projects/project3-colorful-canvas" target="_blank" rel="noopener">View project folder</a>
-        <a class="cta-button" href="./README.md">README (markdown)</a>
-      </section>
-    </main>
-
-    <footer>
-      <p>Colorful Canvas &copy; 2026 · <strong>DSC680 · Bellevue University</strong></p>
-      <p style="margin-top:8px;">Anamorphic warp lab · OpenCV-style remap in JavaScript</p>
-    </footer>
+  <div class="hero">
+    <h1>Anamorphic 3D Billboard Ads</h1>
+    <p class="sub">Upload a product, surround it with decorative elements, and generate an anamorphic ad where everything pops out of the screen &mdash; the same 3D illusion used in Seoul and Tokyo's viral LED billboards.</p>
+    <p class="tag">Colorful Canvas &middot; DSC680 Applied Data Science &middot; Bellevue University</p>
   </div>
 
-  <script>
-(function () {
-  'use strict';
+  <div class="wrap">
+    <section>
+      <h2>Your ad on a corner billboard</h2>
+      <p style="color:#94a3b8;margin-bottom:4px">Hover to face head-on &mdash; the sweet spot where the 3D illusion clicks.</p>
+      <div class="bb-scene">
+        <div class="bb-rig" id="bbRig" style="width:480px;height:270px">
+          <div class="bb-side"><canvas id="cvBBs"></canvas></div>
+          <div class="bb-front"><canvas id="cvBBf"></canvas></div>
+        </div>
+      </div>
+      <p class="bb-caption">Generated anamorphic billboard &mdash; product and decoratives pop out of the corner screen</p>
+    </section>
 
-  const cvSrc = document.getElementById('cvSrc');
-  const cvOut = document.getElementById('cvOut');
-  const cvDepth = document.getElementById('cvDepth');
-  const ctxSrc = cvSrc.getContext('2d', { willReadFrequently: true });
-  const ctxOut = cvOut.getContext('2d', { willReadFrequently: true });
-  const ctxDepth = cvDepth.getContext('2d', { willReadFrequently: true });
+    <section>
+      <h2>Inspired by real billboards</h2>
+      <div class="ref-row">
+        <img src="billboard-reference.png" alt="Real anamorphic 3D billboard" class="ref-img" loading="lazy">
+        <div class="ref-text">
+          <h3>Products that leap off the screen</h3>
+          <p>Corner LED billboards use anamorphic warping to make products burst out in 3D. Nike's Tokyo Air Force 1 with Murakami flowers, Seoul's wave screens &mdash; all use depth-driven pixel displacement.</p>
+          <p style="margin-top:8px"><strong style="color:#f472b6">Manual production: $5K&ndash;$15K per asset.</strong> This platform automates the geometric warp.</p>
+        </div>
+      </div>
+    </section>
 
-  const strengthEl = document.getElementById('strength');
-  const strengthVal = document.getElementById('strengthVal');
-  const enhanceEl = document.getElementById('enhance');
-  const showDepthEl = document.getElementById('showDepth');
-  const depthWrap = document.getElementById('depthWrap');
+    <section>
+      <h2>See the illusion from different angles</h2>
+      <div class="ang-box">
+        <p>Drag to walk past the billboard. At 0&deg; the product pops out. Off-angle, the illusion distorts &mdash; same physics as every real LED billboard.</p>
+        <div class="ang-ctrl">
+          <label>Viewing angle</label>
+          <input type="range" id="angSlider" min="-35" max="35" value="0" step="1">
+          <span id="angLabel" style="color:#a78bfa;min-width:36px">0&deg;</span>
+        </div>
+        <div class="ang-vp">
+          <div class="ang-rig" id="angRig" style="width:380px;height:214px">
+            <div class="ang-s"><canvas id="cvAs"></canvas></div>
+            <div class="ang-f"><canvas id="cvAf"></canvas></div>
+          </div>
+        </div>
+        <p class="ang-tag">Sweet spot = 0&deg; &middot; Same physics as Seoul and Tokyo LED billboards</p>
+      </div>
+    </section>
 
-  const MAX_PROCESS = 720;
+    <section>
+      <h2>Create your billboard ad</h2>
+      <div class="lab">
+        <h3>Ad generator</h3>
+        <p class="note">Pick a product scene or upload your own photo. Add decorative shapes, set pop strength, hit Generate.</p>
 
-  strengthEl.addEventListener('input', function () {
-    strengthVal.textContent = strengthEl.value;
-    if (lastProcW) runWarp();
+        <div class="scene-bar">
+          <button type="button" class="sb on" data-sc="bottle">Juice bottle</button>
+          <button type="button" class="sb" data-sc="sneaker">Sneaker</button>
+          <button type="button" class="sb" data-sc="phone">Smartphone</button>
+          <button type="button" class="sb" data-sc="perfume">Perfume</button>
+        </div>
+
+        <div class="deco-panel">
+          <h4>Decorative elements &mdash; click to toggle on/off</h4>
+          <div class="deco-grid" id="decoGrid"></div>
+          <div class="deco-ctrls">
+            <label>Count <input type="range" id="decoCnt" min="3" max="20" value="8" step="1"><span id="cntV">8</span></label>
+            <label>Scale <input type="range" id="decoSz" min="40" max="100" value="65" step="5"><span id="szV">65</span></label>
+            <button type="button" class="btn" style="padding:5px 12px;font-size:.8rem" id="btnReDeco">Shuffle</button>
+          </div>
+        </div>
+
+        <div class="lab-row">
+          <label>Pop strength <input type="range" id="str" min="2" max="20" value="10" step="1"><span id="strV">10</span></label>
+          <label><input type="checkbox" id="led" checked> LED boost</label>
+          <label><input type="checkbox" id="depOn"> Depth map</label>
+          <input type="file" id="file" accept="image/*">
+          <button type="button" class="btn" id="btnGen">Generate ad</button>
+        </div>
+
+        <div class="cv-grid">
+          <div class="cv-c"><span>Source (flat)</span><canvas id="cvSrc" width="560" height="400"></canvas></div>
+          <div class="cv-c"><span>Anamorphic billboard ad (3D pop)</span><canvas id="cvOut" width="560" height="400"></canvas></div>
+        </div>
+        <div class="dep-area" id="depWrap" style="display:none">
+          <span>Depth map &mdash; brighter = pops forward more</span>
+          <canvas id="cvDep" width="280" height="200"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <div class="cta">
+      <h2>Run the full Python pipeline</h2>
+      <p>Batch-process products, use neural depth (MiDaS/DPT), export high-res billboard PNGs.</p>
+      <a class="cta-btn" href="https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio/tree/main/projects/project3-colorful-canvas" target="_blank" rel="noopener">View on GitHub</a>
+      <a class="cta-btn" href="../../website/portfolio.html">&larr; Portfolio</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Colorful Canvas &copy; 2026 &middot; DSC680 Applied Data Science &middot; Bellevue University</p>
+    <p style="margin-top:5px"><a href="https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio/tree/main/projects/project3-colorful-canvas">GitHub</a> &middot; <a href="../../website/portfolio.html">Portfolio</a></p>
+  </footer>
+
+<script>
+(function(){
+'use strict';
+var PI=Math.PI, floor=Math.floor, sqrt=Math.sqrt, abs=Math.abs,
+    max=Math.max, min=Math.min, rand=Math.random, pow=Math.pow,
+    cos=Math.cos, sin=Math.sin, round=Math.round;
+function clamp(v,a,b){return max(a,min(b,v))}
+
+/* ═══════════════════════════════════════
+   DEPTH-LAYERED RENDERING
+   Each scene draws into TWO canvases:
+   1) color canvas (the visible image)
+   2) depth canvas (grayscale: 0=far, 255=near)
+   The warp uses the MANUAL depth map, not edge
+   detection, so foreground objects pop hard.
+   ═══════════════════════════════════════ */
+
+var W=560, H=400;
+var colorCv=document.createElement('canvas');
+colorCv.width=W; colorCv.height=H;
+var colorCtx=colorCv.getContext('2d');
+
+var depthCv=document.createElement('canvas');
+depthCv.width=W; depthCv.height=H;
+var depthCtx=depthCv.getContext('2d');
+
+/* ── Decorative shape library ── */
+var DECOS=[
+  {id:'flower',em:'🌸'},{id:'sunflower',em:'🌻'},{id:'hibiscus',em:'🌺'},
+  {id:'rose',em:'🌹'},{id:'tulip',em:'🌷'},{id:'leaf',em:'🍃'},
+  {id:'fire',em:'🔥'},{id:'star',em:'⭐'},{id:'sparkle',em:'✨'},
+  {id:'lightning',em:'⚡'},{id:'gem',em:'💎'},{id:'heart',em:'❤️'},
+  {id:'butterfly',em:'🦋'},{id:'boom',em:'💥'},{id:'crown',em:'👑'},
+  {id:'ribbon',em:'🎀'},{id:'confetti',em:'🎊'},{id:'strawberry',em:'🍓'},
+  {id:'cherry',em:'🍒'},{id:'mango',em:'🥭'},{id:'watermelon',em:'🍉'},
+  {id:'sneaker',em:'👟'},{id:'palette',em:'🎨'},{id:'comet',em:'☄️'},
+  {id:'planet',em:'🪐'},{id:'dizzy',em:'💫'},{id:'bubble',em:'🫧'},
+  {id:'rainbow',em:'🌈'},{id:'banana',em:'🍌'},{id:'eye',em:'👁️'}
+];
+var activeDecos=new Set(['flower','sparkle','star','fire','gem','strawberry']);
+var decoItems=[];
+
+var decoGrid=document.getElementById('decoGrid');
+DECOS.forEach(function(d){
+  var btn=document.createElement('button');
+  btn.type='button';btn.className='deco-btn'+(activeDecos.has(d.id)?' on':'');
+  btn.textContent=d.em;btn.title=d.id;btn.setAttribute('data-id',d.id);
+  btn.addEventListener('click',function(){
+    if(activeDecos.has(d.id)){activeDecos.delete(d.id);btn.classList.remove('on')}
+    else{activeDecos.add(d.id);btn.classList.add('on')}
+    genDecos();fullRender();
   });
+  decoGrid.appendChild(btn);
+});
 
-  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+var cntEl=document.getElementById('decoCnt'),cntV=document.getElementById('cntV');
+var szEl=document.getElementById('decoSz'),szV=document.getElementById('szV');
+cntEl.addEventListener('input',function(){cntV.textContent=cntEl.value;genDecos();fullRender()});
+szEl.addEventListener('input',function(){szV.textContent=szEl.value;genDecos();fullRender()});
+document.getElementById('btnReDeco').addEventListener('click',function(){genDecos();fullRender()});
 
-  /** Draw concentric demo similar to Python generate_demo_image */
-  function drawDemoPattern(ctx, w, h) {
-    const img = ctx.createImageData(w, h);
-    const d = img.data;
-    for (let i = 0; i < d.length; i += 4) {
-      d[i] = 20; d[i + 1] = 22; d[i + 2] = 28; d[i + 3] = 255;
-    }
-    ctx.putImageData(img, 0, 0);
-    const cx = w / 2, cy = h / 2;
-    const maxR = Math.min(w, h) / 2 - 10;
-    const colors = [
-      [255, 50, 50], [50, 255, 50], [50, 50, 255],
-      [255, 255, 50], [255, 50, 255], [50, 255, 255]
-    ];
-    for (let i = 0; i < 6; i++) {
-      const r = maxR * (1 - i / 6);
-      if (r > 4) {
-        ctx.strokeStyle = 'rgb(' + colors[i % colors.length].join(',') + ')';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.arc(cx, cy, r, 0, Math.PI * 2);
-        ctx.stroke();
-      }
-    }
-    const sq = Math.min(48, maxR / 3);
-    ctx.fillStyle = 'rgb(200,200,200)';
-    ctx.fillRect(cx - sq, cy - sq, sq * 2, sq * 2);
-    for (let i = 0; i < 12; i++) {
-      const ang = (2 * Math.PI * i) / 12;
-      ctx.strokeStyle = 'rgb(' + colors[i % colors.length].join(',') + ')';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(cx, cy);
-      ctx.lineTo(cx + maxR * Math.cos(ang), cy + maxR * Math.sin(ang));
-      ctx.stroke();
-    }
+function genDecos(){
+  decoItems=[];
+  var active=Array.from(activeDecos);if(!active.length)return;
+  var count=parseInt(cntEl.value,10);
+  var baseSz=parseInt(szEl.value,10);
+
+  for(var i=0;i<count;i++){
+    var did=active[floor(rand()*active.length)];
+    var em=DECOS.find(function(x){return x.id===did}).em;
+
+    var angle=rand()*PI*2;
+    var dist=0.25+rand()*0.35;
+    var nx=0.5+cos(angle)*dist;
+    var ny=0.5+sin(angle)*dist;
+    nx=clamp(nx,0.05,0.95);
+    ny=clamp(ny,0.08,0.92);
+
+    var depthLayer=0.5+dist*0.8;
+    var sizeScale=0.6+depthLayer*0.7;
+
+    decoItems.push({
+      em:em, nx:nx, ny:ny,
+      rot:(rand()-0.5)*40,
+      sz:round(baseSz*sizeScale),
+      depth:clamp(depthLayer,0,1)
+    });
   }
+  decoItems.sort(function(a,b){return a.depth-b.depth});
+}
+genDecos();
 
-  function scaleToMax(imData, w, h) {
-    const m = Math.max(w, h);
-    if (m <= MAX_PROCESS) return { data: imData, w: w, h: h };
-    const scale = MAX_PROCESS / m;
-    const nw = Math.round(w * scale);
-    const nh = Math.round(h * scale);
-    const tmp = document.createElement('canvas');
-    tmp.width = w; tmp.height = h;
-    tmp.getContext('2d').putImageData(imData, 0, 0);
-    const out = document.createElement('canvas');
-    out.width = nw; out.height = nh;
-    out.getContext('2d').drawImage(tmp, 0, 0, nw, nh);
-    return { data: out.getContext('2d').getImageData(0, 0, nw, nh), w: nw, h: nh };
-  }
+function stampDecos(ctx,dCtx,w,h){
+  decoItems.forEach(function(d){
+    var x=d.nx*w, y=d.ny*h, sz=d.sz*(w/560);
+    var depVal=round(d.depth*255);
 
-  function grayscale(data, w, h) {
-    const g = new Float32Array(w * h);
-    for (let i = 0, p = 0; i < w * h; i++, p += 4) {
-      g[i] = 0.299 * data[p] + 0.587 * data[p + 1] + 0.114 * data[p + 2];
-    }
-    return g;
-  }
+    ctx.save();
+    ctx.shadowColor='rgba(0,0,0,0.5)';
+    ctx.shadowBlur=sz*0.4;
+    ctx.shadowOffsetX=sz*0.08;
+    ctx.shadowOffsetY=sz*0.12;
+    ctx.translate(x,y);
+    ctx.rotate(d.rot*PI/180);
+    ctx.font=sz+'px sans-serif';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(d.em,0,0);
+    ctx.restore();
 
-  /** Discrete Laplacian magnitude (inner pixels), matches OpenCV spirit */
-  function laplacianAbs(gray, w, h) {
-    const out = new Float32Array(w * h);
-    for (let y = 1; y < h - 1; y++) {
-      for (let x = 1; x < w - 1; x++) {
-        const i = y * w + x;
-        const v = -4 * gray[i] + gray[i - 1] + gray[i + 1] + gray[i - w] + gray[i + w];
-        out[i] = Math.abs(v);
-      }
-    }
-    let mx = 0;
-    for (let i = 0; i < out.length; i++) if (out[i] > mx) mx = out[i];
-    if (mx > 0) for (let i = 0; i < out.length; i++) out[i] /= mx;
-    return out;
-  }
-
-  /** Separable-ish box blur (naive O(n·r) per axis — fine up to ~720p) */
-  function boxBlurSep(src, w, h, r) {
-    const tmp = new Float32Array(w * h);
-    const dst = new Float32Array(w * h);
-    for (let y = 0; y < h; y++) {
-      for (let x = 0; x < w; x++) {
-        let s = 0;
-        const diam = 2 * r + 1;
-        for (let dx = -r; dx <= r; dx++) {
-          s += src[y * w + clamp(x + dx, 0, w - 1)];
-        }
-        tmp[y * w + x] = s / diam;
-      }
-    }
-    for (let y = 0; y < h; y++) {
-      for (let x = 0; x < w; x++) {
-        let s = 0;
-        const diam = 2 * r + 1;
-        for (let dy = -r; dy <= r; dy++) {
-          s += tmp[clamp(y + dy, 0, h - 1) * w + x];
-        }
-        dst[y * w + x] = s / diam;
-      }
-    }
-    return dst;
-  }
-
-  function syntheticDepth(gray, w, h) {
-    let d = laplacianAbs(gray, w, h);
-    for (let k = 0; k < 3; k++) d = boxBlurSep(d, w, h, 7);
-    let mx = 0;
-    for (let i = 0; i < d.length; i++) if (d[i] > mx) mx = d[i];
-    if (mx > 0) for (let i = 0; i < d.length; i++) d[i] /= mx;
-    return d;
-  }
-
-  function bilinearSample(data, w, h, x, y) {
-    const x0 = Math.floor(x);
-    const y0 = Math.floor(y);
-    const x1 = clamp(x0 + 1, 0, w - 1);
-    const y1 = clamp(y0 + 1, 0, h - 1);
-    const tx = x - x0;
-    const ty = y - y0;
-    const ix0 = clamp(x0, 0, w - 1);
-    const iy0 = clamp(y0, 0, h - 1);
-    const ix1 = x1;
-    const iy1 = y1;
-    const idx = (yy, xx) => (yy * w + xx) * 4;
-    let r = 0, g = 0, b = 0;
-    const w00 = (1 - tx) * (1 - ty);
-    const w10 = tx * (1 - ty);
-    const w01 = (1 - tx) * ty;
-    const w11 = tx * ty;
-    const i00 = idx(iy0, ix0);
-    const i10 = idx(iy0, ix1);
-    const i01 = idx(iy1, ix0);
-    const i11 = idx(iy1, ix1);
-    r = data[i00] * w00 + data[i10] * w10 + data[i01] * w01 + data[i11] * w11;
-    g = data[i00 + 1] * w00 + data[i10 + 1] * w10 + data[i01 + 1] * w01 + data[i11 + 1] * w11;
-    b = data[i00 + 2] * w00 + data[i10 + 2] * w10 + data[i01 + 2] * w01 + data[i11 + 2] * w11;
-    return [r, g, b];
-  }
-
-  function warpImage(srcData, depth, w, h, strength) {
-    const out = new ImageData(w, h);
-    const s = srcData;
-    const d = out.data;
-    const centerX = w / 2;
-    const centerY = h / 2;
-    const maxDim = Math.max(h, w);
-    for (let y = 0; y < h; y++) {
-      for (let x = 0; x < w; x++) {
-        const dy = (y - centerY) / maxDim;
-        const dx = (x - centerX) / maxDim;
-        let radial = Math.sqrt(dy * dy + dx * dx);
-        if (radial < 1e-6) radial = 1e-6;
-        const dirY = dy / radial;
-        const dirX = dx / radial;
-        const dep = depth[y * w + x];
-        const displacement = dep * strength * radial;
-        const mapX = x + dirX * displacement * (w / maxDim);
-        const mapY = y + dirY * displacement * (h / maxDim);
-        const [r, g, b] = bilinearSample(s, w, h, mapX, mapY);
-        const o = (y * w + x) * 4;
-        d[o] = clamp(r, 0, 255);
-        d[o + 1] = clamp(g, 0, 255);
-        d[o + 2] = clamp(b, 0, 255);
-        d[o + 3] = 255;
-      }
-    }
-    return out;
-  }
-
-  function enhanceLED(data, sat, bright) {
-    const d = data.data;
-    for (let p = 0; p < d.length; p += 4) {
-      let r = d[p], g = d[p + 1], b = d[p + 2];
-      const gray = (r + g + b) / 3;
-      r = gray + (r - gray) * sat;
-      g = gray + (g - gray) * sat;
-      b = gray + (b - gray) * sat;
-      r *= bright; g *= bright; b *= bright;
-      d[p] = clamp(r, 0, 255);
-      d[p + 1] = clamp(g, 0, 255);
-      d[p + 2] = clamp(b, 0, 255);
-    }
-  }
-
-  function paintDepthPreview(depth, w, h) {
-    const img = ctxDepth.createImageData(w, h);
-    const D = img.data;
-    for (let i = 0, q = 0; i < w * h; i++, q += 4) {
-      const v = Math.round(depth[i] * 255);
-      D[q] = v * 0.2 + v * 0.4; D[q + 1] = v * 0.5 + v * 0.3; D[q + 2] = 0.9 * v + 40; D[q + 3] = 255;
-    }
-    ctxDepth.putImageData(img, 0, 0);
-  }
-
-  let lastProcW = 0;
-  let lastProcH = 0;
-
-  function runWarp() {
-    const W = cvSrc.width;
-    const H = cvSrc.height;
-    let im = ctxSrc.getImageData(0, 0, W, H);
-    const sc = scaleToMax(im, W, H);
-    im = sc.data;
-    const w = sc.w;
-    const h = sc.h;
-    lastProcW = w;
-    lastProcH = h;
-
-    const gray = grayscale(im.data, w, h);
-    const depth = syntheticDepth(gray, w, h);
-    const strength = parseFloat(strengthEl.value, 10);
-    let out = warpImage(im.data, depth, w, h, strength);
-    if (enhanceEl.checked) enhanceLED(out, 1.45, 1.15);
-
-    cvOut.width = w;
-    cvOut.height = h;
-    ctxOut.putImageData(out, 0, 0);
-
-    if (showDepthEl.checked) {
-      depthWrap.style.display = 'block';
-      cvDepth.width = w;
-      cvDepth.height = h;
-      paintDepthPreview(depth, w, h);
-    } else {
-      depthWrap.style.display = 'none';
-    }
-  }
-
-  document.getElementById('btnDemo').addEventListener('click', function () {
-    const w = 480, h = 360;
-    cvSrc.width = w;
-    cvSrc.height = h;
-    drawDemoPattern(ctxSrc, w, h);
-    runWarp();
+    dCtx.save();
+    dCtx.translate(x,y);
+    dCtx.rotate(d.rot*PI/180);
+    var halfSz=sz*0.6;
+    dCtx.fillStyle='rgb('+depVal+','+depVal+','+depVal+')';
+    dCtx.beginPath();
+    dCtx.arc(0,0,halfSz,0,PI*2);
+    dCtx.fill();
+    dCtx.restore();
   });
+}
 
-  document.getElementById('btnWarp').addEventListener('click', runWarp);
+/* ═══════════════════════════════════════
+   PRODUCT SCENES — 3D shaded
+   Each draws BOTH color and depth layers
+   ═══════════════════════════════════════ */
 
-  document.getElementById('file').addEventListener('change', function (e) {
-    const f = e.target.files && e.target.files[0];
-    if (!f) return;
-    const url = URL.createObjectURL(f);
-    const img = new Image();
-    img.onload = function () {
-      URL.revokeObjectURL(url);
-      const r = Math.min(540 / img.width, 420 / img.height, 1);
-      const w = Math.max(32, Math.round(img.width * r));
-      const h = Math.max(32, Math.round(img.height * r));
-      cvSrc.width = w;
-      cvSrc.height = h;
-      ctxSrc.drawImage(img, 0, 0, w, h);
-      runWarp();
-    };
-    img.src = url;
+function rr(ctx,x,y,w,h,r){
+  ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
+}
+
+function drawBottle(cCtx,dCtx,w,h){
+  var g=cCtx.createLinearGradient(0,0,w,h);
+  g.addColorStop(0,'#8bd33f');g.addColorStop(1,'#5ba31a');
+  cCtx.fillStyle=g;cCtx.fillRect(0,0,w,h);
+  dCtx.fillStyle='rgb(0,0,0)';dCtx.fillRect(0,0,w,h);
+
+  var cx=w/2,cy=h*0.48,bw=w*0.14,bh=h*0.52;
+
+  cCtx.save();cCtx.translate(cx,cy);cCtx.rotate(-0.18);
+  dCtx.save();dCtx.translate(cx,cy);dCtx.rotate(-0.18);
+
+  cCtx.shadowColor='rgba(0,0,0,0.45)';cCtx.shadowBlur=30;cCtx.shadowOffsetY=15;
+
+  var bodyG=cCtx.createLinearGradient(-bw,0,bw,0);
+  bodyG.addColorStop(0,'#e8a0b0');bodyG.addColorStop(0.25,'#ffccd5');
+  bodyG.addColorStop(0.45,'#ffe8e0');bodyG.addColorStop(0.55,'#fff5f0');
+  bodyG.addColorStop(0.75,'#ffd5c0');bodyG.addColorStop(1,'#d88a95');
+  cCtx.fillStyle=bodyG;
+  rr(cCtx,-bw,-bh/2,bw*2,bh,bw*0.3);cCtx.fill();
+
+  dCtx.fillStyle='rgb(160,160,160)';
+  rr(dCtx,-bw,-bh/2,bw*2,bh,bw*0.3);dCtx.fill();
+  var dBodyG=dCtx.createLinearGradient(-bw,0,bw,0);
+  dBodyG.addColorStop(0,'rgb(120,120,120)');dBodyG.addColorStop(0.5,'rgb(180,180,180)');
+  dBodyG.addColorStop(1,'rgb(120,120,120)');
+  dCtx.fillStyle=dBodyG;
+  rr(dCtx,-bw,-bh/2,bw*2,bh,bw*0.3);dCtx.fill();
+
+  cCtx.fillStyle='rgba(255,255,255,0.25)';
+  cCtx.fillRect(-bw*0.25,-bh*0.4,bw*0.18,bh*0.65);
+  cCtx.fillStyle='rgba(255,255,255,0.10)';
+  cCtx.fillRect(-bw*0.55,-bh*0.35,bw*0.12,bh*0.5);
+
+  cCtx.shadowBlur=0;cCtx.shadowOffsetY=0;
+
+  var neckW=bw*0.45,neckH=h*0.06;
+  cCtx.fillStyle='#c07088';
+  rr(cCtx,-neckW,-bh/2-neckH,neckW*2,neckH,4);cCtx.fill();
+
+  var capG=cCtx.createLinearGradient(-bw*0.6,0,bw*0.6,0);
+  capG.addColorStop(0,'#ff6090');capG.addColorStop(0.4,'#ff90b0');
+  capG.addColorStop(0.6,'#ffa0c0');capG.addColorStop(1,'#e05080');
+  cCtx.fillStyle=capG;
+  rr(cCtx,-bw*0.6,-bh/2-neckH-h*0.04,bw*1.2,h*0.05,6);cCtx.fill();
+
+  dCtx.fillStyle='rgb(200,200,200)';
+  rr(dCtx,-bw*0.6,-bh/2-neckH-h*0.04,bw*1.2,h*0.05+neckH,6);dCtx.fill();
+
+  cCtx.fillStyle='rgba(255,255,255,0.6)';
+  cCtx.font='bold '+(bw*0.5)+'px sans-serif';cCtx.textAlign='center';
+  cCtx.fillText('FRESH',0,bh*0.1);
+  cCtx.font=(bw*0.3)+'px sans-serif';cCtx.fillStyle='rgba(255,255,255,0.45)';
+  cCtx.fillText('JUICE CO.',0,bh*0.25);
+
+  cCtx.restore();dCtx.restore();
+}
+
+function drawSneaker(cCtx,dCtx,w,h){
+  cCtx.fillStyle='#111828';cCtx.fillRect(0,0,w,h);
+  var rg=cCtx.createRadialGradient(w*0.5,h*0.5,0,w*0.5,h*0.5,w*0.5);
+  rg.addColorStop(0,'#1a2040');rg.addColorStop(1,'#0a0e18');
+  cCtx.fillStyle=rg;cCtx.fillRect(0,0,w,h);
+  dCtx.fillStyle='rgb(0,0,0)';dCtx.fillRect(0,0,w,h);
+
+  var cx=w*0.48,cy=h*0.5,sw=w*0.38,sh=h*0.22;
+
+  cCtx.save();cCtx.translate(cx,cy);cCtx.rotate(-0.08);
+  dCtx.save();dCtx.translate(cx,cy);dCtx.rotate(-0.08);
+  cCtx.shadowColor='rgba(0,0,0,0.6)';cCtx.shadowBlur=35;cCtx.shadowOffsetY=18;
+
+  cCtx.fillStyle='#e0e0e0';cCtx.beginPath();
+  cCtx.moveTo(-sw,sh*0.1);
+  cCtx.quadraticCurveTo(-sw*0.8,-sh*0.8,-sw*0.2,-sh);
+  cCtx.quadraticCurveTo(sw*0.3,-sh*1.1,sw*0.8,-sh*0.6);
+  cCtx.quadraticCurveTo(sw*1.05,-sh*0.3,sw,sh*0.05);
+  cCtx.lineTo(sw,sh*0.3);
+  cCtx.quadraticCurveTo(sw*0.4,sh*0.45,-sw*0.6,sh*0.4);
+  cCtx.quadraticCurveTo(-sw,sh*0.3,-sw,sh*0.1);
+  cCtx.closePath();cCtx.fill();
+
+  var soleG=cCtx.createLinearGradient(-sw,sh*0.3,sw,sh*0.5);
+  soleG.addColorStop(0,'#333');soleG.addColorStop(1,'#555');
+  cCtx.fillStyle=soleG;
+  cCtx.beginPath();
+  cCtx.moveTo(-sw,sh*0.25);cCtx.lineTo(sw,sh*0.2);
+  cCtx.lineTo(sw,sh*0.45);
+  cCtx.quadraticCurveTo(sw*0.4,sh*0.55,-sw*0.6,sh*0.5);
+  cCtx.quadraticCurveTo(-sw,sh*0.4,-sw,sh*0.25);
+  cCtx.closePath();cCtx.fill();
+
+  var swooshG=cCtx.createLinearGradient(-sw*0.3,-sh*0.3,sw*0.5,sh*0.1);
+  swooshG.addColorStop(0,'#0ea5e9');swooshG.addColorStop(1,'#7c3aed');
+  cCtx.fillStyle=swooshG;cCtx.beginPath();
+  cCtx.moveTo(-sw*0.6,-sh*0.1);
+  cCtx.quadraticCurveTo(-sw*0.1,-sh*0.7,sw*0.6,-sh*0.45);
+  cCtx.quadraticCurveTo(sw*0.3,-sh*0.25,-sw*0.1,-sh*0.05);
+  cCtx.quadraticCurveTo(-sw*0.4,-sh*0.15,-sw*0.6,-sh*0.1);
+  cCtx.closePath();cCtx.fill();
+
+  cCtx.strokeStyle='rgba(255,255,255,0.5)';cCtx.lineWidth=2;
+  cCtx.beginPath();
+  cCtx.moveTo(-sw*0.15,-sh*0.4);cCtx.lineTo(sw*0.05,-sh*0.7);
+  cCtx.moveTo(0,-sh*0.25);cCtx.lineTo(sw*0.2,-sh*0.55);
+  cCtx.moveTo(sw*0.15,-sh*0.1);cCtx.lineTo(sw*0.35,-sh*0.4);
+  cCtx.stroke();
+
+  dCtx.fillStyle='rgb(170,170,170)';dCtx.beginPath();
+  dCtx.moveTo(-sw,sh*0.1);
+  dCtx.quadraticCurveTo(-sw*0.8,-sh*0.8,-sw*0.2,-sh);
+  dCtx.quadraticCurveTo(sw*0.3,-sh*1.1,sw*0.8,-sh*0.6);
+  dCtx.quadraticCurveTo(sw*1.05,-sh*0.3,sw,sh*0.05);
+  dCtx.lineTo(sw,sh*0.45);
+  dCtx.quadraticCurveTo(sw*0.4,sh*0.55,-sw*0.6,sh*0.5);
+  dCtx.quadraticCurveTo(-sw,sh*0.3,-sw,sh*0.1);
+  dCtx.closePath();dCtx.fill();
+
+  var dg=dCtx.createLinearGradient(-sw,0,sw,0);
+  dg.addColorStop(0,'rgb(140,140,140)');dg.addColorStop(0.5,'rgb(200,200,200)');
+  dg.addColorStop(1,'rgb(140,140,140)');
+  dCtx.fillStyle=dg;dCtx.fill();
+
+  cCtx.restore();dCtx.restore();
+
+  cCtx.font='bold '+(w*0.05)+'px sans-serif';cCtx.textAlign='center';
+  cCtx.fillStyle='rgba(255,255,255,0.75)';cCtx.fillText('AIR VELOCITY',cx,h*0.88);
+}
+
+function drawPhone(cCtx,dCtx,w,h){
+  cCtx.fillStyle='#0c0c1d';cCtx.fillRect(0,0,w,h);
+  var rg=cCtx.createRadialGradient(w*0.5,h*0.45,0,w*0.5,h*0.45,w*0.45);
+  rg.addColorStop(0,'#1a1040');rg.addColorStop(1,'#080810');
+  cCtx.fillStyle=rg;cCtx.fillRect(0,0,w,h);
+  dCtx.fillStyle='rgb(0,0,0)';dCtx.fillRect(0,0,w,h);
+
+  var cx=w/2,cy=h*0.47,pw=w*0.16,ph=h*0.48;
+
+  cCtx.save();cCtx.translate(cx,cy);cCtx.rotate(0.12);
+  dCtx.save();dCtx.translate(cx,cy);dCtx.rotate(0.12);
+  cCtx.shadowColor='rgba(0,0,0,0.6)';cCtx.shadowBlur=40;cCtx.shadowOffsetY=15;
+
+  var frameG=cCtx.createLinearGradient(-pw,0,pw,0);
+  frameG.addColorStop(0,'#2a2a35');frameG.addColorStop(0.3,'#3a3a48');
+  frameG.addColorStop(0.7,'#3a3a48');frameG.addColorStop(1,'#222230');
+  cCtx.fillStyle=frameG;rr(cCtx,-pw,-ph,pw*2,ph*2,pw*0.16);cCtx.fill();
+  cCtx.fillStyle='#111118';rr(cCtx,-pw*0.9,-ph*0.93,pw*1.8,ph*1.86,pw*0.1);cCtx.fill();
+
+  var sg=cCtx.createLinearGradient(-pw,-ph,pw,ph);
+  sg.addColorStop(0,'#7c3aed');sg.addColorStop(0.4,'#ec4899');sg.addColorStop(0.7,'#f97316');sg.addColorStop(1,'#eab308');
+  cCtx.fillStyle=sg;rr(cCtx,-pw*0.84,-ph*0.87,pw*1.68,ph*1.74,pw*0.06);cCtx.fill();
+
+  cCtx.fillStyle='rgba(255,255,255,0.9)';cCtx.font='bold '+(pw*0.5)+'px sans-serif';
+  cCtx.textAlign='center';cCtx.textBaseline='middle';cCtx.fillText('PRO',0,-ph*0.15);
+  cCtx.font=(pw*0.28)+'px sans-serif';cCtx.fillStyle='rgba(255,255,255,0.7)';cCtx.fillText('MAX',0,ph*0.15);
+
+  cCtx.fillStyle='rgba(255,255,255,0.15)';
+  cCtx.fillRect(-pw*0.15,-ph*0.82,pw*0.06,ph*1.6);
+
+  dCtx.fillStyle='rgb(180,180,180)';rr(dCtx,-pw,-ph,pw*2,ph*2,pw*0.16);dCtx.fill();
+  var dpg=dCtx.createLinearGradient(-pw,0,pw,0);
+  dpg.addColorStop(0,'rgb(140,140,140)');dpg.addColorStop(0.5,'rgb(210,210,210)');dpg.addColorStop(1,'rgb(140,140,140)');
+  dCtx.fillStyle=dpg;dCtx.fill();
+
+  cCtx.restore();dCtx.restore();
+  cCtx.font='bold '+(w*0.045)+'px sans-serif';cCtx.textAlign='center';
+  cCtx.fillStyle='rgba(255,255,255,0.7)';cCtx.fillText('LAUNCH EVENT',cx,h*0.9);
+}
+
+function drawPerfume(cCtx,dCtx,w,h){
+  cCtx.fillStyle='#1a0a20';cCtx.fillRect(0,0,w,h);
+  var rg=cCtx.createRadialGradient(w*0.5,h*0.5,0,w*0.5,h*0.5,w*0.45);
+  rg.addColorStop(0,'#2a1040');rg.addColorStop(1,'#0d0518');
+  cCtx.fillStyle=rg;cCtx.fillRect(0,0,w,h);
+  dCtx.fillStyle='rgb(0,0,0)';dCtx.fillRect(0,0,w,h);
+
+  var cx=w/2,cy=h*0.5,bw=w*0.10,bh=h*0.34;
+
+  cCtx.save();cCtx.translate(cx,cy);
+  dCtx.save();dCtx.translate(cx,cy);
+  cCtx.shadowColor='rgba(0,0,0,0.5)';cCtx.shadowBlur=30;cCtx.shadowOffsetY=12;
+
+  var bg=cCtx.createLinearGradient(-bw,0,bw,0);
+  bg.addColorStop(0,'rgba(180,140,200,0.7)');bg.addColorStop(0.2,'rgba(220,190,240,0.85)');
+  bg.addColorStop(0.4,'rgba(245,230,255,0.9)');bg.addColorStop(0.5,'rgba(255,245,255,0.95)');
+  bg.addColorStop(0.8,'rgba(220,190,240,0.85)');bg.addColorStop(1,'rgba(170,130,190,0.7)');
+  cCtx.fillStyle=bg;rr(cCtx,-bw,-bh/2,bw*2,bh,bw*0.2);cCtx.fill();
+
+  cCtx.fillStyle='rgba(255,255,255,0.18)';cCtx.fillRect(-bw*0.45,-bh*0.4,bw*0.2,bh*0.7);
+  cCtx.fillStyle='rgba(255,255,255,0.08)';cCtx.fillRect(-bw*0.7,-bh*0.35,bw*0.12,bh*0.55);
+
+  cCtx.fillStyle='rgba(180,150,200,0.4)';cCtx.fillRect(-bw*0.08,-bh/2-h*0.07,bw*0.16,h*0.07);
+
+  var capG=cCtx.createLinearGradient(-bw*0.3,0,bw*0.3,0);
+  capG.addColorStop(0,'#b090c0');capG.addColorStop(0.5,'#d0b8e0');capG.addColorStop(1,'#a080b0');
+  cCtx.fillStyle=capG;rr(cCtx,-bw*0.3,-bh/2-h*0.11,bw*0.6,h*0.05,3);cCtx.fill();
+
+  cCtx.fillStyle='rgba(255,255,255,0.6)';cCtx.font='bold '+(bw*0.4)+'px sans-serif';
+  cCtx.textAlign='center';cCtx.fillText('NOIR',0,bh*0.05);
+  cCtx.font=(bw*0.22)+'px sans-serif';cCtx.fillStyle='rgba(255,255,255,0.4)';
+  cCtx.fillText('EAU DE PARFUM',0,bh*0.18);
+
+  dCtx.fillStyle='rgb(170,170,170)';rr(dCtx,-bw,-bh/2,bw*2,bh,bw*0.2);dCtx.fill();
+  dCtx.fillStyle='rgb(200,200,200)';rr(dCtx,-bw*0.3,-bh/2-h*0.11,bw*0.6,h*0.05+h*0.07+bh/2,3);dCtx.fill();
+  var dpg=dCtx.createLinearGradient(-bw,0,bw,0);
+  dpg.addColorStop(0,'rgb(130,130,130)');dpg.addColorStop(0.5,'rgb(190,190,190)');dpg.addColorStop(1,'rgb(130,130,130)');
+  dCtx.fillStyle=dpg;rr(dCtx,-bw,-bh/2,bw*2,bh,bw*0.2);dCtx.fill();
+
+  cCtx.restore();dCtx.restore();
+  cCtx.font='bold '+(w*0.045)+'px sans-serif';cCtx.textAlign='center';
+  cCtx.fillStyle='rgba(255,255,255,0.7)';cCtx.fillText('NOIR COLLECTION',cx,h*0.9);
+}
+
+var scenes={bottle:drawBottle,sneaker:drawSneaker,phone:drawPhone,perfume:drawPerfume};
+var curScene='bottle';
+var userImage=null;
+
+/* ── Canvas refs ── */
+var cvSrc=document.getElementById('cvSrc'),cvOut=document.getElementById('cvOut'),cvDep=document.getElementById('cvDep');
+var ctxS=cvSrc.getContext('2d',{willReadFrequently:true});
+var ctxO=cvOut.getContext('2d',{willReadFrequently:true});
+var ctxD=cvDep.getContext('2d',{willReadFrequently:true});
+var strEl=document.getElementById('str'),strVEl=document.getElementById('strV');
+var ledEl=document.getElementById('led'),depEl=document.getElementById('depOn'),depWrap=document.getElementById('depWrap');
+var angSlider=document.getElementById('angSlider'),angLbl=document.getElementById('angLabel'),angRig=document.getElementById('angRig');
+
+var lastOut=null,lastW=0,lastH=0;
+strEl.addEventListener('input',function(){strVEl.textContent=strEl.value;fullRender()});
+
+/* ═══════════════════════════════════════
+   ANAMORPHIC WARP — uses manual depth map
+   ═══════════════════════════════════════ */
+
+function bil(data,w,h,x,y){
+  var x0=floor(x),y0=floor(y),x1=clamp(x0+1,0,w-1),y1=clamp(y0+1,0,h-1);
+  var tx=x-x0,ty=y-y0;x0=clamp(x0,0,w-1);y0=clamp(y0,0,h-1);
+  var idx=function(yy,xx){return(yy*w+xx)*4};
+  var w00=(1-tx)*(1-ty),w10=tx*(1-ty),w01=(1-tx)*ty,w11=tx*ty;
+  var i00=idx(y0,x0),i10=idx(y0,x1),i01=idx(y1,x0),i11=idx(y1,x1);
+  return[data[i00]*w00+data[i10]*w10+data[i01]*w01+data[i11]*w11,
+         data[i00+1]*w00+data[i10+1]*w10+data[i01+1]*w01+data[i11+1]*w11,
+         data[i00+2]*w00+data[i10+2]*w10+data[i01+2]*w01+data[i11+2]*w11];
+}
+
+function warpWithDepth(srcPixels,depthPixels,w,h,strength){
+  var out=new ImageData(w,h),d=out.data;
+  var cx=w/2,cy=h/2,md=max(h,w);
+  for(var y=0;y<h;y++){
+    for(var x=0;x<w;x++){
+      var dy=(y-cy)/md, dx=(x-cx)/md;
+      var rad=sqrt(dy*dy+dx*dx);
+      if(rad<1e-6)rad=1e-6;
+      var dirY=dy/rad, dirX=dx/rad;
+
+      var di=(y*w+x)*4;
+      var dep=depthPixels[di]/255;
+
+      var displacement=dep*strength*rad;
+
+      var perspScale=1+dep*0.15;
+      var mapX=cx+(x-cx)*perspScale+dirX*displacement*(w/md);
+      var mapY=cy+(y-cy)*perspScale+dirY*displacement*(h/md);
+
+      var rgb=bil(srcPixels,w,h,mapX,mapY);
+      var o=(y*w+x)*4;
+      d[o]=clamp(rgb[0],0,255);d[o+1]=clamp(rgb[1],0,255);d[o+2]=clamp(rgb[2],0,255);d[o+3]=255;
+    }
+  }
+  return out;
+}
+
+function ledBoost(img,sat,br){
+  var d=img.data;
+  for(var p=0;p<d.length;p+=4){
+    var r=d[p],g=d[p+1],b=d[p+2],gv=(r+g+b)/3;
+    d[p]=clamp((gv+(r-gv)*sat)*br,0,255);
+    d[p+1]=clamp((gv+(g-gv)*sat)*br,0,255);
+    d[p+2]=clamp((gv+(b-gv)*sat)*br,0,255);
+  }
+}
+
+function edgeDepthFallback(srcPixels,w,h){
+  var gray=new Float32Array(w*h);
+  for(var i=0,p=0;i<w*h;i++,p+=4)gray[i]=.299*srcPixels[p]+.587*srcPixels[p+1]+.114*srcPixels[p+2];
+  var lap=new Float32Array(w*h);
+  for(var y=1;y<h-1;y++)for(var x=1;x<w-1;x++){var j=y*w+x;lap[j]=abs(-4*gray[j]+gray[j-1]+gray[j+1]+gray[j-w]+gray[j+w])}
+  for(var k=0;k<3;k++){
+    var tmp=new Float32Array(w*h);
+    for(var y2=0;y2<h;y2++)for(var x2=0;x2<w;x2++){var s=0;for(var dx=-5;dx<=5;dx++)s+=lap[y2*w+clamp(x2+dx,0,w-1)];tmp[y2*w+x2]=s/11}
+    var tmp2=new Float32Array(w*h);
+    for(var y3=0;y3<h;y3++)for(var x3=0;x3<w;x3++){var s2=0;for(var dy=-5;dy<=5;dy++)s2+=tmp[clamp(y3+dy,0,h-1)*w+x3];tmp2[y3*w+x3]=s2/11}
+    lap=tmp2;
+  }
+  var mx=0;for(var n=0;n<lap.length;n++)if(lap[n]>mx)mx=lap[n];
+  var depImg=new ImageData(w,h);
+  for(var i2=0,q=0;i2<w*h;i2++,q+=4){var v=mx>0?lap[i2]/mx:0;var vb=round(v*255);depImg.data[q]=vb;depImg.data[q+1]=vb;depImg.data[q+2]=vb;depImg.data[q+3]=255}
+  return depImg;
+}
+
+/* ── Full render pipeline ── */
+function fullRender(){
+  var w,h;
+
+  if(userImage){
+    var r=min(560/userImage.width,400/userImage.height,1);
+    w=max(32,round(userImage.width*r));h=max(32,round(userImage.height*r));
+  } else {
+    w=560;h=400;
+  }
+
+  colorCv.width=w;colorCv.height=h;
+  depthCv.width=w;depthCv.height=h;
+
+  if(userImage){
+    colorCtx.drawImage(userImage,0,0,w,h);
+    depthCtx.fillStyle='rgb(0,0,0)';depthCtx.fillRect(0,0,w,h);
+    stampDecos(colorCtx,depthCtx,w,h);
+
+    var srcPx=colorCtx.getImageData(0,0,w,h);
+    var fallbackDep=edgeDepthFallback(srcPx.data,w,h);
+    var manualDep=depthCtx.getImageData(0,0,w,h);
+    for(var i=0;i<manualDep.data.length;i+=4){
+      manualDep.data[i]=max(manualDep.data[i],fallbackDep.data[i]);
+      manualDep.data[i+1]=manualDep.data[i];
+      manualDep.data[i+2]=manualDep.data[i];
+    }
+    depthCtx.putImageData(manualDep,0,0);
+  } else {
+    (scenes[curScene]||scenes.bottle)(colorCtx,depthCtx,w,h);
+    stampDecos(colorCtx,depthCtx,w,h);
+  }
+
+  cvSrc.width=w;cvSrc.height=h;
+  ctxS.drawImage(colorCv,0,0);
+
+  var srcData=colorCtx.getImageData(0,0,w,h);
+  var depData=depthCtx.getImageData(0,0,w,h);
+
+  var strength=parseFloat(strEl.value);
+  var out=warpWithDepth(srcData.data,depData.data,w,h,strength);
+  if(ledEl.checked)ledBoost(out,1.65,1.25);
+
+  cvOut.width=w;cvOut.height=h;
+  ctxO.putImageData(out,0,0);
+  lastOut=out;lastW=w;lastH=h;
+
+  pushBB(out,w,h);pushAng(out,w,h);
+
+  if(depEl.checked){
+    depWrap.style.display='block';
+    cvDep.width=w;cvDep.height=h;
+    var depVis=depthCtx.getImageData(0,0,w,h);
+    var Dd=depVis.data;
+    for(var j=0;j<Dd.length;j+=4){
+      var v=Dd[j];
+      Dd[j]=clamp(v*0.3|0,0,255);
+      Dd[j+1]=clamp(v*0.7|0,0,255);
+      Dd[j+2]=clamp(v+30|0,0,255);
+    }
+    ctxD.putImageData(depVis,0,0);
+  } else depWrap.style.display='none';
+}
+
+function pushBB(img,w,h){
+  var cf=document.getElementById('cvBBf'),cs=document.getElementById('cvBBs');
+  cf.width=w;cf.height=h;cf.getContext('2d').putImageData(img,0,0);
+  var sw=round(h*9/16),sh=h;cs.width=sw;cs.height=sh;
+  var sc=cs.getContext('2d'),t=document.createElement('canvas');t.width=w;t.height=h;t.getContext('2d').putImageData(img,0,0);
+  sc.save();sc.scale(-1,1);sc.drawImage(t,-sw,0,sw,sh);sc.restore();
+  sc.fillStyle='rgba(0,0,0,0.4)';sc.fillRect(0,0,sw,sh);
+}
+function pushAng(img,w,h){
+  var cf=document.getElementById('cvAf'),cs=document.getElementById('cvAs');
+  cf.width=w;cf.height=h;cf.getContext('2d').putImageData(img,0,0);
+  var sw=round(h*9/16),sh=h;cs.width=sw;cs.height=sh;
+  var sc=cs.getContext('2d'),t=document.createElement('canvas');t.width=w;t.height=h;t.getContext('2d').putImageData(img,0,0);
+  sc.save();sc.scale(-1,1);sc.drawImage(t,-sw,0,sw,sh);sc.restore();
+  sc.fillStyle='rgba(0,0,0,0.4)';sc.fillRect(0,0,sw,sh);
+}
+
+function updateAng(){
+  var deg=parseInt(angSlider.value,10);
+  angLbl.textContent=deg+'\u00B0';
+  angRig.style.transform='rotateY('+deg+'deg)';
+}
+
+/* ── Scene buttons ── */
+document.querySelectorAll('.sb').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('.sb').forEach(function(x){x.classList.remove('on')});
+    b.classList.add('on');curScene=b.getAttribute('data-sc');userImage=null;
+    fullRender();
   });
+});
 
-  showDepthEl.addEventListener('change', function () {
-    if (lastProcW) runWarp();
-  });
+document.getElementById('file').addEventListener('change',function(e){
+  var f=e.target.files&&e.target.files[0];if(!f)return;
+  document.querySelectorAll('.sb').forEach(function(b){b.classList.remove('on')});
+  var url=URL.createObjectURL(f),img=new Image();
+  img.onload=function(){URL.revokeObjectURL(url);userImage=img;fullRender()};
+  img.src=url;
+});
 
-  enhanceEl.addEventListener('change', function () {
-    if (lastProcW) runWarp();
-  });
+document.getElementById('btnGen').addEventListener('click',fullRender);
+depEl.addEventListener('change',fullRender);
+ledEl.addEventListener('change',fullRender);
+angSlider.addEventListener('input',updateAng);
 
-  drawDemoPattern(ctxSrc, 480, 360);
-  runWarp();
+fullRender();
 })();
-  </script>
+</script>
 </body>
 </html>

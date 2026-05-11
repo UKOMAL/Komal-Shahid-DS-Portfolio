@@ -53,5 +53,14 @@ env/
 # LibreOffice lockfiles
 .~lock.*
 
-# Local rsync mirror of DSC680/projects/project1-dsc680 (canonical copy: DSC680 → GitHub)
-=project1/project1-dsc680/
+# Course-internal (local only — not for the public portfolio)
+DSC680_*.md
+_local/
+**/discussions/
+**/week[0-9]*/
+**/*rubric*
+**/*originality*
+**/*PREP_NOTES*
+**/UX_IMPROVEMENT_REPORT*
+**/CLAUDE_DESIGN_PROMPT*
+**/billboard-reference*

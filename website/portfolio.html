@@ -2390,13 +2390,13 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
 <button class="to-top hoverable" id="toTop" aria-label="Back to top">&uarr;</button>
 
 <!-- MODALS -->
-<div class="modal" id="modal-mh" role="dialog" aria-modal="true">
+<div class="modal" id="modal-mh" role="dialog" aria-modal="true" aria-labelledby="modal-mh-title">
   <div class="modal__box" tabindex="-1">
     <button class="modal__close hoverable" data-close>&times;</button>
     <div class="modal__progress-wrap"><div class="modal__progress-fill"></div></div>
 
     <div class="modal__tag">&bull; DSC680 &middot; Project 1 &middot; Capstone</div>
-    <h3 class="modal__title">Predicting Treatment-Seeking Behavior in Tech Workers</h3>
+    <h3 class="modal__title" id="modal-mh-title">Predicting Treatment-Seeking Behavior in Tech Workers</h3>
     <p class="modal__subtitle">Applied ML on the OSMI 2016 Mental Health in Tech Survey &mdash; from raw survey data to an interpretable, fair, and actionable classifier.</p>
 
     <!-- Key Metrics -->
@@ -2512,38 +2512,110 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
   </div>
 </div>
 
-<div class="modal" id="modal-fed" role="dialog" aria-modal="true">
-  <div class="modal__box">
+<div class="modal" id="modal-fed" role="dialog" aria-modal="true" aria-labelledby="modal-fed-title">
+  <div class="modal__box" tabindex="-1">
     <button class="modal__close hoverable" data-close>&times;</button>
-    <div class="modal__tag">&bull; Privacy AI</div>
-    <h3 class="modal__title">Federated Healthcare AI</h3>
-    <p class="modal__desc">Privacy-preserving ML system enabling healthcare institutions to collaboratively train diagnostic AI without sharing sensitive patient data. Uses federated learning with differential privacy, HIPAA-compliant deployment, and blockchain-based model verification.</p>
-    <div class="modal__metrics">
-      <div class="c"><div class="v">89%</div><div class="l">F1 Score</div></div>
-      <div class="c"><div class="v">0</div><div class="l">Records shared</div></div>
-      <div class="c"><div class="v">HIPAA</div><div class="l">Compliant</div></div>
-      <div class="c"><div class="v">5</div><div class="l">Sim. sites</div></div>
+
+    <div class="modal__tag">&bull; Privacy AI &middot; Healthcare &middot; Research</div>
+    <h3 class="modal__title" id="modal-fed-title">Federated Healthcare AI</h3>
+    <p class="modal__subtitle">Multi-hospital diagnostic AI — trained collaboratively, zero patient records shared.</p>
+
+    <!-- Key Metrics -->
+    <div class="modal__metric-cards">
+      <div class="modal__metric-card"><div class="mc-val">89%</div><div class="mc-label">F1 Score</div><div class="mc-sub">5-site federated eval</div></div>
+      <div class="modal__metric-card"><div class="mc-val">0</div><div class="mc-label">Records Shared</div><div class="mc-sub">Zero raw data exchange</div></div>
+      <div class="modal__metric-card"><div class="mc-val">HIPAA</div><div class="mc-label">Compliant</div><div class="mc-sub">Regulatory ready</div></div>
+      <div class="modal__metric-card"><div class="mc-val">DP-SGD</div><div class="mc-label">Privacy Mechanism</div><div class="mc-sub">Differential privacy</div></div>
+      <div class="modal__metric-card"><div class="mc-val">5</div><div class="mc-label">Simulated Sites</div><div class="mc-sub">Hospital federation</div></div>
     </div>
-    <div class="modal__heading">Key features</div>
+
+    <!-- Problem -->
+    <h4 class="modal__section-title">The Challenge</h4>
+    <p class="modal__desc">Healthcare AI requires large, diverse training datasets — but patient data is the most sensitive data that exists. Hospitals cannot legally or ethically pool raw records. The result: isolated models, siloed training, and AI that doesn't generalize across populations.</p>
+    <p class="modal__desc" style="margin-top:12px;"><strong>Research question:</strong> Can diagnostic AI achieve clinically meaningful performance when hospitals train <em>together</em> without sharing a single patient record?</p>
+
+    <!-- Architecture -->
+    <h4 class="modal__section-title">System Architecture</h4>
+    <div class="modal__methodology">
+      <div class="modal__step"><div class="modal__step-num">01</div><div class="modal__step-label">Local Training</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">02</div><div class="modal__step-label">DP-SGD Noise</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">03</div><div class="modal__step-label">Gradient Upload</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">04</div><div class="modal__step-label">FedAvg Aggregation</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">05</div><div class="modal__step-label">Global Model</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">06</div><div class="modal__step-label">Audit Trail</div></div>
+    </div>
+
+    <!-- Key Design Decisions -->
+    <h4 class="modal__section-title">Key Design Decisions</h4>
+    <div class="modal__feature-grid">
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">🔒</span>
+        <div class="modal__feature-text"><strong>Differential Privacy (DP-SGD)</strong>Gaussian noise injected into gradients before upload. Each site's contribution is mathematically bounded — no individual patient signal survives aggregation.</div>
+      </div>
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">🏥</span>
+        <div class="modal__feature-text"><strong>FedAvg Aggregation</strong>Weighted averaging of model updates by local dataset size — larger hospitals contribute proportionally more, improving calibration across population distributions.</div>
+      </div>
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">⛓️</span>
+        <div class="modal__feature-text"><strong>Blockchain Audit Trail</strong>Each aggregation round is hash-verified and logged on an immutable ledger — enabling full regulatory audit of model lineage without exposing training data.</div>
+      </div>
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">🧠</span>
+        <div class="modal__feature-text"><strong>CNN Architecture</strong>Lightweight convolutional model chosen for medical imaging tasks — balancing representational capacity with communication efficiency across the federation.</div>
+      </div>
+    </div>
+
+    <div class="modal__callout">
+      <strong>The core insight:</strong> Federated learning inverts the traditional data pipeline. Instead of moving data to the model, we move the model to the data. Differential privacy ensures that even if gradient updates were intercepted, individual patient records cannot be reconstructed — a formal mathematical guarantee, not just a policy promise.
+    </div>
+
+    <!-- Impact -->
+    <h4 class="modal__section-title">Impact &amp; Implications</h4>
     <ul class="modal__list">
-      <li>Federated learning with differential privacy guarantees</li>
-      <li>Multi-hospital collaboration without raw data exchange</li>
-      <li>CNN architectures for medical imaging tasks</li>
-      <li>Blockchain-based model verification and audit trail</li>
-      <li>Docker containerized deployment pipeline</li>
+      <li>Proves clinical-grade accuracy (89% F1) is achievable without data centralization</li>
+      <li>HIPAA-compliant architecture viable for real multi-institution deployment</li>
+      <li>Template for federated AI in any high-stakes privacy domain: finance, law, education</li>
+      <li>Blockchain verification enables regulatory audit without revealing training data</li>
+      <li>Dockerized pipeline reduces deployment friction across heterogeneous hospital infrastructure</li>
     </ul>
-    <div class="modal__heading">Impact</div>
-    <p class="modal__desc">Demonstrates that AI can advance clinical diagnostics while fully respecting patient privacy and regulatory requirements &mdash; a template for responsible AI deployment in high-stakes domains.</p>
+
+    <!-- Technologies -->
+    <h4 class="modal__section-title">Technologies Used</h4>
+    <div class="modal__tech-tags">
+      <span class="modal__tech-tag">Python</span>
+      <span class="modal__tech-tag">PyTorch</span>
+      <span class="modal__tech-tag">Federated Learning</span>
+      <span class="modal__tech-tag">Differential Privacy</span>
+      <span class="modal__tech-tag">DP-SGD</span>
+      <span class="modal__tech-tag">CNN</span>
+      <span class="modal__tech-tag">Docker</span>
+      <span class="modal__tech-tag">Blockchain</span>
+      <span class="modal__tech-tag">HIPAA</span>
+      <span class="modal__tech-tag">NumPy</span>
+    </div>
+
+    <!-- Links -->
+    <div class="modal__links">
+      <a href="https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio" target="_blank" rel="noopener" class="modal__link hoverable">
+        View on GitHub
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/komal-shahid-6b1704175" target="_blank" rel="noopener" class="modal__link hoverable">
+        Connect on LinkedIn
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+    </div>
   </div>
 </div>
 
-<div class="modal" id="modal-canvas" role="dialog" aria-modal="true">
+<div class="modal" id="modal-canvas" role="dialog" aria-modal="true" aria-labelledby="modal-canvas-title">
   <div class="modal__box" tabindex="-1">
     <button class="modal__close hoverable" data-close>&times;</button>
     <div class="modal__progress-wrap"><div class="modal__progress-fill"></div></div>
 
     <div class="modal__tag">&bull; DSC680 &middot; Project 3 &middot; Computer Vision</div>
-    <h3 class="modal__title">Colorful Canvas &mdash; Anamorphic 3D Billboard Ads</h3>
+    <h3 class="modal__title" id="modal-canvas-title">Colorful Canvas &mdash; Anamorphic 3D Billboard Ads</h3>
     <p class="modal__subtitle">Turn flat product images into anamorphic 3D billboard advertisements &mdash; the same illusion used in Seoul and Tokyo's viral LED screens, automated with code.</p>
 
     <!-- Key Metrics -->
@@ -2641,30 +2713,96 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
   </div>
 </div>
 
-<div class="modal" id="modal-notely" role="dialog" aria-modal="true">
-  <div class="modal__box">
+<div class="modal" id="modal-notely" role="dialog" aria-modal="true" aria-labelledby="modal-notely-title">
+  <div class="modal__box" tabindex="-1">
     <button class="modal__close hoverable" data-close>&times;</button>
-    <div class="modal__tag">&bull; Applied NLP</div>
-    <h3 class="modal__title">Notely &mdash; AI-Powered Note Taking</h3>
-    <p class="modal__desc">Intelligent note management built with Streamlit and LLM APIs. AI-powered summarization, semantic search across notes, smart template generation, and PDF ingestion &mdash; designed for real-world daily productivity.</p>
-    <div class="modal__heading">Key features</div>
-    <ul class="modal__list">
-      <li>AI summarization using OpenAI API for long-form notes and PDFs</li>
-      <li>Semantic search across stored notes using embedding similarity</li>
-      <li>Smart template generation for recurring note types</li>
-      <li>PDF processing and text extraction pipeline</li>
-      <li>Clean Streamlit UI optimized for low-friction daily use</li>
-    </ul>
-    <div class="modal__heading">Design philosophy</div>
-    <p class="modal__desc">Notely is built around the principle that AI assistance should feel invisible &mdash; enhancing your workflow without demanding new habits or complex UX. Notes should be captured fast; intelligence surfaces when you need it.</p>
+
+    <div class="modal__tag">&bull; Applied NLP &middot; Product &middot; LLM</div>
+    <h3 class="modal__title" id="modal-notely-title">Notely &mdash; AI-Powered Note Taking</h3>
+    <p class="modal__subtitle">An AI assistant that lives inside your notes — without the setup friction.</p>
+
+    <!-- Key Metrics -->
+    <div class="modal__metric-cards">
+      <div class="modal__metric-card"><div class="mc-val">&infin;</div><div class="mc-label">Notes Indexed</div><div class="mc-sub">Unlimited storage</div></div>
+      <div class="modal__metric-card"><div class="mc-val">&lt;2s</div><div class="mc-label">Summary Latency</div><div class="mc-sub">GPT-3.5 / GPT-4</div></div>
+      <div class="modal__metric-card"><div class="mc-val">3</div><div class="mc-label">AI Modes</div><div class="mc-sub">Summarize · Search · Generate</div></div>
+      <div class="modal__metric-card"><div class="mc-val">E2E</div><div class="mc-label">Shipped Product</div><div class="mc-sub">Used daily in practice</div></div>
+    </div>
+
+    <!-- Problem -->
+    <h4 class="modal__section-title">The Problem</h4>
+    <p class="modal__desc">Note-taking apps solve the wrong problem. They're good at capturing information, but terrible at surfacing it. The average knowledge worker takes hundreds of notes per year and retrieves almost none of them. Search is keyword-based. Summaries are manual. The output is a graveyard of good intentions.</p>
+    <p class="modal__desc" style="margin-top:12px;"><strong>Design goal:</strong> Build a note app where AI assistance is instant, invisible, and genuinely useful — not a demo feature you try once.</p>
+
+    <!-- Feature Pipeline -->
+    <h4 class="modal__section-title">Pipeline Architecture</h4>
+    <div class="modal__methodology">
+      <div class="modal__step"><div class="modal__step-num">01</div><div class="modal__step-label">Capture Note</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">02</div><div class="modal__step-label">Embed Content</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">03</div><div class="modal__step-label">Store + Index</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">04</div><div class="modal__step-label">Semantic Search</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">05</div><div class="modal__step-label">LLM Summarize</div><span class="modal__step-arrow">&rarr;</span></div>
+      <div class="modal__step"><div class="modal__step-num">06</div><div class="modal__step-label">Template Gen</div></div>
+    </div>
+
+    <!-- Key Features -->
+    <h4 class="modal__section-title">Key Features</h4>
+    <div class="modal__feature-grid">
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">📝</span>
+        <div class="modal__feature-text"><strong>AI Summarization</strong>One-click summaries of any note or imported PDF using the OpenAI API. Output is concise and bullet-pointed — optimized for quick review, not reading.</div>
+      </div>
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">🔍</span>
+        <div class="modal__feature-text"><strong>Semantic Search</strong>Notes are embedded at save-time using text-embedding-ada-002. Queries return the most semantically relevant content — not just keyword matches.</div>
+      </div>
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">🧩</span>
+        <div class="modal__feature-text"><strong>Smart Templates</strong>AI generates starting templates for recurring note types — meeting notes, research summaries, daily standups — so you start from signal, not a blank page.</div>
+      </div>
+      <div class="modal__feature-item">
+        <span class="modal__feature-icon">📄</span>
+        <div class="modal__feature-text"><strong>PDF Ingestion</strong>Drop any PDF and Notely extracts, chunks, and embeds the text. Research papers, reports, and lecture slides become queryable instantly.</div>
+      </div>
+    </div>
+
+    <div class="modal__callout">
+      <strong>Design principle:</strong> AI assistance should feel invisible. The goal isn't to build a product that shows off what AI can do — it's to build something a person actually uses every day. That means zero-friction capture, near-instant intelligence, and no new habits required. Notely was designed by using it, iterated on through real daily use, and shipped end-to-end as a working productivity tool.
+    </div>
+
+    <!-- Technologies -->
+    <h4 class="modal__section-title">Technologies Used</h4>
+    <div class="modal__tech-tags">
+      <span class="modal__tech-tag">Python</span>
+      <span class="modal__tech-tag">Streamlit</span>
+      <span class="modal__tech-tag">OpenAI API</span>
+      <span class="modal__tech-tag">text-embedding-ada-002</span>
+      <span class="modal__tech-tag">GPT-3.5 / GPT-4</span>
+      <span class="modal__tech-tag">PDF Processing</span>
+      <span class="modal__tech-tag">Cosine Similarity</span>
+      <span class="modal__tech-tag">NumPy</span>
+      <span class="modal__tech-tag">Pandas</span>
+    </div>
+
+    <!-- Links -->
+    <div class="modal__links">
+      <a href="https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio/tree/main/projects/notely" target="_blank" rel="noopener" class="modal__link hoverable">
+        View Source
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/komal-shahid-6b1704175" target="_blank" rel="noopener" class="modal__link hoverable">
+        Connect on LinkedIn
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+    </div>
   </div>
 </div>
 
-<div class="modal" id="modal-fraud" role="dialog" aria-modal="true">
-  <div class="modal__box">
+<div class="modal" id="modal-fraud" role="dialog" aria-modal="true" aria-labelledby="modal-fraud-title">
+  <div class="modal__box" tabindex="-1">
     <button class="modal__close hoverable" data-close>&times;</button>
     <div class="modal__tag">&bull; Anomaly Detection &middot; Finance AI</div>
-    <h3 class="modal__title">Ensemble Fraud Detection System</h3>
+    <h3 class="modal__title" id="modal-fraud-title">Ensemble Fraud Detection System</h3>
     <p class="modal__desc">Financial fraud detection on a highly imbalanced real-world transaction dataset (fraud rate: 0.27%). A three-model ensemble — PyTorch Autoencoder (reconstruction-error scoring), Isolation Forest, and XGBoost — with SHAP feature attribution for explainability. Primary metric: AUPRC to handle extreme class imbalance.</p>
     <div class="modal__metrics">
       <div class="c"><div class="v">0.91</div><div class="l">AUPRC</div></div>
@@ -3489,7 +3627,9 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
       'Exploring: federated NLP',
       'Reading: mechanistic interpretability',
       'Building: HIPAA-ready AI infra',
-      'Exploring: vision-language models'
+      'Exploring: vision-language models',
+      'Studying: agentic AI systems',
+      'Wrapping: DSC680 capstone'
     ];
     let idx = 0;
     setInterval(() => {

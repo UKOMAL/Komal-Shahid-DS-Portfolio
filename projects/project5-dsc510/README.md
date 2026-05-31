@@ -1,66 +1,35 @@
 # DSC510: Introduction to Programming
 
 ## Project Overview
-Fundamental programming concepts and techniques for data science applications using Python and SQL for data manipulation and analysis.
+Python programming fundamentals for data science — control flow, functions, file I/O, data structures, APIs, and introductory machine learning implementations. Coursework culminates in applied programming projects demonstrating end-to-end data pipeline skills.
 
 ## Course Information
 - **Course**: DSC510 - Introduction to Programming
 - **Institution**: Bellevue University
-- **Semester**: Fall 2024
+- **Student**: Komal Shahid
 
-## Project Structure
+## Repository Structure
 ```
-project11-dsc510/
-├── src/                    # Source code
-│   ├── python_basics/     # Python fundamentals
-│   ├── data_structures/   # Data structure implementations
-│   ├── sql_queries/       # SQL scripts
-│   └── algorithms/        # Basic algorithms
-├── docs/                  # Documentation and reports
-│   ├── final_report.pdf   # Final project report
-│   ├── code_documentation.pdf # Code explanations
-│   └── methodology.md     # Technical methodology
-├── input/                 # Sample data files
-├── output/                # Program outputs
-└── demo/                  # Program demonstrations
+project5-dsc510/
+└── code/
+    ├── week10_hw_shahid_DSC510.py   # Final week capstone assignment
+    └── k_means.py                   # K-means clustering implemented from scratch
 ```
 
-## Key Features
-- Python programming fundamentals
-- Data structure implementation
-- SQL database operations
-- Algorithm development
+## Key Programs
+| File | Description |
+|---|---|
+| `week10_hw_shahid_DSC510.py` | Final capstone assignment — applied Python project |
+| `k_means.py` | K-means clustering algorithm built from scratch without sklearn |
 
-## Technologies Used
-- Python (basic libraries)
-- SQL (SQLite, MySQL)
-- Development environments (PyCharm, VSCode)
-- Version control (Git)
-- Documentation tools
-
-## Installation & Setup
-```bash
-# Clone the repository
-cd project11-dsc510
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run main program
-python src/main.py
-
-# Execute SQL scripts
-python src/sql_operations.py
-```
-
-## Results
-- Complete library management system with 15+ features
-- Efficient algorithms reducing search time by 80%
-- User-friendly GUI with 98% user satisfaction rating
-- Comprehensive error handling and data validation
+## Skills Demonstrated
+- Python data structures (lists, dicts, sets)
+- File I/O and API integration
+- Algorithmic thinking — custom clustering implementation
+- Data manipulation and iteration patterns
 
 ## Author
-Komal Shahid - DSC510 Introduction to Programming Project
+Komal Shahid — DSC510
 
 ## License
-Academic Use Only - Bellevue University 
+Academic Use Only - Bellevue University

@@ -1,66 +1,37 @@
-# DSC530: Data Exploration & Analysis
+# DSC530: Data Exploration and Analysis
 
 ## Project Overview
-Comprehensive data exploration and statistical analysis techniques for understanding patterns, relationships, and insights in complex datasets.
+Exploratory data analysis and statistical inference using Python. Final project applies EDA techniques — distributions, PMFs, CDFs, correlation, and regression — to the MovieLens dataset to uncover patterns in movie ratings and user behavior.
 
 ## Course Information
-- **Course**: DSC530 - Data Exploration & Analysis
+- **Course**: DSC530 - Data Exploration and Analysis
 - **Institution**: Bellevue University
-- **Semester**: Fall 2024
+- **Student**: Komal Shahid
 
-## Project Structure
+## Repository Structure
 ```
-project9-dsc530/
-├── src/                    # Source code
-│   ├── exploration/       # Exploratory data analysis
-│   ├── statistics/        # Statistical analysis scripts
-│   ├── visualization/     # Data visualization code
-│   └── hypothesis/        # Hypothesis testing
-├── docs/                  # Documentation and reports
-│   ├── final_report.pdf   # Final project report
-│   ├── eda_findings.pdf   # EDA results
-│   └── methodology.md     # Technical methodology
-├── input/                 # Raw datasets
-├── output/                # Analysis results and plots
-└── demo/                  # Interactive analysis
+project7-dsc530/
+└── final/
+    └── code/
+        ├── shahid_dsc530_final_project.ipynb   # Full EDA notebook
+        ├── thinkplot.py                         # Visualization utility
+        └── thinkstats2.py                       # Statistical utility
 ```
 
-## Key Features
-- Exploratory Data Analysis (EDA)
-- Statistical hypothesis testing
-- Data visualization and storytelling
-- Pattern recognition and insights
+## Final Project: MovieLens EDA
+- **Dataset**: MovieLens (movies, ratings, tags, links)
+- Distribution analysis of user ratings across genres
+- PMF/CDF comparisons across genre categories
+- Correlation between user activity and rating patterns
+- Regression analysis on rating predictors
 
-## Technologies Used
-- Python (Pandas, NumPy, Matplotlib, Seaborn)
-- R (ggplot2, dplyr)
-- Jupyter Notebooks
-- Statistical testing libraries
-- Interactive visualization tools
-
-## Installation & Setup
-```bash
-# Clone the repository
-cd project9-dsc530
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run exploratory analysis
-python src/exploratory_analysis.py
-
-# Generate visualizations
-python src/create_visualizations.py
-```
-
-## Results
-- Identified 15 significant correlations in pandemic impact data (p<0.05)
-- Regional variation patterns with 92% predictive accuracy
-- Economic recovery indicators with 3-month lead time
-- Public health policy recommendations based on statistical analysis
+## Tools & Libraries
+- Python, Jupyter Notebook
+- pandas, numpy, matplotlib
+- ThinkStats2 framework for statistical analysis
 
 ## Author
-Komal Shahid - DSC530 Data Exploration & Analysis Project
+Komal Shahid — DSC530
 
 ## License
-Academic Use Only - Bellevue University 
+Academic Use Only - Bellevue University

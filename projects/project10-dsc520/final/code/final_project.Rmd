@@ -1,0 +1,223 @@
+---
+title: "Mental Health and Social Media Usage Analysis"
+author: "Komal Shahid"
+date: "2023-11-19"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Mental Health and Social Media Usage Analysis
+
+## Introduction
+In this analysis, we explore the relationship between mental health and social media usage. We aim to understand the impact of social media usage patterns on mental health outcomes.With the increasing use of social media platforms, there is a growing concern about its potential negative effects on individuals' well-being. This topic is of interest because understanding the relationship between social media usage and mental health can help inform interventions and policies to promote healthier online behaviors. It is a data science problem because it involves analyzing large-scale datasets to uncover patterns, correlations, and potential causal relationships.
+
+## Problem Statement
+The problem statement addressed in this analysis is to investigate whether there is a correlation between social media usage patterns and mental health outcomes.
+
+## Data Description
+We utilized two datasets for this analysis:
+
+1. **Train Dataset**: This dataset contains information about sentiment and subreddit. It was obtained from [Kaggle](https://www.kaggle.com/), specifically from the "dreaddit" project.
+
+2. **Core Trend Survey Data**: This dataset includes data on age, internet frequency, and social media use. It was collected through a survey conducted on various social media platforms.
+3. **Mental Health Survey Data**: This dataset provides additional information related to mental health outcomes. It can be accessed [here](https://www.openicpsr.org/openicpsr/project/175582/version/V1/view?path=/openicpsr/175582/fcr:versions/V1/Data/Input/MentalHealthSurvey/Mental_Health_Survey_Feb_20_22.csv&type=file).
+
+## Methodology
+
+### Loading Data
+```{r path}
+file_path <- "/Users/komalshahid/Desktop/Bellevue University/DSC520/final_project/data/"
+```
+
+```{r data}
+# Read in train and test data
+train <- read.csv(paste0(file_path, "/kaggle/dreaddit-train.csv"))
+test <- read.csv(paste0(file_path, "kaggle/dreaddit-test.csv"))
+core_trend_survey_data <- read.csv(paste0(file_path, "trends/core_trend_survey_data.csv"))
+```
+
+### Required Libraries
+```{r packages}
+library(dplyr)
+library(ggplot2)
+library(data.table)
+```
+
+### Exploratory Analysis
+
+#### Train Dataset Columns Information
+```{r columninfo}
+cols <- colnames(train)
+print(cols[1:10])
+
+cols2 <- colnames(core_trend_survey_data)
+print(cols2[1:10])
+```
+
+#### Mean Sentiment by Subreddit
+```{r mean_sentiment}
+# Calculate mean sentiment for each subreddit
+subreddit_mean <- aggregate(sentiment ~ subreddit, data = train, FUN = mean)
+
+# Sort by mean sentiment in descending order
+subreddit_mean_sorted <- subreddit_mean[order(subreddit_mean$sentiment, decreasing = TRUE), ]
+
+# Plotting mean sentiment by subreddit
+ggplot(subreddit_mean_sorted, aes(x=subreddit, y=sentiment)) +
+  geom_bar(stat="identity", fill="steelblue") +
+  labs(title="Mean Sentiment by Social Media Users (Subreddit)",
+       x="Social Media Users",
+       y="Mean Sentiment") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle=45),
+        plot.title = element_text(size=16, face="bold"),
+        axis.title.x = element_text(size=12),
+        axis.title.y = element_text(size=12),
+        axis.text.y = element_text(size=10),
+        panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank(),
+        panel.border = element_blank())
+```
+You can see from this chart that social media users share a stageering amount of stress, anxiety and ptsd related posts. Even though homelessness have the most shared post-given the inflation and other macroeconomic factors-,mental health related posts are taking top spots. 
+
+### Data Filtering
+
+#### Removing Missing Values
+```{r filter_data}
+train <- train[!is.na(train$subreddit), ]
+test <- test[!is.na(test$subreddit), ]
+train_x_unique<- unique(train$text)
+train_y_unique<- unique(train$subreddit)
+
+test_x_unique<- unique(test$text)
+test_y_unique<- unique(test$subreddit)
+
+print(train_x_unique[1])
+print(train_y_unique[1])
+```
+
+### Classification Model Suggestion
+I would suggest a logistic regression for classification model by adding up all the mental health columns/attribtures together to predict wheteher people using social media would likely have a mental health issue. It is not going to classify or rank attribute that contibute the most to having a mental health. It would simply be a binary  predictor of one person using social media having a mental health problem as well.
+Note*: The model below has a reduced sample size (which would be applicable in realworld as well for training, because training a model can be computationally expensive) and reduced number of iterations. This is just an idea for how the code skelton would look like if we were to build a model.
+#### Combining Stress and Anxiety Variables
+```{r combine_variables}
+# set.seed(123)  # For reproducibility
+# 
+# # Sample 30% of the train data
+# train_indices <- sample(1:nrow(train), nrow(train)*0.3)
+# train_sample <- train[train_indices, ]
+# 
+# # Combine stress and anxiety into one variable
+# train_sample$stress_anxiety <- ifelse(train_sample$sentiment == "stress" | train_sample$sentiment == "anxiety", 1, 0)
+# test$stress_anxiety <- ifelse(test$sentiment == "stress" | test$sentiment == "anxiety", 1, 0)
+# 
+# # Train a classification model
+# library(caret)
+# model <- train(stress_anxiety ~ . - sentiment - subreddit,
+#                data = train_sample,
+#                method = "glm",
+#                family = "binomial",
+#                maxit = 1)
+# 
+# # Make predictions on the test set
+# predictions <- predict(model, newdata = test)
+# 
+# # Evaluate model performance
+# confusion_matrix <- table(predictions, test$stress_anxiety)
+# accuracy <- sum(diag(confusion_matrix)) / sum(confusion_matrix)
+# confusion_matrix
+# accuracy
+```
+
+### Mental Health Trends Analysis
+
+#### Core Trend Survey Data Description
+```{r core_trend_survey_data}
+library(ggplot2)
+library(gridExtra)
+df <- core_trend_survey_data %>% select(age, intfreq, snsint2)
+df <- na.omit(df)
+print(head(df))
+```
+
+#### Plotting mental health trends from Core Trend Survey data
+
+
+```{r}
+library(ggplot2)
+library(gridExtra)
+df <- core_trend_survey_data %>% select(age, intfreq, snsint2)
+df <- na.omit(df)
+print(head(df))
+
+df_selected <- df %>% select(age, intfreq, snsint2)
+table_df <- table(df_selected$age, df_selected$snsint2)
+library(dplyr)
+
+# Divide age into groups
+df <- df %>%
+  mutate(age_group = cut(age, breaks = c(0, 20, 30, 40, Inf), labels = c("0-20", "21-30", "31-40", "41+")))
+
+# Calculate average snsint2 by age group
+avg_snsint2 <- df %>%
+  group_by(age_group) %>%
+  summarize(avg_snsint2 = mean(snsint2))
+
+# Calculate average intfreq by age group
+avg_intfreq <- df %>%
+  group_by(age_group) %>%
+  summarize(avg_intfreq = mean(intfreq))
+
+# Plotting average snsint2 by age group
+ggplot(avg_snsint2) +
+  aes(x = age_group, y = avg_snsint2) +
+  geom_bar(stat = "identity") +
+  labs(x = "Age Group", y = "Average Social Media Usage") +
+  theme_minimal()
+
+# Plotting average intfreq by age group
+ggplot(avg_intfreq) +
+    aes(x=age_group,y=avg_intfreq)+
+    geom_bar(stat="identity")+
+    labs(x="Age Group",y="Average Internet Frequency")+
+    theme_minimal()
+
+# Plotting mental health and social media use together
+ggplot(df) +
+  aes(x = intfreq, y = age, color = snsint2) +
+  geom_point() +
+  labs(x = "Internet Frequency", y = "Age", color = "Social Media Use") +
+  theme_minimal()
+```
+
+
+## Implications
+
+The analysis provides interesting insights into the relationship between mental health and social media usage. The mean sentiment analysis of different subreddits highlights variations in sentiment among social media users. Additionally, the examination of trends from the Core Trend Survey data and Mental Health Survey data reveals potential correlations between internet frequency, social media useage scores, mental health scores, and social media use.
+
+These insights have implications for mental health professionals, social media platforms, and individuals. Mental health professionals can utilize these findings to tailor interventions or support programs for individuals who may be more susceptible to negative mental health outcomes related to social media usage. Social media platforms can also consider implementing features that promote positive mental well-being.
+
+## Limitations
+
+There are several limitations to consider in this analysis. Firstly, time constraints may have hindered the depth and breadth of the analysis. Given more time, additional variables and data sources could have been explored to provide a more comprehensive understanding of the relationship between mental health and social media usage.
+
+Secondly, the quality of the data used in this analysis may also pose limitations. The reliance on self-reported survey data introduces potential biases and inaccuracies. Additionally, there may be missing or incomplete responses in the datasets that could impact the validity of conclusions drawn from the analysis.
+
+Furthermore, it is important to note that these datasets have their own limitations in terms of their scope and representativeness. They may not capture all relevant factors or nuances related to mental health outcomes and social media usage.
+
+Despite these limitations, this analysis provides valuable insights into potential correlations between mental health outcomes and social media usage patterns. Future research with larger sample sizes, diverse populations, and more robust data collection methods would further enhance our understanding of this complex relationship.
+
+## Conclusion
+
+In conclusion, this analysis explored the relationship between mental health and social media usage using sentiment data from Reddit posts and demographic information from survey responses. The findings provided insights into potential correlations between age groups' internet frequency, social media usage frequency, and their impact on mental health outcomes. These insights can inform targeted interventions and support systems aimed at promoting positive mental well-being in relation to social media use.
+One of the interesting finding about the plots was that the internet and social media usage was high above 40+ age bracket.My initial assumption was that teens would have the most impact on mental health and furthermore would have highest usage for internet and social media. Yet the survey conducted had the age bracket above 40 for the most internet usage. For social media both adolescents and above 40 people had reported frequent internet and social media browsing.
+Please note that further research incorporating additional variables or longitudinal studies would enhance our understanding of how changes in social media usage patterns over time impact mental health outcomes.
+
+References:
+- Kaggle: [Dreaddit Project](https://www.kaggle.com/)
+- Core Trend Survey Data: [Link](insert_link_here)
+- Mental Health Survey Data: [Link](https://www.openicpsr.org/openicpsr/project/175582/version/V1/view?path=/openicpsr/175582/fcr:versions/V1/Data/Input/MentalHealthSurvey/Mental_Health_Survey_Feb_20_22.csv&type=file)

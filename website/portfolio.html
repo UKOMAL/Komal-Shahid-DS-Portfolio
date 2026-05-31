@@ -110,7 +110,7 @@
 }
 
 *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
-html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; scroll-padding-top:88px; }
 body{
   font-family:var(--font-body);
   font-size:17px;
@@ -389,6 +389,7 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
   animation:caret 1s steps(1) infinite;
 }
 @keyframes caret{ 50%{opacity:0;} }
+@keyframes spin{ to{ transform:rotate(360deg); } }
 
 .hero__prose{
   margin-top:36px;
@@ -532,6 +533,21 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
   animation:drawLine 1.2s .4s var(--ease-out) forwards;
 }
 @keyframes drawLine{ to{ stroke-dashoffset:0; } }
+
+/* ────────── Hero title letter-by-letter reveal ────────── */
+/* Each character slides up from below when the page loads.
+   Body starts at opacity:0 so chars are invisible before page-ready fires. */
+.hero__title .char{
+  display:inline-block;
+  animation: charSlideIn 0.55s var(--ease-out) both;
+}
+@keyframes charSlideIn{
+  from{ transform:translateY(20px); }
+  to  { transform:none; }
+}
+@media (prefers-reduced-motion:reduce){
+  .hero__title .char{ animation:none !important; transform:none !important; }
+}
 
 /* ────────── Marquee (interstitial) ────────── */
 .marquee{
@@ -767,6 +783,71 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
 .tl-tags span{ font-family:var(--font-mono); font-size:10px; color:var(--fg-muted); border:1px solid var(--rule-c); padding:3px 8px; border-radius:999px; }
 @media (max-width:900px){ .timeline{ grid-template-columns:1fr; } }
 
+/* ────────── Portfolio highlights strip (Jun 2026) ────────── */
+.highlights-strip{
+  border-top:1px solid var(--rule-c);
+  border-bottom:1px solid var(--rule-c);
+  background:var(--bg-soft);
+  padding:40px var(--gutter);
+  overflow:hidden;
+}
+.highlights-strip__inner{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:0;
+  flex-wrap:wrap;
+}
+.highlights-strip__item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  padding:0 clamp(20px, 4vw, 52px);
+  text-align:center;
+  opacity:0;
+  transform:translateY(14px);
+  transition:opacity .55s var(--ease-out), transform .55s var(--ease-out);
+}
+.highlights-strip__item.visible{
+  opacity:1;
+  transform:none;
+}
+.hs-num{
+  font-family:var(--font-display);
+  font-size:clamp(2rem, 4vw, 3.2rem);
+  font-weight:300;
+  color:var(--fg);
+  letter-spacing:-.03em;
+  line-height:1;
+}
+.hs-suffix{
+  font-size:.65em;
+  color:var(--accent);
+}
+.hs-label{
+  font-family:var(--font-mono);
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--fg-muted);
+  white-space:nowrap;
+}
+.hs-divider{
+  width:1px;
+  height:48px;
+  background:var(--rule-c);
+  flex-shrink:0;
+  align-self:center;
+}
+@media (max-width:680px){
+  .hs-divider{ display:none; }
+  .highlights-strip__item{ width:45%; padding:14px 0; }
+}
+@media (prefers-reduced-motion:reduce){
+  .highlights-strip__item{ opacity:1 !important; transform:none !important; }
+}
+
 /* ────────── Contact ────────── */
 .contact{ padding:clamp(100px, 16vh, 200px) var(--gutter); max-width:var(--maxw); margin:0 auto; text-align:left; }
 .contact__kicker{ font-family:var(--font-mono); font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); margin-bottom:22px; }
@@ -819,6 +900,17 @@ body.cursor-hover .cursor-ring{ width:60px; height:60px; }
   box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 14%, transparent);
 }
 .cf-field textarea{ min-height:130px; line-height:1.6; }
+/* ── Real-time validation states (June 2026) ── */
+.cf-field input.cf-validated,
+.cf-field textarea.cf-validated{
+  border-color:var(--sage);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--sage) 10%, transparent);
+}
+.cf-field input.cf-error,
+.cf-field textarea.cf-error{
+  border-color:var(--terracotta);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--terracotta) 10%, transparent);
+}
 .cf-submit{
   display:inline-flex; align-items:center; gap:12px;
   padding:14px 22px;
@@ -1671,6 +1763,397 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
   display: inline-flex; align-items: center; gap: 6px;
   transition: opacity 0.28s var(--ease), transform 0.28s var(--ease);
 }
+
+/* ────────── Modal image gallery (May 2026) ────────── */
+.modal__gallery{
+  margin:22px 0;
+  border:1px solid var(--rule-c);
+  border-radius:12px;
+  overflow:hidden;
+  background:var(--bg-soft);
+}
+.modal__gallery-tabs{
+  display:flex; overflow-x:auto; gap:0;
+  border-bottom:1px solid var(--rule-c);
+  scrollbar-width:none;
+}
+.modal__gallery-tabs::-webkit-scrollbar{ display:none; }
+.modal__gallery-tab{
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--fg-muted);
+  padding:10px 14px;
+  border:0; border-bottom:2px solid transparent;
+  background:none; white-space:nowrap; cursor:pointer; flex-shrink:0;
+  transition:color .2s var(--ease), border-color .2s;
+}
+.modal__gallery-tab.active{ color:var(--accent); border-bottom-color:var(--accent); }
+.modal__gallery-tab:hover{ color:var(--fg); }
+.modal__gallery-panel{ display:none; padding:16px; }
+.modal__gallery-panel.active{ display:block; }
+.modal__gallery-panel img{
+  width:100%; border-radius:8px; display:block;
+  transition:opacity .3s var(--ease-out);
+}
+.modal__gallery-panel figcaption{
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--fg-muted); margin-top:10px; text-align:center;
+}
+
+/* ────────── Skill card 3D tilt (May 2026) ────────── */
+/* JS handles the transform; this ensures smooth spring-back on leave */
+.skill-card.tilt-ready{
+  will-change:transform;
+}
+
+/* ────────── Magnetic button transition override (May 2026) ────────── */
+/* When JS magnetic effect is active we handle transform via inline style;
+   the CSS hover transform is suppressed by specificity here */
+.btn.magnetic-active{
+  transition:transform .12s, background .3s var(--ease), color .3s var(--ease), border-color .3s !important;
+}
+.btn.magnetic-leave{
+  transition:transform .55s var(--ease-out), background .3s var(--ease), color .3s var(--ease), border-color .3s !important;
+}
+
+/* ────────── WIP project panel badge ────────── */
+/* Shimmer badge for in-progress work — ochre palette to distinguish from completed panels */
+.wip-badge{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ochre);
+  border:1px solid color-mix(in srgb, var(--ochre) 40%, transparent);
+  border-radius:999px; padding:8px 18px;
+  position:relative; overflow:hidden;
+}
+.wip-badge::before{
+  content:""; position:absolute; inset:0;
+  background:linear-gradient(90deg, transparent, color-mix(in srgb, var(--ochre) 12%, transparent), transparent);
+  animation:wipShimmer 2.6s ease-in-out infinite;
+  transform:translateX(-100%);
+}
+@keyframes wipShimmer{
+  0%  { transform:translateX(-100%); }
+  60% { transform:translateX(100%); }
+  100%{ transform:translateX(100%); }
+}
+.wip-badge::after{
+  content:""; display:inline-block; width:6px; height:6px; border-radius:50%;
+  background:var(--ochre); flex-shrink:0; order:-1;
+  animation:blink 1.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion:reduce){
+  .wip-badge::before{ animation:none !important; }
+  .wip-badge::after { animation:none !important; }
+}
+
+/* WIP panel — ochre left edge accent, subtle warm tint */
+.panel--wip{
+  background:color-mix(in srgb, var(--ochre) 2%, var(--bg-soft));
+  border-left:2px solid color-mix(in srgb, var(--ochre) 45%, transparent);
+}
+.panel--wip .panel__num{
+  -webkit-text-stroke: 1px var(--ochre);
+  color:transparent;
+}
+.panel--wip .panel__tag::before{
+  content:"⟳ ";
+  color:var(--ochre);
+  font-size:11px;
+}
+
+/* ────────── Hero credibility stats mini-row ────────── */
+/* Compact inline project-metric strip below CTA buttons.
+   Gives at-a-glance signal of project scale without disrupting hero rhythm. */
+.hero__stats-row{
+  margin-top:28px;
+  display:flex; align-items:center; gap:0; flex-wrap:wrap;
+  opacity:0;
+  animation:fadeUp .6s var(--ease-out) 1.4s forwards;
+}
+@keyframes fadeUp{
+  from{ opacity:0; transform:translateY(8px); }
+  to  { opacity:1; transform:none; }
+}
+@media (prefers-reduced-motion:reduce){ .hero__stats-row{ animation:none !important; opacity:1; } }
+.hero__stat{
+  display:flex; flex-direction:column; align-items:flex-start; gap:2px;
+  padding:0 20px 0 0;
+  margin-right:20px;
+  border-right:1px solid var(--rule-c);
+}
+.hero__stat:last-child{ border-right:0; padding-right:0; margin-right:0; }
+.hero__stat-val{
+  font-family:var(--font-display); font-size:1.3rem; font-weight:300;
+  font-variation-settings:"SOFT" 60,"opsz" 48;
+  color:var(--fg); line-height:1; letter-spacing:-.02em;
+}
+.hero__stat-lbl{
+  font-family:var(--font-mono); font-size:9px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--fg-muted);
+  white-space:nowrap;
+}
+@media (max-width:540px){
+  .hero__stats-row{ gap:0; }
+  .hero__stat{ padding:0 14px 0 0; margin-right:14px; }
+}
+
+/* ────────── Nav sliding indicator (Jul 2026) ────────── */
+/* A thin gold bar that slides between active nav links — premium agency touch.
+   Positioned absolutely inside .nav__links; JS moves it on scroll. */
+.nav__links{
+  position:relative;
+}
+.nav__indicator{
+  position:absolute;
+  bottom:-1px;
+  left:0; width:0;
+  height:2px;
+  background:var(--accent);
+  border-radius:999px;
+  opacity:0;
+  pointer-events:none;
+  transition:left .38s var(--ease-out), width .38s var(--ease-out), opacity .3s var(--ease);
+}
+@media (max-width:900px){ .nav__indicator{ display:none; } }
+
+/* ────────── Hero stat count-up readiness ────────── */
+/* Vals start at opacity 0 relative-to-animation but count-up uses JS.
+   The .hero__stats-row fadeUp already handles opacity; no extra CSS needed. */
+
+/* ────────── Contact availability bar ────────── */
+/* Quick facts strip: availability status · location · response time · open-to.
+   Grounded, professional — adds signal without clutter. */
+.contact__availability{
+  display:flex; flex-wrap:wrap; align-items:center; gap:8px 0;
+  margin:28px 0 40px;
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--fg-muted);
+}
+.contact__avail-item{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:0 16px 0 0; margin-right:16px;
+  border-right:1px solid var(--rule-c);
+}
+.contact__avail-item:last-child{ border-right:0; padding-right:0; margin-right:0; }
+.contact__avail-dot{
+  display:inline-block; width:6px; height:6px; border-radius:50%;
+  background:var(--sage); flex-shrink:0;
+  animation:blink 2s ease-in-out infinite;
+}
+/* Highlight the "available now" chip with a faint sage border */
+.contact__avail-item--status{
+  color:var(--sage);
+  border:1px solid color-mix(in srgb, var(--sage) 35%, transparent);
+  border-radius:999px; padding:4px 12px; margin-right:16px;
+}
+.contact__avail-item--status .contact__avail-dot{ margin-right:4px; }
+@media(max-width:600px){
+  .contact__avail-item{ border-right:0; padding-right:0; margin-right:0; }
+  .contact__availability{ gap:8px; flex-direction:column; align-items:flex-start; }
+}
+
+/* ────────── [AUG 2026] Timeline item hover micro-interaction ────────── */
+/* Each timeline entry slides gently right on hover — tactile depth
+   added to what would otherwise be a fully static vertical list. */
+.tl-item{
+  transition: transform .32s var(--ease-out);
+  will-change: transform;
+}
+.tl-item:hover{ transform: translateX(7px); }
+.tl-item:hover .tl-title{
+  color: var(--fg);
+  transition: color .25s var(--ease);
+}
+.tl-item:hover .tl-tags span{
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--rule-c));
+  color: color-mix(in srgb, var(--accent) 70%, var(--fg-muted));
+  transition: border-color .25s var(--ease), color .25s var(--ease);
+}
+@media (prefers-reduced-motion:reduce){
+  .tl-item{ transition:none; }
+  .tl-item:hover{ transform:none; }
+}
+
+/* ────────── [AUG 2026] Scroll cue auto-hide ────────── */
+.scroll-cue{
+  transition: opacity .55s var(--ease), transform .55s var(--ease-out);
+}
+.scroll-cue.hidden{
+  opacity: 0 !important;
+  transform: translateY(12px);
+  pointer-events: none;
+}
+
+/* ────────── [AUG 2026] Live Chicago time in contact ────────── */
+.contact__time-dot{
+  display: inline-block;
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent);
+  margin-right: 5px; vertical-align: middle;
+  animation: blink 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.contact__avail-item--time{ font-variant-numeric: tabular-nums; }
+
+/* ────────── [AUG 2026] Skill bar percentage peek-label ────────── */
+.skill-bar{ overflow: visible; }
+.skill-bar__pct-tip{
+  font-family: var(--font-mono);
+  font-size: 9px; color: var(--fg-muted);
+  min-width: 28px; text-align: right; flex-shrink: 0;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity .3s var(--ease), transform .3s var(--ease-out);
+  letter-spacing: .06em;
+}
+.skill-card:hover .skill-bar__pct-tip{ opacity: 1; transform: none; }
+
+/* ────────── [AUG 2026] Highlights strip count-up accent ────────── */
+.highlights-strip__item .hs-num.hs-counting{
+  color: color-mix(in srgb, var(--accent) 80%, var(--fg));
+}
+
+/* ────────── [SEP 2026] Branded text selection ────────── */
+::selection{
+  background: color-mix(in srgb, var(--accent) 26%, transparent);
+  color: var(--fg);
+}
+::-moz-selection{
+  background: color-mix(in srgb, var(--accent) 26%, transparent);
+  color: var(--fg);
+}
+
+/* ────────── [SEP 2026] Scroll padding — compensate for fixed 70 px nav ────────── */
+/* Already on html element via scroll-padding-top:88px above */
+
+/* ────────── [SEP 2026] Modal prev / next case-study navigation ────────── */
+.modal__nav{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:10px; flex-wrap:wrap;
+  margin-top:32px; padding-top:22px;
+  border-top:1px solid var(--rule-c);
+}
+.modal__nav-btn{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:var(--font-mono); font-size:10px; font-weight:500;
+  letter-spacing:.15em; text-transform:uppercase;
+  color:var(--fg-muted);
+  border:1px solid var(--rule-c); border-radius:999px;
+  padding:8px 16px; background:var(--bg-soft);
+  transition:color .22s var(--ease), border-color .22s, background .22s, transform .25s var(--ease-out);
+  cursor:pointer; white-space:nowrap; flex-shrink:0;
+}
+.modal__nav-btn:hover{
+  color:var(--accent); border-color:var(--accent);
+  background:color-mix(in srgb, var(--accent) 6%, var(--bg-soft));
+  transform:translateY(-1px);
+}
+.modal__nav-btn:disabled{ opacity:.25; pointer-events:none; }
+.modal__nav-btn svg{ width:12px; height:12px; flex-shrink:0; }
+.modal__nav-label{
+  font-family:var(--font-mono); font-size:9px; letter-spacing:.18em;
+  text-transform:uppercase; color:var(--fg-muted);
+  text-align:center; flex:1;
+}
+@media(max-width:540px){ .modal__nav-label{ display:none; } }
+
+/* ────────── [SEP 2026] Section number subtle parallax ────────── */
+.section__head .num{
+  will-change:transform;
+  display:inline-block;
+}
+
+/* ────────── [SEP 2026] Hero child entrance stagger ────────── */
+/* Sequence: kicker → (title chars run from JS) → role → prose → cta */
+@keyframes heroChildIn{
+  from{ opacity:0; transform:translateY(12px); }
+  to  { opacity:1; transform:none; }
+}
+.hero__kicker{
+  opacity:0;
+  animation: heroChildIn .52s var(--ease-out) .48s forwards;
+}
+.hero__role{
+  opacity:0;
+  animation: heroChildIn .52s var(--ease-out) 1.32s forwards;
+}
+.hero__prose{
+  opacity:0;
+  animation: heroChildIn .52s var(--ease-out) 1.55s forwards;
+}
+.hero__cta-row{
+  opacity:0;
+  animation: heroChildIn .52s var(--ease-out) 1.78s forwards;
+}
+/* hero__stats-row already has its own fadeUp at 1.4s — bump it to 2.0s to maintain cascade */
+.hero__stats-row{
+  animation-delay: 2.0s !important;
+}
+@media (prefers-reduced-motion:reduce){
+  .hero__kicker,.hero__role,.hero__prose,.hero__cta-row{
+    animation:none !important; opacity:1 !important; transform:none !important;
+  }
+  .hero__stats-row{ animation:none !important; opacity:1 !important; }
+}
+
+/* ────────── [OCT 2026] Dark mode aurora blobs in hero ────────── */
+/* Subtle animated radial gradient orbs that drift behind the hero canvas
+   in dark mode — adds atmospheric depth without competing with the constellation. */
+[data-theme="dark"] .hero__bg-grid::after{
+  content:"";
+  position:absolute; inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse 680px 420px at 14% 42%,
+      color-mix(in srgb, var(--gold) 9%, transparent) 0%, transparent 68%),
+    radial-gradient(ellipse 540px 380px at 84% 58%,
+      color-mix(in srgb, var(--burgundy) 11%, transparent) 0%, transparent 68%),
+    radial-gradient(ellipse 460px 320px at 54% 14%,
+      color-mix(in srgb, var(--sage) 7%, transparent) 0%, transparent 68%);
+  filter:blur(56px);
+  animation:auroraFloat 22s ease-in-out infinite alternate;
+  opacity:.9;
+  z-index:0;
+}
+@keyframes auroraFloat{
+  0%  { transform:translate(0px, 0px) scale(1); }
+  30% { transform:translate(22px, -16px) scale(1.06); }
+  65% { transform:translate(-18px, 12px) scale(0.96); }
+  100%{ transform:translate(12px, 6px) scale(1.04); }
+}
+@media (prefers-reduced-motion:reduce){
+  [data-theme="dark"] .hero__bg-grid::after{ animation:none !important; }
+}
+
+/* ────────── [OCT 2026] Scramble-decode effect readiness ────────── */
+/* Headings that are mid-scramble render characters in muted color so the
+   resolve feels like decoding rather than a glitch. No layout shift. */
+.section__head h2.scrambling em,
+.section__head h2.scrambling strong{
+  /* colour transitions handled by JS re-inserting the real markup */
+  color:inherit;
+}
+
+/* ────────── [OCT 2026] Section active flash pulse ────────── */
+/* When side-nav dot navigates to a section its heading gets a brief
+   gold outline flash — confirms arrival without lasting visual noise. */
+@keyframes sectionPulse{
+  0%  { box-shadow:0 0 0 0px color-mix(in srgb, var(--accent) 40%, transparent); }
+  40% { box-shadow:0 0 0 14px color-mix(in srgb, var(--accent) 0%, transparent); }
+  100%{ box-shadow:none; }
+}
+.section__head.flash-pulse{
+  animation:sectionPulse .9s var(--ease-out) forwards;
+  border-radius:4px;
+}
+
+/* ────────── [OCT 2026] Project card focus-ring enhancement ────────── */
+/* skill cards get an enhanced visible focus outline for keyboard users */
+.skill-card:focus-within,
+.skill-card:focus{
+  outline:2px solid var(--accent);
+  outline-offset:4px;
+}
 </style>
 </head>
 <body>
@@ -1704,6 +2187,7 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
     <span>Komal Shahid</span>
   </a>
   <div class="nav__links" role="menubar">
+    <span class="nav__indicator" aria-hidden="true"></span>
     <a href="#about"><span class="idx">01</span>About</a>
     <a href="#work"><span class="idx">02</span>Work</a>
     <a href="#skills"><span class="idx">03</span>Skills</a>
@@ -1775,6 +2259,26 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
         View CV
       </a>
     </div>
+
+    <!-- Credibility stats mini-row — at-a-glance project metrics -->
+    <div class="hero__stats-row" aria-label="Key project metrics">
+      <div class="hero__stat">
+        <span class="hero__stat-val" data-hero-count="0.723" data-hero-dec="3">0.723</span>
+        <span class="hero__stat-lbl">Best AUC</span>
+      </div>
+      <div class="hero__stat">
+        <span class="hero__stat-val" data-hero-count="89" data-hero-suffix="%">89%</span>
+        <span class="hero__stat-lbl">F1 (Federated)</span>
+      </div>
+      <div class="hero__stat">
+        <span class="hero__stat-val" data-hero-count="0.91" data-hero-dec="2">0.91</span>
+        <span class="hero__stat-lbl">AUPRC (Fraud)</span>
+      </div>
+      <div class="hero__stat">
+        <span class="hero__stat-val" data-hero-count="10" data-hero-suffix="+">10+</span>
+        <span class="hero__stat-lbl">Applied builds</span>
+      </div>
+    </div>
   </div>
 
   <div class="hero__viz" id="heroViz">
@@ -1802,8 +2306,8 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
 <!-- MARQUEE -->
 <section class="marquee" aria-hidden="true">
   <div class="marquee__track">
-    <span>Healthcare AI<span class="marquee__star">&#10022;</span>Privacy-Preserving ML<span class="marquee__star">&#10022;</span>Explainable AI<span class="marquee__star">&#10022;</span>Federated Learning<span class="marquee__star">&#10022;</span>NLP &amp; Transformers<span class="marquee__star">&#10022;</span>Computer Vision<span class="marquee__star">&#10022;</span>Ethical AI<span class="marquee__star">&#10022;</span></span>
-    <span>Healthcare AI<span class="marquee__star">&#10022;</span>Privacy-Preserving ML<span class="marquee__star">&#10022;</span>Explainable AI<span class="marquee__star">&#10022;</span>Federated Learning<span class="marquee__star">&#10022;</span>NLP &amp; Transformers<span class="marquee__star">&#10022;</span>Computer Vision<span class="marquee__star">&#10022;</span>Ethical AI<span class="marquee__star">&#10022;</span></span>
+    <span>Healthcare AI<span class="marquee__star">&#10022;</span>Privacy-Preserving ML<span class="marquee__star">&#10022;</span>Explainable AI<span class="marquee__star">&#10022;</span>Federated Learning<span class="marquee__star">&#10022;</span>NLP &amp; Transformers<span class="marquee__star">&#10022;</span>Computer Vision<span class="marquee__star">&#10022;</span>Ethical AI<span class="marquee__star">&#10022;</span>Clinical RAG Pipelines<span class="marquee__star">&#10022;</span>Agentic AI Systems<span class="marquee__star">&#10022;</span>Vision-Language Models<span class="marquee__star">&#10022;</span>Differential Privacy<span class="marquee__star">&#10022;</span></span>
+    <span>Healthcare AI<span class="marquee__star">&#10022;</span>Privacy-Preserving ML<span class="marquee__star">&#10022;</span>Explainable AI<span class="marquee__star">&#10022;</span>Federated Learning<span class="marquee__star">&#10022;</span>NLP &amp; Transformers<span class="marquee__star">&#10022;</span>Computer Vision<span class="marquee__star">&#10022;</span>Ethical AI<span class="marquee__star">&#10022;</span>Clinical RAG Pipelines<span class="marquee__star">&#10022;</span>Agentic AI Systems<span class="marquee__star">&#10022;</span>Vision-Language Models<span class="marquee__star">&#10022;</span>Differential Privacy<span class="marquee__star">&#10022;</span></span>
   </div>
 </section>
 
@@ -1848,15 +2352,15 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
       <div class="panel-counter" id="panelCounter" aria-live="polite" aria-atomic="true">
         <span class="panel-counter__current" id="panelCurrent">—</span>
         <span class="panel-counter__sep">/</span>
-        <span>05</span>
+        <span>06</span>
       </div>
       <div class="projects-track" id="projectsTrack">
 
         <div class="projects-head">
           <div>
             <div class="num">02 — Selected Work</div>
-            <h2 class="font-display"><em>Five</em> projects,<br>one thesis.</h2>
-            <p>A capstone, a privacy-preserving thesis, a CV pipeline, a shipped NLP product, and an ensemble fraud detector. Scroll sideways to walk through each.</p>
+            <h2 class="font-display"><em>Six</em> projects,<br>one thesis.</h2>
+            <p>A capstone, a privacy-preserving thesis, a CV pipeline, a shipped NLP product, an ensemble fraud detector, and a clinical RAG pipeline in progress. Scroll sideways to walk through each.</p>
           </div>
           <div class="hint">
             <svg viewBox="0 0 40 10" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 5h34M30 1l6 4-6 4"/></svg>
@@ -1933,8 +2437,64 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
         <article class="panel">
           <div class="panel__meta">
             <div>
-              <div class="panel__tag">&bull; Privacy AI &middot; Research</div>
+              <div class="panel__tag">&bull; DSC680 &middot; Project 2 &middot; NLP</div>
               <div class="panel__num">02</div>
+            </div>
+            <div>
+              <h3 class="panel__title">What makes content <span class="italic">actually win?</span></h3>
+              <p class="panel__lede">OLS regression and gradient boosting on 12,000 Reddit posts to reverse-engineer what topic, format, and hook style drive engagement — then quantify the lift from AI-conditioned content. ANOVA confirms all three dimensions significant at p&lt;.001.</p>
+              <div class="panel__metrics">
+                <div><div class="m__v">0.271</div><div class="m__l">R²</div></div>
+                <div><div class="m__v">+37%</div><div class="m__l">AI lift</div></div>
+                <div><div class="m__v">12K</div><div class="m__l">Posts</div></div>
+              </div>
+              <div class="panel__tags">
+                <span class="chip">Python</span><span class="chip">OLS</span><span class="chip">Gradient Boost</span><span class="chip">ANOVA</span><span class="chip">Reddit API</span>
+              </div>
+              <div class="panel__actions">
+                <a href="project2-infographic.html" class="btn hoverable" target="_blank">View Infographic
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+                </a>
+                <button class="btn btn--ghost hoverable" data-modal="modal-content-strategy">Case study</button>
+              </div>
+            </div>
+          </div>
+          <div class="panel__visual">
+            <div class="panel__visual-inner">
+              <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                <g font-family="JetBrains Mono, monospace" font-size="8" fill="#6b6b7b">
+                  <text x="20" y="22">ENGAGEMENT LIFT &middot; AI CONDITIONING</text>
+                </g>
+                <g stroke="#d4cfc4" stroke-width="1">
+                  <line x1="60" y1="40" x2="60" y2="260"/>
+                  <line x1="60" y1="260" x2="370" y2="260"/>
+                </g>
+                <rect x="80"  y="160" width="40" height="100" fill="#d4cfc4"/>
+                <rect x="150" y="100" width="40" height="160" fill="#c9a84c"/>
+                <rect x="220" y="130" width="40" height="130" fill="#d4cfc4"/>
+                <rect x="290" y="80"  width="40" height="180" fill="#c9a84c"/>
+                <g font-family="Inter,sans-serif" font-size="8" fill="#1a1a2e" text-anchor="middle">
+                  <text x="100" y="275">Baseline</text>
+                  <text x="170" y="275">AI Hook</text>
+                  <text x="240" y="275">Format</text>
+                  <text x="310" y="275">Combined</text>
+                </g>
+                <g font-family="JetBrains Mono, monospace" font-size="9" fill="#c9a84c" text-anchor="middle">
+                  <text x="170" y="92">+22%</text>
+                  <text x="310" y="72">+37%</text>
+                </g>
+              </svg>
+            </div>
+            <div class="panel__visual-cap">Predicted engagement lift by content condition</div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel__meta">
+            <div>
+              <div class="panel__tag">&bull; Privacy AI &middot; Research</div>
+              <div class="panel__num">03</div>
+
             </div>
             <div>
               <h3 class="panel__title">Healthcare AI, <span class="italic">without the data-share.</span></h3>
@@ -2000,7 +2560,7 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
           <div class="panel__meta">
             <div>
               <div class="panel__tag">&bull; DSC680 &middot; Project 3</div>
-              <div class="panel__num">03</div>
+              <div class="panel__num">04</div>
             </div>
             <div>
               <h3 class="panel__title">2D images, <span class="italic">3D illusions.</span></h3>
@@ -2031,7 +2591,7 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
           <div class="panel__meta">
             <div>
               <div class="panel__tag">&bull; Applied NLP &middot; Product</div>
-              <div class="panel__num">04</div>
+              <div class="panel__num">05</div>
             </div>
             <div>
               <h3 class="panel__title">Notes <span class="italic">that think back.</span></h3>
@@ -2096,7 +2656,7 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
           <div class="panel__meta">
             <div>
               <div class="panel__tag">&bull; Anomaly Detection &middot; Finance AI</div>
-              <div class="panel__num">05</div>
+              <div class="panel__num">06</div>
             </div>
             <div>
               <h3 class="panel__title">Fraud, <span class="italic">caught in the wire.</span></h3>
@@ -2119,6 +2679,78 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
           <div class="panel__visual panel__visual--img">
             <img src="images/fraud_roc.png" alt="ROC curve for Ensemble Fraud Detection system — AUC 0.978" loading="lazy">
             <div class="panel__visual-cap">ROC curve &middot; AUC-ROC 0.978</div>
+          </div>
+        </article>
+
+        <article class="panel panel--wip">
+          <div class="panel__meta">
+            <div>
+              <div class="panel__tag">&bull; DSC680 &middot; Project 6 &middot; In Progress</div>
+              <div class="panel__num">07</div>
+            </div>
+            <div>
+              <h3 class="panel__title">Clinical RAG, <span class="italic">done right.</span></h3>
+              <p class="panel__lede">A privacy-preserving Retrieval-Augmented Generation pipeline for clinical decision support — structured EHR data retrieval, differential privacy guardrails, and LLM reasoning with HIPAA-grade boundaries. Zero raw records leave the retrieval layer.</p>
+              <div class="panel__metrics">
+                <div><div class="m__v">RAG</div><div class="m__l">Architecture</div></div>
+                <div><div class="m__v">DP</div><div class="m__l">Privacy Layer</div></div>
+                <div><div class="m__v">HIPAA</div><div class="m__l">Target compliance</div></div>
+              </div>
+              <div class="panel__tags">
+                <span class="chip">LangChain</span><span class="chip">FAISS</span><span class="chip">OpenAI API</span><span class="chip">Differential Privacy</span><span class="chip">FastAPI</span>
+              </div>
+              <div class="panel__actions">
+                <span class="wip-badge" aria-label="Project in progress, estimated Q3 2026">Building &mdash; Q3 2026</span>
+              </div>
+            </div>
+          </div>
+          <div class="panel__visual">
+            <div class="panel__visual-inner">
+              <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg" aria-label="Clinical RAG pipeline architecture diagram">
+                <g font-family="JetBrains Mono, monospace" font-size="8" fill="#6b6b7b">
+                  <text x="20" y="22">CLINICAL RAG PIPELINE &middot; BUILDING</text>
+                </g>
+                <!-- WIP dashed bounding box -->
+                <rect x="14" y="32" width="372" height="242" rx="8" fill="none" stroke="#d4a843" stroke-width="1" stroke-dasharray="6,4" opacity=".35"/>
+
+                <!-- Query input -->
+                <rect x="130" y="48" width="140" height="30" rx="4" fill="transparent" stroke="#d4cfc4" stroke-width="1"/>
+                <text x="200" y="67" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#6b6b7b">CLINICAL QUERY</text>
+
+                <!-- Arrow down from query -->
+                <line x1="200" y1="78" x2="200" y2="96" stroke="#d4cfc4" stroke-width="1"/>
+                <polygon points="196,92 200,100 204,92" fill="#6b6b7b"/>
+
+                <!-- Row: FAISS | LLM | DP-Guard -->
+                <rect x="38" y="102" width="108" height="42" rx="6" fill="transparent" stroke="#1a1a2e" stroke-width="1.2"/>
+                <text x="92" y="120" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#1a1a2e">FAISS</text>
+                <text x="92" y="135" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#6b6b7b">vector store</text>
+
+                <rect x="162" y="102" width="76" height="42" rx="6" fill="#c9a84c"/>
+                <text x="200" y="120" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#1a1a2e" font-weight="600">LLM</text>
+                <text x="200" y="135" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#1a1a2e">reasoning</text>
+
+                <rect x="254" y="102" width="108" height="42" rx="6" fill="transparent" stroke="#1a1a2e" stroke-width="1.2"/>
+                <text x="308" y="120" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#1a1a2e">DP-GUARD</text>
+                <text x="308" y="135" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#6b6b7b">privacy layer</text>
+
+                <!-- Connectors between row elements -->
+                <line x1="146" y1="123" x2="162" y2="123" stroke="#c9a84c" stroke-width="1.4"/>
+                <line x1="238" y1="123" x2="254" y2="123" stroke="#c9a84c" stroke-width="1.4"/>
+
+                <!-- Arrow down from LLM to output -->
+                <line x1="200" y1="144" x2="200" y2="168" stroke="#d4cfc4" stroke-width="1"/>
+                <polygon points="196,164 200,172 204,164" fill="#6b6b7b"/>
+
+                <!-- HIPAA output bar -->
+                <rect x="80" y="174" width="240" height="32" rx="4" fill="transparent" stroke="#c9a84c" stroke-width="1.3" stroke-dasharray="5,3"/>
+                <text x="200" y="194" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#c9a84c">HIPAA-READY OUTPUT</text>
+
+                <!-- ETA label -->
+                <text x="376" y="282" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="7" fill="#d4a843">WIP &middot; ETA Q3 2026</text>
+              </svg>
+            </div>
+            <div class="panel__visual-cap">RAG architecture &middot; in progress</div>
           </div>
         </article>
 
@@ -2316,17 +2948,60 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
   </div>
 </section>
 
+<!-- PORTFOLIO HIGHLIGHTS STRIP (Jun 2026 cycle) -->
+<div class="highlights-strip" aria-label="Portfolio highlights by the numbers">
+  <div class="highlights-strip__inner container">
+    <div class="highlights-strip__item">
+      <span class="hs-num">11<span class="hs-suffix">+</span></span>
+      <span class="hs-label">Real-world projects</span>
+    </div>
+    <span class="hs-divider" aria-hidden="true"></span>
+    <div class="highlights-strip__item">
+      <span class="hs-num">0.978</span>
+      <span class="hs-label">Fraud AUC-ROC</span>
+    </div>
+    <span class="hs-divider" aria-hidden="true"></span>
+    <div class="highlights-strip__item">
+      <span class="hs-num">89<span class="hs-suffix">%</span></span>
+      <span class="hs-label">Federated AI F1</span>
+    </div>
+    <span class="hs-divider" aria-hidden="true"></span>
+    <div class="highlights-strip__item">
+      <span class="hs-num">MSDS</span>
+      <span class="hs-label">Bellevue University &rsquo;26</span>
+    </div>
+    <span class="hs-divider" aria-hidden="true"></span>
+    <div class="highlights-strip__item">
+      <span class="hs-num">5</span>
+      <span class="hs-label">Hospital sites (FedAI)</span>
+    </div>
+  </div>
+</div>
+
 <!-- CONTACT -->
 <section class="contact" id="contact">
-  <div class="contact__kicker reveal">05 &mdash; Let's talk</div>
+  <div class="contact__kicker reveal">06 &mdash; Let's talk</div>
   <h2 class="contact__line reveal d1">
     Got something interesting?<br>
     <em class="italic">Write to</em>
     <a href="mailto:komalshahid49@gmail.com" class="hoverable" id="contactEmail">komalshahid49@gmail.com</a><button class="copy-email-btn hoverable" id="copyEmailBtn" aria-label="Copy email address" title="Copy to clipboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>copy</button>
     <br>&mdash; or catch me below.
   </h2>
-  <!-- Quick contact form — replace ACTION with your Formspree endpoint once set up -->
-  <form class="contact__form reveal d2" id="contactForm" novalidate>
+  <!-- Availability bar — quick facts before the form -->
+  <div class="contact__availability reveal d2" aria-label="Availability information">
+    <span class="contact__avail-item contact__avail-item--status">
+      <span class="contact__avail-dot" aria-hidden="true"></span>Available now
+    </span>
+    <span class="contact__avail-item">Chicago &middot; Remote-friendly</span>
+    <span class="contact__avail-item">Response &lt; 24h</span>
+    <span class="contact__avail-item">DS / ML roles &middot; Research collabs</span>
+  </div>
+
+  <!-- CONTACT FORM — Formspree AJAX wired (Jun 2026). To activate:
+       1. Sign up free at formspree.io
+       2. Create a form → copy your Form ID (e.g. xpwzgqkd)
+       3. Replace YOUR_FORM_ID below with that ID, then redeploy. -->
+  <form class="contact__form reveal d3" id="contactForm" data-formspree-id="YOUR_FORM_ID" novalidate>
     <div class="contact__form-row">
       <div class="cf-field">
         <label for="cf-name">Your name</label>
@@ -2370,7 +3045,7 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
     <span>&copy; 2026 Komal Shahid</span>
     <span>MSDS &middot; Bellevue University</span>
     <span class="footer__avail">Open to roles</span>
-    <span style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--fg-muted);opacity:.6;">Updated May 2026</span>
+    <span id="footerTimestamp" style="font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;color:var(--fg-muted);opacity:.6;">Updated Jun 2026</span>
   </div>
   <div class="footer__credit">Built by hand &middot; <a href="https://github.com/UKOMAL">UKOMAL</a></div>
 </footer>
@@ -2384,7 +3059,8 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
   <div class="shortcut-hint__row"><span class="shortcut-hint__key">2</span><span>Work</span></div>
   <div class="shortcut-hint__row"><span class="shortcut-hint__key">3</span><span>Skills</span></div>
   <div class="shortcut-hint__row"><span class="shortcut-hint__key">4</span><span>Journey</span></div>
-  <div class="shortcut-hint__row"><span class="shortcut-hint__key">5</span><span>Contact</span></div>
+  <div class="shortcut-hint__row"><span class="shortcut-hint__key">5</span><span>Highlights</span></div>
+  <div class="shortcut-hint__row"><span class="shortcut-hint__key">6</span><span>Contact</span></div>
   <div class="shortcut-hint__row"><span class="shortcut-hint__key">D</span><span>Toggle theme</span></div>
 </div>
 <button class="to-top hoverable" id="toTop" aria-label="Back to top">&uarr;</button>
@@ -2498,10 +3174,53 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
       <span class="modal__tech-tag">Jupyter</span>
     </div>
 
+    <!-- Visual Evidence Gallery (Project 1) -->
+    <h4 class="modal__section-title">Visual Evidence</h4>
+    <div class="modal__gallery" id="mhGallery">
+      <div class="modal__gallery-tabs" role="tablist" aria-label="Project 1 output images">
+        <button class="modal__gallery-tab active" role="tab" aria-selected="true"  data-panel="0">ROC &amp; P-R</button>
+        <button class="modal__gallery-tab"        role="tab" aria-selected="false" data-panel="1">SHAP Beeswarm</button>
+        <button class="modal__gallery-tab"        role="tab" aria-selected="false" data-panel="2">Feature Impact</button>
+        <button class="modal__gallery-tab"        role="tab" aria-selected="false" data-panel="3">Fairness Audit</button>
+        <button class="modal__gallery-tab"        role="tab" aria-selected="false" data-panel="4">Odds Ratios</button>
+        <button class="modal__gallery-tab"        role="tab" aria-selected="false" data-panel="5">Model Comparison</button>
+      </div>
+      <div class="modal__gallery-panels">
+        <figure class="modal__gallery-panel active">
+          <img src="images/mh_roc_pr.png" alt="ROC curve (AUC 0.723) and Precision-Recall curve for the logistic regression classifier" loading="lazy">
+          <figcaption>ROC &amp; P-R curves — both well above the random baseline on the imbalanced OSMI dataset. AUC 0.723 with 95% CI 0.698–0.748.</figcaption>
+        </figure>
+        <figure class="modal__gallery-panel">
+          <img src="images/mh_shap_beeswarm.png" alt="SHAP beeswarm plot showing per-feature impact distribution across all respondents" loading="lazy">
+          <figcaption>SHAP beeswarm — each dot is one respondent. Work interference and family history dominate; ESI is the single highest-magnitude feature.</figcaption>
+        </figure>
+        <figure class="modal__gallery-panel">
+          <img src="images/mh_shap_bar.png" alt="SHAP bar chart of mean absolute feature importance" loading="lazy">
+          <figcaption>Mean absolute SHAP values. Employer Support Index tops the ranking — its predictive power is also why its ethical implications needed explicit documentation.</figcaption>
+        </figure>
+        <figure class="modal__gallery-panel">
+          <img src="images/mh_fairness_audit.png" alt="Fairness audit: performance parity across demographic groups" loading="lazy">
+          <figcaption>Fairness audit — no statistically significant performance gap across gender or age cohorts. Bootstrapped 95% CIs overlap in all cases.</figcaption>
+        </figure>
+        <figure class="modal__gallery-panel">
+          <img src="images/mh_odds_ratios.png" alt="Odds ratios for logistic regression coefficients with 95% CI" loading="lazy">
+          <figcaption>Logistic regression odds ratios with 95% confidence intervals. Directly interpretable by HR stakeholders — no ML background required.</figcaption>
+        </figure>
+        <figure class="modal__gallery-panel">
+          <img src="images/mh_model_comparison.png" alt="Four-model performance comparison: LR, RF, XGBoost, Neural Network" loading="lazy">
+          <figcaption>Four-model comparison. Logistic regression leads on AUC while offering best interpretability — performance differences fall within margin of error.</figcaption>
+        </figure>
+      </div>
+    </div>
+
     <!-- Links -->
     <div class="modal__links">
       <a href="https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio/tree/main/projects/project1-dsc680" target="_blank" rel="noopener" class="modal__link hoverable">
         View on GitHub
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M7 17L17 7M9 7h8v8"/></svg>
+      </a>
+      <a href="../projects/project1-dsc680/milestone2_whitepaper/shahid_dsc680_milestone2_infographic.html" class="modal__link hoverable" title="Milestone 2 Whitepaper — interactive infographic">
+        View Infographic
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M7 17L17 7M9 7h8v8"/></svg>
       </a>
       <a href="https://www.linkedin.com/in/komal-shahid-6b1704175" target="_blank" rel="noopener" class="modal__link hoverable">
@@ -2821,6 +3540,27 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
     </ul>
     <div class="modal__heading">Why it matters</div>
     <p class="modal__desc">Financial fraud detection requires two things simultaneously: high recall (catch fraud) and high precision (avoid false accusations). Ensemble methods outperform any single model here because the autoencoder catches novel unseen patterns while XGBoost captures known fraud signatures — and SHAP makes the decisions auditable for regulators.</p>
+
+    <!-- Model Output Gallery — May 2026 enhancement -->
+    <div class="modal__heading">Model Output Gallery</div>
+    <div class="modal__gallery" id="fraudGallery">
+      <div class="modal__gallery-tabs" role="tablist" aria-label="Model output images">
+        <button class="modal__gallery-tab active" role="tab" aria-selected="true" data-panel="0">ROC Curve</button>
+        <button class="modal__gallery-tab" role="tab" aria-selected="false" data-panel="1">P-R Curve</button>
+        <button class="modal__gallery-tab" role="tab" aria-selected="false" data-panel="2">Feature Importance</button>
+        <button class="modal__gallery-tab" role="tab" aria-selected="false" data-panel="3">Autoencoder</button>
+        <button class="modal__gallery-tab" role="tab" aria-selected="false" data-panel="4">Overview</button>
+        <button class="modal__gallery-tab" role="tab" aria-selected="false" data-panel="5">Results</button>
+      </div>
+      <div class="modal__gallery-panels">
+        <figure class="modal__gallery-panel active"><img src="images/fraud_roc.png" alt="ROC Curve — ensemble AUC-ROC 0.978" loading="lazy"><figcaption>ROC Curve &middot; AUC-ROC 0.978</figcaption></figure>
+        <figure class="modal__gallery-panel"><img src="images/fraud_pr.png" alt="Precision-Recall curve — AUPRC 0.91" loading="lazy"><figcaption>Precision-Recall Curve &middot; AUPRC 0.91</figcaption></figure>
+        <figure class="modal__gallery-panel"><img src="images/fraud_feature_importance.png" alt="SHAP feature importance waterfall" loading="lazy"><figcaption>SHAP Feature Importance</figcaption></figure>
+        <figure class="modal__gallery-panel"><img src="images/fraud_autoencoder_summary.png" alt="Autoencoder reconstruction-error distribution" loading="lazy"><figcaption>Autoencoder Reconstruction Error Summary</figcaption></figure>
+        <figure class="modal__gallery-panel"><img src="images/fraud_overview.png" alt="Ensemble system architecture overview" loading="lazy"><figcaption>System Architecture Overview</figcaption></figure>
+        <figure class="modal__gallery-panel"><img src="images/fraud_results.png" alt="Final model results comparison table" loading="lazy"><figcaption>Model Results Comparison</figcaption></figure>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2930,14 +3670,37 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
     obs.observe(el);
   });
 
+  /* About stats — light up border-top on scroll (wires the .stat--lit CSS) */
+  (function initStatLit(){
+    const stats = document.querySelectorAll('.about-stats .stat');
+    if (!stats.length) return;
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          /* Stagger the lit animation per stat index */
+          const idx = Array.from(stats).indexOf(entry.target);
+          setTimeout(() => entry.target.classList.add('stat--lit'), idx * 180);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.6 });
+    stats.forEach(s => obs.observe(s));
+  })();
+
   /* Typewriter (hero role) */
   const phrases = [
     'ethical AI for healthcare.',
-    'privacy-preserving ML.',
-    'explainable survey-driven ML.',
-    'federated learning systems.',
-    'creative computer vision.',
-    'clinical RAG pipelines.'
+    'privacy-preserving federated learning.',
+    'explainable, fair ML pipelines.',
+    'clinical RAG & knowledge retrieval.',
+    'agentic AI systems.',
+    'vision-language models.',
+    'HIPAA-grade AI infrastructure.',
+    'mechanistic interpretability research.',
+    'human-centered data science.',
+    'differential privacy at scale.',
+    'multi-hospital diagnostic AI.',
+    'bias-aware model auditing.'
   ];
   const tw = document.getElementById('typing');
   let pi=0, ci=0, del=false;
@@ -2974,7 +3737,7 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
       if (_lastIdx !== 0) { panelCurrentEl.textContent = '—'; _lastIdx = 0; }
       return;
     }
-    const idx = Math.min(5, Math.max(1, Math.ceil((scrolled - headW + panelW * 0.25) / panelW)));
+    const idx = Math.min(6, Math.max(1, Math.ceil((scrolled - headW + panelW * 0.25) / panelW)));
     if (idx !== _lastIdx) { panelCurrentEl.textContent = String(idx).padStart(2, '0'); _lastIdx = idx; }
   }
 
@@ -3281,7 +4044,8 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
     '2': () => document.getElementById('work')   ?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
     '3': () => document.getElementById('skills') ?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
     '4': () => document.getElementById('journey')?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
-    '5': () => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+    '5': () => document.querySelector('.highlights-strip')?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
+    '6': () => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' }),
     'd': () => document.getElementById('themeToggle').click(),
   };
   document.addEventListener('keydown', e => {
@@ -3424,40 +4188,71 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
     }, { passive: true });
   })();
 
-  /* ── ENHANCEMENT: Contact form — mailto fallback (replace with Formspree when ready) ── */
+  /* ── JUN 2026 ENHANCEMENT: Contact form — Formspree AJAX with mailto fallback ──
+     To activate Formspree: set data-formspree-id="YOUR_FORM_ID" on the <form> tag.
+     When the ID is placeholder ("YOUR_FORM_ID") or absent, the mailto fallback fires. */
   (function initContactForm(){
-    const form = document.getElementById('contactForm');
-    const btn  = document.getElementById('cfSubmit');
+    const form   = document.getElementById('contactForm');
+    const btn    = document.getElementById('cfSubmit');
     const status = document.getElementById('cfStatus');
     if (!form) return;
-    form.addEventListener('submit', e => {
+
+    function setStatus(msg, cls){
+      status.textContent = msg;
+      status.className   = 'cf-status ' + cls;
+    }
+    function resetBtn(){
+      btn.disabled  = false;
+      btn.innerHTML = 'Send message <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+    }
+
+    form.addEventListener('submit', async e => {
       e.preventDefault();
       const name    = form.querySelector('#cf-name').value.trim();
       const email   = form.querySelector('#cf-email').value.trim();
       const message = form.querySelector('#cf-msg').value.trim();
-      if (!name || !email || !message) {
-        status.textContent = '⚠ Please fill in all fields.';
-        status.className = 'cf-status error';
-        return;
+
+      if (!name || !email || !message) { setStatus('⚠ Please fill in all fields.', 'error'); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setStatus('⚠ Please enter a valid email.', 'error'); return; }
+
+      const formspreeId = (form.dataset.formspreeId || '').trim();
+      const useFormspree = formspreeId && formspreeId !== 'YOUR_FORM_ID';
+
+      btn.disabled  = true;
+      btn.innerHTML = '<span style="display:inline-block;width:14px;height:14px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:spin .6s linear infinite"></span> Sending…';
+
+      if (useFormspree) {
+        /* ── Formspree AJAX path ── */
+        try {
+          const res = await fetch('https://formspree.io/f/' + formspreeId, {
+            method:  'POST',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ name, email, message })
+          });
+          if (res.ok) {
+            form.reset();
+            setStatus('✓ Message sent — I'll be in touch soon!', 'success');
+          } else {
+            const data = await res.json().catch(() => ({}));
+            setStatus('⚠ ' + (data.error || 'Something went wrong. Try emailing directly.'), 'error');
+          }
+        } catch(_) {
+          setStatus('⚠ Network error. Please email komalshahid49@gmail.com directly.', 'error');
+        }
+        resetBtn();
+        setTimeout(() => { status.className = 'cf-status'; }, 8000);
+      } else {
+        /* ── mailto fallback (used until Formspree ID is configured) ── */
+        const subject = encodeURIComponent('Portfolio inquiry from ' + name);
+        const body    = encodeURIComponent('Hi Komal,\n\n' + message + '\n\n— ' + name + '\n' + email);
+        window.location.href = 'mailto:komalshahid49@gmail.com?subject=' + subject + '&body=' + body;
+        setTimeout(() => {
+          form.reset();
+          resetBtn();
+          setStatus('✓ Your email client should have opened.', 'success');
+          setTimeout(() => { status.className = 'cf-status'; }, 5000);
+        }, 800);
       }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        status.textContent = '⚠ Please enter a valid email.';
-        status.className = 'cf-status error';
-        return;
-      }
-      btn.disabled = true;
-      btn.textContent = 'Opening email…';
-      const subject = encodeURIComponent('Portfolio inquiry from ' + name);
-      const body = encodeURIComponent('Hi Komal,\n\n' + message + '\n\n— ' + name + '\n' + email);
-      window.location.href = 'mailto:komalshahid49@gmail.com?subject=' + subject + '&body=' + body;
-      setTimeout(() => {
-        form.reset();
-        btn.disabled = false;
-        btn.innerHTML = 'Send message <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>';
-        status.textContent = '✓ Your email client should have opened.';
-        status.className = 'cf-status success';
-        setTimeout(() => { status.className = 'cf-status'; }, 5000);
-      }, 800);
     });
   })();
 
@@ -3617,6 +4412,56 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
     obs.observe(radarCard);
   })();
 
+  /* ── ENHANCEMENT: Hero title letter-by-letter slide-up reveal ── */
+  /* Splits hero title lines into individual character spans and staggers
+     their translateY animation for a premium typographic entrance. */
+  (function initTitleReveal(){
+    if (PRM) return;
+    const title = document.querySelector('.hero__title');
+    if (!title) return;
+
+    /* Split a line element's text nodes into individual .char spans.
+       Existing child elements (like .amp) are preserved untouched. */
+    function splitLine(lineEl){
+      const nodes = Array.from(lineEl.childNodes);
+      lineEl.innerHTML = '';
+      nodes.forEach(node => {
+        if (node.nodeType === Node.TEXT_NODE){
+          node.textContent.split('').forEach(ch => {
+            const span = document.createElement('span');
+            span.className = 'char';
+            span.textContent = ch === ' ' ? ' ' : ch;
+            lineEl.appendChild(span);
+          });
+        } else {
+          lineEl.appendChild(node);
+        }
+      });
+    }
+
+    splitLine(title.querySelector('.line-1'));
+    splitLine(title.querySelector('.line-2'));
+
+    /* Stagger delays: line-1 starts at 0.52s (after page-ready fade begins),
+       line-2 starts 0.18s after line-1's last char. */
+    const stagger = 0.055; /* seconds between each character */
+    let t = 0.52;
+    title.querySelectorAll('.line-1 .char').forEach(ch => {
+      ch.style.animationDelay = t.toFixed(3) + 's';
+      t += stagger;
+    });
+    t += 0.12; /* small pause between the two lines */
+    title.querySelectorAll('.line-2 .char').forEach(ch => {
+      ch.style.animationDelay = t.toFixed(3) + 's';
+      t += stagger;
+    });
+    /* Give .amp (the "." punctuation) its own final pop */
+    const amp = title.querySelector('.amp');
+    if (amp){
+      amp.style.cssText += ';display:inline-block;animation:charSlideIn 0.55s var(--ease-out) ' + t.toFixed(3) + 's both';
+    }
+  })();
+
   /* ── ENHANCEMENT: Hero "Currently Building / Exploring" ticker ── */
   /* Rotates through current focus areas every 4.5s with a smooth fade-slide */
   (function initBuildingTicker(){
@@ -3624,12 +4469,12 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
     if (!el || PRM) return;
     const items = [
       'Building: clinical RAG pipeline',
-      'Exploring: federated NLP',
-      'Reading: mechanistic interpretability',
+      'Learning: mechanistic interpretability',
+      'Reading: scaling law papers',
       'Building: HIPAA-ready AI infra',
       'Exploring: vision-language models',
       'Studying: agentic AI systems',
-      'Wrapping: DSC680 capstone'
+      'Shipped: DSC680 capstone ✓'
     ];
     let idx = 0;
     setInterval(() => {
@@ -3647,6 +4492,596 @@ body.page-ready { opacity: 1; transition: opacity 0.55s var(--ease-out); }
         });
       }, 290);
     }, 4500);
+  })();
+
+  /* ── MAY 2026 ENHANCEMENT: Fraud modal image gallery tabs ── */
+  (function initModalGalleries(){
+    document.querySelectorAll('.modal__gallery').forEach(gallery => {
+      const tabs   = gallery.querySelectorAll('.modal__gallery-tab');
+      const panels = gallery.querySelectorAll('.modal__gallery-panel');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const idx = parseInt(tab.getAttribute('data-panel'), 10);
+          tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+          panels.forEach(p => p.classList.remove('active'));
+          tab.classList.add('active');
+          tab.setAttribute('aria-selected', 'true');
+          if (panels[idx]) panels[idx].classList.add('active');
+        });
+      });
+      /* Keyboard: left/right arrow to navigate tabs */
+      gallery.addEventListener('keydown', e => {
+        if (!['ArrowLeft','ArrowRight'].includes(e.key)) return;
+        const activeIdx = Array.from(tabs).findIndex(t => t.classList.contains('active'));
+        const next = e.key === 'ArrowRight'
+          ? (activeIdx + 1) % tabs.length
+          : (activeIdx - 1 + tabs.length) % tabs.length;
+        tabs[next].click();
+        tabs[next].focus();
+      });
+    });
+  })();
+
+  /* ── JUN 2026 ENHANCEMENT: Highlights strip staggered reveal ── */
+  (function initHighlightsStrip(){
+    const items = document.querySelectorAll('.highlights-strip__item');
+    if (!items.length) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const allItems = entry.target.parentElement.querySelectorAll('.highlights-strip__item');
+        allItems.forEach((el, i) => {
+          setTimeout(() => el.classList.add('visible'), i * 90);
+        });
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0.25 });
+    obs.observe(items[0]);
+  })();
+
+  /* ── MAY 2026 ENHANCEMENT: 3D perspective tilt on skill cards ── */
+  /* Mouse-position-aware depth tilt — adds genuine tactility to the skills grid */
+  (function initSkillCardTilt(){
+    if (PRM || !matchMedia('(pointer:fine)').matches) return;
+    document.querySelectorAll('.skill-card').forEach(card => {
+      card.classList.add('tilt-ready');
+      card.addEventListener('mouseenter', () => {
+        card.style.transition = 'transform .12s, border-color .3s';
+      });
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        /* Normalise cursor to [-1, 1] relative to card centre */
+        const dx = (e.clientX - (rect.left + rect.width  / 2)) / (rect.width  / 2);
+        const dy = (e.clientY - (rect.top  + rect.height / 2)) / (rect.height / 2);
+        /* Clamp tilt to ±9°/±7° — enough to read depth, not enough to distort */
+        const rotY =  dx * 9;
+        const rotX = -dy * 7;
+        card.style.transform =
+          `perspective(900px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateY(-4px) scale(1.015)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transition = 'transform .55s var(--ease-out), border-color .3s';
+        card.style.transform = '';
+      });
+    });
+  })();
+
+  /* ── JUNE 2026 ENHANCEMENT: Velocity-aware marquee ── */
+  /* Marquee speeds up smoothly when the user scrolls fast, then eases back.
+     Adds organic energy without distracting from content. */
+  (function initVelocityMarquee(){
+    if (PRM) return;
+    const track = document.querySelector('.marquee__track');
+    if (!track) return;
+    const BASE_DUR = 38; /* seconds — matches keyframe definition */
+    const MAX_BOOST = 0.28; /* minimum duration multiplier at peak scroll */
+    let lastY = window.scrollY;
+    let velocity = 0;
+    let raf;
+    let currentDur = BASE_DUR;
+
+    function lerp(a, b, t){ return a + (b - a) * t; }
+
+    function update(){
+      const curY  = window.scrollY;
+      const delta = Math.abs(curY - lastY);
+      lastY = curY;
+      /* Normalise: 40px/frame ≈ max speed scroll */
+      const targetBoost = Math.min(1, delta / 40);
+      velocity = lerp(velocity, targetBoost, 0.12);
+      /* Map velocity [0,1] → duration [BASE_DUR, BASE_DUR * MAX_BOOST] */
+      const targetDur = BASE_DUR * (1 - velocity * (1 - MAX_BOOST));
+      currentDur = lerp(currentDur, targetDur, 0.08);
+      track.style.animationDuration = currentDur.toFixed(2) + 's';
+      raf = requestAnimationFrame(update);
+    }
+    raf = requestAnimationFrame(update);
+  })();
+
+  /* ── JUNE 2026 ENHANCEMENT: Real-time contact form field validation ── */
+  /* Field borders and subtle icons respond immediately as user types,
+     reducing error-correction friction before submission. */
+  (function initRealtimeFormValidation(){
+    const nameEl  = document.getElementById('cf-name');
+    const emailEl = document.getElementById('cf-email');
+    const msgEl   = document.getElementById('cf-msg');
+    if (!nameEl) return;
+
+    function setValidity(el, valid){
+      if (el.value.trim() === '') {
+        el.classList.remove('cf-validated', 'cf-error');
+        return;
+      }
+      el.classList.toggle('cf-validated', valid);
+      el.classList.toggle('cf-error',     !valid);
+    }
+
+    nameEl.addEventListener('input',  () => setValidity(nameEl,  nameEl.value.trim().length >= 2));
+    msgEl.addEventListener('input',   () => setValidity(msgEl,   msgEl.value.trim().length  >= 10));
+    emailEl.addEventListener('input', () => {
+      setValidity(emailEl, /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim()));
+    });
+  })();
+
+  /* ── JUNE 2026 ENHANCEMENT: Dynamic contact section greeting ── */
+  /* The contact kicker shows a time-of-day greeting for a human touch */
+  (function initContactGreeting(){
+    const kicker = document.querySelector('.contact__kicker');
+    if (!kicker) return;
+    const h = new Date().getHours();
+    const greeting = h < 12 ? 'Good morning ☀' : h < 18 ? 'Good afternoon ✦' : 'Good evening ◆';
+    /* Inject subtly after the existing label */
+    const span = document.createElement('span');
+    span.style.cssText = 'margin-left:14px;opacity:.5;font-size:.9em;letter-spacing:.12em;';
+    span.textContent = greeting;
+    kicker.appendChild(span);
+  })();
+
+  /* ── JUL 2026 ENHANCEMENT: Nav sliding gold indicator ── */
+  /* A thin gold underline bar that slides smoothly between active nav links.
+     Positioned via getBoundingClientRect relative to the nav links container. */
+  (function initNavIndicator(){
+    const linksContainer = document.querySelector('.nav__links');
+    const indicator = linksContainer && linksContainer.querySelector('.nav__indicator');
+    if (!indicator || PRM) return;
+
+    let _rafId = null;
+    function positionIndicator(){
+      const active = linksContainer.querySelector('a.active');
+      if (!active){
+        indicator.style.opacity = '0';
+        return;
+      }
+      const containerRect = linksContainer.getBoundingClientRect();
+      const linkRect      = active.getBoundingClientRect();
+      /* Offset left relative to the container, accounting for its scroll position */
+      const left  = linkRect.left  - containerRect.left;
+      const width = linkRect.width;
+      indicator.style.left    = left  + 'px';
+      indicator.style.width   = width + 'px';
+      indicator.style.opacity = '1';
+    }
+
+    /* Debounced RAF-based scroll listener — runs after the active-link update */
+    function onScroll(){
+      if (_rafId) return;
+      _rafId = requestAnimationFrame(() => { positionIndicator(); _rafId = null; });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    /* Initial + on resize */
+    setTimeout(positionIndicator, 600);
+    window.addEventListener('resize', positionIndicator, { passive: true });
+  })();
+
+  /* ── JUL 2026 ENHANCEMENT: Hero stats decimal-aware count-up ── */
+  /* Animates the hero credibility stats (0.723, 89%, 0.91, 10+) from 0 on
+     first viewport entry. Handles integer and decimal values, plus suffixes.
+     Staggered 120ms per stat for a pleasing cascade. */
+  (function initHeroStatCounters(){
+    if (PRM) return;
+    const statsRow = document.querySelector('.hero__stats-row');
+    if (!statsRow) return;
+
+    const vals = statsRow.querySelectorAll('[data-hero-count]');
+    if (!vals.length) return;
+
+    let triggered = false;
+    const obs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || triggered) return;
+      triggered = true;
+      obs.disconnect();
+
+      vals.forEach((el, idx) => {
+        const target  = parseFloat(el.dataset.heroCount);
+        const suffix  = el.dataset.heroSuffix  || '';
+        const dec     = parseInt(el.dataset.heroDec || '0', 10);
+        const dur     = 900; /* ms */
+        const delay   = idx * 120; /* stagger */
+
+        setTimeout(() => {
+          const start = performance.now();
+          (function tick(now){
+            const p     = Math.min(1, (now - start) / dur);
+            const eased = 1 - Math.pow(1 - p, 3); /* cubic ease-out */
+            el.textContent = (target * eased).toFixed(dec) + suffix;
+            if (p < 1) requestAnimationFrame(tick);
+            else       el.textContent = target.toFixed(dec) + suffix; /* snap exact */
+          })(start);
+        }, delay);
+      });
+    }, { threshold: 0.6 });
+
+    obs.observe(statsRow);
+  })();
+
+  /* ── JUL 2026 ENHANCEMENT: Dynamic footer "updated" timestamp ── */
+  /* Shows the current month + year in the footer, staying accurate across
+     sessions without requiring a manual edit. Falls back to the existing text. */
+  (function initFooterTimestamp(){
+    const el = document.getElementById('footerTimestamp');
+    if (!el) return;
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const now = new Date();
+    el.textContent = 'Updated ' + months[now.getMonth()] + ' ' + now.getFullYear();
+  })();
+
+  /* ── MAY 2026 ENHANCEMENT: Magnetic pull on hero CTA buttons ── */
+  /* Buttons gently follow the cursor — premium micro-interaction */
+  (function initMagneticButtons(){
+    if (PRM || !matchMedia('(pointer:fine)').matches) return;
+    document.querySelectorAll('.hero__cta-row .btn').forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        btn.classList.add('magnetic-active');
+        btn.classList.remove('magnetic-leave');
+      });
+      btn.addEventListener('mousemove', e => {
+        const rect = btn.getBoundingClientRect();
+        const x = (e.clientX - (rect.left + rect.width  / 2)) * 0.32;
+        const y = (e.clientY - (rect.top  + rect.height / 2)) * 0.32;
+        btn.style.transform = `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px)`;
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.classList.remove('magnetic-active');
+        btn.classList.add('magnetic-leave');
+        btn.style.transform = '';
+        /* Clean up leave class after transition completes */
+        setTimeout(() => btn.classList.remove('magnetic-leave'), 560);
+      });
+    });
+  })();
+
+  /* ── AUG 2026 ENHANCEMENT: Scroll cue auto-hide ──
+     The hero "scroll ↓" indicator fades away once the user has started
+     scrolling — removes visual noise after its purpose is served. */
+  (function initScrollCueHide(){
+    const cue = document.querySelector('.scroll-cue');
+    if (!cue) return;
+    let hidden = false;
+    window.addEventListener('scroll', () => {
+      if (!hidden && window.scrollY > 80) {
+        cue.classList.add('hidden');
+        hidden = true;
+      }
+    }, { passive: true });
+  })();
+
+  /* ── AUG 2026 ENHANCEMENT: Highlights strip count-up ──
+     Numeric values in the portfolio-highlights strip animate from 0 to
+     their target when the strip first scrolls into view. Handles integers
+     (11, 89, 5), decimals (0.978), and preserves child suffix spans (+, %). */
+  (function initHighlightsCountUp(){
+    const strip = document.querySelector('.highlights-strip');
+    if (!strip || PRM) return;
+    const items = strip.querySelectorAll('.hs-num');
+    let triggered = false;
+
+    const obs = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting || triggered) return;
+      triggered = true;
+      obs.disconnect();
+
+      items.forEach((el, i) => {
+        /* Capture suffix HTML (e.g. <span class="hs-suffix">+</span>) */
+        const suffixEl   = el.querySelector('.hs-suffix');
+        const suffixHTML = suffixEl ? suffixEl.outerHTML : '';
+        /* Extract numeric text from direct text nodes only */
+        const numText = Array.from(el.childNodes)
+          .filter(n => n.nodeType === Node.TEXT_NODE)
+          .map(n => n.textContent.trim())
+          .join('');
+        const target = parseFloat(numText);
+        if (isNaN(target)) return; /* skip non-numeric labels like "MSDS" */
+
+        const decimals = numText.includes('.') ? numText.split('.')[1].length : 0;
+        const dur = 1200;
+
+        setTimeout(() => {
+          el.classList.add('hs-counting');
+          const start = performance.now();
+          (function tick(now){
+            const p     = Math.min(1, (now - start) / dur);
+            const eased = 1 - Math.pow(1 - p, 3); /* cubic ease-out */
+            el.innerHTML = (target * eased).toFixed(decimals) + suffixHTML;
+            if (p < 1) requestAnimationFrame(tick);
+            else {
+              el.innerHTML = numText + suffixHTML; /* snap to exact value */
+              el.classList.remove('hs-counting');
+            }
+          })(start);
+        }, i * 110); /* stagger 110ms between each metric */
+      });
+    }, { threshold: 0.3 });
+
+    obs.observe(strip);
+  })();
+
+  /* ── AUG 2026 ENHANCEMENT: Live Chicago time in contact section ──
+     A small real-time clock injected into the availability bar shows
+     Komal's local time — adds a human, present-tense quality to the CTA. */
+  (function initLiveChicagoTime(){
+    const avail = document.querySelector('.contact__availability');
+    if (!avail) return;
+
+    const timeEl = document.createElement('span');
+    timeEl.className = 'contact__avail-item contact__avail-item--time';
+    timeEl.setAttribute('aria-label', 'Current Chicago time');
+    timeEl.innerHTML =
+      '<span class="contact__time-dot" aria-hidden="true"></span>' +
+      '<span id="chicagoTimeLive">—</span> CT'; /* narrow-no-break-space before CT */
+
+    /* Insert after "Response < 24h" (3rd avail item, index 2) */
+    const existing = avail.querySelectorAll('.contact__avail-item');
+    if (existing[2]) existing[2].after(timeEl);
+    else avail.appendChild(timeEl);
+
+    function tick(){
+      const el = document.getElementById('chicagoTimeLive');
+      if (!el) return;
+      el.textContent = new Date().toLocaleTimeString('en-US', {
+        timeZone: 'America/Chicago',
+        hour: 'numeric', minute: '2-digit', hour12: true
+      });
+    }
+    tick();
+    setInterval(tick, 30000); /* refresh every 30 s */
+  })();
+
+  /* ── AUG 2026 ENHANCEMENT: Skill bar percentage peek-labels ──
+     Reads the --bar-w CSS custom property from each .skill-bar__fill element
+     and appends a small percentage tip that appears when the parent card
+     is hovered — surfaces numeric detail without cluttering the resting state. */
+  (function initSkillBarPctTips(){
+    document.querySelectorAll('.skill-bar').forEach(bar => {
+      const fill = bar.querySelector('.skill-bar__fill');
+      if (!fill) return;
+      /* Read value from inline style (e.g. "92%") */
+      const raw = fill.style.getPropertyValue('--bar-w').trim(); /* "92%" */
+      if (!raw) return;
+      const tip = document.createElement('span');
+      tip.className = 'skill-bar__pct-tip';
+      tip.setAttribute('aria-hidden', 'true');
+      tip.textContent = raw;
+      bar.appendChild(tip);
+    });
+  })();
+
+  /* ── SEP 2026 ENHANCEMENT: Modal sequential prev / next navigation ──
+     Injects a prev/next footer row into each case study modal so the reader
+     can navigate the full project narrative without closing and reopening. */
+  (function initModalNavigation(){
+    const ORDER = ['modal-mh','modal-fed','modal-cv','modal-notely','modal-fraud','modal-rag'];
+    const LABELS = [
+      'Survey ML','Federated AI','Computer Vision',
+      'Notely','Fraud Detection','Clinical RAG'
+    ];
+
+    ORDER.forEach((id, idx) => {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      const box = modal.querySelector('.modal__box');
+      if (!box) return;
+
+      const nav = document.createElement('div');
+      nav.className = 'modal__nav';
+      nav.setAttribute('aria-label', 'Navigate case studies');
+
+      /* Prev button */
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'modal__nav-btn';
+      if (idx === 0){ prevBtn.disabled = true; }
+      prevBtn.setAttribute('aria-label', idx > 0 ? 'Previous: ' + LABELS[idx-1] : 'No previous case study');
+      prevBtn.innerHTML =
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
+        '<path d="M19 12H5M11 19l-7-7 7-7"/></svg>' +
+        (idx > 0 ? LABELS[idx-1] : '—');
+
+      /* Centre label */
+      const lbl = document.createElement('span');
+      lbl.className = 'modal__nav-label';
+      lbl.textContent = (idx + 1) + ' / ' + ORDER.length;
+
+      /* Next button */
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'modal__nav-btn';
+      if (idx === ORDER.length - 1){ nextBtn.disabled = true; }
+      nextBtn.setAttribute('aria-label', idx < ORDER.length-1 ? 'Next: ' + LABELS[idx+1] : 'No next case study');
+      nextBtn.innerHTML =
+        (idx < ORDER.length-1 ? LABELS[idx+1] : '—') +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">' +
+        '<path d="M5 12h14M13 5l7 7-7 7"/></svg>';
+
+      nav.appendChild(prevBtn);
+      nav.appendChild(lbl);
+      nav.appendChild(nextBtn);
+      box.appendChild(nav);
+
+      function switchTo(targetId){
+        modal.classList.remove('open');
+        const target = document.getElementById(targetId);
+        if (!target) return;
+        target.classList.add('open');
+        /* Reset scroll + progress bar in target */
+        const targetBox = target.querySelector('.modal__box');
+        if (targetBox){
+          targetBox.scrollTop = 0;
+          const fill = targetBox.querySelector('.modal__progress-fill');
+          if (fill) fill.style.width = '0%';
+        }
+        /* Move focus to close button */
+        const closeBtn = target.querySelector('[data-close]');
+        if (closeBtn) requestAnimationFrame(() => closeBtn.focus());
+      }
+
+      if (idx > 0){
+        prevBtn.addEventListener('click', () => switchTo(ORDER[idx-1]));
+      }
+      if (idx < ORDER.length - 1){
+        nextBtn.addEventListener('click', () => switchTo(ORDER[idx+1]));
+      }
+    });
+  })();
+
+  /* ── SEP 2026 ENHANCEMENT: Section number parallax ──
+     .section__head .num labels drift upward at ~40 % of scroll speed,
+     creating a subtle depth layer that reads as editorial polish. */
+  (function initSectionNumParallax(){
+    if (PRM) return;
+    const nums = document.querySelectorAll('.section__head .num');
+    if (!nums.length) return;
+
+    function update(){
+      const vy = window.innerHeight * 0.5;
+      nums.forEach(num => {
+        const rect = num.getBoundingClientRect();
+        const center = rect.top + rect.height * 0.5;
+        /* Signed distance from viewport centre, normalised to ±1 */
+        const pct = (center - vy) / vy;
+        /* Parallax: 14 px max shift — subtle enough to read as depth, not wobble */
+        num.style.transform = 'translateY(' + (pct * 14).toFixed(2) + 'px)';
+      });
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    update(); /* initial position */
+  })();
+
+  /* ── [OCT 2026] ENHANCEMENT: Scramble-decode effect on section headings ──
+     When a section h2 enters the viewport, characters briefly cycle through
+     random symbols before resolving to the real text — reinforces the "data /
+     code" identity and rewards readers who haven't seen the section yet.
+     Approach: walks text nodes inside the heading so <em>/<strong> markup is
+     preserved; only raw text content is scrambled, one node at a time. */
+  (function initScrambleDecode(){
+    if (PRM) return;
+    const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789∑∆≈≡∂∫§¶#@!';
+
+    function scrambleTextNode(node, delay){
+      const original = node.textContent;
+      if (!original.trim()) return;
+      const dur = 620;
+
+      setTimeout(() => {
+        const start = performance.now();
+        (function tick(now){
+          const p = Math.min(1, (now - start) / dur);
+          if (p >= 1){ node.textContent = original; return; }
+          /* Eased reveal: characters unlock from left with ease-out curve */
+          const eased   = 1 - Math.pow(1 - p, 2.5);
+          const revealed = Math.floor(eased * original.length);
+          let out = '';
+          for (let i = 0; i < original.length; i++){
+            const ch = original[i];
+            if (ch === ' ' || ch === '\n' || ch === '\t'){ out += ch; continue; }
+            out += i < revealed ? ch : CHARS[Math.floor(Math.random() * CHARS.length)];
+          }
+          node.textContent = out;
+          requestAnimationFrame(tick);
+        })(start);
+      }, delay);
+    }
+
+    function getTextNodes(el){
+      const nodes = [];
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+      let n;
+      while ((n = walker.nextNode())){ if (n.textContent.trim()) nodes.push(n); }
+      return nodes;
+    }
+
+    const headings = document.querySelectorAll('.section__head h2');
+    if (!headings.length) return;
+
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        obs.unobserve(entry.target);
+        const nodes = getTextNodes(entry.target);
+        /* Stagger each text node by 90 ms after an initial 180 ms pause */
+        nodes.forEach((node, i) => scrambleTextNode(node, 180 + i * 90));
+      });
+    }, { threshold: 0.55 });
+
+    headings.forEach(h => obs.observe(h));
+  })();
+
+  /* ── [OCT 2026] ENHANCEMENT: Section-arrival pulse on side-nav click ──
+     When the user clicks a side-nav dot and the browser scrolls to a section,
+     that section's heading fires a brief outward-ripple animation to confirm
+     arrival — a subtle but satisfying spatial cue. */
+  (function initSectionArrivalPulse(){
+    if (PRM) return;
+    const dots = document.querySelectorAll('.side-nav__dot');
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const sectionId = dot.dataset.section;
+        if (!sectionId || sectionId === 'top') return;
+        /* Wait for the smooth scroll to land (~600 ms) then fire */
+        setTimeout(() => {
+          const section = document.getElementById(sectionId);
+          if (!section) return;
+          const head = section.querySelector('.section__head');
+          if (!head) return;
+          head.classList.remove('flash-pulse'); /* reset if already present */
+          /* Force reflow so the animation restarts cleanly */
+          void head.offsetWidth;
+          head.classList.add('flash-pulse');
+          head.addEventListener('animationend', () => head.classList.remove('flash-pulse'), { once: true });
+        }, 620);
+      });
+    });
+  })();
+
+  /* ── [OCT 2026] ENHANCEMENT: Skill card keyboard navigation ──
+     Arrow keys cycle focus through skill cards when focus is inside the
+     skills section — improves keyboard accessibility without affecting mouse UX.
+     Cards become focusable so tab-first users can explore them linearly. */
+  (function initSkillCardKeyNav(){
+    const cards = Array.from(document.querySelectorAll('.skill-card'));
+    if (!cards.length) return;
+
+    /* Make cards focusable if not already */
+    cards.forEach(card => {
+      if (!card.getAttribute('tabindex')) card.setAttribute('tabindex', '0');
+    });
+
+    cards.forEach((card, idx) => {
+      card.addEventListener('keydown', e => {
+        let next = -1;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown')  next = idx + 1;
+        if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')    next = idx - 1;
+        if (next < 0 || next >= cards.length) return;
+        e.preventDefault();
+        cards[next].focus();
+      });
+
+      /* Enter/Space on a card triggers any button inside it */
+      card.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' '){
+          const btn = card.querySelector('button, a');
+          if (btn && btn !== document.activeElement){ e.preventDefault(); btn.click(); }
+        }
+      });
+    });
   })();
 
 })();

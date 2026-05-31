@@ -1,0 +1,13 @@
+pandas>=2.0
+numpy>=1.26
+scikit-learn>=1.3
+statsmodels>=0.14
+matplotlib>=3.8
+seaborn>=0.13
+shap>=0.45
+xgboost>=2.0
+beautifulsoup4>=4.12
+requests>=2.31
+praw>=7.7
+# pytrends is archived (2025); use trendspyg as the maintained successor
+trendspyg>=0.1.0

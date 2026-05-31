@@ -1,7 +1,18 @@
-numpy>=1.20.0
-pillow>=8.0.0
-opencv-python>=4.5.0
-matplotlib>=3.3.0
-scipy>=1.5.0
-jupyter>=1.0.0
-ipython>=7.0.0
+# ==============================================================================
+# Colorful Canvas — Python Pipeline Dependencies
+# ==============================================================================
+
+# --- Core (required) ----------------------------------------------------------
+numpy>=1.20.0              # Array computation and linear algebra
+opencv-python>=4.5.0       # Image processing, warping (cv2.remap), Sobel filters
+pillow>=8.0.0              # Image I/O and color enhancement (ImageEnhance)
+scipy>=1.5.0               # Distance transforms (ndimage.distance_transform_edt)
+matplotlib>=3.3.0          # Depth map visualization and comparison plots
+
+# --- Optional: MiDaS depth estimation (GPU-accelerated) ----------------------
+# Uncomment below for production-grade monocular depth via MiDaSDepthEstimator.
+# Requires ~1-2 GB additional disk space.
+#
+# torch>=1.9.0             # PyTorch runtime
+# torchvision>=0.10.0      # Image transforms for MiDaS preprocessing
+# timm>=0.6.0              # Transformer model architectures (DPT backbone)

@@ -21,6 +21,17 @@ Open `index.html` in a modern browser (Chrome, Firefox, Edge). No build step req
 
 ---
 
+## Billboard Mockup References
+
+These reference images show what a finished anamorphic billboard looks like — our Three.js project recreates this effect in real-time:
+
+| Our Project Target | Seoul Wave (d'strict) | Shinjuku 3D Cat |
+|---|---|---|
+| ![Juice Billboard](assets/billboard-mockup-juice.png) | ![Seoul Wave](assets/billboard-mockup-wave.png) | ![Shinjuku Cat](assets/billboard-mockup-cat.png) |
+| Juice bottle + fruit burst breaking out of corner screen | Giant wave in a glass box — pure spectacle | Cat paw reaching over the screen edge |
+
+---
+
 ## Features
 
 - **Anamorphic 3D Effect**: Content appears to physically pop out of the billboard from the designed "sweet spot" viewing angle

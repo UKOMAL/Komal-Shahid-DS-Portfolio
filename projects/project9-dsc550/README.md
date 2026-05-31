@@ -1,66 +1,37 @@
 # DSC550: Data Mining
 
 ## Project Overview
-Advanced data mining techniques including association rules, clustering, classification, and pattern discovery for extracting insights from large datasets.
+Data mining techniques including classification, clustering, association rules, and pattern discovery. Final project applies supervised and unsupervised learning methods to extract actionable patterns from a real-world dataset.
 
 ## Course Information
 - **Course**: DSC550 - Data Mining
 - **Institution**: Bellevue University
-- **Semester**: Fall 2024
+- **Student**: Komal Shahid
 
-## Project Structure
+## Repository Structure
 ```
-project7-dsc550/
-├── src/                    # Source code
-│   ├── clustering/        # Clustering algorithms
-│   ├── association/       # Association rule mining
-│   ├── classification/    # Classification models
-│   └── pattern_mining/    # Pattern discovery scripts
-├── docs/                  # Documentation and reports
-│   ├── final_report.pdf   # Final project report
-│   ├── mining_results.pdf # Data mining findings
-│   └── methodology.md     # Technical methodology
-├── input/                 # Input datasets
-├── output/                # Mining results and patterns
-└── demo/                  # Interactive mining demos
+project9-dsc550/
+└── final/
+    ├── code/
+    │   └── shahid_dsc550_final_project_draft_1.ipynb   # Final project notebook
+    └── dataset.csv                                       # Project dataset
 ```
 
-## Key Features
-- Clustering analysis (K-means, Hierarchical)
-- Association rule mining
-- Classification algorithms
-- Pattern discovery and analysis
+## Final Project
+End-to-end data mining workflow:
+- Data preprocessing and exploratory analysis
+- Classification modeling (decision trees, ensemble methods)
+- Clustering analysis for pattern discovery
+- Model evaluation — accuracy, precision, recall, F1
+- Interpretation of mined patterns and business implications
 
-## Technologies Used
-- Python (Scikit-learn, MLxtend)
-- Weka data mining toolkit
-- R (arules, cluster packages)
-- Apriori algorithm implementation
-- Visualization libraries
-
-## Installation & Setup
-```bash
-# Clone the repository
-cd project7-dsc550
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run clustering analysis
-python src/clustering_analysis.py
-
-# Mine association rules
-python src/association_mining.py
-```
-
-## Results
-- 28% increase in cross-selling through discovered patterns
-- 12 high-confidence association rules identified (support >0.3)
-- Customer segmentation with 85% cluster purity
-- Optimized inventory management reducing waste by 15%
+## Tools & Libraries
+- Python, Jupyter Notebook
+- scikit-learn — classification and clustering
+- pandas, matplotlib, seaborn
 
 ## Author
-Komal Shahid - DSC550 Data Mining Project
+Komal Shahid — DSC550
 
 ## License
-Academic Use Only - Bellevue University 
+Academic Use Only - Bellevue University

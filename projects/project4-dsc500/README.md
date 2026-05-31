@@ -1,66 +1,29 @@
-# DSC500: Data Science Tools
+# DSC500: Introduction to Data Science
 
 ## Project Overview
-Introduction to essential data science tools and methodologies including data acquisition, cleaning, analysis, and visualization techniques.
+Foundational data science concepts including the data science lifecycle, research methods, ethical considerations, and the role of data in organizational decision-making. Final project explores data science career competencies and program planning.
 
 ## Course Information
-- **Course**: DSC500 - Data Science Tools
+- **Course**: DSC500 - Introduction to Data Science
 - **Institution**: Bellevue University
-- **Semester**: Fall 2024
+- **Student**: Komal Shahid
 
-## Project Structure
+## Repository Structure
 ```
-project12-dsc500/
-├── src/                    # Source code
-│   ├── data_acquisition/  # Data collection scripts
-│   ├── data_cleaning/     # Data preprocessing
-│   ├── analysis/          # Basic data analysis
-│   └── visualization/     # Data visualization
-├── docs/                  # Documentation and reports
-│   ├── final_report.pdf   # Final project report
-│   ├── tool_comparison.pdf # Tool evaluation
-│   └── methodology.md     # Technical methodology
-├── input/                 # Raw datasets
-├── output/                # Cleaned data and results
-└── demo/                  # Tool demonstrations
+project4-dsc500/
+└── final/
+    └── milestone3_finaldraft_shahid_DSC500.docx   # Final project — program & career plan
 ```
 
-## Key Features
-- Data acquisition and import
-- Data cleaning and preprocessing
-- Basic statistical analysis
-- Data visualization techniques
-
-## Technologies Used
-- Python (Pandas, NumPy, Matplotlib)
-- Excel and Google Sheets
-- Tableau/Power BI basics
-- Jupyter Notebooks
-- Data collection APIs
-
-## Installation & Setup
-```bash
-# Clone the repository
-cd project12-dsc500
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run data pipeline
-python src/data_pipeline.py
-
-# Generate visualizations
-python src/create_charts.py
-```
-
-## Results
-- 90% improvement in data quality through automated cleaning
-- Executive dashboard suite serving 50+ stakeholders
-- Automated reporting pipeline reducing manual work by 70%
-- Sales trend analysis predicting quarterly performance with 85% accuracy
+## Final Project
+The milestone 3 final draft covers:
+- Data science skills assessment and competency mapping
+- Program learning objectives alignment
+- Career pathway planning in data science
+- Reflection on ethical responsibilities in the field
 
 ## Author
-Komal Shahid - DSC500 Data Science Tools Project
+Komal Shahid — DSC500
 
 ## License
-Academic Use Only - Bellevue University 
+Academic Use Only - Bellevue University

@@ -1,66 +1,36 @@
 # DSC520: Statistics for Data Science
 
 ## Project Overview
-Statistical methods and techniques for data science applications including probability theory, inferential statistics, and statistical modeling.
+Applied statistical analysis using R — probability distributions, hypothesis testing, regression, and inferential statistics. Final project applies these methods to real-world survey data on mental health and social media usage trends.
 
 ## Course Information
 - **Course**: DSC520 - Statistics for Data Science
 - **Institution**: Bellevue University
-- **Semester**: Fall 2024
+- **Student**: Komal Shahid
 
-## Project Structure
+## Repository Structure
 ```
-project10-dsc520/
-├── src/                    # Source code
-│   ├── descriptive/       # Descriptive statistics
-│   ├── inferential/       # Inferential statistics
-│   ├── modeling/          # Statistical modeling
-│   └── testing/           # Statistical tests
-├── docs/                  # Documentation and reports
-│   ├── final_report.pdf   # Final project report
-│   ├── statistical_analysis.pdf # Statistical findings
-│   └── methodology.md     # Technical methodology
-├── input/                 # Input datasets
-├── output/                # Statistical results
-└── demo/                  # Statistical demonstrations
+project6-dsc520/
+└── final/
+    ├── code/
+    │   └── final_project.Rmd     # Full R Markdown analysis
+    └── final_project.pdf         # Rendered final report
 ```
 
-## Key Features
-- Descriptive and inferential statistics
-- Hypothesis testing and p-values
-- Regression analysis
-- Statistical modeling and validation
+## Final Project
+Statistical analysis of mental health survey data (Pew Research Core Trends Survey) and Kaggle social media stress dataset (Dreaddit). Key analyses:
+- Descriptive statistics and distribution fitting
+- Correlation analysis and hypothesis testing
+- Regression modeling for outcome prediction
+- Visualization using ggplot2
 
-## Technologies Used
-- R (base R, tidyverse)
-- Python (SciPy, Statsmodels)
-- Statistical software (SPSS, SAS)
-- Jupyter Notebooks
-- Statistical visualization libraries
-
-## Installation & Setup
-```bash
-# Clone the repository
-cd project10-dsc520
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run statistical analysis
-python src/statistical_analysis.py
-
-# Generate reports
-python src/generate_reports.py
-```
-
-## Results
-- 23% improvement in A/B test conversion rates
-- 95% confidence intervals with reduced sample sizes by 30%
-- Bayesian adaptive testing framework reducing testing time by 40%
-- Statistical significance achieved 50% faster than traditional methods
+## Tools & Languages
+- **R / R Markdown** — analysis and reporting
+- **ggplot2** — data visualization
+- **dplyr / tidyr** — data wrangling
 
 ## Author
-Komal Shahid - DSC520 Statistics for Data Science Project
+Komal Shahid — DSC520
 
 ## License
-Academic Use Only - Bellevue University 
+Academic Use Only - Bellevue University

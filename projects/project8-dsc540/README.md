@@ -1,66 +1,47 @@
 # DSC540: Advanced Data Management
 
 ## Project Overview
-Advanced database design, optimization, and management techniques including NoSQL databases, data warehousing, and big data technologies.
+Advanced database design, SQL querying, data wrangling, and API integration. Final project builds an end-to-end data management pipeline covering data ingestion, cleaning, transformation, and storage across multiple sources.
 
 ## Course Information
 - **Course**: DSC540 - Advanced Data Management
 - **Institution**: Bellevue University
-- **Semester**: Fall 2024
+- **Student**: Komal Shahid
 
-## Project Structure
+## Repository Structure
 ```
 project8-dsc540/
-├── src/                    # Source code
-│   ├── database/          # Database design scripts
-│   ├── etl/              # ETL pipeline scripts
-│   ├── optimization/      # Query optimization
-│   └── nosql/            # NoSQL implementation
-├── docs/                  # Documentation and reports
-│   ├── final_report.pdf   # Final project report
-│   ├── database_design.pdf # Database architecture
-│   └── methodology.md     # Technical methodology
-├── input/                 # Sample datasets
-├── output/                # Database exports and results
-└── demo/                  # Database demonstrations
+├── milestone2/
+│   └── code/
+│       └── shahid_dsc540_project_milestone2.ipynb    # Data acquisition & cleaning
+├── milestone3/
+│   └── code/
+│       └── shahid_DSC540_project_milestone_3.ipynb   # Database design & querying
+├── milestone4/
+│   └── code/
+│       └── shahid_dsc540_milestone_4.ipynb           # API integration & transformation
+└── final/
+    ├── code/
+    │   └── shahid_dsc540_final_project.ipynb         # Integrated final pipeline
+    └── figures/
+        └── chart1.png                                 # Key output visualization
 ```
 
-## Key Features
-- Advanced database design
-- ETL pipeline development
-- Query optimization techniques
-- NoSQL database implementation
+## Milestone Progression
+| Milestone | Focus |
+|---|---|
+| M2 | Data acquisition, cleaning, and profiling |
+| M3 | Database schema design and SQL querying |
+| M4 | API data integration and transformation |
+| Final | End-to-end pipeline: ingestion → storage → analysis |
 
-## Technologies Used
-- SQL (PostgreSQL, MySQL)
-- NoSQL (MongoDB, Cassandra)
-- Python (SQLAlchemy, PyMongo)
-- Apache Spark
-- Data warehouse tools
-
-## Installation & Setup
-```bash
-# Clone the repository
-cd project8-dsc540
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Set up database
-python src/setup_database.py
-
-# Run ETL pipeline
-python src/etl_pipeline.py
-```
-
-## Results
-- 60% improvement in query performance through optimization
-- HIPAA-compliant data architecture with full audit trails
-- Scalable multi-system integration supporting 10M+ records
-- Real-time ETL pipeline processing 100GB+ daily data volumes
+## Tools & Technologies
+- Python, Jupyter Notebook, SQLite
+- pandas, requests, JSON APIs
+- SQL — joins, aggregations, subqueries
 
 ## Author
-Komal Shahid - DSC540 Advanced Data Management Project
+Komal Shahid — DSC540
 
 ## License
-Academic Use Only - Bellevue University 
+Academic Use Only - Bellevue University

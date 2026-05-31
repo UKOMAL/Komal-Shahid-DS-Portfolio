@@ -3,6 +3,9 @@
 ## Project Overview
 Statistical analysis of 12,000 Reddit posts to identify what content variables — topic, format, and hook style — drive engagement. OLS regression and gradient boosting models quantify the lift from AI-conditioned content, with ANOVA confirming significance across all three dimensions.
 
+## Live Infographic
+**[View Interactive Data Story](https://ukomal.github.io/Komal-Shahid-DS-Portfolio/project2-infographic.html)** — scrollable visual narrative of all findings
+
 ## Course Information
 - **Course**: DSC680 - Applied Data Science
 - **Institution**: Bellevue University

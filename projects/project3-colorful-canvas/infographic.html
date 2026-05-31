@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anamorphic 3D Billboards — Infographic | DSC680</title>
+  <meta name="description" content="An infographic exploring the art and science of anamorphic 3D billboards — DSC680 Colorful Canvas Project, Bellevue University.">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: #38bdf8 #0a0a18;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0a0a18; }
+    ::-webkit-scrollbar-thumb { background: #38bdf8; border-radius: 3px; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: #06060f;
+      color: #c8d0dc;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─── Nav ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 32px;
+      background: rgba(6,6,15,.85);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(56,189,248,.08);
+    }
+    nav .logo {
+      font-weight: 800; font-size: 1rem; letter-spacing: -.4px;
+      background: linear-gradient(135deg, #38bdf8, #a78bfa, #f472b6);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    nav .nav-links { display: flex; gap: 24px; }
+    nav .nav-links a {
+      color: #64748b; text-decoration: none; font-size: .82rem; font-weight: 600;
+      transition: color .25s;
+    }
+    nav .nav-links a:hover { color: #e2e8f0; }
+
+    /* ─── Hero ─── */
+    .hero {
+      position: relative; width: 100%; min-height: 92vh;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; padding-top: 60px;
+    }
+    .hero-img-wrap {
+      position: absolute; inset: 0;
+    }
+    .hero-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: brightness(.55) saturate(1.15);
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(180deg, rgba(6,6,15,.6) 0%, rgba(6,6,15,.15) 30%, rgba(6,6,15,.25) 65%, rgba(6,6,15,.95) 100%),
+        linear-gradient(135deg, rgba(255,120,48,.08) 0%, transparent 50%);
+    }
+    .hero-content {
+      position: relative; z-index: 2; text-align: center;
+      max-width: 820px; padding: 0 24px;
+    }
+    .hero-badge {
+      display: inline-block; padding: 6px 18px; border-radius: 20px;
+      background: rgba(255,120,48,.12); border: 1px solid rgba(255,120,48,.25);
+      color: #ff9040; font-size: .72rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem); font-weight: 800;
+      line-height: 1.1; letter-spacing: -1.5px;
+      background: linear-gradient(135deg, #ffffff 0%, #c8d0e8 50%, #a78bfa 100%);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+    }
+    .hero-sub {
+      font-size: 1.05rem; color: #94a3b8; font-weight: 400;
+      margin-bottom: 32px;
+    }
+    .hero-target {
+      display: inline-block; padding: 12px 28px; border-radius: 12px;
+      background: rgba(56,189,248,.08); border: 1px solid rgba(56,189,248,.2);
+      color: #7dd3fc; font-size: .88rem; font-weight: 600;
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    }
+    .hero-target span {
+      color: #38bdf8; font-weight: 700;
+    }
+
+    /* ─── Section shared ─── */
+    section { padding: 100px 24px; max-width: 1200px; margin: 0 auto; }
+    .section-label {
+      display: inline-block; padding: 4px 14px; border-radius: 16px;
+      font-size: .68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800;
+      letter-spacing: -1px; line-height: 1.15; margin-bottom: 16px;
+      color: #e8ecf2;
+    }
+    .section-desc {
+      font-size: 1.02rem; color: #7e8a9a; max-width: 640px; margin-bottom: 48px;
+    }
+
+    /* ─── Divider ─── */
+    .divider {
+      max-width: 1200px; margin: 0 auto; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(56,189,248,.15) 30%, rgba(167,139,250,.15) 70%, transparent);
+    }
+
+    /* ─── Inspiration Cards ─── */
+    .inspiration-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+    }
+    .insp-card {
+      background: rgba(14,18,32,.7);
+      border: 1px solid rgba(56,189,248,.08);
+      border-radius: 18px; overflow: hidden;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+    }
+    .insp-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(56,189,248,.25);
+      box-shadow: 0 20px 60px rgba(0,0,0,.5), 0 0 30px rgba(56,189,248,.06);
+    }
+    .insp-card .card-img {
+      width: 100%; aspect-ratio: 16/10; object-fit: cover;
+      border-bottom: 1px solid rgba(56,189,248,.06);
+      transition: filter .35s, transform .35s;
+    }
+    .insp-card:hover .card-img {
+      filter: brightness(1.08) saturate(1.1);
+      transform: scale(1.02);
+    }
+    .insp-card .card-img-wrap { overflow: hidden; }
+    .insp-card .card-body { padding: 22px 24px 26px; }
+    .insp-card .card-body h3 {
+      font-size: 1.15rem; font-weight: 700; color: #e2e8f0;
+      margin-bottom: 8px; letter-spacing: -.3px;
+    }
+    .insp-card .card-body p {
+      font-size: .88rem; color: #7e8a9a; margin-bottom: 14px; line-height: 1.55;
+    }
+    .card-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .card-tag {
+      padding: 3px 10px; border-radius: 8px; font-size: .7rem; font-weight: 600;
+    }
+    .tag-location { background: rgba(56,189,248,.1); color: #38bdf8; }
+    .tag-year { background: rgba(167,139,250,.1); color: #a78bfa; }
+    .tag-project { background: rgba(255,120,48,.1); color: #ff9040; }
+
+    /* ─── How It Works ─── */
+    .how-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 36px;
+    }
+    .how-card {
+      padding: 36px 30px; border-radius: 18px;
+      background: rgba(14,18,32,.65);
+      border: 1px solid rgba(56,189,248,.08);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .how-card h4 {
+      font-size: 1.05rem; font-weight: 700; color: #e2e8f0;
+      margin-bottom: 14px;
+    }
+    .how-card p {
+      font-size: .88rem; color: #7e8a9a; line-height: 1.55;
+    }
+
+    /* CSS Diagrams */
+    .diagram { margin-bottom: 24px; }
+
+    /* L-shape diagram */
+    .l-shape {
+      position: relative; width: 200px; height: 140px; margin: 0 auto;
+    }
+    .l-front {
+      position: absolute; bottom: 0; right: 0;
+      width: 140px; height: 100px;
+      background: linear-gradient(135deg, rgba(255,120,48,.15), rgba(255,120,48,.08));
+      border: 2px solid rgba(255,120,48,.5);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; color: #ff9040; font-weight: 600;
+    }
+    .l-side {
+      position: absolute; top: 0; left: 0;
+      width: 75px; height: 100px;
+      background: linear-gradient(135deg, rgba(56,189,248,.15), rgba(56,189,248,.08));
+      border: 2px solid rgba(56,189,248,.5);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .7rem; color: #38bdf8; font-weight: 600;
+      transform: skewY(-10deg);
+    }
+    .l-corner {
+      position: absolute; top: 42px; left: 60px;
+      width: 16px; height: 60px;
+      background: rgba(167,139,250,.35);
+      border-radius: 2px;
+      transform: skewY(-5deg);
+    }
+
+    /* Sweet spot diagram */
+    .sweet-spot-diagram {
+      position: relative; width: 200px; height: 130px; margin: 0 auto;
+    }
+    .ss-screen {
+      position: absolute; top: 10px; left: 10px;
+      width: 60px; height: 80px;
+      border: 2px solid rgba(167,139,250,.5);
+      border-radius: 4px;
+      background: rgba(167,139,250,.08);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .62rem; color: #a78bfa; font-weight: 600;
+    }
+    .ss-line {
+      position: absolute; top: 48px; left: 72px;
+      width: 90px; height: 2px;
+      background: linear-gradient(90deg, #a78bfa, rgba(52,211,153,.6));
+      transform: rotate(-8deg);
+      transform-origin: left center;
+    }
+    .ss-line::after {
+      content: ''; position: absolute; right: -6px; top: -4px;
+      width: 0; height: 0;
+      border-left: 8px solid rgba(52,211,153,.6);
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+    }
+    .ss-eye {
+      position: absolute; top: 32px; right: 14px;
+      font-size: 1.6rem; filter: drop-shadow(0 0 6px rgba(52,211,153,.4));
+    }
+    .ss-label {
+      position: absolute; bottom: 4px; right: 6px;
+      font-size: .62rem; color: #34d399; font-weight: 600;
+    }
+
+    /* Depth layers diagram */
+    .depth-layers {
+      position: relative; width: 200px; height: 130px; margin: 0 auto;
+    }
+    .dl {
+      position: absolute; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .62rem; font-weight: 700;
+    }
+    .dl-bg {
+      width: 170px; height: 95px; bottom: 10px; left: 15px;
+      background: rgba(99,102,241,.08); border: 1.5px solid rgba(99,102,241,.3);
+      color: #818cf8;
+    }
+    .dl-mid {
+      width: 130px; height: 70px; bottom: 22px; left: 35px;
+      background: rgba(56,189,248,.08); border: 1.5px solid rgba(56,189,248,.3);
+      color: #38bdf8;
+    }
+    .dl-fg {
+      width: 80px; height: 45px; bottom: 36px; left: 60px;
+      background: rgba(255,120,48,.1); border: 1.5px solid rgba(255,120,48,.4);
+      color: #ff9040;
+    }
+
+    /* ─── Pipeline ─── */
+    .pipeline-wrap { overflow-x: auto; padding-bottom: 12px; }
+    .pipeline {
+      display: flex; gap: 0; min-width: 900px;
+      align-items: stretch;
+    }
+    .pipe-step {
+      flex: 1; padding: 28px 20px; border-radius: 16px;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; position: relative;
+      background: rgba(14,18,32,.65);
+      border: 1px solid rgba(56,189,248,.06);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      transition: transform .3s, border-color .3s;
+    }
+    .pipe-step:hover {
+      transform: translateY(-4px);
+    }
+    .pipe-step .pipe-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 14px;
+    }
+    .pipe-step h4 {
+      font-size: .92rem; font-weight: 700; color: #e2e8f0;
+      margin-bottom: 8px;
+    }
+    .pipe-step p {
+      font-size: .78rem; color: #7e8a9a; line-height: 1.5;
+    }
+    .pipe-arrow {
+      display: flex; align-items: center; justify-content: center;
+      min-width: 40px; font-size: 1.3rem; color: #334155;
+    }
+    .ps-1 .pipe-icon { background: rgba(99,102,241,.15); color: #818cf8; }
+    .ps-1 { border-color: rgba(99,102,241,.15); }
+    .ps-1:hover { border-color: rgba(99,102,241,.35); }
+    .ps-2 .pipe-icon { background: rgba(56,189,248,.15); color: #38bdf8; }
+    .ps-2 { border-color: rgba(56,189,248,.1); }
+    .ps-2:hover { border-color: rgba(56,189,248,.3); }
+    .ps-3 .pipe-icon { background: rgba(167,139,250,.15); color: #a78bfa; }
+    .ps-3 { border-color: rgba(167,139,250,.1); }
+    .ps-3:hover { border-color: rgba(167,139,250,.3); }
+    .ps-4 .pipe-icon { background: rgba(52,211,153,.15); color: #34d399; }
+    .ps-4 { border-color: rgba(52,211,153,.1); }
+    .ps-4:hover { border-color: rgba(52,211,153,.3); }
+    .ps-5 .pipe-icon { background: rgba(255,120,48,.15); color: #ff9040; }
+    .ps-5 { border-color: rgba(255,120,48,.1); }
+    .ps-5:hover { border-color: rgba(255,120,48,.3); }
+
+    /* ─── Principles ─── */
+    .principles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .principle {
+      padding: 28px 26px; border-radius: 16px;
+      background: rgba(14,18,32,.6);
+      border: 1px solid rgba(56,189,248,.06);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      display: flex; gap: 18px; align-items: flex-start;
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+    }
+    .principle:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0,0,0,.35);
+    }
+    .principle .pr-num {
+      min-width: 38px; height: 38px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .82rem; font-weight: 800;
+    }
+    .principle h4 {
+      font-size: 1rem; font-weight: 700; color: #e2e8f0;
+      margin-bottom: 6px; letter-spacing: -.2px;
+    }
+    .principle p {
+      font-size: .84rem; color: #7e8a9a; line-height: 1.5;
+    }
+    .pr-1 { border-color: rgba(255,120,48,.12); }
+    .pr-1:hover { border-color: rgba(255,120,48,.3); }
+    .pr-1 .pr-num { background: rgba(255,120,48,.12); color: #ff9040; }
+    .pr-2 { border-color: rgba(56,189,248,.1); }
+    .pr-2:hover { border-color: rgba(56,189,248,.3); }
+    .pr-2 .pr-num { background: rgba(56,189,248,.12); color: #38bdf8; }
+    .pr-3 { border-color: rgba(167,139,250,.1); }
+    .pr-3:hover { border-color: rgba(167,139,250,.3); }
+    .pr-3 .pr-num { background: rgba(167,139,250,.12); color: #a78bfa; }
+    .pr-4 { border-color: rgba(52,211,153,.1); }
+    .pr-4:hover { border-color: rgba(52,211,153,.3); }
+    .pr-4 .pr-num { background: rgba(52,211,153,.12); color: #34d399; }
+    .pr-5 { border-color: rgba(244,114,182,.1); }
+    .pr-5:hover { border-color: rgba(244,114,182,.3); }
+    .pr-5 .pr-num { background: rgba(244,114,182,.12); color: #f472b6; }
+    .pr-6 { border-color: rgba(251,191,36,.1); }
+    .pr-6:hover { border-color: rgba(251,191,36,.3); }
+    .pr-6 .pr-num { background: rgba(251,191,36,.12); color: #fbbf24; }
+
+    /* ─── Implementation / Tech ─── */
+    .impl-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+    }
+    .tech-stack {
+      padding: 36px 30px; border-radius: 18px;
+      background: rgba(14,18,32,.65);
+      border: 1px solid rgba(56,189,248,.08);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    }
+    .tech-stack h4 {
+      font-size: 1.1rem; font-weight: 700; color: #e2e8f0;
+      margin-bottom: 24px;
+    }
+    .tech-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(56,189,248,.05);
+    }
+    .tech-item:last-child { border-bottom: none; }
+    .tech-name {
+      font-size: .9rem; font-weight: 600; color: #c8d0dc;
+    }
+    .tech-bar-wrap {
+      flex: 1; margin: 0 20px; height: 6px;
+      background: rgba(56,189,248,.06); border-radius: 3px; overflow: hidden;
+    }
+    .tech-bar {
+      height: 100%; border-radius: 3px;
+      transition: width .8s ease;
+    }
+    .tech-label {
+      font-size: .76rem; font-weight: 700; min-width: 42px; text-align: right;
+    }
+
+    .tech-desc {
+      padding: 36px 30px; border-radius: 18px;
+      background: rgba(14,18,32,.65);
+      border: 1px solid rgba(56,189,248,.08);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .tech-desc h4 {
+      font-size: 1.1rem; font-weight: 700; color: #e2e8f0;
+      margin-bottom: 18px;
+    }
+    .tech-desc p {
+      font-size: .9rem; color: #7e8a9a; line-height: 1.6; margin-bottom: 14px;
+    }
+    .tech-desc ul {
+      list-style: none; padding: 0; margin-bottom: 24px;
+    }
+    .tech-desc li {
+      padding: 6px 0; font-size: .88rem; color: #94a3b8;
+    }
+    .tech-desc li::before {
+      content: '\25B8'; margin-right: 10px; color: #38bdf8;
+    }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 28px; border-radius: 12px;
+      background: linear-gradient(135deg, rgba(14,165,233,.8), rgba(124,58,237,.8));
+      color: #fff; font-size: .88rem; font-weight: 700;
+      text-decoration: none; border: none;
+      transition: opacity .25s, transform .25s;
+      align-self: flex-start;
+    }
+    .cta-btn:hover { opacity: .88; transform: translateY(-2px); }
+
+    /* ─── Footer ─── */
+    footer {
+      border-top: 1px solid rgba(56,189,248,.06);
+      padding: 48px 24px 56px;
+      text-align: center;
+    }
+    footer .footer-brand {
+      font-size: 1.05rem; font-weight: 800; margin-bottom: 10px;
+      background: linear-gradient(135deg, #38bdf8, #a78bfa, #f472b6);
+      -webkit-background-clip: text; background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    footer p {
+      font-size: .82rem; color: #475569; line-height: 1.7;
+    }
+    footer a {
+      color: #7dd3fc; text-decoration: underline; text-underline-offset: 2px;
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 768px) {
+      nav { padding: 12px 18px; }
+      nav .nav-links { gap: 14px; }
+      nav .nav-links a { font-size: .74rem; }
+      section { padding: 64px 18px; }
+      .impl-grid { grid-template-columns: 1fr; }
+      .pipeline { min-width: 700px; }
+      .pipe-step { padding: 20px 14px; }
+      .hero h1 { font-size: clamp(1.8rem, 7vw, 2.8rem); }
+    }
+    @media (max-width: 480px) {
+      .inspiration-grid { grid-template-columns: 1fr; }
+      .principles-grid { grid-template-columns: 1fr; }
+      .how-grid { grid-template-columns: 1fr; }
+      nav .nav-links { display: none; }
+    }
+
+    /* ─── Ambient glow accents ─── */
+    .glow-orange {
+      position: fixed; top: 20%; right: -200px;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,120,48,.04) 0%, transparent 70%);
+      pointer-events: none; z-index: -1;
+    }
+    .glow-blue {
+      position: fixed; bottom: 10%; left: -200px;
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(56,189,248,.03) 0%, transparent 70%);
+      pointer-events: none; z-index: -1;
+    }
+    .glow-purple {
+      position: fixed; top: 55%; left: 30%;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(167,139,250,.025) 0%, transparent 70%);
+      pointer-events: none; z-index: -1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient glow -->
+  <div class="glow-orange"></div>
+  <div class="glow-blue"></div>
+  <div class="glow-purple"></div>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">Colorful Canvas</div>
+    <div class="nav-links">
+      <a href="#inspirations">Inspirations</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#principles">Principles</a>
+      <a href="#implementation">Implementation</a>
+      <a href="index.html">Live Demo &rarr;</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════ HERO ═══════════════ -->
+  <header class="hero">
+    <div class="hero-img-wrap">
+      <img src="assets/billboard-mockup-juice.png" alt="Anamorphic juice billboard mockup" loading="eager">
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-badge">DSC680 &mdash; Bellevue University</div>
+      <h1>The Art &amp; Science of Anamorphic 3D&nbsp;Billboards</h1>
+      <p class="hero-sub">Colorful Canvas Project &mdash; Exploring the illusion of depth on L-shaped LED screens</p>
+      <div class="hero-target">
+        <span>Our Target:</span> Real-time Three.js recreation of this effect
+      </div>
+    </div>
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════ INSPIRATIONS ═══════════════ -->
+  <section id="inspirations">
+    <div class="section-label" style="background:rgba(56,189,248,.1);color:#38bdf8;">Gallery</div>
+    <h2 class="section-title">Real-World Inspirations</h2>
+    <p class="section-desc">
+      Anamorphic 3D billboards trick the eye into perceiving depth on flat LED screens
+      using forced perspective and L-shaped screen geometry. These viral installations
+      inspired our project.
+    </p>
+    <div class="inspiration-grid">
+
+      <!-- Seoul Wave -->
+      <div class="insp-card">
+        <div class="card-img-wrap">
+          <img class="card-img" src="assets/billboard-mockup-wave.png" alt="Seoul Wave anamorphic billboard">
+        </div>
+        <div class="card-body">
+          <h3>Seoul Wave</h3>
+          <p>
+            A massive ocean wave crashes inside an LED corner screen atop the
+            COEX building. The realistic water simulation stunned millions
+            worldwide and ignited the anamorphic billboard trend.
+          </p>
+          <div class="card-tags">
+            <span class="card-tag tag-location">Seoul, South Korea</span>
+            <span class="card-tag tag-year">2020</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shinjuku Cat -->
+      <div class="insp-card">
+        <div class="card-img-wrap">
+          <img class="card-img" src="assets/billboard-mockup-cat.png" alt="Shinjuku 3D cat billboard">
+        </div>
+        <div class="card-body">
+          <h3>Shinjuku 3D Cat</h3>
+          <p>
+            A giant calico cat peers out from an L-shaped screen in Tokyo's
+            Shinjuku district. It meows, stretches, and naps &mdash; captivating
+            passersby with its playful realism and frame-breaking motion.
+          </p>
+          <div class="card-tags">
+            <span class="card-tag tag-location">Tokyo, Japan</span>
+            <span class="card-tag tag-year">2021</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Our Project -->
+      <div class="insp-card">
+        <div class="card-img-wrap">
+          <img class="card-img" src="assets/billboard-mockup-juice.png" alt="Colorful Canvas juice billboard">
+        </div>
+        <div class="card-body">
+          <h3>Our Project: Citrus Burst</h3>
+          <p>
+            A vibrant juice bottle explodes with fruit, splashes, and droplets
+            that appear to break free of the screen. Built entirely in the browser
+            using Three.js and WebGL with real-time rendering.
+          </p>
+          <div class="card-tags">
+            <span class="card-tag tag-project">DSC680 Project</span>
+            <span class="card-tag tag-year">2026</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════ HOW IT WORKS ═══════════════ -->
+  <section id="how-it-works">
+    <div class="section-label" style="background:rgba(167,139,250,.1);color:#a78bfa;">Technique</div>
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-desc">
+      The 3D illusion relies on three key technical elements: screen geometry,
+      forced perspective from a fixed viewpoint, and layered depth composition.
+    </p>
+    <div class="how-grid">
+
+      <!-- L-Shape -->
+      <div class="how-card">
+        <div class="diagram">
+          <div class="l-shape">
+            <div class="l-side">Side</div>
+            <div class="l-corner"></div>
+            <div class="l-front">Front Face</div>
+          </div>
+        </div>
+        <h4>L-Shaped Screen Geometry</h4>
+        <p>
+          Two LED panels meet at a 90-degree corner, forming an &ldquo;L&rdquo;
+          shape. The front panel is the main canvas; the narrower side panel
+          adds peripheral depth. The corner edge where they meet becomes
+          the &ldquo;frame&rdquo; the 3D content appears to break out of.
+        </p>
+      </div>
+
+      <!-- Sweet Spot -->
+      <div class="how-card">
+        <div class="diagram">
+          <div class="sweet-spot-diagram">
+            <div class="ss-screen">Screen</div>
+            <div class="ss-line"></div>
+            <div class="ss-eye">&#128065;</div>
+            <div class="ss-label">Sweet Spot</div>
+          </div>
+        </div>
+        <h4>Sweet Spot Viewing Angle</h4>
+        <p>
+          The illusion is rendered for one specific camera position &mdash;
+          the &ldquo;sweet spot.&rdquo; From this angle, the perspective
+          projection on both panels perfectly aligns, and the flat screens
+          vanish into a seamless 3D scene. Move away, and the
+          trick becomes visible.
+        </p>
+      </div>
+
+      <!-- Depth Layers -->
+      <div class="how-card">
+        <div class="diagram">
+          <div class="depth-layers">
+            <div class="dl dl-bg">Background</div>
+            <div class="dl dl-mid">Midground</div>
+            <div class="dl dl-fg">Foreground</div>
+          </div>
+        </div>
+        <h4>Depth Layering (BG / MID / FG)</h4>
+        <p>
+          Content is composed in three distinct depth zones. The background sits
+          behind the screen plane, the midground aligns with it, and the
+          foreground &ldquo;breaks out&rdquo; in front &mdash; creating the
+          illusion that objects are escaping the frame into the real world.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════ PIPELINE ═══════════════ -->
+  <section id="pipeline">
+    <div class="section-label" style="background:rgba(52,211,153,.1);color:#34d399;">Process</div>
+    <h2 class="section-title">Production Pipeline</h2>
+    <p class="section-desc">
+      From 3D scene creation to the final post-processed output, every frame
+      passes through a carefully designed rendering pipeline.
+    </p>
+    <div class="pipeline-wrap">
+      <div class="pipeline">
+
+        <div class="pipe-step ps-1">
+          <div class="pipe-icon">&#127912;</div>
+          <h4>3D Scene</h4>
+          <p>Model the hero object, fruits, splashes, and environment in a Three.js scene graph with PBR materials.</p>
+        </div>
+        <div class="pipe-arrow">&rarr;</div>
+
+        <div class="pipe-step ps-2">
+          <div class="pipe-icon">&#128247;</div>
+          <h4>Camera Setup</h4>
+          <p>Position the perspective camera at the sweet spot. Configure oblique projection to match the L-shaped screen corners.</p>
+        </div>
+        <div class="pipe-arrow">&rarr;</div>
+
+        <div class="pipe-step ps-3">
+          <div class="pipe-icon">&#128310;</div>
+          <h4>L-Shape Render</h4>
+          <p>Render the scene twice into off-screen targets &mdash; once for the front panel and once for the side panel &mdash; using clipping planes.</p>
+        </div>
+        <div class="pipe-arrow">&rarr;</div>
+
+        <div class="pipe-step ps-4">
+          <div class="pipe-icon">&#9638;</div>
+          <h4>Depth Layers</h4>
+          <p>Composite background, midground, and foreground elements. Clipping planes enforce which content stays &ldquo;inside&rdquo; vs. &ldquo;outside&rdquo; the screen.</p>
+        </div>
+        <div class="pipe-arrow">&rarr;</div>
+
+        <div class="pipe-step ps-5">
+          <div class="pipe-icon">&#10024;</div>
+          <h4>Post-Processing</h4>
+          <p>Apply Unreal Bloom, ACES tonemapping, and a vignette pass for cinematic polish. Output at display resolution.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════ PRINCIPLES ═══════════════ -->
+  <section id="principles">
+    <div class="section-label" style="background:rgba(244,114,182,.1);color:#f472b6;">Design</div>
+    <h2 class="section-title">Key Design Principles</h2>
+    <p class="section-desc">
+      Six rules that separate compelling anamorphic content from gimmicky effects.
+    </p>
+    <div class="principles-grid">
+
+      <div class="principle pr-1">
+        <div class="pr-num">01</div>
+        <div>
+          <h4>Restraint</h4>
+          <p>One hero object dominates the frame. Clutter kills the illusion &mdash; keep the composition focused on a single, recognizable subject.</p>
+        </div>
+      </div>
+
+      <div class="principle pr-2">
+        <div class="pr-num">02</div>
+        <div>
+          <h4>Frame Interaction</h4>
+          <p>Objects must touch, overlap, or break the bezel edge. This boundary crossing is what triggers the viewer&rsquo;s depth perception.</p>
+        </div>
+      </div>
+
+      <div class="principle pr-3">
+        <div class="pr-num">03</div>
+        <div>
+          <h4>Sweet Spot</h4>
+          <p>Design for one viewing angle. The entire perspective projection is calibrated for a single camera position, optimized for street-level pedestrians.</p>
+        </div>
+      </div>
+
+      <div class="principle pr-4">
+        <div class="pr-num">04</div>
+        <div>
+          <h4>Depth Layers</h4>
+          <p>Separate content into background, midground, and foreground zones. Each layer has a distinct visual role in building the spatial illusion.</p>
+        </div>
+      </div>
+
+      <div class="principle pr-5">
+        <div class="pr-num">05</div>
+        <div>
+          <h4>Dark Background</h4>
+          <p>Black edges blend seamlessly with the physical screen frame, erasing the boundary between digital content and real-world hardware.</p>
+        </div>
+      </div>
+
+      <div class="principle pr-6">
+        <div class="pr-num">06</div>
+        <div>
+          <h4>Deliberate Motion</h4>
+          <p>Slow, purposeful animation sells the illusion. Rapid movement breaks the spatial trick &mdash; gentle drift and subtle rotation feel natural.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════ IMPLEMENTATION ═══════════════ -->
+  <section id="implementation">
+    <div class="section-label" style="background:rgba(255,120,48,.1);color:#ff9040;">Build</div>
+    <h2 class="section-title">Our Implementation</h2>
+    <p class="section-desc">
+      A browser-native, real-time anamorphic 3D billboard built entirely with
+      web technologies &mdash; no plugins, no downloads.
+    </p>
+    <div class="impl-grid">
+
+      <div class="tech-stack">
+        <h4>Tech Stack</h4>
+        <div class="tech-item">
+          <span class="tech-name">Three.js / WebGL</span>
+          <div class="tech-bar-wrap">
+            <div class="tech-bar" style="width:92%;background:linear-gradient(90deg,#38bdf8,#818cf8);"></div>
+          </div>
+          <span class="tech-label" style="color:#38bdf8;">Core</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">HTML / CSS</span>
+          <div class="tech-bar-wrap">
+            <div class="tech-bar" style="width:78%;background:linear-gradient(90deg,#ff9040,#ff6050);"></div>
+          </div>
+          <span class="tech-label" style="color:#ff9040;">UI</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">Python</span>
+          <div class="tech-bar-wrap">
+            <div class="tech-bar" style="width:65%;background:linear-gradient(90deg,#34d399,#10b981);"></div>
+          </div>
+          <span class="tech-label" style="color:#34d399;">Pipeline</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">GLSL Shaders</span>
+          <div class="tech-bar-wrap">
+            <div class="tech-bar" style="width:55%;background:linear-gradient(90deg,#a78bfa,#f472b6);"></div>
+          </div>
+          <span class="tech-label" style="color:#a78bfa;">FX</span>
+        </div>
+        <div class="tech-item">
+          <span class="tech-name">Depth Estimation</span>
+          <div class="tech-bar-wrap">
+            <div class="tech-bar" style="width:48%;background:linear-gradient(90deg,#fbbf24,#f59e0b);"></div>
+          </div>
+          <span class="tech-label" style="color:#fbbf24;">ML</span>
+        </div>
+      </div>
+
+      <div class="tech-desc">
+        <div>
+          <h4>Technical Breakdown</h4>
+          <p>
+            The scene runs entirely in the browser at 60 fps using Three.js r168.
+            A PBR material pipeline with environment mapping gives the juice bottle
+            photorealistic glass and liquid rendering.
+          </p>
+          <ul>
+            <li>Off-screen portal rendering for L-shaped screen simulation</li>
+            <li>Clipping planes enforce depth-layer separation</li>
+            <li>Unreal Bloom + vignette post-processing chain</li>
+            <li>Python pipeline for depth estimation and layer compositing</li>
+            <li>Procedural canvas textures for fruit surfaces</li>
+            <li>Orbit controls with sweet-spot snapping</li>
+          </ul>
+        </div>
+        <a class="cta-btn" href="index.html">
+          &#9654; Launch Live Demo
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer>
+    <div class="footer-brand">Colorful Canvas</div>
+    <p>
+      DSC680 &mdash; Applied Data Science &mdash; Bellevue University<br>
+      Anamorphic 3D Billboard Project &copy; 2026<br>
+      <a href="https://github.com/UKOMAL/Komal-Shahid-DS-Portfolio/tree/main/projects/project3-colorful-canvas" target="_blank" rel="noopener">
+        View on GitHub
+      </a>
+    </p>
+  </footer>
+
+</body>
+</html>

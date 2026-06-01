@@ -9,7 +9,7 @@
 
 [![Portfolio](https://img.shields.io/badge/🌐_Live_Portfolio-Visit_Site-2E86AB?style=for-the-badge)](https://ukomal.github.io/Komal-Shahid-DS-Portfolio/)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/komal-shahid-6b1704175)
-[![Email](https://img.shields.io/badge/Email-Contact-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:kshahid@my.bellevue.edu)
+[![Email](https://img.shields.io/badge/Email-Contact-EA4335?style=for-the-badge&logo=apple&logoColor=white)](mailto:komalshahid@me.com)
 
 </div>
 
@@ -247,7 +247,7 @@ Each course below represents a distinct skill domain. Click any project to see t
 
 **Komal Shahid** · M.S. Data Science · Bellevue University · GPA 4.0 · 2025–2026
 
-[![Email](https://img.shields.io/badge/Email-komalshahid49@gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:komalshahid49@gmail.com)
+[![Email](https://img.shields.io/badge/Email-komalshahid@me.com-EA4335?style=for-the-badge&logo=apple&logoColor=white)](mailto:komalshahid@me.com)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/komal-shahid-6b1704175)
 [![Portfolio](https://img.shields.io/badge/🌐_Full_Portfolio-ukomal.github.io-2E86AB?style=for-the-badge)](https://ukomal.github.io/Komal-Shahid-DS-Portfolio/)
 

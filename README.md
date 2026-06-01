@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="website/images/profile_photo.png" width="130" style="border-radius:50%"/>
+<img src="website/images/website_illlsutrated_profile_picture.png" width="200"/>
 
 # Komal Shahid
 ### AI & Machine Learning Engineer

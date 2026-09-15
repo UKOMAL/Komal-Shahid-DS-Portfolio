@@ -15,6 +15,26 @@ Two connected systems built to answer the same question from different angles: *
 
 Both were built the same way: try the naive version first, find where it actually breaks, then fix the specific failure mode instead of over-engineering upfront.
 
+## Runnable code
+
+A working reference implementation lives in [`src/`](src/) — BM25 from
+scratch, semantic retrieval, Reciprocal Rank Fusion, a labelled evaluation
+corpus and 13 tests. Numpy is the only dependency.
+
+```bash
+cd src
+python evaluate.py --sweep   # the compression / exact-term trade-off
+python test_pipeline.py
+```
+
+See [`src/README.md`](src/README.md) for what the measurements do and do not
+show — in particular, a 16-document corpus demonstrates the *mechanism*
+behind the dense-only failure, not a benchmark win for hybrid.
+
+The production system this describes was built at Discover / Capital One and
+is proprietary; the code here is an independent implementation of the same
+patterns, written for this write-up.
+
 ## System 1 — Hybrid RAG Pipeline
 
 **The problem with dense-only retrieval:** semantic embeddings are great at matching meaning, and quietly bad at matching *exact* things — part numbers, names, specific phrasing. A pure vector-search RAG system will confidently retrieve the wrong passage for exactly the queries that matter most to a real user, and you won't notice until you build an adversarial eval set.

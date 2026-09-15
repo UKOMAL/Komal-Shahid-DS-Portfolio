@@ -19,6 +19,8 @@
 
 I'm a data scientist building intelligent systems that solve real human problems. Over two years at Bellevue University, I moved systematically from Python and statistics foundations through to production machine learning and ethical AI. My work focuses on three things: **impact** (projects that matter to people), **interpretability** (models you can understand and trust), and **rigor** (honest metrics, no inflated claims).
 
+**Currently targeting Forward Deployed Engineer / Solutions Architect roles** — the same instinct that drives the rigor above (stress-test before you trust it) is what I want to bring to making AI systems work for real customers, not just for a rubric. See the [Hybrid RAG & LLM Fine-Tuning Systems](projects/rag-pipeline-demo/README.md) project below for the clearest example.
+
 This portfolio documents the full MSDS program journey — 10 courses from DSC500 through DSC680 — plus three major capstone projects in mental health ML, AI content strategy, and computer vision.
 
 ---
@@ -146,6 +148,37 @@ This portfolio documents the full MSDS program journey — 10 courses from DSC50
 `OpenCV` `NumPy` `PIL` `Three.js` `Canvas API` `MiDaS`
 
 [📁 View Project](projects/project3-colorful-canvas/) · [🎮 Live Demo](projects/project3-colorful-canvas/index.html)
+
+---
+
+### 📌 Independent Project · Hybrid RAG & LLM Fine-Tuning Systems
+**AI Systems Engineering | Retrieval-Augmented Generation + Parameter-Efficient Fine-Tuning**
+
+<div align="center">
+<img src="website/images/hybrid-rag-architecture.svg" width="85%" alt="Hybrid RAG architecture diagram"/>
+</div>
+
+**What it does:** A hybrid retrieval-augmented generation pipeline combining exact-match (BM25) and semantic (dense BGE) search, fused with Reciprocal Rank Fusion and cross-encoder reranking, plus a parameter-efficient LoRA fine-tune of GPT-2 for quote tagging.
+
+**Why it matters:** Dense-only retrieval quietly fails on exact-term queries (names, part numbers) — this system was built specifically to fix that failure mode after finding it. The LoRA fine-tune answers the practical question every enterprise AI deployment eventually asks: when is a smaller, self-hosted, fine-tuned model the better call than a bigger hosted API?
+
+**How it works:**
+- Ingestion pipeline with overlap-aware chunking
+- Parallel BM25 + dense (BGE) retrieval, fused with Reciprocal Rank Fusion
+- Cross-encoder reranking on fused candidates; HyDE query expansion for vague queries
+- LLM synthesis grounded in retrieved passages with source citations
+- LoRA fine-tune: rank=16, alpha=32, dropout=0.05 — **590K/125M params trained (0.47%), >99% memory reduction, CPU-only**
+
+| Metric | Result |
+|---|---|
+| Params Trained (LoRA) | **0.47%** (590K / 125M) |
+| Memory Reduction | **>99%** |
+| Retrieval Strategy | BM25 + Dense Hybrid + Reranking |
+| Hardware | CPU-only (no GPU) |
+
+`LangChain` `ChromaDB` `BGE Embeddings` `BM25` `Cross-Encoder Reranking` `HyDE` `LoRA (PEFT)` `Hugging Face`
+
+[📁 Case Study](projects/rag-pipeline-demo/README.md) · [🎮 Interactive Demo](projects/rag-pipeline-demo/index.html)
 
 ---
 

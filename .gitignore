@@ -64,3 +64,9 @@ _local/
 **/UX_IMPROVEMENT_REPORT*
 **/CLAUDE_DESIGN_PROMPT*
 **/billboard-reference*
+
+# Recorded presentations (large media — keep local, never push)
+**/*presentation_recorded*
+**/*_recorded.pptx
+**/*_recorded.mp4
+**/*_recorded.mov

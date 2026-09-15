@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deployment Notes — Komal Shahid</title>
+<meta name="description" content="AWS deployment notes — CUDA containers, EC2 GPU instance sizing, SageMaker vs EC2, and the S3 versus API payload decision.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/case-study.css">
+<style>body{opacity:1;transition:opacity .32s ease}body.leaving{opacity:0}@media(prefers-reduced-motion:reduce){body,body.leaving{opacity:1!important;transition:none!important}}</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <div class="nav-brand">Komal<span class="dot"></span>Shahid</div>
+    <a class="back" href="../portfolio.html#work">← All work</a>
+  </div>
+</nav>
+
+<main id="main">
+<header class="cs-hero">
+  <div class="wrap">
+    <span class="eyebrow">Deployment · AWS · Infrastructure</span>
+    <h1>It also has to <em>run somewhere.</em></h1>
+    <p class="lede">Three patterns that come up on nearly every integration call, and the specific failure modes behind each one.</p>
+    <dl class="facts">
+      <div><dt>Compute</dt><dd>EC2 · SageMaker</dd></div>
+      <div><dt>Containers</dt><dd><em>CUDA</em> · ECR</dd></div>
+      <div><dt>Storage</dt><dd>S3 · SSE-KMS</dd></div>
+      <div><dt>Auth</dt><dd>IAM roles</dd></div>
+    </dl>
+  </div>
+</header>
+
+<section class="cs-section">
+  <div class="wrap">
+    <div class="reveal read">
+      <h2>The container doesn't ship the <em>driver.</em></h2>
+      <p>The most common GPU deployment failure: someone builds a CUDA image, runs it on a GPU instance, and <code>torch.cuda.is_available()</code> returns <code>False</code>. The image carries the CUDA <strong>runtime</strong>; the host carries the <strong>driver</strong>. If the host driver is older than the runtime the image expects, nothing works — and the error message rarely says so.</p>
+    </div>
+
+    <ol class="cs-steps reveal">
+      <li><strong><code>nvidia-smi</code> on the host</strong> — is the driver installed and healthy? If this fails, nothing else matters.</li>
+      <li><strong>NVIDIA Container Toolkit installed?</strong> Without it, Docker has no way to expose the device.</li>
+      <li><strong>Started with <code>--gpus all</code>?</strong> Absent that flag the GPU is simply not passed through.</li>
+      <li><strong><code>docker exec &lt;cid&gt; nvidia-smi</code></strong> — if the container sees the device but PyTorch doesn't, it's the framework build.</li>
+      <li><strong>Wheel CUDA-matched?</strong> A <code>cu121</code> torch build on a driver too old for CUDA 12.1 fails exactly this way.</li>
+    </ol>
+
+    <div class="code-card reveal">
+      <div class="bar"><span>Dockerfile · GPU inference image</span><span class="gold">CUDA 12.1</span></div>
+<pre><span class="c"># Runtime lives in the image. Driver lives on the host.</span>
+<span class="k">FROM</span> nvidia/cuda:12.1.0-runtime-ubuntu22.04
+
+<span class="k">ENV</span> DEBIAN_FRONTEND=noninteractive PYTHONUNBUFFERED=1
+
+<span class="k">RUN</span> apt-get update &amp;&amp; apt-get install -y --no-install-recommends \
+      python3.10 python3-pip &amp;&amp; rm -rf /var/lib/apt/lists/*
+
+<span class="c"># cu121 wheels must match the base image CUDA line.</span>
+<span class="k">RUN</span> pip3 install --no-cache-dir torch==2.3.0 \
+      --index-url https://download.pytorch.org/whl/cu121
+
+<span class="c"># Bake weights in or mount them — never download on cold start.</span>
+<span class="k">COPY</span> app/ /app/
+<span class="k">WORKDIR</span> /app
+
+<span class="k">HEALTHCHECK</span> --interval=30s --timeout=5s --retries=3 \
+  <span class="k">CMD</span> python3 -c <span class="s">"import torch,sys; sys.exit(0 if torch.cuda.is_available() else 1)"</span>
+
+<span class="k">CMD</span> [<span class="s">"uvicorn"</span>, <span class="s">"main:app"</span>, <span class="s">"--host"</span>, <span class="s">"0.0.0.0"</span>, <span class="s">"--port"</span>, <span class="s">"8080"</span>]</pre>
+      <div class="note"><b>Host side:</b> install nvidia-container-toolkit, then <code>docker run --gpus all -p 8080:8080 rag-svc:latest</code>. On AWS a Deep Learning AMI ships driver and toolkit preinstalled, removing the whole class of problem.</div>
+    </div>
+
+    <div class="pull reveal">
+      <div class="l">Why it matters</div>
+      <p>Anyone can write a Dockerfile. Knowing which layer owns the driver is what separates having deployed this from having read about it.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section">
+  <div class="wrap">
+    <div class="reveal read">
+      <h2>Right-size the box before you <em>optimise</em> the model.</h2>
+      <p>Customers routinely overspend by an order of magnitude because someone picked a training instance for an inference workload. The question isn't which GPU is fastest — it's <strong>whether the model fits in VRAM, and whether the workload is latency-bound or throughput-bound.</strong></p>
+    </div>
+
+    <table class="dtable reveal">
+      <thead><tr><th>Instance</th><th>Reach for it when</th></tr></thead>
+      <tbody>
+        <tr><td>g4dn.xlarge<br><span style="color:var(--muted)">T4 · 16GB</span></td><td><b>Cheapest real GPU.</b> Inference for smaller or quantized models, embedding generation, batch reranking. My default start for a RAG serving tier.</td></tr>
+        <tr><td>g5.xlarge<br><span style="color:var(--muted)">A10G · 24GB</span></td><td><b>The sensible middle.</b> Roughly 2–3× the T4 on transformer inference for a modest premium. Where most production inference should land.</td></tr>
+        <tr><td>p3 / p4d<br><span style="color:var(--muted)">V100 / A100</span></td><td><b>Training and full fine-tunes.</b> Justify with utilization, not ambition. Spot plus checkpointing makes it affordable.</td></tr>
+        <tr><td>c6i / m6i<br><span style="color:var(--muted)">CPU only</span></td><td><b>More viable than people assume.</b> My LoRA fine-tune ran CPU-only. BM25, chunking, and orchestration never need a GPU.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="reveal read">
+      <h3>SageMaker or raw EC2</h3>
+      <p><strong>SageMaker</strong> when the customer wants managed training jobs, endpoint autoscaling, and has no infrastructure team — you pay a premium for not operating it. <strong>Raw EC2</strong> when they need container control, specific CUDA builds, or are cost-sensitive at scale. Both are defensible; pretending only one exists is not.</p>
+    </div>
+
+    <div class="code-card reveal">
+      <div class="bar"><span>Deploy · ECR → EC2 GPU host</span><span class="gold">bash</span></div>
+<pre><span class="c"># 1 — build and push to ECR</span>
+aws ecr get-login-password --region us-east-1 \
+  | docker login --username AWS --password-stdin <span class="s">$ACCT</span>.dkr.ecr.us-east-1.amazonaws.com
+docker build -t rag-svc:<span class="s">$SHA</span> .
+docker push <span class="s">$ACCT</span>.dkr.ecr.us-east-1.amazonaws.com/rag-svc:<span class="s">$SHA</span>
+
+<span class="c"># 2 — on the GPU host</span>
+nvidia-smi                     <span class="c"># confirm driver before anything else</span>
+docker run -d --restart=always --gpus all --shm-size=1g -p 8080:8080 \
+  -e AWS_REGION=us-east-1 \
+  <span class="s">$ACCT</span>.dkr.ecr.us-east-1.amazonaws.com/rag-svc:<span class="s">$SHA</span>
+
+<span class="c"># 3 — the check that actually matters</span>
+docker exec -it <span class="s">$CID</span> python3 -c <span class="s">"import torch; print(torch.cuda.get_device_name(0))"</span></pre>
+      <div class="note"><b>Instance role, not keys.</b> The container reads credentials from the EC2 instance profile via IMDS. No <code>AWS_SECRET_ACCESS_KEY</code> in an env var — that's the finding every customer security review opens with.</div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section">
+  <div class="wrap">
+    <div class="reveal read">
+      <h2>Send the file, or send the <em>pointer?</em></h2>
+      <p>This comes up on nearly every integration call, and the answer is almost always: <strong>send the pointer.</strong> Push bytes through your API and you inherit request size limits, timeouts on slow client connections, retry storms that re-upload the whole payload, and memory pressure on a service that should be stateless.</p>
+      <p>The pattern that scales: the client requests a <strong>presigned PUT URL</strong>, uploads straight to S3, then calls your API with just the object key. The API moves metadata; S3 moves bytes.</p>
+    </div>
+
+    <table class="dtable reveal">
+      <thead><tr><th>Situation</th><th>Call it</th></tr></thead>
+      <tbody>
+        <tr><td>Under ~1 MB, sync</td><td><b>Inline in the API.</b> Adding S3 here is complexity with no payoff.</td></tr>
+        <tr><td>Large files, batch</td><td><b>S3 + presigned URL.</b> PDFs, audio, image sets — anything uploaded from a laptop on hotel wifi.</td></tr>
+        <tr><td>Regulated data</td><td><b>S3 with SSE-KMS.</b> Customer-managed key, bucket policy denying unencrypted PUT, access logged.</td></tr>
+        <tr><td>Results that persist</td><td><b>S3 + short-lived presigned GET.</b> Return an expiring URL, not a blob.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="code-card reveal">
+      <div class="bar"><span>Ingestion · presigned upload flow</span><span class="gold">python</span></div>
+<pre><span class="k">import</span> boto3, uuid
+s3 = boto3.client(<span class="s">"s3"</span>)
+
+<span class="k">def</span> issue_upload_url(tenant: str, filename: str):
+    key = f<span class="s">"raw/{tenant}/{uuid.uuid4()}/{filename}"</span>
+    url = s3.generate_presigned_url(
+        <span class="s">"put_object"</span>,
+        Params={
+            <span class="s">"Bucket"</span>: BUCKET, <span class="s">"Key"</span>: key,
+            <span class="s">"ServerSideEncryption"</span>: <span class="s">"aws:kms"</span>,
+            <span class="s">"SSEKMSKeyId"</span>: CUSTOMER_KMS_KEY,
+        },
+        ExpiresIn=900,          <span class="c"># 15 min, not 7 days</span>
+    )
+    <span class="c"># API returns the pointer. Bytes never touch this process.</span>
+    <span class="k">return</span> {<span class="s">"upload_url"</span>: url, <span class="s">"key"</span>: key}
+
+
+<span class="k">def</span> ingest(key: str):
+    body = s3.get_object(Bucket=BUCKET, Key=key)[<span class="s">"Body"</span>]
+    <span class="k">for</span> batch <span class="k">in</span> chunk_stream(body, size=512, overlap=64):
+        collection.add(
+            documents=batch.texts,
+            embeddings=embed(batch.texts),
+            metadatas=[{<span class="s">"s3_key"</span>: key, **m} <span class="k">for</span> m <span class="k">in</span> batch.meta],
+        )
+    <span class="c"># s3_key in metadata = re-chunk later without re-upload</span></pre>
+      <div class="note"><b>Why the key lives in metadata:</b> when the embedding model changes — and it will — re-embed from the S3 original instead of asking every customer to upload their corpus again.</div>
+    </div>
+
+    <div class="pull reveal">
+      <div class="l">The question underneath the question</div>
+      <p>"Does your data leave our environment?" Presigned URLs into the customer's own bucket is often the answer that unblocks the deal.</p>
+    </div>
+
+    <div class="tags reveal">
+      <span class="tag gold">AWS</span><span class="tag">SageMaker</span><span class="tag">EC2</span>
+      <span class="tag">ECR</span><span class="tag">S3</span><span class="tag">CUDA</span><span class="tag">IAM</span>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="cs-next">
+  <div class="wrap">
+    <div class="label">More work</div>
+    <div class="next-grid">
+      <a class="next-card reveal" data-d="0" href="lora-finetuning.html">
+        <div class="idx">02 / Model Adaptation</div>
+        <h3>LoRA fine-tuning</h3>
+        <p>Adapting a language model under a hard CPU-only constraint, training 0.47% of parameters.</p>
+      </a>
+      <a class="next-card reveal" data-d="1" href="treatment-classifier.html">
+        <div class="idx">03 / Responsible ML</div>
+        <h3>Treatment-seeking classifier</h3>
+        <p>Four models, SHAP explainability, and a fairness audit that decided which one shipped.</p>
+      </a>
+      <a class="next-card reveal" data-d="2" href="content-strategy-engine.html">
+        <div class="idx">04 / Applied Statistics</div>
+        <h3>Content strategy engine</h3>
+        <p>12,000 posts, and the difference between a headline number and an honest one.</p>
+      </a>
+    </div>
+    <div class="ctas">
+      <a class="btn" href="../portfolio.html#contact">Get in touch
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a class="btn btn--ghost" href="../portfolio.html#work">All projects</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Komal Shahid</div>
+    <em>Every number on this page is one I can defend in an interview.</em>
+    <div>connect@komalshahid.com</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function (el) { io.observe(el); });
+
+  // page transition on internal navigation
+  if (!reduce) {
+    document.addEventListener('click', function (ev) {
+      var a = ev.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#' || a.target === '_blank'
+          || href.indexOf('mailto:') === 0 || href.indexOf('http') === 0) return;
+      ev.preventDefault();
+      document.body.classList.add('leaving');
+      setTimeout(function () { window.location.href = href; }, 300);
+    });
+    window.addEventListener('pageshow', function () {
+      document.body.classList.remove('leaving');
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

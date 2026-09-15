@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Colorful Canvas — Komal Shahid</title>
+<meta name="description" content="A depth-driven anamorphic billboard illusion built with OpenCV remap and optional MiDaS neural depth, re-implemented in Three.js for the browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/case-study.css">
+<style>body{opacity:1;transition:opacity .32s ease}body.leaving{opacity:0}@media(prefers-reduced-motion:reduce){body,body.leaving{opacity:1!important;transition:none!important}}</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <div class="nav-brand">Komal<span class="dot"></span>Shahid</div>
+    <a class="back" href="../portfolio.html#work">← All work</a>
+  </div>
+</nav>
+
+<main id="main">
+<header class="cs-hero">
+  <div class="wrap">
+    <span class="eyebrow">Project 06 · Computer Vision</span>
+    <h1>Shipped the <em>imperfect</em> version.</h1>
+    <p class="lede">A depth-driven anamorphic billboard illusion — the kind that appears to bulge out of a corner LED screen. Two implementations, and a deliberate decision not to wait for the better one.</p>
+    <dl class="facts">
+      <div><dt>Technique</dt><dd>Anamorphic warp</dd></div>
+      <div><dt>Depth</dt><dd><em>Synthetic</em> · MiDaS</dd></div>
+      <div><dt>Runtimes</dt><dd>Python · WebGL</dd></div>
+      <div><dt>Default</dt><dd>Ships fast</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main>
+
+<section class="cs-section">
+  <div class="wrap">
+    <div class="reveal read">
+      <h2>The <em>illusion</em>, briefly.</h2>
+      <p>An anamorphic billboard works by rendering a scene as it would appear from one specific vantage point, warped so the flat screen reads as depth from that angle. Get the projection right and the content appears to break the plane of the display.</p>
+      <p>The Python implementation uses <code>OpenCV remap()</code> driven by a depth map. The browser version reimplements the same geometry in Three.js so it runs live, interactively, without a Python round trip.</p>
+    </div>
+
+    <figure class="reveal">
+      <div class="frame"><img src="../images/cc_wave.png" alt="Anamorphic billboard mockup — wave"></div>
+      <figcaption><span>Anamorphic render · wave</span><span class="gold">Fig. 01</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="cs-section">
+  <div class="wrap">
+    <div class="reveal read">
+      <h2>Where the <em>judgement</em> was.</h2>
+      <p>Depth can come from two places. <strong>MiDaS</strong> produces genuinely good monocular depth estimates and needs a model download, a heavier dependency chain, and real inference time. <strong>Synthetic depth</strong> — derived geometrically — is cruder and effectively instant.</p>
+      <p>The neural path produced better output. I made it optional and <strong>shipped with synthetic depth as the default</strong>, because a demo that loads immediately and looks good is worth more than one that loads slowly and looks slightly better. Anyone who wants the higher fidelity can turn it on.</p>
+    </div>
+
+    <div class="pull reveal">
+      <div class="l">The tradeoff, stated plainly</div>
+      <p>The last 10% of fidelity cost more than it returned. Making it opt-in was the version that shipped.</p>
+    </div>
+
+    <figure class="reveal">
+      <div class="frame"><img src="../images/cc_juice.png" alt="Anamorphic billboard mockup — product"></div>
+      <figcaption><span>Anamorphic render · product</span><span class="gold">Fig. 02</span></figcaption>
+    </figure>
+
+    <div class="reveal read">
+      <h3>Two runtimes, one geometry</h3>
+      <p>Keeping the Python and Three.js implementations consistent meant treating the warp as a single specification rather than two codebases that happened to look similar. When the geometry changed, it changed in one described place and both implementations followed.</p>
+    </div>
+
+    <div class="tags reveal">
+      <span class="tag gold">OpenCV</span><span class="tag">MiDaS</span>
+      <span class="tag">Three.js</span><span class="tag">NumPy</span><span class="tag">WebGL</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+</main>
+
+<section class="cs-next">
+  <div class="wrap">
+    <div class="label">More work</div>
+    <div class="next-grid">
+      <a class="next-card reveal" data-d="0" href="hybrid-rag.html">
+        <div class="idx">01 / Retrieval Systems</div>
+        <h3>Hybrid RAG pipeline</h3>
+        <p>Production retrieval built from scratch — and rebuilt after the dense-only version failed silently.</p>
+      </a>
+      <a class="next-card reveal" data-d="1" href="lora-finetuning.html">
+        <div class="idx">02 / Model Adaptation</div>
+        <h3>LoRA fine-tuning</h3>
+        <p>Adapting a language model under a hard CPU-only constraint, training 0.47% of parameters.</p>
+      </a>
+      <a class="next-card reveal" data-d="2" href="treatment-classifier.html">
+        <div class="idx">03 / Responsible ML</div>
+        <h3>Treatment-seeking classifier</h3>
+        <p>Four models, SHAP explainability, and a fairness audit that decided which one shipped.</p>
+      </a>
+    </div>
+    <div class="ctas">
+      <a class="btn" href="../portfolio.html#contact">Get in touch
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a class="btn btn--ghost" href="../portfolio.html#work">All projects</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Komal Shahid</div>
+    <em>Every number on this page is one I can defend in an interview.</em>
+    <div>connect@komalshahid.com</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function (el) { io.observe(el); });
+
+  // page transition on internal navigation
+  if (!reduce) {
+    document.addEventListener('click', function (ev) {
+      var a = ev.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#' || a.target === '_blank'
+          || href.indexOf('mailto:') === 0 || href.indexOf('http') === 0) return;
+      ev.preventDefault();
+      document.body.classList.add('leaving');
+      setTimeout(function () { window.location.href = href; }, 300);
+    });
+    window.addEventListener('pageshow', function () {
+      document.body.classList.remove('leaving');
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

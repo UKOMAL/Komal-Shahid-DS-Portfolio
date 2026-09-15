@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Notely — Komal Shahid</title>
+<meta name="description" content="An LLM and embeddings note-taking application with semantic search, deployed end to end via Streamlit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/case-study.css">
+<style>body{opacity:1;transition:opacity .32s ease}body.leaving{opacity:0}@media(prefers-reduced-motion:reduce){body,body.leaving{opacity:1!important;transition:none!important}}</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <div class="nav-brand">Komal<span class="dot"></span>Shahid</div>
+    <a class="back" href="../portfolio.html#work">← All work</a>
+  </div>
+</nav>
+
+<main id="main">
+<header class="cs-hero">
+  <div class="wrap">
+    <span class="eyebrow">Project 05 · Applied LLMs</span>
+    <h1>Small scope, <em>all the way</em> to deployed.</h1>
+    <p class="lede">A note-taking app with semantic search across notes. The point was never the feature list — it was getting something the whole distance to a working deployment.</p>
+    <dl class="facts">
+      <div><dt>Type</dt><dd>LLM product</dd></div>
+      <div><dt>Search</dt><dd><em>Semantic</em></dd></div>
+      <div><dt>Stack</dt><dd>Streamlit</dd></div>
+      <div><dt>Status</dt><dd>Deployed</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main>
+
+<section class="cs-section">
+  <div class="wrap">
+    <div class="reveal read">
+      <h2>Why deliberately <em>small.</em></h2>
+      <p>There's a long distance between a notebook that works and a thing someone can use, and most of the interesting problems live in that gap. Notely was scoped small specifically so that gap was the whole project.</p>
+      <p>Notes go in, get embedded, and become searchable by meaning rather than keyword — so "that thing about retrieval latency" finds the note even when those words never appear in it. The LLM handles summarisation over retrieved notes.</p>
+    </div>
+
+    <ul class="cs-list reveal">
+      <li><strong>Embedding on write</strong> — notes are embedded when saved, not at query time, so search stays fast as the collection grows.</li>
+      <li><strong>Semantic retrieval</strong> — nearest-neighbour lookup over the note embeddings, which is exactly where dense retrieval is the right tool: short, paraphrase-heavy, personal text.</li>
+      <li><strong>LLM summarisation</strong> — synthesis over retrieved notes rather than over everything, which keeps context windows and cost bounded.</li>
+      <li><strong>Deployed and used</strong> — Streamlit, running, not a screenshot in a README.</li>
+    </ul>
+
+    <div class="pull reveal">
+      <div class="l">The honest framing</div>
+      <p>This is the project where dense-only retrieval is genuinely the right call. Knowing when the simple approach suffices is the same skill as knowing when it doesn't.</p>
+    </div>
+
+    <div class="tags reveal">
+      <span class="tag gold">Streamlit</span><span class="tag">Embeddings</span>
+      <span class="tag">Semantic search</span><span class="tag">LLM</span><span class="tag">Python</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+</main>
+
+<section class="cs-next">
+  <div class="wrap">
+    <div class="label">More work</div>
+    <div class="next-grid">
+      <a class="next-card reveal" data-d="0" href="hybrid-rag.html">
+        <div class="idx">01 / Retrieval Systems</div>
+        <h3>Hybrid RAG pipeline</h3>
+        <p>Production retrieval built from scratch — and rebuilt after the dense-only version failed silently.</p>
+      </a>
+      <a class="next-card reveal" data-d="1" href="lora-finetuning.html">
+        <div class="idx">02 / Model Adaptation</div>
+        <h3>LoRA fine-tuning</h3>
+        <p>Adapting a language model under a hard CPU-only constraint, training 0.47% of parameters.</p>
+      </a>
+      <a class="next-card reveal" data-d="2" href="treatment-classifier.html">
+        <div class="idx">03 / Responsible ML</div>
+        <h3>Treatment-seeking classifier</h3>
+        <p>Four models, SHAP explainability, and a fairness audit that decided which one shipped.</p>
+      </a>
+    </div>
+    <div class="ctas">
+      <a class="btn" href="../portfolio.html#contact">Get in touch
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a class="btn btn--ghost" href="../portfolio.html#work">All projects</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Komal Shahid</div>
+    <em>Every number on this page is one I can defend in an interview.</em>
+    <div>connect@komalshahid.com</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function (el) { io.observe(el); });
+
+  // page transition on internal navigation
+  if (!reduce) {
+    document.addEventListener('click', function (ev) {
+      var a = ev.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#' || a.target === '_blank'
+          || href.indexOf('mailto:') === 0 || href.indexOf('http') === 0) return;
+      ev.preventDefault();
+      document.body.classList.add('leaving');
+      setTimeout(function () { window.location.href = href; }, 300);
+    });
+    window.addEventListener('pageshow', function () {
+      document.body.classList.remove('leaving');
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

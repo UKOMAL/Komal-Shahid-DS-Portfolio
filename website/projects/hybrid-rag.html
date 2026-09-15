@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hybrid RAG Pipeline — Komal Shahid</title>
+<meta name="description" content="Production retrieval-augmented generation built from scratch for enterprise GenAI use cases — BM25 and dense embeddings fused with Reciprocal Rank Fusion.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/case-study.css">
+<style>body{opacity:1;transition:opacity .32s ease}body.leaving{opacity:0}@media(prefers-reduced-motion:reduce){body,body.leaving{opacity:1!important;transition:none!important}}</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <div class="nav-brand">Komal<span class="dot"></span>Shahid</div>
+    <a class="back" href="../portfolio.html#work">← All work</a>
+  </div>
+</nav>
+
+<main id="main">
+<header class="cs-hero">
+  <div class="wrap">
+    <span class="eyebrow">Project 01 · Retrieval Systems · Enterprise</span>
+    <h1>Hybrid RAG, built from scratch for <em>production.</em></h1>
+    <p class="lede">I owned the design and build of an end-to-end retrieval pipeline for enterprise GenAI use cases. The first version worked in the demo and failed silently in the places that mattered.</p>
+    <dl class="facts">
+      <div><dt>Role</dt><dd>Design &amp; build</dd></div>
+      <div><dt>Context</dt><dd><em>Enterprise</em></dd></div>
+      <div><dt>Retrievers</dt><dd>2, fused</dd></div>
+      <div><dt>Status</dt><dd>In production</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main>
+
+<section class="cs-section">
+  <div class="wrap">
+    <div class="reveal read">
+      <h2>The failure that <em>started it.</em></h2>
+      <p>The first iteration used dense-only retrieval. Embed the query, embed the documents, return nearest neighbours. It performed well on every query we demoed.</p>
+      <p>Then it started missing things. Not dramatically — that would have been easier. It missed <strong>exact-term lookups</strong>: identifiers, proper nouns, error codes. Terms where the literal string is the whole point and semantic similarity is close to meaningless.</p>
+      <p>The reason this class of bug is expensive is that <strong>nothing looks broken.</strong> The retriever returns something, the model reads it, and the answer comes back fluent and confident and wrong. There is no stack trace. Without deliberate evaluation against exact-term queries, it does not surface at all.</p>
+    </div>
+
+    <div class="pull reveal">
+      <div class="l">The lesson</div>
+      <p>Dense retrieval doesn't fail loudly. It returns a plausible neighbour and lets the language model paper over the gap.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section">
+  <div class="wrap">
+    <div class="reveal read">
+      <h2>What I <em>rebuilt.</em></h2>
+      <p>Hybrid retrieval, because the two failure modes are complementary. Dense embeddings miss exact terms; BM25 misses paraphrases. Running both and fusing the rankings covers each one's blind spot.</p>
+    </div>
+
+    <ol class="cs-steps reveal">
+      <li><strong>Ingestion and chunking</strong> — documents split with deliberate overlap, tuned against retrieval quality rather than just fitting a token budget.</li>
+      <li><strong>Parallel retrieval</strong> — BM25 lexical search and BGE dense embeddings run against the same corpus, independently.</li>
+      <li><strong>Reciprocal Rank Fusion</strong> — the two ranked lists merge into one. RRF cares about rank position, not raw scores, so it doesn't require the two retrievers to be on a comparable scale.</li>
+      <li><strong>Cross-encoder reranking</strong> — a precision pass over the top-k only. Too expensive for the full corpus, exactly right for a shortlist.</li>
+      <li><strong>HyDE expansion</strong> — for underspecified queries, generate a hypothetical answer first and retrieve against that instead of the sparse original query.</li>
+      <li><strong>Grounded generation</strong> — synthesis with citations, and access control applied at retrieval rather than in the interface.</li>
+    </ol>
+
+    <div class="code-card reveal">
+      <div class="bar"><span>Retrieval · fusion step</span><span class="gold">python</span></div>
+<pre><span class="c"># Two retrievers, one ranking. RRF works on positions,</span>
+<span class="c"># so BM25 scores and cosine similarities never need</span>
+<span class="c"># to be normalised onto a common scale.</span>
+<span class="k">def</span> reciprocal_rank_fusion(rankings, k=60):
+    scores = defaultdict(float)
+    <span class="k">for</span> ranking <span class="k">in</span> rankings:
+        <span class="k">for</span> pos, doc_id <span class="k">in</span> enumerate(ranking):
+            scores[doc_id] += 1.0 / (k + pos + 1)
+    <span class="k">return</span> sorted(scores, key=scores.get, reverse=<span class="k">True</span>)
+
+
+<span class="k">def</span> retrieve(query, top_k=50, rerank_to=8):
+    dense  = vector_store.search(embed(query), k=top_k)
+    sparse = bm25.search(query, k=top_k)
+
+    fused = reciprocal_rank_fusion([dense, sparse])[:top_k]
+
+    <span class="c"># Precision pass on the shortlist only.</span>
+    <span class="k">return</span> cross_encoder.rerank(query, fused)[:rerank_to]</pre>
+      <div class="note"><b>Why top-k first:</b> the cross-encoder scores every query-document pair jointly, which is what makes it accurate and what makes it far too slow to run over a full corpus. Fusion narrows the field; reranking sharpens it.</div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section">
+  <div class="wrap">
+    <div class="reveal read">
+      <h2>Built for <em>many</em> use cases.</h2>
+      <p>The requirement was never a single application. It was shared infrastructure that several teams could build on — which changes what counts as a design decision rather than an afterthought.</p>
+    </div>
+
+    <table class="dtable reveal">
+      <thead><tr><th>Concern</th><th>How it was handled</th></tr></thead>
+      <tbody>
+        <tr><td>Access control</td><td><b>Enforced at retrieval.</b> Documents are filtered by the caller's permissions before they ever reach the model. Filtering in the interface is a data leak waiting to be found.</td></tr>
+        <tr><td>Re-indexing</td><td><b>Source keys retained in metadata.</b> When the embedding model changes, re-chunk and re-embed from the originals — no re-upload, no coordination with every consuming team.</td></tr>
+        <tr><td>Evaluation</td><td><b>Retrieval quality instrumented from the start</b>, including an exact-term query set built specifically because of the original failure.</td></tr>
+        <tr><td>Multi-tenancy</td><td><b>Isolation at the retrieval layer</b>, so use cases share compute without sharing corpora.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="pull reveal">
+      <div class="l">What I'd tell a customer</div>
+      <p>If your RAG system has never been evaluated on queries where the exact string matters, you don't yet know whether it works.</p>
+    </div>
+
+    <div class="tags reveal">
+      <span class="tag gold">BM25</span><span class="tag">BGE embeddings</span>
+      <span class="tag">Reciprocal Rank Fusion</span><span class="tag">Cross-encoder</span>
+      <span class="tag">HyDE</span><span class="tag">Vector store</span><span class="tag">Python</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+</main>
+
+<section class="cs-next">
+  <div class="wrap">
+    <div class="label">More work</div>
+    <div class="next-grid">
+      <a class="next-card reveal" data-d="0" href="lora-finetuning.html">
+        <div class="idx">02 / Model Adaptation</div>
+        <h3>LoRA fine-tuning</h3>
+        <p>Adapting a language model under a hard CPU-only constraint, training 0.47% of parameters.</p>
+      </a>
+      <a class="next-card reveal" data-d="1" href="treatment-classifier.html">
+        <div class="idx">03 / Responsible ML</div>
+        <h3>Treatment-seeking classifier</h3>
+        <p>Four models, SHAP explainability, and a fairness audit that decided which one shipped.</p>
+      </a>
+      <a class="next-card reveal" data-d="2" href="content-strategy-engine.html">
+        <div class="idx">04 / Applied Statistics</div>
+        <h3>Content strategy engine</h3>
+        <p>12,000 posts, and the difference between a headline number and an honest one.</p>
+      </a>
+    </div>
+    <div class="ctas">
+      <a class="btn" href="../portfolio.html#contact">Get in touch
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a class="btn btn--ghost" href="../portfolio.html#work">All projects</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Komal Shahid</div>
+    <em>Every number on this page is one I can defend in an interview.</em>
+    <div>connect@komalshahid.com</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function (el) { io.observe(el); });
+
+  // page transition on internal navigation
+  if (!reduce) {
+    document.addEventListener('click', function (ev) {
+      var a = ev.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#' || a.target === '_blank'
+          || href.indexOf('mailto:') === 0 || href.indexOf('http') === 0) return;
+      ev.preventDefault();
+      document.body.classList.add('leaving');
+      setTimeout(function () { window.location.href = href; }, 300);
+    });
+    window.addEventListener('pageshow', function () {
+      document.body.classList.remove('leaving');
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

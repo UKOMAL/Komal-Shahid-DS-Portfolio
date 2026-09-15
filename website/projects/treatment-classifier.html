@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Treatment-Seeking Classifier — Komal Shahid</title>
+<meta name="description" content="Predicting mental-health treatment-seeking with SHAP explainability, SMOTE, and a fairness audit across gender, age, and company size. AUC 0.723.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/case-study.css">
+<style>body{opacity:1;transition:opacity .32s ease}body.leaving{opacity:0}@media(prefers-reduced-motion:reduce){body,body.leaving{opacity:1!important;transition:none!important}}</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <div class="nav-brand">Komal<span class="dot"></span>Shahid</div>
+    <a class="back" href="../portfolio.html#work">← All work</a>
+  </div>
+</nav>
+
+<main id="main">
+<header class="cs-hero">
+  <div class="wrap">
+    <span class="eyebrow">Project 03 · Responsible ML · Capstone</span>
+    <h1>The model I shipped wasn't the <em>best</em> one.</h1>
+    <p class="lede">Four classifiers, SHAP attributions, and a fairness audit across gender, age, and company size. The neural net scored higher. I shipped the logistic regression.</p>
+    <dl class="facts">
+      <div><dt>Best AUC</dt><dd><em>0.723</em></dd></div>
+      <div><dt>Models</dt><dd>4 compared</dd></div>
+      <div><dt>Audit</dt><dd>3 attributes</dd></div>
+      <div><dt>Shipped</dt><dd>Logistic Reg.</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main>
+
+<section class="cs-section">
+  <div class="wrap">
+    <div class="reveal read">
+      <h2>The comparison, <em>honestly.</em></h2>
+      <p>Four models on the same data, same splits, same evaluation. The spread between them was narrow — which is itself the interesting finding.</p>
+    </div>
+
+    <table class="dtable reveal">
+      <thead><tr><th>Model</th><th>Result</th></tr></thead>
+      <tbody>
+        <tr><td>Logistic Regression</td><td><b>AUC 0.723</b> · Accuracy 68.2% · F1 0.68 — the one that shipped</td></tr>
+        <tr><td>Random Forest</td><td>AUC 0.716 · Accuracy 70.1% · F1 0.67</td></tr>
+        <tr><td>XGBoost</td><td>AUC 0.714 · Accuracy 69.8% · F1 0.66</td></tr>
+        <tr><td>Neural Network</td><td>AUC 0.709 · Accuracy 68.9% · F1 0.65</td></tr>
+      </tbody>
+    </table>
+
+    <figure class="reveal">
+      <div class="frame"><img src="../images/mh_roc_pr.png" alt="ROC curve, precision-recall curve, and calibration plot for the treatment-seeking classifier"></div>
+      <figcaption><span>ROC · precision-recall · calibration</span><span class="gold">Fig. 01</span></figcaption>
+    </figure>
+
+    <div class="reveal read">
+      <p>An AUC of 0.723 is a modest number and I state it plainly. Human decisions about seeking healthcare are shaped by factors no survey captures. A model claiming 0.95 on this problem would be evidence of leakage, not insight.</p>
+      <p><strong>What matters more than the headline metric is whether the ranking is trustworthy and whether it holds across subgroups.</strong> That's what the rest of the work went into.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section">
+  <div class="wrap">
+    <div class="reveal read">
+      <h2>Why the <em>weaker</em> model won.</h2>
+      <p>The neural network was within noise of logistic regression, and in one framing slightly ahead. I chose the logistic regression anyway, for reasons that had nothing to do with the leaderboard:</p>
+    </div>
+
+    <ul class="cs-list reveal">
+      <li><strong>Any single prediction can be explained.</strong> For a model touching people's health, "the model said so" is not an acceptable answer to someone affected by it.</li>
+      <li><strong>Coefficients are auditable directly.</strong> A reviewer can read the model rather than probe it.</li>
+      <li><strong>The margin didn't survive scrutiny.</strong> A fractional AUC difference between architectures on a dataset this size is not a real difference. Trading interpretability for it is a bad trade.</li>
+    </ul>
+
+    <figure class="reveal">
+      <div class="frame"><img src="../images/mh_shap.png" alt="SHAP feature importance bar chart showing top drivers of treatment-seeking"></div>
+      <figcaption><span>SHAP attribution · top drivers</span><span class="gold">Fig. 02</span></figcaption>
+    </figure>
+
+    <div class="pull reveal">
+      <div class="l">The principle</div>
+      <p>A model that's accurate on average but wrong for a subgroup is a liability, not a win.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section">
+  <div class="wrap">
+    <div class="reveal read">
+      <h2>The fairness <em>audit.</em></h2>
+      <p>Before I'd defend the model to anyone, I checked whether it behaved consistently across <strong>gender, age, and company size</strong>. Aggregate performance hides subgroup failure, and subgroup failure is the kind that ends up in front of a regulator.</p>
+      <p>The class imbalance was handled with SMOTE during training, applied inside the cross-validation folds rather than before splitting — resampling before the split leaks synthetic neighbours across the boundary and quietly inflates every metric you report afterward.</p>
+    </div>
+
+    <figure class="reveal">
+      <div class="frame"><img src="../images/mh_fairness.png" alt="Fairness audit results across gender, age, and company size subgroups"></div>
+      <figcaption><span>Subgroup performance audit</span><span class="gold">Fig. 03</span></figcaption>
+    </figure>
+
+    <div class="reveal read">
+      <h3>The finding I had to walk back</h3>
+      <p>An early feature looked like a strong predictor. On closer inspection it was acting as a proxy for company size in a way that overstated the model's real signal. It would have made the results look better.</p>
+      <p>I led with it rather than burying it — showed the diagnostic, explained the mechanism, and proposed the fix. The honest version was more defensible than the flattering one, and it's the version I'd put in front of a skeptical reviewer.</p>
+    </div>
+
+    <div class="tags reveal">
+      <span class="tag gold">scikit-learn</span><span class="tag">XGBoost</span>
+      <span class="tag">SHAP</span><span class="tag">SMOTE</span>
+      <span class="tag">Fairness audit</span><span class="tag">Calibration</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+</main>
+
+<section class="cs-next">
+  <div class="wrap">
+    <div class="label">More work</div>
+    <div class="next-grid">
+      <a class="next-card reveal" data-d="0" href="hybrid-rag.html">
+        <div class="idx">01 / Retrieval Systems</div>
+        <h3>Hybrid RAG pipeline</h3>
+        <p>Production retrieval built from scratch — and rebuilt after the dense-only version failed silently.</p>
+      </a>
+      <a class="next-card reveal" data-d="1" href="lora-finetuning.html">
+        <div class="idx">02 / Model Adaptation</div>
+        <h3>LoRA fine-tuning</h3>
+        <p>Adapting a language model under a hard CPU-only constraint, training 0.47% of parameters.</p>
+      </a>
+      <a class="next-card reveal" data-d="2" href="content-strategy-engine.html">
+        <div class="idx">04 / Applied Statistics</div>
+        <h3>Content strategy engine</h3>
+        <p>12,000 posts, and the difference between a headline number and an honest one.</p>
+      </a>
+    </div>
+    <div class="ctas">
+      <a class="btn" href="../portfolio.html#contact">Get in touch
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a class="btn btn--ghost" href="../portfolio.html#work">All projects</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Komal Shahid</div>
+    <em>Every number on this page is one I can defend in an interview.</em>
+    <div>connect@komalshahid.com</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function (el) { io.observe(el); });
+
+  // page transition on internal navigation
+  if (!reduce) {
+    document.addEventListener('click', function (ev) {
+      var a = ev.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#' || a.target === '_blank'
+          || href.indexOf('mailto:') === 0 || href.indexOf('http') === 0) return;
+      ev.preventDefault();
+      document.body.classList.add('leaving');
+      setTimeout(function () { window.location.href = href; }, 300);
+    });
+    window.addEventListener('pageshow', function () {
+      document.body.classList.remove('leaving');
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

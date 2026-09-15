@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LoRA Fine-Tuning — Komal Shahid</title>
+<meta name="description" content="Adapting GPT-2 with LoRA on CPU-only hardware — 590K of 125M parameters trained, over 99% memory reduction.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles/case-study.css">
+<style>body{opacity:1;transition:opacity .32s ease}body.leaving{opacity:0}@media(prefers-reduced-motion:reduce){body,body.leaving{opacity:1!important;transition:none!important}}</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Primary">
+  <div class="nav-inner">
+    <div class="nav-brand">Komal<span class="dot"></span>Shahid</div>
+    <a class="back" href="../portfolio.html#work">← All work</a>
+  </div>
+</nav>
+
+<main id="main">
+<header class="cs-hero">
+  <div class="wrap">
+    <span class="eyebrow">Project 02 · Model Adaptation</span>
+    <h1>LoRA fine-tuning with <em>no GPU</em> and no excuses.</h1>
+    <p class="lede">The constraint was fixed: a CPU-only machine and a real deadline. Full fine-tuning was off the table, so the question became how little of the model I actually needed to train.</p>
+    <dl class="facts">
+      <div><dt>Base model</dt><dd>GPT-2 · 124M</dd></div>
+      <div><dt>Trained</dt><dd><em>0.47%</em></dd></div>
+      <div><dt>Memory cut</dt><dd>&gt;99%</dd></div>
+      <div><dt>Hardware</dt><dd>CPU only</dd></div>
+    </dl>
+  </div>
+</header>
+
+<main>
+
+<section class="cs-section">
+  <div class="wrap">
+    <div class="reveal read">
+      <h2>The constraint was <em>real.</em></h2>
+      <p>Not a thought experiment about efficiency — an actual machine with no accelerator and a date the work had to be done by. Full fine-tuning of even a 124M-parameter model means holding weights, gradients, and optimizer state simultaneously. That was not going to fit.</p>
+      <p><strong>LoRA changes the shape of the problem.</strong> Instead of updating the base weights, you freeze them entirely and train small low-rank adapter matrices injected alongside the attention projections. The base model contributes its knowledge; the adapters contribute the task.</p>
+    </div>
+
+    <div class="kpis reveal">
+      <div class="kpi"><div class="v"><em>590K</em></div><div class="l">Trainable params</div></div>
+      <div class="kpi"><div class="v">125M</div><div class="l">Total params</div></div>
+      <div class="kpi"><div class="v">0.47%</div><div class="l">Share trained</div></div>
+    </div>
+
+    <div class="code-card reveal">
+      <div class="bar"><span>Adapter configuration</span><span class="gold">peft</span></div>
+<pre><span class="k">from</span> peft <span class="k">import</span> LoraConfig, get_peft_model
+
+config = LoraConfig(
+    r=16,                      <span class="c"># rank — the capacity dial</span>
+    lora_alpha=32,             <span class="c"># scaling, conventionally 2x rank</span>
+    lora_dropout=0.05,
+    target_modules=[<span class="s">"c_attn"</span>],  <span class="c"># attention projections</span>
+    bias=<span class="s">"none"</span>,
+    task_type=<span class="s">"CAUSAL_LM"</span>,
+)
+
+model = get_peft_model(base_model, config)
+model.print_trainable_parameters()
+<span class="c"># trainable: 589,824 || all: 125,029,632 || trainable%: 0.4717</span></pre>
+      <div class="note"><b>On rank:</b> 16 was not arbitrary. Rank controls how much the adapter can express — too low and it can't learn the task, too high and you've given back the memory savings. For a narrow task on a clean dataset, 16 was sufficient.</div>
+    </div>
+  </div>
+</section>
+
+<section class="cs-section">
+  <div class="wrap">
+    <div class="reveal read">
+      <h2>Data quality beat <em>everything else.</em></h2>
+      <p>The first runs underperformed. The instinct in that moment is to reach for hyperparameters — raise the rank, adjust the learning rate, train longer. On a CPU, every one of those experiments costs hours you don't have.</p>
+      <p>So I looked at the inputs instead. The training data had formatting inconsistencies that meant the model was partly learning to predict formatting noise rather than the task. <strong>Fixing the data format improved results more than any hyperparameter change did</strong> — and cost a fraction of the compute to verify.</p>
+    </div>
+
+    <div class="pull reveal">
+      <div class="l">The transferable lesson</div>
+      <p>When a fine-tune underperforms, look at the data before you look at the configuration. It's almost always cheaper, and it's usually the answer.</p>
+    </div>
+
+    <div class="reveal read">
+      <h3>The comparison that matters to a customer</h3>
+      <p>I ran the same task as a GPT-3.5-turbo fine-tune through the OpenAI API. Not because one approach wins, but because the tradeoff is exactly what an enterprise has to decide:</p>
+    </div>
+
+    <table class="dtable reveal">
+      <thead><tr><th>Approach</th><th>What you're choosing</th></tr></thead>
+      <tbody>
+        <tr><td>Self-hosted LoRA</td><td><b>Control.</b> Data never leaves your environment, the adapter is yours, and inference cost is your infrastructure cost. You operate it.</td></tr>
+        <tr><td>Managed API</td><td><b>Convenience.</b> Better base model, no infrastructure, faster to a result. Your data transits a third party and you're on their pricing and deprecation schedule.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="reveal read">
+      <p>For data-sensitive customers in regulated industries, that first row is frequently not a preference — it's the only architecture that gets approved. Having actually run both means I can describe the tradeoff from experience rather than from a comparison table.</p>
+    </div>
+
+    <div class="tags reveal">
+      <span class="tag gold">LoRA / PEFT</span><span class="tag">GPT-2</span>
+      <span class="tag">Hugging Face</span><span class="tag">PyTorch</span>
+      <span class="tag">OpenAI fine-tuning</span><span class="tag">CPU-only</span>
+    </div>
+  </div>
+</section>
+
+</main>
+
+</main>
+
+<section class="cs-next">
+  <div class="wrap">
+    <div class="label">More work</div>
+    <div class="next-grid">
+      <a class="next-card reveal" data-d="0" href="hybrid-rag.html">
+        <div class="idx">01 / Retrieval Systems</div>
+        <h3>Hybrid RAG pipeline</h3>
+        <p>Production retrieval built from scratch — and rebuilt after the dense-only version failed silently.</p>
+      </a>
+      <a class="next-card reveal" data-d="1" href="treatment-classifier.html">
+        <div class="idx">03 / Responsible ML</div>
+        <h3>Treatment-seeking classifier</h3>
+        <p>Four models, SHAP explainability, and a fairness audit that decided which one shipped.</p>
+      </a>
+      <a class="next-card reveal" data-d="2" href="content-strategy-engine.html">
+        <div class="idx">04 / Applied Statistics</div>
+        <h3>Content strategy engine</h3>
+        <p>12,000 posts, and the difference between a headline number and an honest one.</p>
+      </a>
+    </div>
+    <div class="ctas">
+      <a class="btn" href="../portfolio.html#contact">Get in touch
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a class="btn btn--ghost" href="../portfolio.html#work">All projects</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 Komal Shahid</div>
+    <em>Every number on this page is one I can defend in an interview.</em>
+    <div>connect@komalshahid.com</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {
+    els.forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function (el) { io.observe(el); });
+
+  // page transition on internal navigation
+  if (!reduce) {
+    document.addEventListener('click', function (ev) {
+      var a = ev.target.closest('a');
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (!href || href.charAt(0) === '#' || a.target === '_blank'
+          || href.indexOf('mailto:') === 0 || href.indexOf('http') === 0) return;
+      ev.preventDefault();
+      document.body.classList.add('leaving');
+      setTimeout(function () { window.location.href = href; }, 300);
+    });
+    window.addEventListener('pageshow', function () {
+      document.body.classList.remove('leaving');
+    });
+  }
+})();
+</script>
+
+</body>
+</html>

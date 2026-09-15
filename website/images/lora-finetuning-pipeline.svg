@@ -1,0 +1,59 @@
+<svg viewBox="0 0 1000 380" xmlns="http://www.w3.org/2000/svg" font-family="Inter, 'Segoe UI', sans-serif" role="img" aria-label="LoRA fine-tuning pipeline diagram">
+  <defs>
+    <linearGradient id="hdr2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0a66c2"/>
+      <stop offset="50%" stop-color="#0891b2"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <marker id="arrow2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1000" height="380" fill="#f6f8fc" rx="16"/>
+  <rect x="0" y="0" width="1000" height="6" fill="url(#hdr2)"/>
+  <text x="500" y="34" text-anchor="middle" font-size="20" font-weight="700" fill="#0f172a">LoRA Fine-Tuning — GPT-2 Quote Tagger</text>
+
+  <!-- Base model (frozen) -->
+  <rect x="60" y="80" width="220" height="140" rx="12" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="170" y="105" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">GPT-2 Base Model</text>
+  <text x="170" y="122" text-anchor="middle" font-size="11" fill="#64748b">124M parameters</text>
+  <rect x="80" y="135" width="180" height="65" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-dasharray="4,3"/>
+  <text x="170" y="162" text-anchor="middle" font-size="11.5" font-weight="600" fill="#64748b">Weights FROZEN</text>
+  <text x="170" y="180" text-anchor="middle" font-size="10.5" fill="#94a3b8">99.53% of parameters</text>
+
+  <!-- LoRA adapters -->
+  <rect x="330" y="80" width="220" height="140" rx="12" fill="#f3e8ff" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="440" y="105" text-anchor="middle" font-size="13" font-weight="700" fill="#7c3aed">LoRA Adapters</text>
+  <text x="440" y="122" text-anchor="middle" font-size="11" fill="#7c3aed">rank = 16, alpha = 32</text>
+  <rect x="350" y="135" width="180" height="65" rx="6" fill="#ffffff" stroke="#c4b5fd"/>
+  <text x="440" y="158" text-anchor="middle" font-size="11.5" font-weight="600" fill="#5b21b6">TRAINED</text>
+  <text x="440" y="176" text-anchor="middle" font-size="10.5" fill="#7c3aed">590K params (0.47%)</text>
+  <text x="440" y="191" text-anchor="middle" font-size="10.5" fill="#7c3aed">dropout = 0.05</text>
+
+  <line x1="280" y1="150" x2="330" y2="150" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow2)"/>
+  <text x="305" y="140" text-anchor="middle" font-size="9.5" fill="#64748b">+</text>
+
+  <!-- Training data -->
+  <rect x="60" y="250" width="220" height="80" rx="10" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="170" y="275" text-anchor="middle" font-size="12.5" font-weight="600" fill="#0f172a">Training Data</text>
+  <text x="170" y="293" text-anchor="middle" font-size="10.5" fill="#64748b">Abirate/english_quotes</text>
+  <text x="170" y="309" text-anchor="middle" font-size="10.5" fill="#64748b">~2,500 quotes, format: "quote" -&gt;: tags</text>
+  <line x1="170" y1="250" x2="170" y2="220" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+  <!-- Output -->
+  <rect x="600" y="110" width="230" height="80" rx="12" fill="#e8f1fb" stroke="#0a66c2" stroke-width="1.5"/>
+  <text x="715" y="135" text-anchor="middle" font-size="13" font-weight="700" fill="#0a66c2">Fine-Tuned Model</text>
+  <text x="715" y="153" text-anchor="middle" font-size="10.5" fill="#0a66c2">auto-generates quote tags</text>
+  <text x="715" y="170" text-anchor="middle" font-size="10.5" fill="#0a66c2">runs CPU-only, no GPU needed</text>
+  <line x1="550" y1="150" x2="600" y2="150" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrow2)"/>
+
+  <!-- Result callouts -->
+  <rect x="600" y="220" width="330" height="110" rx="10" fill="#ffffff" stroke="#0891b2" stroke-width="1.5"/>
+  <text x="765" y="245" text-anchor="middle" font-size="12.5" font-weight="700" fill="#0891b2">Result</text>
+  <text x="620" y="266" font-size="11.5" fill="#334155">• Only 0.47% of params trained (590K / 125M)</text>
+  <text x="620" y="285" font-size="11.5" fill="#334155">• &gt;99% reduction in trainable memory footprint</text>
+  <text x="620" y="304" font-size="11.5" fill="#334155">• 500 steps, lr = 2e-4, batch size = 4, CPU-only</text>
+
+  <text x="500" y="360" text-anchor="middle" font-size="11" fill="#94a3b8">Komal Shahid — DSC670 Applied ML, adapted from Matthew MacFarquhar's LoRA walkthrough</text>
+</svg>

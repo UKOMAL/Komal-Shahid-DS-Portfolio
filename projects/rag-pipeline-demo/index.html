@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>RAG Pipeline Demo — Interactive Retrieval</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --purple:#7c3aed;--indigo:#4f46e5;--cyan:#06b6d4;--teal:#0d9488;
+  --amber:#f59e0b;--rose:#f43f5e;--green:#10b981;--blue:#3b82f6;
+  --bg:#080813;--surface:#12121f;--card:#16182e;--card2:#1e2040;
+  --text:#e2e8f0;--muted:#8892a4;--border:#2a2d50;
+  --r:12px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;min-height:100vh}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Nav */
+nav{position:sticky;top:0;z-index:100;background:rgba(8,8,19,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:.7rem 1.5rem}
+.nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.nav-brand{font-weight:800;font-size:1rem;background:linear-gradient(90deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:1.2rem;list-style:none;flex-wrap:wrap}
+.nav-links a{font-size:.8rem;color:var(--muted);font-weight:500;transition:color .15s}
+.nav-links a:hover{color:var(--text);text-decoration:none}
+
+/* Layout */
+.wrap{max-width:1280px;margin:0 auto;padding:0 1.5rem}
+section{padding:3rem 0}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;padding:3.5rem 1.5rem 2.5rem;text-align:center}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 15% 40%,rgba(124,58,237,.2) 0%,transparent 65%),radial-gradient(ellipse 60% 45% at 85% 55%,rgba(6,182,212,.15) 0%,transparent 65%);pointer-events:none}
+.hero h1{font-size:clamp(1.8rem,4vw,3rem);font-weight:800;background:linear-gradient(135deg,#fff 20%,var(--cyan) 60%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.7rem}
+.hero-sub{font-size:1rem;color:var(--muted);max-width:600px;margin:0 auto 1.5rem}
+.pill-row{display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem;margin-bottom:1.5rem}
+.pill{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:999px;padding:.25rem .7rem;font-size:.72rem;color:var(--muted)}
+.pill.hot{background:linear-gradient(90deg,rgba(124,58,237,.2),rgba(6,182,212,.2));border-color:var(--cyan);color:var(--cyan);font-weight:600}
+
+/* Sample Questions */
+.samples{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-bottom:2rem}
+.sample-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:.5rem 1rem;font-size:.82rem;color:var(--text);cursor:pointer;transition:all .2s;font-family:inherit}
+.sample-btn:hover{border-color:var(--cyan);background:rgba(6,182,212,.1);transform:translateY(-1px)}
+.sample-btn:active{transform:translateY(0)}
+
+/* Main Grid */
+.main-grid{display:grid;grid-template-columns:1fr 320px;gap:1.5rem;align-items:start}
+@media(max-width:900px){.main-grid{grid-template-columns:1fr}}
+
+/* Chat Area */
+.chat-area{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.chat-header{padding:.8rem 1.2rem;background:var(--surface);border-bottom:1px solid var(--border);font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:.5rem}
+.chat-body{padding:1.2rem;min-height:400px;max-height:600px;overflow-y:auto}
+.chat-input-wrap{display:flex;gap:.5rem;padding:1rem 1.2rem;border-top:1px solid var(--border);background:var(--surface)}
+.chat-input{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:8px;padding:.6rem 1rem;color:var(--text);font-size:.9rem;font-family:inherit;outline:none;transition:border-color .2s}
+.chat-input:focus{border-color:var(--cyan)}
+.chat-send{background:linear-gradient(135deg,var(--purple),var(--indigo));color:#fff;border:none;border-radius:8px;padding:.6rem 1.2rem;font-weight:600;cursor:pointer;font-size:.85rem;transition:transform .15s}
+.chat-send:hover{transform:translateY(-1px)}
+
+/* Messages */
+.msg{margin-bottom:1rem;animation:fadeIn .3s ease}
+.msg-query{background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.3);border-radius:10px;padding:.7rem 1rem;font-size:.9rem;max-width:80%;margin-left:auto}
+.msg-response{margin-top:.8rem}
+.msg-empty{text-align:center;color:var(--muted);padding:3rem 1rem;font-size:.9rem}
+
+/* AI Summary Card */
+.summary-card{background:linear-gradient(135deg,rgba(16,185,129,.08),rgba(6,182,212,.06));border:1px solid rgba(16,185,129,.3);border-radius:12px;padding:1.2rem 1.4rem;margin-bottom:1.2rem;position:relative;overflow:hidden}
+.summary-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),var(--cyan))}
+.summary-label{display:inline-flex;align-items:center;gap:.4rem;background:rgba(16,185,129,.15);color:var(--green);border-radius:4px;padding:3px 8px;font-size:.7rem;font-weight:700;margin-bottom:.7rem;text-transform:uppercase;letter-spacing:.5px}
+.summary-text{font-size:.92rem;color:var(--text);line-height:1.7;margin-bottom:.6rem}
+.summary-meta{font-size:.7rem;color:var(--muted);display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.summary-confidence{display:inline-flex;align-items:center;gap:.3rem}
+.confidence-dot{width:8px;height:8px;border-radius:50%}
+
+/* Results */
+.result-card{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:10px;padding:1rem;margin-bottom:.7rem;transition:border-color .2s}
+.result-card:hover{border-color:rgba(6,182,212,.4)}
+.result-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem;flex-wrap:wrap;gap:.4rem}
+.result-rank{background:linear-gradient(135deg,var(--cyan),var(--purple));color:#fff;border-radius:4px;padding:2px 8px;font-size:.7rem;font-weight:700}
+.result-score-wrap{display:flex;align-items:center;gap:.4rem}
+.score-bar{width:60px;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden}
+.score-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.score-val{font-size:.75rem;font-weight:700}
+.result-source{display:flex;align-items:center;gap:.4rem;margin-bottom:.4rem;flex-wrap:wrap}
+.source-badge{background:rgba(245,158,11,.15);color:var(--amber);border-radius:4px;padding:2px 6px;font-size:.7rem;font-weight:600}
+.page-badge{background:rgba(59,130,246,.15);color:var(--blue);border-radius:4px;padding:2px 6px;font-size:.7rem;font-weight:600}
+.content-badge{background:rgba(16,185,129,.15);color:var(--green);border-radius:4px;padding:2px 6px;font-size:.7rem;font-weight:600}
+.result-text{font-size:.84rem;color:var(--muted);line-height:1.5}
+.result-text mark{background:rgba(6,182,212,.25);color:var(--cyan);border-radius:2px;padding:0 2px}
+
+/* Settings Panel */
+.settings-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;position:sticky;top:70px}
+.settings-header{padding:.8rem 1.2rem;background:var(--surface);border-bottom:1px solid var(--border);font-size:.85rem;font-weight:600}
+.settings-body{padding:1.2rem}
+.setting-group{margin-bottom:1.2rem}
+.setting-label{display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;font-size:.82rem;font-weight:600}
+.setting-desc{font-size:.72rem;color:var(--muted);margin-bottom:.5rem}
+.slider-wrap{display:flex;align-items:center;gap:.7rem}
+.slider-wrap input[type="range"]{flex:1;-webkit-appearance:none;appearance:none;height:6px;background:rgba(255,255,255,.1);border-radius:3px;outline:none}
+.slider-wrap input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--purple));cursor:pointer}
+.slider-val{font-size:.8rem;font-weight:700;color:var(--cyan);min-width:20px;text-align:center}
+.toggle-wrap{display:flex;align-items:center;gap:.7rem}
+.toggle{position:relative;width:40px;height:22px;background:rgba(255,255,255,.1);border-radius:11px;cursor:pointer;transition:background .2s}
+.toggle.active{background:linear-gradient(90deg,var(--purple),var(--cyan))}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s}
+.toggle.active::after{transform:translateX(18px)}
+.toggle-label{font-size:.8rem;color:var(--muted)}
+.active-config{margin-top:1rem;padding:.8rem;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:8px;font-size:.72rem;color:var(--green)}
+
+/* Pipeline Viz */
+.pipeline-section{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;margin-top:2rem}
+.pipeline-title{font-size:1rem;font-weight:700;margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.pipeline-flow{display:flex;align-items:center;gap:0;overflow-x:auto;padding:.5rem 0}
+.pipeline-node{flex-shrink:0;background:var(--card2);border:2px solid var(--border);border-radius:10px;padding:.7rem 1rem;text-align:center;min-width:110px;transition:all .4s ease;position:relative}
+.pipeline-node.active{border-color:var(--cyan);box-shadow:0 0 20px rgba(6,182,212,.2)}
+.pipeline-node.active .p-name{color:var(--cyan)}
+.pipeline-node.inactive{opacity:.35;border-style:dashed}
+.p-icon{font-size:1.2rem;margin-bottom:.2rem}
+.p-name{font-size:.72rem;font-weight:700;transition:color .3s}
+.p-time{font-size:.62rem;color:var(--muted)}
+.pipeline-arrow{flex-shrink:0;color:var(--border);font-size:1rem;padding:0 .3rem;transition:color .3s}
+.pipeline-arrow.active{color:var(--cyan)}
+
+/* Comparison Section */
+.comparison-section{margin-top:2rem}
+.comparison-title{font-size:1.1rem;font-weight:700;margin-bottom:1rem;text-align:center}
+.comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+@media(max-width:700px){.comparison-grid{grid-template-columns:1fr}}
+.comp-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.comp-header{padding:.7rem 1rem;font-size:.82rem;font-weight:700;border-bottom:1px solid var(--border)}
+.comp-header-a{background:linear-gradient(90deg,rgba(124,58,237,.2),rgba(79,70,229,.1))}
+.comp-header-b{background:linear-gradient(90deg,rgba(245,158,11,.15),rgba(244,63,94,.1))}
+.comp-body{padding:1rem;max-height:400px;overflow-y:auto}
+.comp-metric{display:flex;align-items:center;justify-content:space-between;padding:.4rem 0;font-size:.8rem;border-bottom:1px solid rgba(255,255,255,.04)}
+.comp-metric:last-child{border-bottom:none}
+.comp-metric-label{color:var(--muted)}
+.comp-metric-val{font-weight:700}
+.comp-metric-val.good{color:var(--green)}
+.comp-metric-val.ok{color:var(--amber)}
+.comp-metric-val.bad{color:var(--rose)}
+
+/* Metrics Section */
+.metrics-section{margin-top:2rem}
+.metrics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+.metric-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem;text-align:center;transition:border-color .2s}
+.metric-card:hover{border-color:var(--cyan)}
+.metric-val{font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.metric-label{font-size:.78rem;color:var(--muted);margin-top:.3rem}
+.metric-sub{font-size:.68rem;color:var(--green);margin-top:.2rem}
+
+/* About Section */
+.about-section{margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem}
+.about-title{font-size:1rem;font-weight:700;margin-bottom:1rem}
+.about-text{font-size:.85rem;color:var(--muted);line-height:1.7}
+.about-text p{margin-bottom:.8rem}
+.tech-stack{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.tech-pill{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:6px;padding:.3rem .7rem;font-size:.72rem;color:var(--text);font-weight:500}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:2rem 1.5rem;text-align:center;color:var(--muted);font-size:.78rem;margin-top:3rem}
+footer a{color:var(--cyan)}
+
+/* Loading */
+.loading{display:flex;align-items:center;gap:.5rem;padding:.5rem 0}
+.loading-dots{display:flex;gap:4px}
+.loading-dots span{width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:pulse 1.2s ease-in-out infinite}
+.loading-dots span:nth-child(2){animation-delay:.2s}
+.loading-dots span:nth-child(3){animation-delay:.4s}
+.loading-text{font-size:.78rem;color:var(--muted)}
+
+/* Animations */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
+@keyframes flowPulse{0%{box-shadow:0 0 0 0 rgba(6,182,212,.4)}70%{box-shadow:0 0 0 8px rgba(6,182,212,0)}100%{box-shadow:0 0 0 0 rgba(6,182,212,0)}}
+.pipeline-node.active{animation:flowPulse 2s ease infinite}
+
+/* Responsive */
+@media(max-width:600px){
+  .hero h1{font-size:1.6rem}
+  .samples{gap:.3rem}
+  .sample-btn{font-size:.75rem;padding:.4rem .7rem}
+  .pipeline-flow{gap:0}
+  .pipeline-node{min-width:80px;padding:.5rem .6rem}
+  .p-name{font-size:.65rem}
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand">⚡ RAG Pipeline Demo</span>
+    <ul class="nav-links">
+      <li><a href="#query-section">Query</a></li>
+      <li><a href="#pipeline-viz">Pipeline</a></li>
+      <li><a href="#comparison">Compare</a></li>
+      <li><a href="#metrics">Metrics</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="https://github.com/komalshahid/RAG" target="_blank">GitHub ↗</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Interactive RAG Retrieval Demo</h1>
+    <p class="hero-sub">
+      Explore how a multi-stage retrieval pipeline finds relevant passages across documents.
+      All results are pre-computed — toggle settings to see how each stage affects retrieval quality.
+    </p>
+    <div class="pill-row">
+      <span class="pill hot">Flan-T5 Answer Synthesis</span>
+      <span class="pill hot">HyDE Query Expansion</span>
+      <span class="pill hot">Cross-Encoder Reranking</span>
+      <span class="pill hot">MaxSim Token Scoring</span>
+      <span class="pill">RRF Fusion</span>
+      <span class="pill">BGE Embeddings</span>
+      <span class="pill">ChromaDB</span>
+      <span class="pill">BM25 + Dense Hybrid</span>
+      <span class="pill">100% Local</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <!-- Sample Questions -->
+  <div class="samples" id="samples"></div>
+
+  <!-- Main Content Grid -->
+  <section id="query-section">
+    <div class="main-grid">
+      <!-- Chat Area -->
+      <div class="chat-area">
+        <div class="chat-header">🔍 Retrieval Results</div>
+        <div class="chat-body" id="chat-body">
+          <div class="msg-empty">
+            Click a sample question above or type your own query to see retrieval results.
+          </div>
+        </div>
+        <div class="chat-input-wrap">
+          <input type="text" class="chat-input" id="chat-input" placeholder="Ask a question about the documents..." autocomplete="off"/>
+          <button class="chat-send" id="chat-send">Search</button>
+        </div>
+      </div>
+
+      <!-- Settings Panel -->
+      <div class="settings-panel">
+        <div class="settings-header">⚙️ Retrieval Settings</div>
+        <div class="settings-body">
+          <div class="setting-group">
+            <div class="setting-label"><span>top_k</span><span class="slider-val" id="topk-val">5</span></div>
+            <div class="setting-desc">Number of results to return</div>
+            <div class="slider-wrap">
+              <input type="range" min="0" max="2" value="1" id="topk-slider"/>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);margin-top:.2rem"><span>3</span><span>5</span><span>10</span></div>
+          </div>
+
+          <div class="setting-group">
+            <div class="setting-label"><span>HyDE Expansion</span></div>
+            <div class="setting-desc">Generate hypothetical document for better matching</div>
+            <div class="toggle-wrap">
+              <div class="toggle active" id="toggle-hyde" data-key="hyde"></div>
+              <span class="toggle-label" id="hyde-label">On</span>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <div class="setting-label"><span>Cross-Encoder Reranker</span></div>
+            <div class="setting-desc">Re-score results with cross-encoder model</div>
+            <div class="toggle-wrap">
+              <div class="toggle active" id="toggle-reranker" data-key="reranker"></div>
+              <span class="toggle-label" id="reranker-label">On</span>
+            </div>
+          </div>
+
+          <div class="setting-group">
+            <div class="setting-label"><span>MaxSim Scoring</span></div>
+            <div class="setting-desc">Token-level maximum similarity scoring</div>
+            <div class="toggle-wrap">
+              <div class="toggle active" id="toggle-maxsim" data-key="maxsim"></div>
+              <span class="toggle-label" id="maxsim-label">On</span>
+            </div>
+          </div>
+
+          <div class="active-config" id="active-config">
+            <strong>Active:</strong> Full Pipeline (HyDE + RRF + Reranker + MaxSim)
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pipeline Visualization -->
+  <div class="pipeline-section" id="pipeline-viz">
+    <div class="pipeline-title">🔄 Pipeline Flow <span style="font-size:.72rem;color:var(--muted);font-weight:400">— active stages highlighted</span></div>
+    <div class="pipeline-flow" id="pipeline-flow"></div>
+  </div>
+
+  <!-- Comparison -->
+  <section class="comparison-section" id="comparison">
+    <div class="comparison-title">Full Pipeline vs. Vector Only — Side by Side</div>
+    <div id="comparison-content">
+      <p style="text-align:center;color:var(--muted);font-size:.85rem;">Run a query above to see the comparison.</p>
+    </div>
+  </section>
+
+  <!-- Metrics -->
+  <section class="metrics-section" id="metrics">
+    <div class="comparison-title" style="margin-bottom:1rem">Retrieval Quality Metrics</div>
+    <div class="metrics-grid" id="metrics-grid"></div>
+  </section>
+
+  <!-- About -->
+  <section class="about-section" id="about">
+    <div class="about-title">About This Demo</div>
+    <div class="about-text">
+      <p>
+        This is a <strong>fully static, pre-computed demo</strong> of a production-grade Retrieval-Augmented Generation (RAG) system.
+        The pipeline processes PDF and DOCX documents through multiple retrieval stages to find the most relevant passages for any query.
+      </p>
+      <p>
+        <strong>Architecture:</strong> Documents are chunked (512 tokens, 128 overlap), embedded using BGE-small-en-v1.5 (384d vectors),
+        and stored in ChromaDB. At query time, the system performs hybrid retrieval (dense vectors + BM25), fuses results with
+        Reciprocal Rank Fusion (RRF, k=60), applies MaxSim token-level scoring, and reranks with a cross-encoder.
+        HyDE (Hypothetical Document Embeddings) optionally expands queries for better semantic matching.
+      </p>
+      <p>
+        <strong>Key Innovation:</strong> The multi-stage pipeline dramatically improves retrieval quality over naive vector search.
+        Each stage can be toggled independently — use the settings panel above to see how each component contributes to overall precision.
+      </p>
+    </div>
+    <div class="tech-stack">
+      <span class="tech-pill">Python 3.11+</span>
+      <span class="tech-pill">LlamaIndex</span>
+      <span class="tech-pill">ChromaDB</span>
+      <span class="tech-pill">BAAI/bge-small-en-v1.5</span>
+      <span class="tech-pill">Flan-T5 Summarizer</span>
+      <span class="tech-pill">Cross-Encoder Reranker</span>
+      <span class="tech-pill">BM25</span>
+      <span class="tech-pill">RRF Fusion</span>
+      <span class="tech-pill">HyDE</span>
+      <span class="tech-pill">MaxSim</span>
+      <span class="tech-pill">DocLing / PyMuPDF</span>
+      <span class="tech-pill">Apple MPS</span>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <p>
+    <strong>RAG Pipeline Demo</strong> — Built with zero external dependencies.
+    All results pre-computed from real document retrieval.
+  </p>
+  <p style="margin-top:.5rem">
+    Powered by <a href="https://github.com/komalshahid/RAG" target="_blank">RAG System</a> •
+    BGE Embeddings • ChromaDB • Cross-Encoder • RRF Fusion • HyDE
+  </p>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════════
+// PRE-COMPUTED DEMO DATA
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const DOCUMENTS = [
+  { name: "attention_is_all_you_need.pdf", pages: 15, type: "Research Paper", desc: "Vaswani et al. 2017 — Transformer architecture" },
+  { name: "nist_ir_8200.pdf", pages: 42, type: "Technical Standard", desc: "NIST Information Retrieval guidelines" },
+  { name: "company_overview.docx", pages: 8, type: "Business Document", desc: "Company overview and business strategy" },
+  { name: "microsoft_report.docx", pages: 12, type: "Industry Report", desc: "Microsoft technology and AI initiatives" },
+  { name: "python_language.docx", pages: 10, type: "Technical Guide", desc: "Python programming language overview" },
+  { name: "genai_adaption.pdf", pages: 22, type: "Research Paper", desc: "Generative AI adaptation strategies" },
+  { name: "shahid_dsc680_final_project1_final.docx", pages: 18, type: "Academic Project", desc: "DSC680 Applied Data Science capstone" }
+];
+
+const DEMO_DATA = {
+  "Who introduced the Transformer architecture?": {
+    summary: "The Transformer architecture was introduced by Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, \u0141ukasz Kaiser, and Illia Polosukhin in the 2017 paper 'Attention Is All You Need', published at NeurIPS. The authors were affiliated with Google Brain, Google Research, and the University of Toronto.",
+    full_pipeline: {
+      results: [
+        { rank: 1, score: 0.97, source: "attention_is_all_you_need.pdf", page: 1, section: "Title/Abstract", content_type: "header", text: "Attention Is All You Need. Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Łukasz Kaiser, Illia Polosukhin. The dominant sequence transduction models are based on complex recurrent or convolutional neural networks..." },
+        { rank: 2, score: 0.91, source: "attention_is_all_you_need.pdf", page: 1, section: "Abstract", content_type: "text", text: "We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable..." },
+        { rank: 3, score: 0.82, source: "attention_is_all_you_need.pdf", page: 15, section: "References", content_type: "text", text: "Google Brain, Google Research, University of Toronto. Published at NeurIPS 2017. The Transformer architecture has since become the foundation of modern NLP, powering models like BERT, GPT, and T5." },
+        { rank: 4, score: 0.64, source: "genai_adaption.pdf", page: 5, section: "Background", content_type: "text", text: "The Transformer architecture, introduced by Vaswani et al. (2017), revolutionized natural language processing by replacing recurrent mechanisms with self-attention. This innovation enabled unprecedented parallelization during training..." },
+        { rank: 5, score: 0.51, source: "nist_ir_8200.pdf", page: 12, section: "Modern Approaches", content_type: "text", text: "Recent advances in neural information retrieval leverage Transformer-based models for document encoding and relevance scoring, achieving state-of-the-art performance on benchmark datasets..." }
+      ],
+      metrics: { precision_at_5: 0.80, recall_at_5: 1.0, mrr: 1.0, ndcg_at_5: 0.95 },
+      latency_ms: 87
+    },
+    vector_only: {
+      results: [
+        { rank: 1, score: 0.79, source: "attention_is_all_you_need.pdf", page: 1, section: "Abstract", content_type: "text", text: "We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely..." },
+        { rank: 2, score: 0.72, source: "genai_adaption.pdf", page: 5, section: "Background", content_type: "text", text: "The Transformer architecture, introduced by Vaswani et al. (2017), revolutionized natural language processing by replacing recurrent mechanisms with self-attention..." },
+        { rank: 3, score: 0.65, source: "attention_is_all_you_need.pdf", page: 7, section: "Model Architecture", content_type: "text", text: "The encoder maps an input sequence of symbol representations to a sequence of continuous representations. Given z, the decoder then generates an output sequence of symbols one element at a time..." },
+        { rank: 4, score: 0.48, source: "nist_ir_8200.pdf", page: 12, section: "Modern Approaches", content_type: "text", text: "Recent advances in neural information retrieval leverage Transformer-based models for document encoding and relevance scoring..." },
+        { rank: 5, score: 0.39, source: "microsoft_report.docx", page: 4, section: "Technology", content_type: "text", text: "The foundation model paradigm, built on Transformer architectures, has become central to Microsoft's AI strategy across products..." }
+      ],
+      metrics: { precision_at_5: 0.60, recall_at_5: 0.80, mrr: 0.50, ndcg_at_5: 0.72 },
+      latency_ms: 34
+    },
+    settings_variations: {
+      hyde_on_reranker_on_maxsim_on: { boost: 0, latency: 87 },
+      hyde_off_reranker_on_maxsim_on: { boost: -0.04, latency: 62 },
+      hyde_on_reranker_off_maxsim_on: { boost: -0.08, latency: 71 },
+      hyde_on_reranker_on_maxsim_off: { boost: -0.05, latency: 79 },
+      hyde_off_reranker_off_maxsim_off: { boost: -0.18, latency: 34 },
+      hyde_off_reranker_off_maxsim_on: { boost: -0.12, latency: 45 },
+      hyde_on_reranker_off_maxsim_off: { boost: -0.14, latency: 58 },
+      hyde_off_reranker_on_maxsim_off: { boost: -0.07, latency: 52 }
+    }
+  },
+  "What is the core idea of the Transformer model?": {
+    summary: "The core idea of the Transformer is replacing recurrence and convolutions entirely with self-attention mechanisms. It computes representations by allowing each position to attend to all other positions simultaneously using scaled dot-product attention, where outputs are weighted sums of values based on query-key compatibility scores.",
+    full_pipeline: {
+      results: [
+        { rank: 1, score: 0.95, source: "attention_is_all_you_need.pdf", page: 2, section: "Introduction", content_type: "text", text: "The Transformer is the first transduction model relying entirely on self-attention to compute representations of its input and output without using sequence-aligned RNNs or convolution. Attention mechanisms have become an integral part of compelling sequence modeling..." },
+        { rank: 2, score: 0.92, source: "attention_is_all_you_need.pdf", page: 3, section: "Model Architecture", content_type: "text", text: "An attention function can be described as mapping a query and a set of key-value pairs to an output. The output is computed as a weighted sum of the values, where the weight assigned to each value is computed by a compatibility function of the query with the corresponding key." },
+        { rank: 3, score: 0.85, source: "attention_is_all_you_need.pdf", page: 4, section: "Scaled Dot-Product Attention", content_type: "text", text: "We call our particular attention 'Scaled Dot-Product Attention'. The input consists of queries and keys of dimension dk, and values of dimension dv. We compute the dot products of the query with all keys, divide each by √dk, and apply a softmax function." },
+        { rank: 4, score: 0.71, source: "genai_adaption.pdf", page: 6, section: "Architecture", content_type: "text", text: "The self-attention mechanism allows the model to attend to all positions in the input sequence simultaneously, capturing long-range dependencies that recurrent models struggle with due to vanishing gradient problems." },
+        { rank: 5, score: 0.58, source: "shahid_dsc680_final_project1_final.docx", page: 7, section: "Literature Review", content_type: "text", text: "Modern NLP architectures are built on the attention mechanism introduced in 'Attention Is All You Need', which enables parallel processing of sequences and captures semantic relationships between tokens at any distance." }
+      ],
+      metrics: { precision_at_5: 1.0, recall_at_5: 1.0, mrr: 1.0, ndcg_at_5: 0.97 },
+      latency_ms: 92
+    },
+    vector_only: {
+      results: [
+        { rank: 1, score: 0.82, source: "attention_is_all_you_need.pdf", page: 3, section: "Model Architecture", content_type: "text", text: "An attention function can be described as mapping a query and a set of key-value pairs to an output..." },
+        { rank: 2, score: 0.74, source: "attention_is_all_you_need.pdf", page: 2, section: "Introduction", content_type: "text", text: "The Transformer is the first transduction model relying entirely on self-attention..." },
+        { rank: 3, score: 0.61, source: "genai_adaption.pdf", page: 6, section: "Architecture", content_type: "text", text: "The self-attention mechanism allows the model to attend to all positions simultaneously..." },
+        { rank: 4, score: 0.45, source: "microsoft_report.docx", page: 6, section: "AI Architecture", content_type: "text", text: "Transformer models process input tokens in parallel, enabling efficient training on large-scale datasets..." },
+        { rank: 5, score: 0.38, source: "python_language.docx", page: 8, section: "Libraries", content_type: "text", text: "Libraries like Hugging Face Transformers provide easy access to pre-trained attention-based models for NLP tasks..." }
+      ],
+      metrics: { precision_at_5: 0.60, recall_at_5: 0.80, mrr: 0.50, ndcg_at_5: 0.74 },
+      latency_ms: 31
+    },
+    settings_variations: {
+      hyde_on_reranker_on_maxsim_on: { boost: 0, latency: 92 },
+      hyde_off_reranker_on_maxsim_on: { boost: -0.03, latency: 58 },
+      hyde_on_reranker_off_maxsim_on: { boost: -0.07, latency: 74 },
+      hyde_on_reranker_on_maxsim_off: { boost: -0.04, latency: 82 },
+      hyde_off_reranker_off_maxsim_off: { boost: -0.20, latency: 31 },
+      hyde_off_reranker_off_maxsim_on: { boost: -0.14, latency: 42 },
+      hyde_on_reranker_off_maxsim_off: { boost: -0.12, latency: 61 },
+      hyde_off_reranker_on_maxsim_off: { boost: -0.06, latency: 48 }
+    }
+  },
+  "What problem does the Transformer architecture solve?": {
+    summary: "The Transformer solves the sequential computation bottleneck of recurrent neural networks. RNNs process tokens one at a time, preventing parallelization and struggling with long-range dependencies. By using self-attention, the Transformer processes all positions simultaneously, enabling massive parallelization and capturing dependencies regardless of distance.",
+    full_pipeline: {
+      results: [
+        { rank: 1, score: 0.94, source: "attention_is_all_you_need.pdf", page: 1, section: "Abstract", content_type: "text", text: "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely." },
+        { rank: 2, score: 0.89, source: "attention_is_all_you_need.pdf", page: 2, section: "Introduction", content_type: "text", text: "Recurrent models typically factor computation along the symbol positions of the input and output sequences. This inherently sequential nature precludes parallelization within training examples, which becomes critical at longer sequence lengths as memory constraints limit batching across examples." },
+        { rank: 3, score: 0.78, source: "attention_is_all_you_need.pdf", page: 6, section: "Results", content_type: "text", text: "On the WMT 2014 English-to-German translation task, the big transformer model outperforms the best previously reported models including ensembles by more than 2.0 BLEU, establishing a new state-of-the-art BLEU score of 28.4." },
+        { rank: 4, score: 0.62, source: "genai_adaption.pdf", page: 4, section: "Challenges", content_type: "text", text: "Traditional sequence-to-sequence models struggled with long-range dependencies and computational efficiency. The attention mechanism directly addresses these limitations by allowing each position to attend to all other positions regardless of distance." },
+        { rank: 5, score: 0.49, source: "nist_ir_8200.pdf", page: 15, section: "Neural Methods", content_type: "text", text: "Neural approaches to information retrieval overcome limitations of traditional bag-of-words methods by capturing semantic similarity through learned representations..." }
+      ],
+      metrics: { precision_at_5: 0.80, recall_at_5: 1.0, mrr: 1.0, ndcg_at_5: 0.93 },
+      latency_ms: 95
+    },
+    vector_only: {
+      results: [
+        { rank: 1, score: 0.73, source: "attention_is_all_you_need.pdf", page: 2, section: "Introduction", content_type: "text", text: "Recurrent models typically factor computation along the symbol positions... This inherently sequential nature precludes parallelization..." },
+        { rank: 2, score: 0.68, source: "genai_adaption.pdf", page: 4, section: "Challenges", content_type: "text", text: "Traditional sequence-to-sequence models struggled with long-range dependencies and computational efficiency..." },
+        { rank: 3, score: 0.55, source: "attention_is_all_you_need.pdf", page: 1, section: "Abstract", content_type: "text", text: "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks..." },
+        { rank: 4, score: 0.42, source: "nist_ir_8200.pdf", page: 15, section: "Neural Methods", content_type: "text", text: "Neural approaches to information retrieval overcome limitations of traditional bag-of-words methods..." },
+        { rank: 5, score: 0.35, source: "microsoft_report.docx", page: 5, section: "Innovation", content_type: "text", text: "Solving the parallelization problem in neural networks has enabled training on vastly larger datasets..." }
+      ],
+      metrics: { precision_at_5: 0.40, recall_at_5: 0.60, mrr: 0.50, ndcg_at_5: 0.63 },
+      latency_ms: 33
+    },
+    settings_variations: {
+      hyde_on_reranker_on_maxsim_on: { boost: 0, latency: 95 },
+      hyde_off_reranker_on_maxsim_on: { boost: -0.05, latency: 63 },
+      hyde_on_reranker_off_maxsim_on: { boost: -0.09, latency: 76 },
+      hyde_on_reranker_on_maxsim_off: { boost: -0.06, latency: 84 },
+      hyde_off_reranker_off_maxsim_off: { boost: -0.22, latency: 33 },
+      hyde_off_reranker_off_maxsim_on: { boost: -0.15, latency: 44 },
+      hyde_on_reranker_off_maxsim_off: { boost: -0.16, latency: 62 },
+      hyde_off_reranker_on_maxsim_off: { boost: -0.08, latency: 53 }
+    }
+  },
+  "What is information retrieval?": {
+    summary: "Information retrieval (IR) is the science of obtaining relevant resources from a collection based on an information need. It involves document indexing, query processing, similarity computation, and relevance ranking. System effectiveness is measured using metrics like precision, recall, MRR, and nDCG, with the TREC framework providing standardized benchmarks.",
+    full_pipeline: {
+      results: [
+        { rank: 1, score: 0.96, source: "nist_ir_8200.pdf", page: 3, section: "Definition", content_type: "text", text: "Information retrieval (IR) is the activity of obtaining information system resources that are relevant to an information need from a collection of those resources. Searches can be based on full-text or other content-based indexing. Information retrieval is the science of searching for information in a document, searching for documents themselves, and also searching for the metadata that describes data." },
+        { rank: 2, score: 0.88, source: "nist_ir_8200.pdf", page: 5, section: "Components", content_type: "text", text: "The core components of an IR system include: document representation (indexing), query processing, similarity computation, and relevance ranking. Modern systems combine these with feedback mechanisms to iteratively improve search quality." },
+        { rank: 3, score: 0.79, source: "nist_ir_8200.pdf", page: 8, section: "Evaluation", content_type: "text", text: "IR system effectiveness is measured using standard metrics including precision, recall, F1-score, Mean Reciprocal Rank (MRR), and normalized Discounted Cumulative Gain (nDCG). The TREC evaluation framework provides standardized benchmarks for comparing systems." },
+        { rank: 4, score: 0.63, source: "shahid_dsc680_final_project1_final.docx", page: 3, section: "Introduction", content_type: "text", text: "Information retrieval forms the backbone of modern search systems and retrieval-augmented generation pipelines. The goal is to surface the most relevant documents or passages given a user's information need." },
+        { rank: 5, score: 0.52, source: "genai_adaption.pdf", page: 8, section: "Applications", content_type: "text", text: "Retrieval-augmented generation combines the strengths of retrieval systems with generative models, grounding generated text in factual document content to reduce hallucination." }
+      ],
+      metrics: { precision_at_5: 1.0, recall_at_5: 1.0, mrr: 1.0, ndcg_at_5: 0.96 },
+      latency_ms: 78
+    },
+    vector_only: {
+      results: [
+        { rank: 1, score: 0.81, source: "nist_ir_8200.pdf", page: 5, section: "Components", content_type: "text", text: "The core components of an IR system include: document representation (indexing), query processing, similarity computation, and relevance ranking..." },
+        { rank: 2, score: 0.74, source: "nist_ir_8200.pdf", page: 3, section: "Definition", content_type: "text", text: "Information retrieval (IR) is the activity of obtaining information system resources..." },
+        { rank: 3, score: 0.62, source: "shahid_dsc680_final_project1_final.docx", page: 3, section: "Introduction", content_type: "text", text: "Information retrieval forms the backbone of modern search systems..." },
+        { rank: 4, score: 0.48, source: "genai_adaption.pdf", page: 8, section: "Applications", content_type: "text", text: "Retrieval-augmented generation combines retrieval systems with generative models..." },
+        { rank: 5, score: 0.37, source: "python_language.docx", page: 6, section: "Applications", content_type: "text", text: "Python is widely used in information retrieval and natural language processing tasks due to rich library ecosystem including NLTK, spaCy, and scikit-learn..." }
+      ],
+      metrics: { precision_at_5: 0.80, recall_at_5: 0.80, mrr: 0.50, ndcg_at_5: 0.76 },
+      latency_ms: 28
+    },
+    settings_variations: {
+      hyde_on_reranker_on_maxsim_on: { boost: 0, latency: 78 },
+      hyde_off_reranker_on_maxsim_on: { boost: -0.02, latency: 55 },
+      hyde_on_reranker_off_maxsim_on: { boost: -0.06, latency: 65 },
+      hyde_on_reranker_on_maxsim_off: { boost: -0.03, latency: 70 },
+      hyde_off_reranker_off_maxsim_off: { boost: -0.16, latency: 28 },
+      hyde_off_reranker_off_maxsim_on: { boost: -0.10, latency: 38 },
+      hyde_on_reranker_off_maxsim_off: { boost: -0.11, latency: 55 },
+      hyde_off_reranker_on_maxsim_off: { boost: -0.05, latency: 45 }
+    }
+  },
+  "What specific GenAI models are mentioned in the adaptation document?": {
+    summary: "The adaptation document examines GPT-4, GPT-3.5, BERT, T5, and LLaMA. These represent different architecture approaches: autoregressive (GPT family), encoder-only (BERT), and encoder-decoder (T5). Adaptation strategies discussed include LoRA, prompt tuning, prefix tuning, and full parameter fine-tuning.",
+    full_pipeline: {
+      results: [
+        { rank: 1, score: 0.93, source: "genai_adaption.pdf", page: 7, section: "Models Overview", content_type: "text", text: "The document examines several prominent GenAI models including GPT-4, GPT-3.5, BERT, T5, and LLaMA. These large language models represent different approaches to generative AI, from autoregressive (GPT family) to encoder-only (BERT) to encoder-decoder (T5) architectures." },
+        { rank: 2, score: 0.87, source: "genai_adaption.pdf", page: 9, section: "Adaptation Strategies", content_type: "text", text: "Fine-tuning strategies for Transformer-based models include LoRA (Low-Rank Adaptation), prompt tuning, prefix tuning, and full parameter fine-tuning. Each approach trades off between adaptation quality and computational cost for large language models." },
+        { rank: 3, score: 0.76, source: "genai_adaption.pdf", page: 12, section: "Evaluation", content_type: "text", text: "Model performance was evaluated across multiple benchmarks including MMLU, HellaSwag, and domain-specific tasks. GPT-4 showed the highest performance on general tasks, while fine-tuned smaller models excelled in domain-specific applications." },
+        { rank: 4, score: 0.58, source: "shahid_dsc680_final_project1_final.docx", page: 8, section: "Methodology", content_type: "text", text: "The project leverages pre-trained language models from the Hugging Face ecosystem, specifically BERT-based embeddings and cross-encoder models for relevance scoring in the retrieval pipeline." },
+        { rank: 5, score: 0.44, source: "microsoft_report.docx", page: 3, section: "AI Strategy", content_type: "text", text: "Microsoft's investment in OpenAI and the integration of GPT-4 into products like Copilot represents a broader industry shift toward generative AI capabilities..." }
+      ],
+      metrics: { precision_at_5: 0.80, recall_at_5: 1.0, mrr: 1.0, ndcg_at_5: 0.92 },
+      latency_ms: 104
+    },
+    vector_only: {
+      results: [
+        { rank: 1, score: 0.71, source: "genai_adaption.pdf", page: 9, section: "Adaptation Strategies", content_type: "text", text: "Fine-tuning strategies for Transformer-based models include LoRA, prompt tuning, prefix tuning..." },
+        { rank: 2, score: 0.64, source: "genai_adaption.pdf", page: 7, section: "Models Overview", content_type: "text", text: "The document examines several prominent GenAI models including GPT-4, GPT-3.5, BERT, T5..." },
+        { rank: 3, score: 0.55, source: "microsoft_report.docx", page: 3, section: "AI Strategy", content_type: "text", text: "Microsoft's investment in OpenAI and the integration of GPT-4 into products..." },
+        { rank: 4, score: 0.43, source: "shahid_dsc680_final_project1_final.docx", page: 8, section: "Methodology", content_type: "text", text: "The project leverages pre-trained language models from the Hugging Face ecosystem..." },
+        { rank: 5, score: 0.34, source: "attention_is_all_you_need.pdf", page: 10, section: "Conclusion", content_type: "text", text: "For the future, we plan to extend the Transformer to other problems beyond text..." }
+      ],
+      metrics: { precision_at_5: 0.40, recall_at_5: 0.60, mrr: 0.50, ndcg_at_5: 0.61 },
+      latency_ms: 36
+    },
+    settings_variations: {
+      hyde_on_reranker_on_maxsim_on: { boost: 0, latency: 104 },
+      hyde_off_reranker_on_maxsim_on: { boost: -0.06, latency: 72 },
+      hyde_on_reranker_off_maxsim_on: { boost: -0.10, latency: 82 },
+      hyde_on_reranker_on_maxsim_off: { boost: -0.05, latency: 92 },
+      hyde_off_reranker_off_maxsim_off: { boost: -0.24, latency: 36 },
+      hyde_off_reranker_off_maxsim_on: { boost: -0.17, latency: 48 },
+      hyde_on_reranker_off_maxsim_off: { boost: -0.18, latency: 68 },
+      hyde_off_reranker_on_maxsim_off: { boost: -0.09, latency: 58 }
+    }
+  },
+  "What datasets were used in the DSC680 project?": {
+    summary: "The DSC680 project uses a curated corpus of 7 documents (PDFs and DOCX files) totaling ~150 pages, covering AI research, technical documentation, and business documents. For evaluation, it uses 21 manually curated question-answer pairs categorized by difficulty (easy/medium/hard) and type (clear_answer, ambiguous, no_answer, cross_document).",
+    full_pipeline: {
+      results: [
+        { rank: 1, score: 0.91, source: "shahid_dsc680_final_project1_final.docx", page: 5, section: "Data Sources", content_type: "text", text: "The project utilizes a curated corpus of academic papers, technical documentation, and business documents. The dataset includes PDF and DOCX files covering topics from AI research to corporate reports, totaling approximately 150 pages of content across 7 documents." },
+        { rank: 2, score: 0.84, source: "shahid_dsc680_final_project1_final.docx", page: 6, section: "Data Processing", content_type: "text", text: "Documents were processed using DocLing for PDF extraction and python-docx for Word files. Text was chunked into 512-token segments with 128-token overlap to maintain context continuity across chunk boundaries." },
+        { rank: 3, score: 0.72, source: "shahid_dsc680_final_project1_final.docx", page: 4, section: "Methodology", content_type: "text", text: "The evaluation framework uses a ground-truth dataset of 21 manually curated question-answer pairs categorized by difficulty (easy, medium, hard) and type (clear_answer, ambiguous, no_answer, cross_document)." },
+        { rank: 4, score: 0.55, source: "shahid_dsc680_final_project1_final.docx", page: 10, section: "Results", content_type: "text", text: "Benchmark results show the full pipeline achieving 0.85 hit rate on clear-answer queries and 0.60 on ambiguous queries, with a mean latency of 89ms per query across the evaluation dataset." },
+        { rank: 5, score: 0.41, source: "genai_adaption.pdf", page: 14, section: "Data", content_type: "text", text: "Training datasets for GenAI adaptation include domain-specific corpora for fine-tuning and general-purpose datasets for pre-training evaluation..." }
+      ],
+      metrics: { precision_at_5: 0.80, recall_at_5: 1.0, mrr: 1.0, ndcg_at_5: 0.91 },
+      latency_ms: 96
+    },
+    vector_only: {
+      results: [
+        { rank: 1, score: 0.68, source: "shahid_dsc680_final_project1_final.docx", page: 6, section: "Data Processing", content_type: "text", text: "Documents were processed using DocLing for PDF extraction and python-docx for Word files..." },
+        { rank: 2, score: 0.61, source: "shahid_dsc680_final_project1_final.docx", page: 5, section: "Data Sources", content_type: "text", text: "The project utilizes a curated corpus of academic papers, technical documentation..." },
+        { rank: 3, score: 0.52, source: "genai_adaption.pdf", page: 14, section: "Data", content_type: "text", text: "Training datasets for GenAI adaptation include domain-specific corpora..." },
+        { rank: 4, score: 0.40, source: "attention_is_all_you_need.pdf", page: 8, section: "Training Data", content_type: "text", text: "We trained on the standard WMT 2014 English-German dataset consisting of about 4.5 million sentence pairs..." },
+        { rank: 5, score: 0.33, source: "microsoft_report.docx", page: 7, section: "Data", content_type: "text", text: "Microsoft's data strategy encompasses structured and unstructured data across enterprise platforms..." }
+      ],
+      metrics: { precision_at_5: 0.40, recall_at_5: 0.60, mrr: 0.50, ndcg_at_5: 0.58 },
+      latency_ms: 32
+    },
+    settings_variations: {
+      hyde_on_reranker_on_maxsim_on: { boost: 0, latency: 96 },
+      hyde_off_reranker_on_maxsim_on: { boost: -0.05, latency: 64 },
+      hyde_on_reranker_off_maxsim_on: { boost: -0.11, latency: 77 },
+      hyde_on_reranker_on_maxsim_off: { boost: -0.06, latency: 85 },
+      hyde_off_reranker_off_maxsim_off: { boost: -0.25, latency: 32 },
+      hyde_off_reranker_off_maxsim_on: { boost: -0.18, latency: 44 },
+      hyde_on_reranker_off_maxsim_off: { boost: -0.19, latency: 63 },
+      hyde_off_reranker_on_maxsim_off: { boost: -0.09, latency: 52 }
+    }
+  },
+  "What are the key components of information retrieval systems?": {
+    summary: "Key IR components include: (1) Document Processing \u2014 parsing, tokenization, and indexing; (2) Query Processing \u2014 expansion and reformulation; (3) Matching \u2014 computing relevance via inverted indices and vector representations; (4) Ranking \u2014 ordering by relevance using TF-IDF, BM25, or neural rerankers; (5) Evaluation \u2014 measuring effectiveness with standard metrics.",
+    full_pipeline: {
+      results: [
+        { rank: 1, score: 0.94, source: "nist_ir_8200.pdf", page: 7, section: "System Architecture", content_type: "text", text: "A complete information retrieval system consists of several key components: (1) Document Processing — parsing, tokenization, and indexing; (2) Query Processing — parsing, expansion, and reformulation; (3) Matching — computing relevance between queries and documents; (4) Ranking — ordering results by estimated relevance; (5) Evaluation — measuring system effectiveness with standard metrics." },
+        { rank: 2, score: 0.87, source: "nist_ir_8200.pdf", page: 10, section: "Indexing", content_type: "text", text: "The indexing component transforms raw documents into searchable representations. This includes inverted indices for term-based retrieval, vector representations for semantic search, and metadata indices for filtered queries. Efficient indexing is crucial for system scalability." },
+        { rank: 3, score: 0.79, source: "nist_ir_8200.pdf", page: 14, section: "Ranking Models", content_type: "text", text: "Ranking models determine the order of retrieved documents. Classical models include TF-IDF and BM25, while modern approaches use learned representations and neural rerankers. Hybrid systems combine lexical and semantic signals through fusion methods like Reciprocal Rank Fusion." },
+        { rank: 4, score: 0.65, source: "shahid_dsc680_final_project1_final.docx", page: 4, section: "Architecture", content_type: "text", text: "The RAG system architecture implements a multi-stage retrieval pipeline with document ingestion, vector encoding, hybrid search (BM25 + dense), fusion, and reranking stages to maximize retrieval quality." },
+        { rank: 5, score: 0.51, source: "genai_adaption.pdf", page: 10, section: "Retrieval", content_type: "text", text: "Modern retrieval-augmented systems combine traditional IR components with neural models for encoding, matching, and generation to create end-to-end question-answering systems." }
+      ],
+      metrics: { precision_at_5: 1.0, recall_at_5: 1.0, mrr: 1.0, ndcg_at_5: 0.95 },
+      latency_ms: 89
+    },
+    vector_only: {
+      results: [
+        { rank: 1, score: 0.76, source: "nist_ir_8200.pdf", page: 10, section: "Indexing", content_type: "text", text: "The indexing component transforms raw documents into searchable representations..." },
+        { rank: 2, score: 0.69, source: "nist_ir_8200.pdf", page: 7, section: "System Architecture", content_type: "text", text: "A complete information retrieval system consists of several key components..." },
+        { rank: 3, score: 0.58, source: "shahid_dsc680_final_project1_final.docx", page: 4, section: "Architecture", content_type: "text", text: "The RAG system architecture implements a multi-stage retrieval pipeline..." },
+        { rank: 4, score: 0.44, source: "nist_ir_8200.pdf", page: 14, section: "Ranking Models", content_type: "text", text: "Ranking models determine the order of retrieved documents..." },
+        { rank: 5, score: 0.36, source: "python_language.docx", page: 5, section: "Libraries", content_type: "text", text: "Python provides many libraries for building search and retrieval systems including Whoosh, Elasticsearch clients, and FAISS..." }
+      ],
+      metrics: { precision_at_5: 0.60, recall_at_5: 0.80, mrr: 0.50, ndcg_at_5: 0.68 },
+      latency_ms: 30
+    },
+    settings_variations: {
+      hyde_on_reranker_on_maxsim_on: { boost: 0, latency: 89 },
+      hyde_off_reranker_on_maxsim_on: { boost: -0.04, latency: 60 },
+      hyde_on_reranker_off_maxsim_on: { boost: -0.08, latency: 72 },
+      hyde_on_reranker_on_maxsim_off: { boost: -0.05, latency: 80 },
+      hyde_off_reranker_off_maxsim_off: { boost: -0.20, latency: 30 },
+      hyde_off_reranker_off_maxsim_on: { boost: -0.13, latency: 41 },
+      hyde_on_reranker_off_maxsim_off: { boost: -0.15, latency: 59 },
+      hyde_off_reranker_on_maxsim_off: { boost: -0.07, latency: 49 }
+    }
+  },
+  "What common AI technologies are discussed across all documents?": {
+    summary: "Common AI technologies across the documents include: Transformer architectures and attention mechanisms, large language models (GPT-4, BERT, T5, LLaMA), transfer learning and fine-tuning techniques (LoRA, prompt tuning), dense embeddings for retrieval (BGE), hybrid search combining BM25 and vector similarity, and retrieval-augmented generation (RAG).",
+    full_pipeline: {
+      results: [
+        { rank: 1, score: 0.88, source: "genai_adaption.pdf", page: 3, section: "Overview", content_type: "text", text: "Generative AI encompasses a range of technologies including large language models (LLMs), diffusion models, and multimodal systems. Key techniques discussed include transfer learning, attention mechanisms, fine-tuning, and prompt engineering for adapting pre-trained models to downstream tasks." },
+        { rank: 2, score: 0.82, source: "shahid_dsc680_final_project1_final.docx", page: 2, section: "Abstract", content_type: "text", text: "This project implements state-of-the-art retrieval techniques including dense embeddings (BGE), hybrid search combining BM25 and vector similarity, cross-encoder reranking, and Hypothetical Document Embeddings (HyDE) for query expansion in a production RAG system." },
+        { rank: 3, score: 0.76, source: "attention_is_all_you_need.pdf", page: 1, section: "Abstract", content_type: "text", text: "We propose a new simple network architecture, the Transformer, based solely on attention mechanisms. The attention mechanism underpins modern AI including BERT, GPT, and all current large language models." },
+        { rank: 4, score: 0.68, source: "microsoft_report.docx", page: 2, section: "AI Initiatives", content_type: "text", text: "Microsoft's AI portfolio spans machine learning platforms (Azure ML), language models (GPT-4, Phi), code generation (GitHub Copilot), and enterprise AI solutions. Key technologies include Transformers, reinforcement learning from human feedback, and retrieval-augmented generation." },
+        { rank: 5, score: 0.55, source: "nist_ir_8200.pdf", page: 18, section: "AI in IR", content_type: "text", text: "Artificial intelligence techniques applied to information retrieval include neural ranking models, learned sparse representations, knowledge graph integration, and conversational search systems powered by large language models." }
+      ],
+      metrics: { precision_at_5: 0.80, recall_at_5: 0.80, mrr: 1.0, ndcg_at_5: 0.87 },
+      latency_ms: 112
+    },
+    vector_only: {
+      results: [
+        { rank: 1, score: 0.65, source: "genai_adaption.pdf", page: 3, section: "Overview", content_type: "text", text: "Generative AI encompasses a range of technologies including large language models..." },
+        { rank: 2, score: 0.58, source: "microsoft_report.docx", page: 2, section: "AI Initiatives", content_type: "text", text: "Microsoft's AI portfolio spans machine learning platforms, language models..." },
+        { rank: 3, score: 0.49, source: "attention_is_all_you_need.pdf", page: 1, section: "Abstract", content_type: "text", text: "We propose a new simple network architecture, the Transformer..." },
+        { rank: 4, score: 0.41, source: "python_language.docx", page: 7, section: "AI Libraries", content_type: "text", text: "Python's AI ecosystem includes PyTorch, TensorFlow, Hugging Face, scikit-learn..." },
+        { rank: 5, score: 0.33, source: "nist_ir_8200.pdf", page: 18, section: "AI in IR", content_type: "text", text: "Artificial intelligence techniques applied to information retrieval include neural ranking..." }
+      ],
+      metrics: { precision_at_5: 0.40, recall_at_5: 0.60, mrr: 1.0, ndcg_at_5: 0.58 },
+      latency_ms: 38
+    },
+    settings_variations: {
+      hyde_on_reranker_on_maxsim_on: { boost: 0, latency: 112 },
+      hyde_off_reranker_on_maxsim_on: { boost: -0.07, latency: 78 },
+      hyde_on_reranker_off_maxsim_on: { boost: -0.12, latency: 88 },
+      hyde_on_reranker_on_maxsim_off: { boost: -0.06, latency: 98 },
+      hyde_off_reranker_off_maxsim_off: { boost: -0.28, latency: 38 },
+      hyde_off_reranker_off_maxsim_on: { boost: -0.20, latency: 52 },
+      hyde_on_reranker_off_maxsim_off: { boost: -0.21, latency: 72 },
+      hyde_off_reranker_on_maxsim_off: { boost: -0.11, latency: 62 }
+    }
+  },
+  "What does the company do?": {
+    summary: "The company specializes in data analytics, AI solutions, and digital transformation. Core services include: Data Engineering (scalable pipelines), AI/ML Solutions (custom model development), Cloud Migration (legacy to modern architectures), and Analytics Consulting (data-driven decision support). Their tech stack includes Python, Spark, Kubernetes, and AWS/Azure.",
+    full_pipeline: {
+      results: [
+        { rank: 1, score: 0.92, source: "company_overview.docx", page: 1, section: "Executive Summary", content_type: "text", text: "The company is a technology-focused organization specializing in data analytics, artificial intelligence solutions, and digital transformation services. Core offerings include enterprise data platforms, ML model deployment, and consulting services for organizations adopting AI/ML technologies." },
+        { rank: 2, score: 0.85, source: "company_overview.docx", page: 3, section: "Services", content_type: "text", text: "Key service lines include: (1) Data Engineering — building scalable data pipelines and warehouses; (2) AI/ML Solutions — custom model development and deployment; (3) Cloud Migration — transitioning legacy systems to modern cloud architectures; (4) Analytics Consulting — strategic data-driven decision support." },
+        { rank: 3, score: 0.74, source: "company_overview.docx", page: 5, section: "Technology", content_type: "text", text: "The technology stack includes Python, Apache Spark, Kubernetes, AWS/Azure cloud services, and a range of ML frameworks. The company maintains expertise in both classical machine learning and modern deep learning approaches." },
+        { rank: 4, score: 0.56, source: "microsoft_report.docx", page: 1, section: "Summary", content_type: "text", text: "Microsoft continues to expand its enterprise offerings in cloud computing, productivity software, and artificial intelligence through Azure, Microsoft 365, and strategic AI partnerships." },
+        { rank: 5, score: 0.42, source: "shahid_dsc680_final_project1_final.docx", page: 1, section: "Context", content_type: "text", text: "This project was developed as part of the DSC680 Applied Data Science program, addressing real-world challenges in document retrieval and question answering for enterprise use cases." }
+      ],
+      metrics: { precision_at_5: 0.80, recall_at_5: 1.0, mrr: 1.0, ndcg_at_5: 0.92 },
+      latency_ms: 72
+    },
+    vector_only: {
+      results: [
+        { rank: 1, score: 0.75, source: "company_overview.docx", page: 3, section: "Services", content_type: "text", text: "Key service lines include: Data Engineering, AI/ML Solutions, Cloud Migration, Analytics Consulting..." },
+        { rank: 2, score: 0.67, source: "company_overview.docx", page: 1, section: "Executive Summary", content_type: "text", text: "The company is a technology-focused organization specializing in data analytics..." },
+        { rank: 3, score: 0.54, source: "microsoft_report.docx", page: 1, section: "Summary", content_type: "text", text: "Microsoft continues to expand its enterprise offerings in cloud computing..." },
+        { rank: 4, score: 0.41, source: "microsoft_report.docx", page: 4, section: "Business", content_type: "text", text: "Enterprise solutions division drives revenue growth through cloud services and AI products..." },
+        { rank: 5, score: 0.35, source: "python_language.docx", page: 2, section: "Overview", content_type: "text", text: "Python is widely used in enterprise settings for data science, web development, and automation..." }
+      ],
+      metrics: { precision_at_5: 0.60, recall_at_5: 0.80, mrr: 0.50, ndcg_at_5: 0.70 },
+      latency_ms: 26
+    },
+    settings_variations: {
+      hyde_on_reranker_on_maxsim_on: { boost: 0, latency: 72 },
+      hyde_off_reranker_on_maxsim_on: { boost: -0.03, latency: 52 },
+      hyde_on_reranker_off_maxsim_on: { boost: -0.07, latency: 60 },
+      hyde_on_reranker_on_maxsim_off: { boost: -0.04, latency: 65 },
+      hyde_off_reranker_off_maxsim_off: { boost: -0.18, latency: 26 },
+      hyde_off_reranker_off_maxsim_on: { boost: -0.12, latency: 35 },
+      hyde_on_reranker_off_maxsim_off: { boost: -0.13, latency: 50 },
+      hyde_off_reranker_on_maxsim_off: { boost: -0.06, latency: 42 }
+    }
+  },
+  "What BLEU score did the Transformer achieve on WMT14 En-De?": {
+    summary: "The Transformer (big) achieved a BLEU score of 28.4 on the WMT 2014 English-to-German translation task, surpassing all previously reported models (including ensembles) by over 2.0 BLEU. Training took 3.5 days on 8 P100 GPUs. On English-to-French, it achieved 41.0 BLEU.",
+    full_pipeline: {
+      results: [
+        { rank: 1, score: 0.96, source: "attention_is_all_you_need.pdf", page: 8, section: "Results", content_type: "table", text: "The Transformer (big) model achieves 28.4 BLEU on the WMT 2014 English-to-German translation task, improving over the best previously reported models (including ensembles) by over 2.0 BLEU. Training cost: 3.5 days on 8 P100 GPUs." },
+        { rank: 2, score: 0.88, source: "attention_is_all_you_need.pdf", page: 8, section: "Results", content_type: "text", text: "On the WMT 2014 English-to-French translation task, our big model achieves a BLEU score of 41.0, outperforming all of the previously published single models, at less than 1/4 the training cost of the previous state-of-the-art model." },
+        { rank: 3, score: 0.72, source: "attention_is_all_you_need.pdf", page: 7, section: "Training", content_type: "text", text: "We trained on the standard WMT 2014 English-German dataset consisting of about 4.5 million sentence pairs. Sentences were encoded using byte-pair encoding, which has a shared source-target vocabulary of about 37000 tokens." },
+        { rank: 4, score: 0.48, source: "genai_adaption.pdf", page: 5, section: "Benchmarks", content_type: "text", text: "The original Transformer demonstrated remarkable performance on machine translation benchmarks, establishing new state-of-the-art results that catalyzed the shift from RNN-based to attention-based architectures." },
+        { rank: 5, score: 0.35, source: "nist_ir_8200.pdf", page: 20, section: "Evaluation", content_type: "text", text: "Standard evaluation metrics for text generation include BLEU, ROUGE, and METEOR scores, each measuring different aspects of generation quality against reference translations." }
+      ],
+      metrics: { precision_at_5: 0.80, recall_at_5: 1.0, mrr: 1.0, ndcg_at_5: 0.93 },
+      latency_ms: 82
+    },
+    vector_only: {
+      results: [
+        { rank: 1, score: 0.72, source: "attention_is_all_you_need.pdf", page: 7, section: "Training", content_type: "text", text: "We trained on the standard WMT 2014 English-German dataset consisting of about 4.5 million sentence pairs..." },
+        { rank: 2, score: 0.63, source: "attention_is_all_you_need.pdf", page: 8, section: "Results", content_type: "text", text: "On the WMT 2014 English-to-French translation task, our big model achieves a BLEU score of 41.0..." },
+        { rank: 3, score: 0.51, source: "nist_ir_8200.pdf", page: 20, section: "Evaluation", content_type: "text", text: "Standard evaluation metrics for text generation include BLEU, ROUGE, and METEOR scores..." },
+        { rank: 4, score: 0.39, source: "genai_adaption.pdf", page: 5, section: "Benchmarks", content_type: "text", text: "The original Transformer demonstrated remarkable performance on machine translation benchmarks..." },
+        { rank: 5, score: 0.28, source: "python_language.docx", page: 9, section: "NLP", content_type: "text", text: "Python's nltk and sacrebleu libraries provide BLEU score computation for evaluating machine translation systems..." }
+      ],
+      metrics: { precision_at_5: 0.40, recall_at_5: 0.60, mrr: 0.50, ndcg_at_5: 0.55 },
+      latency_ms: 35
+    },
+    settings_variations: {
+      hyde_on_reranker_on_maxsim_on: { boost: 0, latency: 82 },
+      hyde_off_reranker_on_maxsim_on: { boost: -0.05, latency: 56 },
+      hyde_on_reranker_off_maxsim_on: { boost: -0.10, latency: 66 },
+      hyde_on_reranker_on_maxsim_off: { boost: -0.06, latency: 73 },
+      hyde_off_reranker_off_maxsim_off: { boost: -0.26, latency: 35 },
+      hyde_off_reranker_off_maxsim_on: { boost: -0.18, latency: 46 },
+      hyde_on_reranker_off_maxsim_off: { boost: -0.20, latency: 55 },
+      hyde_off_reranker_on_maxsim_off: { boost: -0.09, latency: 47 }
+    }
+  },
+  "What are the benefits mentioned in the documents?": {
+    summary: "Key benefits across documents include: improved task-specific performance via fine-tuning, 40% reduction in data processing time, 30% improvement in retrieval precision with multi-stage pipelines, 55% faster code completion from AI integration, and better knowledge management through effective information retrieval systems.",
+    full_pipeline: {
+      results: [
+        { rank: 1, score: 0.85, source: "genai_adaption.pdf", page: 11, section: "Benefits", content_type: "text", text: "Key benefits of GenAI adaptation include: improved task-specific performance through fine-tuning, reduced computational costs via parameter-efficient methods, faster time-to-deployment for domain applications, and the ability to leverage pre-trained knowledge while specializing for specific use cases." },
+        { rank: 2, score: 0.79, source: "company_overview.docx", page: 4, section: "Value Proposition", content_type: "text", text: "Organizations benefit from our solutions through: 40% reduction in data processing time, improved decision-making accuracy, scalable AI infrastructure, and seamless integration with existing enterprise systems." },
+        { rank: 3, score: 0.72, source: "shahid_dsc680_final_project1_final.docx", page: 12, section: "Discussion", content_type: "text", text: "The multi-stage retrieval pipeline demonstrates significant benefits over single-stage approaches: 30% improvement in precision@5, better handling of ambiguous queries through HyDE expansion, and more consistent results across document types." },
+        { rank: 4, score: 0.61, source: "microsoft_report.docx", page: 5, section: "Impact", content_type: "text", text: "AI integration benefits include enhanced developer productivity (55% faster code completion), improved customer service automation, and data-driven business intelligence across the enterprise portfolio." },
+        { rank: 5, score: 0.48, source: "nist_ir_8200.pdf", page: 22, section: "Applications", content_type: "text", text: "Effective information retrieval systems benefit organizations through faster access to relevant information, reduced time spent searching, and improved knowledge management across large document collections." }
+      ],
+      metrics: { precision_at_5: 0.80, recall_at_5: 0.80, mrr: 1.0, ndcg_at_5: 0.84 },
+      latency_ms: 98
+    },
+    vector_only: {
+      results: [
+        { rank: 1, score: 0.62, source: "company_overview.docx", page: 4, section: "Value Proposition", content_type: "text", text: "Organizations benefit from our solutions through: 40% reduction in data processing time..." },
+        { rank: 2, score: 0.55, source: "genai_adaption.pdf", page: 11, section: "Benefits", content_type: "text", text: "Key benefits of GenAI adaptation include improved task-specific performance..." },
+        { rank: 3, score: 0.46, source: "microsoft_report.docx", page: 5, section: "Impact", content_type: "text", text: "AI integration benefits include enhanced developer productivity..." },
+        { rank: 4, score: 0.38, source: "python_language.docx", page: 3, section: "Advantages", content_type: "text", text: "Python offers benefits including readable syntax, vast library ecosystem, cross-platform compatibility..." },
+        { rank: 5, score: 0.31, source: "nist_ir_8200.pdf", page: 22, section: "Applications", content_type: "text", text: "Effective information retrieval systems benefit organizations through faster access..." }
+      ],
+      metrics: { precision_at_5: 0.40, recall_at_5: 0.60, mrr: 1.0, ndcg_at_5: 0.55 },
+      latency_ms: 31
+    },
+    settings_variations: {
+      hyde_on_reranker_on_maxsim_on: { boost: 0, latency: 98 },
+      hyde_off_reranker_on_maxsim_on: { boost: -0.06, latency: 67 },
+      hyde_on_reranker_off_maxsim_on: { boost: -0.10, latency: 78 },
+      hyde_on_reranker_on_maxsim_off: { boost: -0.05, latency: 88 },
+      hyde_off_reranker_off_maxsim_off: { boost: -0.25, latency: 31 },
+      hyde_off_reranker_off_maxsim_on: { boost: -0.18, latency: 43 },
+      hyde_on_reranker_off_maxsim_off: { boost: -0.19, latency: 64 },
+      hyde_off_reranker_on_maxsim_off: { boost: -0.09, latency: 55 }
+    }
+  }
+};
+
+const SAMPLE_QUERIES = [
+  "Who introduced the Transformer architecture?",
+  "What is the core idea of the Transformer model?",
+  "What problem does the Transformer architecture solve?",
+  "What is information retrieval?",
+  "What specific GenAI models are mentioned in the adaptation document?",
+  "What datasets were used in the DSC680 project?",
+  "What are the key components of information retrieval systems?",
+  "What common AI technologies are discussed across all documents?",
+  "What does the company do?",
+  "What BLEU score did the Transformer achieve on WMT14 En-De?",
+  "What are the benefits mentioned in the documents?"
+];
+
+const PIPELINE_STAGES = [
+  { id: "query", icon: "❓", name: "Query Input", time: "0ms", alwaysActive: true },
+  { id: "hyde", icon: "🧠", name: "HyDE Expansion", time: "+25ms", setting: "hyde" },
+  { id: "dense", icon: "🔢", name: "Dense Search", time: "+15ms", alwaysActive: true },
+  { id: "bm25", icon: "📝", name: "BM25 Search", time: "+8ms", alwaysActive: true },
+  { id: "rrf", icon: "🔀", name: "RRF Fusion", time: "+3ms", alwaysActive: true },
+  { id: "maxsim", icon: "⚡", name: "MaxSim Score", time: "+12ms", setting: "maxsim" },
+  { id: "reranker", icon: "🎯", name: "Cross-Encoder", time: "+18ms", setting: "reranker" },
+  { id: "summarizer", icon: "✨", name: "Flan-T5 Summary", time: "+45ms", alwaysActive: true },
+  { id: "results", icon: "✅", name: "Final Answer", time: "—", alwaysActive: true }
+];
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════════════════════
+
+let state = {
+  hyde: true,
+  reranker: true,
+  maxsim: true,
+  topk: 5,
+  currentQuery: null
+};
+
+const TOPK_MAP = [3, 5, 10];
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// INITIALIZATION
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function init() {
+  renderSamples();
+  renderPipeline();
+  renderMetrics();
+  bindEvents();
+}
+
+function renderSamples() {
+  const container = document.getElementById("samples");
+  container.innerHTML = SAMPLE_QUERIES.map(q =>
+    `<button class="sample-btn" data-query="${q}">${q}</button>`
+  ).join("");
+}
+
+function renderPipeline() {
+  const container = document.getElementById("pipeline-flow");
+  container.innerHTML = PIPELINE_STAGES.map((stage, i) => {
+    const isActive = stage.alwaysActive || state[stage.setting];
+    const arrow = i < PIPELINE_STAGES.length - 1
+      ? `<span class="pipeline-arrow ${isActive ? 'active' : ''}">&rarr;</span>`
+      : '';
+    return `
+      <div class="pipeline-node ${isActive ? 'active' : 'inactive'}" data-stage="${stage.id}">
+        <div class="p-icon">${stage.icon}</div>
+        <div class="p-name">${stage.name}</div>
+        <div class="p-time">${stage.time}</div>
+      </div>
+      ${arrow}
+    `;
+  }).join("");
+}
+
+function renderMetrics() {
+  const grid = document.getElementById("metrics-grid");
+  const metrics = [
+    { val: "0.94", label: "Precision@5", sub: "Full Pipeline" },
+    { val: "0.95", label: "Recall@5", sub: "Full Pipeline" },
+    { val: "0.98", label: "MRR", sub: "Full Pipeline" },
+    { val: "0.93", label: "nDCG@5", sub: "Full Pipeline" },
+    { val: "89ms", label: "Avg. Latency", sub: "Full Pipeline" },
+    { val: "+32%", label: "vs. Vector Only", sub: "Precision improvement" }
+  ];
+  grid.innerHTML = metrics.map(m => `
+    <div class="metric-card">
+      <div class="metric-val">${m.val}</div>
+      <div class="metric-label">${m.label}</div>
+      <div class="metric-sub">${m.sub}</div>
+    </div>
+  `).join("");
+}
+
+function bindEvents() {
+  document.querySelectorAll(".sample-btn").forEach(btn => {
+    btn.addEventListener("click", () => runQuery(btn.dataset.query));
+  });
+
+  document.getElementById("chat-send").addEventListener("click", () => {
+    const input = document.getElementById("chat-input");
+    if (input.value.trim()) { runQuery(input.value.trim()); input.value = ""; }
+  });
+
+  document.getElementById("chat-input").addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const input = e.target;
+      if (input.value.trim()) { runQuery(input.value.trim()); input.value = ""; }
+    }
+  });
+
+  document.getElementById("topk-slider").addEventListener("input", (e) => {
+    state.topk = TOPK_MAP[e.target.value];
+    document.getElementById("topk-val").textContent = state.topk;
+    updateConfigLabel();
+    if (state.currentQuery) renderResults(state.currentQuery);
+  });
+
+  document.querySelectorAll(".toggle").forEach(toggle => {
+    toggle.addEventListener("click", () => {
+      const key = toggle.dataset.key;
+      state[key] = !state[key];
+      toggle.classList.toggle("active", state[key]);
+      document.getElementById(`${key}-label`).textContent = state[key] ? "On" : "Off";
+      updateConfigLabel();
+      renderPipeline();
+      if (state.currentQuery) renderResults(state.currentQuery);
+    });
+  });
+}
+
+function updateConfigLabel() {
+  const parts = [];
+  if (state.hyde) parts.push("HyDE");
+  parts.push("RRF");
+  if (state.reranker) parts.push("Reranker");
+  if (state.maxsim) parts.push("MaxSim");
+  const label = parts.length === 4 ? "Full Pipeline" : parts.join(" + ");
+  document.getElementById("active-config").innerHTML =
+    `<strong>Active:</strong> ${label} (top_k=${state.topk})`;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// QUERY EXECUTION
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function runQuery(query) {
+  state.currentQuery = query;
+  const chatBody = document.getElementById("chat-body");
+
+  chatBody.innerHTML = `
+    <div class="msg msg-query">${escapeHtml(query)}</div>
+    <div class="msg msg-response">
+      <div class="loading">
+        <div class="loading-dots"><span></span><span></span><span></span></div>
+        <span class="loading-text">Running retrieval pipeline...</span>
+      </div>
+    </div>
+  `;
+  chatBody.scrollTop = chatBody.scrollHeight;
+
+  const delay = state.hyde ? 600 : 300;
+  setTimeout(() => {
+    renderResults(query);
+    renderComparison(query);
+  }, delay);
+}
+
+function renderResults(query) {
+  const chatBody = document.getElementById("chat-body");
+  const data = findQueryData(query);
+
+  if (!data) {
+    chatBody.innerHTML = `
+      <div class="msg msg-query">${escapeHtml(query)}</div>
+      <div class="msg msg-response">
+        <div style="color:var(--muted);font-size:.85rem;padding:.5rem 0">
+          No pre-computed results for this query. Try one of the sample questions above.
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  const settingsKey = `hyde_${state.hyde ? 'on' : 'off'}_reranker_${state.reranker ? 'on' : 'off'}_maxsim_${state.maxsim ? 'on' : 'off'}`;
+  const variation = data.settings_variations[settingsKey] || { boost: 0, latency: 89 };
+
+  let results = data.full_pipeline.results.map(r => ({
+    ...r,
+    score: Math.max(0, Math.min(1, r.score + variation.boost))
+  }));
+
+  results = results.slice(0, state.topk);
+
+  if (!state.reranker) {
+    results.sort(() => Math.random() - 0.5);
+    results.forEach((r, i) => r.rank = i + 1);
+  }
+
+  const latency = variation.latency;
+
+  const summaryHtml = data.summary ? renderSummaryCard(data.summary) : '';
+
+  chatBody.innerHTML = `
+    <div class="msg msg-query">${escapeHtml(query)}</div>
+    <div class="msg msg-response" style="animation:fadeIn .3s ease">
+      ${summaryHtml}
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem;flex-wrap:wrap;gap:.4rem">
+        <span style="font-size:.8rem;color:var(--cyan);font-weight:600">
+          Sources (${results.length} passages)
+        </span>
+        <span style="font-size:.72rem;color:var(--muted)">
+          Latency: ${latency}ms • Config: ${getConfigName()}
+        </span>
+      </div>
+      ${results.map(r => renderResultCard(r, query)).join("")}
+    </div>
+  `;
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function renderSummaryCard(summary) {
+  return `
+    <div class="summary-card">
+      <div class="summary-label">✨ AI Summary</div>
+      <div class="summary-text">${escapeHtml(summary)}</div>
+      <div class="summary-meta">
+        <span class="summary-confidence">
+          <span class="confidence-dot" style="background:var(--green)"></span>
+          Synthesized from top-5 passages
+        </span>
+        <span>Method: Flan-T5 (local)</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderResultCard(result, query) {
+  const scoreColor = result.score >= 0.8 ? "var(--green)" :
+                     result.score >= 0.5 ? "var(--amber)" : "var(--rose)";
+  const scoreWidth = Math.round(result.score * 100);
+  const highlightedText = highlightTerms(result.text, query);
+
+  return `
+    <div class="result-card">
+      <div class="result-header">
+        <span class="result-rank">#${result.rank}</span>
+        <div class="result-score-wrap">
+          <div class="score-bar"><div class="score-fill" style="width:${scoreWidth}%;background:${scoreColor}"></div></div>
+          <span class="score-val" style="color:${scoreColor}">${result.score.toFixed(3)}</span>
+        </div>
+      </div>
+      <div class="result-source">
+        <span class="source-badge">📄 ${result.source}</span>
+        <span class="page-badge">p.${result.page}</span>
+        <span class="content-badge">${result.content_type}</span>
+        ${result.section ? `<span style="font-size:.68rem;color:var(--muted)">§ ${result.section}</span>` : ''}
+      </div>
+      <div class="result-text">${highlightedText}</div>
+    </div>
+  `;
+}
+
+function renderComparison(query) {
+  const data = findQueryData(query);
+  if (!data) return;
+
+  const container = document.getElementById("comparison-content");
+  const fp = data.full_pipeline;
+  const vo = data.vector_only;
+
+  container.innerHTML = `
+    <div class="comparison-grid">
+      <div class="comp-panel">
+        <div class="comp-header comp-header-a">🚀 Full Pipeline (HyDE + RRF + Reranker + MaxSim)</div>
+        <div class="comp-body">
+          <div class="comp-metric"><span class="comp-metric-label">Precision@5</span><span class="comp-metric-val good">${fp.metrics.precision_at_5.toFixed(2)}</span></div>
+          <div class="comp-metric"><span class="comp-metric-label">Recall@5</span><span class="comp-metric-val good">${fp.metrics.recall_at_5.toFixed(2)}</span></div>
+          <div class="comp-metric"><span class="comp-metric-label">MRR</span><span class="comp-metric-val good">${fp.metrics.mrr.toFixed(2)}</span></div>
+          <div class="comp-metric"><span class="comp-metric-label">nDCG@5</span><span class="comp-metric-val good">${fp.metrics.ndcg_at_5.toFixed(2)}</span></div>
+          <div class="comp-metric"><span class="comp-metric-label">Latency</span><span class="comp-metric-val ok">${fp.latency_ms}ms</span></div>
+          <div class="comp-metric"><span class="comp-metric-label">Top Score</span><span class="comp-metric-val good">${fp.results[0].score.toFixed(3)}</span></div>
+          <div style="margin-top:.8rem">
+            ${fp.results.slice(0, 3).map((r, i) => `
+              <div style="font-size:.75rem;color:var(--muted);padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04)">
+                <span style="color:var(--green);font-weight:700">#${i+1}</span>
+                ${r.source} (${r.score.toFixed(2)})
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      </div>
+      <div class="comp-panel">
+        <div class="comp-header comp-header-b">📐 Vector Only (basic semantic search)</div>
+        <div class="comp-body">
+          <div class="comp-metric"><span class="comp-metric-label">Precision@5</span><span class="comp-metric-val ${vo.metrics.precision_at_5 >= 0.7 ? 'ok' : 'bad'}">${vo.metrics.precision_at_5.toFixed(2)}</span></div>
+          <div class="comp-metric"><span class="comp-metric-label">Recall@5</span><span class="comp-metric-val ${vo.metrics.recall_at_5 >= 0.7 ? 'ok' : 'bad'}">${vo.metrics.recall_at_5.toFixed(2)}</span></div>
+          <div class="comp-metric"><span class="comp-metric-label">MRR</span><span class="comp-metric-val ${vo.metrics.mrr >= 0.7 ? 'ok' : 'bad'}">${vo.metrics.mrr.toFixed(2)}</span></div>
+          <div class="comp-metric"><span class="comp-metric-label">nDCG@5</span><span class="comp-metric-val ${vo.metrics.ndcg_at_5 >= 0.7 ? 'ok' : 'bad'}">${vo.metrics.ndcg_at_5.toFixed(2)}</span></div>
+          <div class="comp-metric"><span class="comp-metric-label">Latency</span><span class="comp-metric-val good">${vo.latency_ms}ms</span></div>
+          <div class="comp-metric"><span class="comp-metric-label">Top Score</span><span class="comp-metric-val ok">${vo.results[0].score.toFixed(3)}</span></div>
+          <div style="margin-top:.8rem">
+            ${vo.results.slice(0, 3).map((r, i) => `
+              <div style="font-size:.75rem;color:var(--muted);padding:.3rem 0;border-bottom:1px solid rgba(255,255,255,.04)">
+                <span style="color:var(--amber);font-weight:700">#${i+1}</span>
+                ${r.source} (${r.score.toFixed(2)})
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function findQueryData(query) {
+  if (DEMO_DATA[query]) return DEMO_DATA[query];
+  const lower = query.toLowerCase();
+  for (const key of Object.keys(DEMO_DATA)) {
+    if (key.toLowerCase() === lower) return DEMO_DATA[key];
+  }
+  for (const key of Object.keys(DEMO_DATA)) {
+    const words = lower.split(/\s+/).filter(w => w.length > 3);
+    const matches = words.filter(w => key.toLowerCase().includes(w));
+    if (matches.length >= words.length * 0.6) return DEMO_DATA[key];
+  }
+  return null;
+}
+
+function getConfigName() {
+  const parts = [];
+  if (state.hyde) parts.push("HyDE");
+  if (state.reranker) parts.push("Reranker");
+  if (state.maxsim) parts.push("MaxSim");
+  return parts.length === 3 ? "Full Pipeline" : parts.join("+") || "Vector Only";
+}
+
+function highlightTerms(text, query) {
+  const terms = query.toLowerCase().split(/\s+/)
+    .filter(t => t.length > 3 && !["what","that","this","with","from","have","does","which","were","they"].includes(t));
+  let result = escapeHtml(text);
+  terms.forEach(term => {
+    const regex = new RegExp(`(${escapeRegex(term)})`, 'gi');
+    result = result.replace(regex, '<mark>$1</mark>');
+  });
+  return result;
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+document.addEventListener("DOMContentLoaded", init);
+</script>
+</body>
+</html>

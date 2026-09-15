@@ -1,0 +1,75 @@
+{
+  "corpus": {
+    "n_posts": 12000,
+    "median_score": 17,
+    "mean_score": 26.443083333333334,
+    "n_subreddits": 12,
+    "n_topics": 12
+  },
+  "models": {
+    "ols": {
+      "name": "OLS",
+      "r2": 0.27098987915673,
+      "mae": 0.6047229609003195,
+      "n_train": 9600,
+      "n_test": 2400
+    },
+    "gradient_boost": {
+      "name": "GradientBoost",
+      "r2": 0.22701938334973826,
+      "mae": 0.6220073538855225,
+      "n_train": 9600,
+      "n_test": 2400
+    }
+  },
+  "anova": {
+    "topic": {
+      "factor": "topic",
+      "F": 39.21687242391,
+      "p_value": 4.967979497027244e-84,
+      "eta_squared": 0.03473485812204108,
+      "k_groups": 12,
+      "n": 12000
+    },
+    "format": {
+      "factor": "format",
+      "F": 21.090924850120693,
+      "p_value": 9.357773485148203e-25,
+      "eta_squared": 0.010441443417827961,
+      "k_groups": 7,
+      "n": 12000
+    },
+    "hook": {
+      "factor": "hook",
+      "F": 29.638159664657415,
+      "p_value": 1.441961247676052e-24,
+      "eta_squared": 0.009786777025287057,
+      "k_groups": 5,
+      "n": 12000
+    }
+  },
+  "lead_lag": {
+    "recovery": {
+      "best_lag_weeks": -6,
+      "correlation": 0.16218713259805909
+    },
+    "sleep": {
+      "best_lag_weeks": -8,
+      "correlation": 0.07550608683964594
+    },
+    "training": {
+      "best_lag_weeks": 2,
+      "correlation": 0.26450256081557977
+    },
+    "gear": {
+      "best_lag_weeks": 5,
+      "correlation": 0.11189518849864742
+    }
+  },
+  "generation": {
+    "mean_log_engagement_uplift": 0.31698336349495726,
+    "ci95_low": 0.13680197152944176,
+    "ci95_high": 0.49578452583701665,
+    "percent_uplift": 37.29797301512514
+  }
+}
